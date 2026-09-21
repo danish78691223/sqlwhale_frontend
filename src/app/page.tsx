@@ -651,6 +651,27 @@ export default function Home() {
 
           </div>
 
+          {/* LEGAL */}
+          <div className="footer-column">
+
+            <span className="footer-column-title">
+              LEGAL
+            </span>
+
+            <Link href="/privacy-policy">
+              Privacy Policy
+            </Link>
+
+            <Link href="/terms">
+              Terms & Conditions
+            </Link>
+
+            <Link href="/refund-policy">
+              Return & Refund Policy
+            </Link>
+
+          </div>
+
         </div>
 
 
