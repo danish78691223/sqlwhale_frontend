@@ -350,13 +350,16 @@
 }
 
 .sql-editor-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
   border: 1px solid rgb(226 232 240);
   border-radius: 20px;
   background: white;
-  box-shadow:
-    0 10px 30px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
+
 
 .dark .sql-editor-card {
   border-color: rgb(30 41 59);
@@ -463,8 +466,8 @@
 }
 
 .sql-editor-container {
+  flex: 1;              /* was: min-height: 280px */
   overflow: hidden;
-  min-height: 280px;
   background: rgb(30 30 30);
 }
 
@@ -2682,14 +2685,12 @@
 ========================================================= */
 
 .sqlwhale-run-page {
+  position: relative;   /* add this */
   width: 100%;
   height: 100vh;
   min-height: 760px;
-
   overflow: hidden;
-
   background: #f8fafc;
-
   color: #203250;
 }
 

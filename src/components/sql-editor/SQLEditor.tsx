@@ -41,10 +41,13 @@ export default function SQLEditor({
   };
 
   return (
-    <section className="sql-editor-section">
+    // added "sql-editor" so .sqlwhale-query-editor .sql-editor overrides in
+    // globals.css actually apply (height:100%, no border/shadow duplication)
+    <section className="sql-editor-section sql-editor">
       <div className="sql-editor-card">
 
-        <div className="sql-editor-header">
+        {/* added "editor-header" so the compact 54px header override applies */}
+        <div className="sql-editor-header editor-header">
           <div className="sql-editor-heading">
 
             <div className="sql-editor-code-icon">
@@ -99,7 +102,9 @@ export default function SQLEditor({
         <div className="sql-editor-container">
 
           <Editor
-            height="280px"
+            // fills whatever height is left in the parent instead of
+            // forcing 280px and overflowing its box
+            height="100%"
             language="sql"
             theme="vs-dark"
             value={query}
