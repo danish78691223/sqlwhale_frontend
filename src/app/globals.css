@@ -1727,8 +1727,9 @@
   top: 0;
   z-index: 1000;
   width: 100%;
-  background: rgba(247, 248, 252, 0.9);
+  background: rgba(247, 248, 252, 0.92);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -1752,6 +1753,7 @@
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.8px;
+  flex-shrink: 0;
 }
 
 .logo-whale {
@@ -1766,17 +1768,42 @@
   display: flex;
   align-items: center;
   gap: 30px;
+  margin-left: auto;
 }
 
 .nav-link {
+  position: relative;
   color: #4b5563;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.nav-link:hover,
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 2px;
+  border-radius: 10px;
+  background: #2563eb;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover {
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
 .nav-link.active {
   color: #2563eb;
 }
@@ -1789,14 +1816,292 @@
   color: white;
   font-size: 13px;
   font-weight: 600;
+  white-space: nowrap;
   transition:
     transform 0.2s ease,
-    background 0.2s ease;
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .coffee-button:hover {
   background: #2563eb;
   transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.mobile-menu-button {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+  border: 1px solid #dbe1ea;
+  border-radius: 11px;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mobile-menu-button:hover {
+  background: #ffffff;
+  border-color: #2563eb;
+}
+
+.mobile-menu-button span {
+  display: block;
+  width: 19px;
+  height: 2px;
+
+  border-radius: 20px;
+  background: #111827;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+
+/* Hamburger → X */
+
+.mobile-menu-button.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-menu-button.is-open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.mobile-menu-button.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   MOBILE DROPDOWN
+========================================================= */
+
+.mobile-menu {
+  display: none;
+
+  max-height: 0;
+  overflow: hidden;
+
+  background: rgba(247, 248, 252, 0.98);
+  border-top: 1px solid transparent;
+
+  opacity: 0;
+
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.mobile-menu-open {
+  max-height: 500px;
+  opacity: 1;
+  border-top-color: #e5e7eb;
+}
+
+.mobile-menu-links {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 22px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  min-height: 54px;
+
+  padding: 0 4px;
+
+  color: #374151;
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease,
+    background 0.2s ease;
+}
+
+.mobile-nav-link span {
+  min-width: 26px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.mobile-nav-link:hover {
+  color: #2563eb;
+  padding-left: 8px;
+}
+
+.mobile-nav-link.active {
+  color: #2563eb;
+}
+
+.mobile-nav-link.active span {
+  color: #2563eb;
+}
+
+
+/* Mobile Coffee */
+
+.mobile-coffee-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 48px;
+
+  margin-top: 15px;
+
+  border-radius: 10px;
+
+  background: #111827;
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mobile-coffee-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+}
+
+
+/* =========================================================
+   NAVBAR RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .navbar-inner {
+    gap: 18px;
+  }
+
+  .navbar-links {
+    gap: 15px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+  }
+
+  .coffee-button {
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE NAVBAR
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .navbar-inner {
+    min-height: 68px;
+    padding: 10px 18px;
+    gap: 10px;
+  }
+
+  /* Hide desktop navigation */
+  .navbar-links {
+    display: none;
+  }
+
+  /* Keep coffee button hidden on mobile */
+  .coffee-button {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .mobile-menu-button {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  /* Show dropdown */
+  .mobile-menu {
+    display: block;
+  }
+
+  .sqlwhale-logo {
+    font-size: 20px;
+  }
+
+  .sqlwhale-logo-image {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .navbar-inner {
+    padding: 9px 14px;
+  }
+
+  .sqlwhale-logo {
+    font-size: 19px;
+  }
+
+  .sqlwhale-logo-image {
+    width: 38px;
+    height: 38px;
+  }
+
+  .mobile-menu-links {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
 }
 
 
@@ -2696,113 +3001,708 @@
 
 
 /* =========================================================
-   NAVBAR
+   SQLWHALE RUN QUERY NAVBAR
 ========================================================= */
 
 .sqlwhale-run-navbar {
-  height: 68px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
-  padding: 0 48px;
+  width: 100%;
+
+  background: rgba(247, 248, 252, 0.94);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 4px 20px rgba(15, 23, 42, 0.035);
+}
+
+
+/* =========================================================
+   NAVBAR INNER
+========================================================= */
+
+.sqlwhale-run-navbar-inner {
+  width: min(1400px, 100%);
+
+  min-height: 76px;
+
+  margin: 0 auto;
+
+  padding: 0 32px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  background: #ffffff;
-
-  border-bottom: 1px solid #e7ebf2;
+  gap: 30px;
 }
 
 
-.sqlwhale-run-logo {
-  display: flex;
-  align-items: center;
-  gap: 9px;
+/* =========================================================
+   LOGO
+========================================================= */
 
-  color: #17243d;
+.sqlwhale-run-logo {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 7px;
 
   text-decoration: none;
 
-  font-family: Georgia, "Times New Roman", serif;
-
-  font-size: 17px;
-  font-weight: 700;
+  flex-shrink: 0;
 }
 
+.sqlwhale-run-logo-image {
+  width: 46px;
+  height: 46px;
 
-.sqlwhale-run-logo-mark {
-  font-size: 24px;
+  object-fit: cover;
 
+  border-radius: 11px;
+
+  box-shadow:
+    0 4px 12px rgba(37, 99, 235, 0.12);
+}
+
+.sqlwhale-run-logo-wordmark {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  letter-spacing: -0.8px;
+}
+
+.run-logo-whale {
+  color: #2563eb;
+}
+
+.run-logo-text {
   color: #111827;
-
-  transform: rotate(-18deg);
 }
 
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
 
 .sqlwhale-run-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+
+  gap: 22px;
+
+  margin-left: auto;
 }
 
+
+/* =========================================================
+   THEME BUTTON
+========================================================= */
 
 .theme-button {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
 
-  border: 0;
+  display: grid;
+  place-items: center;
 
-  background: transparent;
+  flex-shrink: 0;
 
-  color: #71809a;
+  padding: 0;
 
-  font-size: 20px;
+  border: 1px solid #dbe1ea;
+  border-radius: 10px;
+
+  background: #ffffff;
+  color: #475569;
+
+  font-size: 18px;
 
   cursor: pointer;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
+.theme-icon {
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  line-height: 1;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.theme-button:hover {
+  color: #2563eb;
+
+  border-color: #93c5fd;
+
+  background: #f8fbff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 5px 15px rgba(37, 99, 235, 0.12);
+}
+
+.theme-button-dark {
+  border-color: #334155;
+
+  background: #0f172a;
+
+  color: #f8fafc;
+}
+
+.theme-button-dark:hover {
+  border-color: #475569;
+
+  background: #1e293b;
+
+  color: #ffffff;
+}
+
+.theme-button-dark .theme-icon {
+  transform: rotate(-15deg);
+}
+
+/* =========================================================
+   DESKTOP NAVIGATION
+========================================================= */
 
 .sqlwhale-run-nav {
   display: flex;
   align-items: center;
-  gap: 3px;
 
-  padding: 4px;
-
-  border-radius: 11px;
-
-  background: #f0f4fa;
+  gap: 8px;
 }
 
+.run-nav-link {
+  position: relative;
 
-.sqlwhale-run-nav a {
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
 
-  border-radius: 8px;
+  gap: 8px;
 
-  color: #5e6e89;
+  min-height: 40px;
+
+  padding: 0 12px;
+
+  border-radius: 9px;
+
+  color: #64748b;
 
   text-decoration: none;
 
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.run-nav-link:hover {
+  color: #2563eb;
+
+  background: rgba(37, 99, 235, 0.06);
+
+  transform: translateY(-1px);
+}
+
+.run-nav-number {
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+
+  transition: color 0.2s ease;
+}
+
+.run-nav-link:hover .run-nav-number {
+  color: #60a5fa;
 }
 
 
-.sqlwhale-run-nav a.active {
+/* ACTIVE NAV */
+
+.run-nav-link.active {
+  color: #2563eb;
+
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.run-nav-link.active .run-nav-number {
+  color: #2563eb;
+}
+
+.run-nav-link.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  right: 12px;
+
+  bottom: -8px;
+
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: #2563eb;
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+========================================================= */
+
+.run-mobile-menu-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  padding: 0;
+
+  border: 1px solid #dbe1ea;
+
+  border-radius: 10px;
+
   background: #ffffff;
 
-  color: #31558c;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.run-mobile-menu-button:hover {
+  border-color: #93c5fd;
+
+  background: #f8fbff;
+}
+
+.run-mobile-menu-button span {
+  width: 18px;
+  height: 2px;
+
+  display: block;
+
+  border-radius: 20px;
+
+  background: #111827;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    width 0.25s ease;
+}
+
+
+/* Hamburger → X */
+
+.run-mobile-menu-button.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.run-mobile-menu-button.is-open span:nth-child(2) {
+  width: 0;
+  opacity: 0;
+}
+
+.run-mobile-menu-button.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   MOBILE DROPDOWN
+========================================================= */
+
+.run-mobile-menu {
+  display: none;
+
+  max-height: 0;
+
+  overflow: hidden;
+
+  opacity: 0;
+
+  background: rgba(247, 248, 252, 0.98);
+
+  border-top: 1px solid transparent;
+
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.run-mobile-menu-open {
+  max-height: 430px;
+
+  opacity: 1;
+
+  border-top-color: #e5e7eb;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.run-mobile-nav {
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 8px 18px 12px;
+}
+
+.run-mobile-nav-link {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  min-height: 55px;
+
+  padding: 0 5px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  color: #475569;
+
+  text-decoration: none;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease,
+    background 0.2s ease;
+}
+
+.run-mobile-nav-link:hover {
+  color: #2563eb;
+
+  padding-left: 10px;
+}
+
+.run-mobile-nav-link.active {
+  color: #2563eb;
+}
+
+.run-mobile-nav-number {
+  min-width: 27px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.06em;
+}
+
+.run-mobile-nav-link.active
+.run-mobile-nav-number {
+  color: #2563eb;
+}
+
+.run-mobile-arrow {
+  margin-left: auto;
+
+  color: #94a3b8;
+
+  font-size: 17px;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.run-mobile-nav-link:hover
+.run-mobile-arrow {
+  color: #2563eb;
+
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   MOBILE STATUS
+========================================================= */
+
+.run-mobile-status {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 4px 18px 18px;
+
+  padding: 11px 13px;
+
+  border: 1px solid #dbe5f0;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+}
+
+.run-status-dot {
+  width: 7px;
+  height: 7px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #22c55e;
 
   box-shadow:
-    0 1px 4px rgba(31, 52, 86, 0.06);
+    0 0 0 3px rgba(34, 197, 94, 0.12);
 }
 
 
-.sqlwhale-run-nav a:hover {
-  color: #315d9b;
+/* =========================================================
+   RESPONSIVE NAVBAR
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sqlwhale-run-navbar-inner {
+    padding: 0 22px;
+  }
+
+  .sqlwhale-run-right {
+    gap: 14px;
+  }
+
+  .sqlwhale-run-nav {
+    gap: 3px;
+  }
+
+  .run-nav-link {
+    padding: 0 9px;
+
+    font-size: 12px;
+  }
+
+  .run-nav-number {
+    display: none;
+  }
 }
 
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .sqlwhale-run-navbar {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .sqlwhale-run-navbar-inner {
+    width: 100%;
+    min-width: 0;
+    min-height: 68px;
+
+    padding: 9px 14px;
+
+    box-sizing: border-box;
+
+    gap: 8px;
+  }
+
+  /* =========================
+     LOGO
+  ========================== */
+
+  .sqlwhale-run-logo {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  .sqlwhale-run-logo-image {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+  }
+
+  .sqlwhale-run-logo-wordmark {
+    min-width: 0;
+
+    font-size: 19px;
+
+    white-space: nowrap;
+  }
+
+
+  /* =========================
+     RIGHT CONTROLS
+  ========================== */
+
+  .sqlwhale-run-right {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    flex-shrink: 0;
+    min-width: max-content;
+
+    margin-left: 0;
+  }
+
+
+  /* =========================
+     HIDE DESKTOP NAV
+  ========================== */
+
+  .sqlwhale-run-nav {
+    display: none;
+  }
+
+
+  /* =========================
+     THEME
+  ========================== */
+
+  .theme-button {
+    display: grid;
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+  }
+
+
+  /* =========================
+     HAMBURGER
+  ========================== */
+
+  .run-mobile-menu-button {
+    display: flex;
+
+    width: 38px;
+    height: 38px;
+
+    min-width: 38px;
+    min-height: 38px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+  }
+
+
+  /* =========================
+     MOBILE DROPDOWN
+  ========================== */
+
+  .run-mobile-menu {
+    display: block;
+
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .run-mobile-nav {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+}
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .sqlwhale-run-navbar-inner {
+    padding: 8px 13px;
+  }
+
+  .sqlwhale-run-logo-image {
+    width: 37px;
+    height: 37px;
+  }
+
+  .sqlwhale-run-logo-wordmark {
+    font-size: 19px;
+  }
+
+  .sqlwhale-run-right {
+    gap: 8px;
+  }
+
+  .run-mobile-nav {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+}
 
 /* =========================================================
    MAIN AREA
@@ -6160,4 +7060,119 @@
   .sqlwhale-center-output.sqlwhale-output-active {
     animation: none;
   }
+}
+
+
+
+/* =========================================================
+   RUN QUERY DARK THEME
+========================================================= */
+
+.dark .sqlwhale-run-page {
+  background: #07111f;
+  color: #e2e8f0;
+}
+
+.dark .sqlwhale-run-navbar {
+  background: rgba(7, 17, 31, 0.94);
+
+  border-bottom-color: #1e293b;
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.dark .sqlwhale-run-logo-wordmark {
+  color: #f8fafc;
+}
+
+.dark .run-logo-whale {
+  color: #60a5fa;
+}
+
+.dark .run-logo-text {
+  color: #f8fafc;
+}
+
+.dark .run-nav-link {
+  color: #94a3b8;
+}
+
+.dark .run-nav-link:hover {
+  color: #60a5fa;
+
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.dark .run-nav-link.active {
+  color: #60a5fa;
+
+  background: rgba(37, 99, 235, 0.14);
+}
+
+.dark .run-nav-link.active .run-nav-number {
+  color: #60a5fa;
+}
+
+.dark .run-nav-link.active::after {
+  background: #60a5fa;
+}
+
+.dark .run-mobile-menu {
+  background: rgba(7, 17, 31, 0.98);
+
+  border-top-color: #1e293b;
+}
+
+.dark .run-mobile-nav-link {
+  color: #cbd5e1;
+
+  border-bottom-color: #1e293b;
+}
+
+.dark .run-mobile-nav-link:hover,
+.dark .run-mobile-nav-link.active {
+  color: #60a5fa;
+}
+
+.dark .run-mobile-nav-number {
+  color: #64748b;
+}
+
+.dark .run-mobile-nav-link.active
+.run-mobile-nav-number {
+  color: #60a5fa;
+}
+
+.dark .run-mobile-arrow {
+  color: #64748b;
+}
+
+.dark .run-mobile-nav-link:hover
+.run-mobile-arrow {
+  color: #60a5fa;
+}
+
+.dark .run-mobile-status {
+  border-color: #334155;
+
+  background: #0f172a;
+
+  color: #94a3b8;
+}
+
+.dark .run-mobile-menu-button {
+  border-color: #334155;
+
+  background: #0f172a;
+}
+
+.dark .run-mobile-menu-button:hover {
+  border-color: #475569;
+
+  background: #1e293b;
+}
+
+.dark .run-mobile-menu-button span {
+  background: #e2e8f0;
 }

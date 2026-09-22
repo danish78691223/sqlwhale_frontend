@@ -2,66 +2,167 @@
 
 "use client";
 
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <main className="sqlwhale-home">
 
       {/* =========================
-          NAVBAR
-      ========================== */}
-      <header className="sqlwhale-navbar">
-        <div className="navbar-inner">
+    NAVBAR
+========================== */}
 
-          <Link href="/" className="sqlwhale-logo" aria-label="SQLWhale Home">
-            <Image
-              src="/assets/sqlwhale-logo.jpeg"
-              alt="SQLWhale"
-              width={46}
-              height={46}
-              className="sqlwhale-logo-image"
-              priority
-            />
+<header className="sqlwhale-navbar">
+  <div className="navbar-inner">
 
-            <span className="logo-wordmark">
-              <span className="logo-whale">SQL</span>
-              <span className="logo-text">Whale</span>
-            </span>
-          </Link>
+    {/* LOGO */}
+    <Link
+      href="/"
+      className="sqlwhale-logo"
+      aria-label="SQLWhale Home"
+      onClick={() => setMobileMenuOpen(false)}
+    >
+      <Image
+        src="/assets/sqlwhale-logo.jpeg"
+        alt="SQLWhale"
+        width={46}
+        height={46}
+        className="sqlwhale-logo-image"
+        priority
+      />
 
-          <nav className="navbar-links">
-            <Link href="/" className="nav-link active">
-              Home
-            </Link>
+      <span className="logo-wordmark">
+        <span className="logo-whale">SQL</span>
+        <span className="logo-text">Whale</span>
+      </span>
+    </Link>
 
-            <Link href="/run-query" className="nav-link">
-              Run Query
-            </Link>
 
-            <a href="#about" className="nav-link">
-              About
-            </a>
+    {/* DESKTOP NAVIGATION */}
+    <nav className="navbar-links">
+      <Link href="/" className="nav-link active">
+        Home
+      </Link>
 
-            <a href="#how-it-works" className="nav-link">
-              How It Works
-            </a>
+      <Link href="/run-query" className="nav-link">
+        Run Query
+      </Link>
 
-            <a href="#contact" className="nav-link">
-              Contact
-            </a>
-          </nav>
+      <a href="#about" className="nav-link">
+        About
+      </a>
 
-          <a
-            href="#support"
-            className="coffee-button"
-          >
-            ☕ Buy Us A Coffee
-          </a>
+      <a href="#how-it-works" className="nav-link">
+        How It Works
+      </a>
 
-        </div>
-      </header>
+      <a href="#contact" className="nav-link">
+        Contact
+      </a>
+    </nav>
+
+
+    {/* DESKTOP COFFEE BUTTON */}
+    <a
+      href="#support"
+      className="coffee-button"
+    >
+      ☕ Buy Us A Coffee
+    </a>
+
+
+    {/* MOBILE MENU BUTTON */}
+    <button
+      type="button"
+      className={`mobile-menu-button ${
+        mobileMenuOpen ? "is-open" : ""
+      }`}
+      onClick={() => setMobileMenuOpen((prev) => !prev)}
+      aria-label={
+        mobileMenuOpen
+          ? "Close navigation menu"
+          : "Open navigation menu"
+      }
+      aria-expanded={mobileMenuOpen}
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+
+  {/* MOBILE DROPDOWN */}
+  <div
+    className={`mobile-menu ${
+      mobileMenuOpen ? "mobile-menu-open" : ""
+    }`}
+  >
+    <nav className="mobile-menu-links">
+
+      <Link
+        href="/"
+        className="mobile-nav-link active"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>01</span>
+        Home
+      </Link>
+
+      <Link
+        href="/run-query"
+        className="mobile-nav-link"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>02</span>
+        Run Query
+      </Link>
+
+      <a
+        href="#about"
+        className="mobile-nav-link"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>03</span>
+        About
+      </a>
+
+      <a
+        href="#how-it-works"
+        className="mobile-nav-link"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>04</span>
+        How It Works
+      </a>
+
+      <a
+        href="#contact"
+        className="mobile-nav-link"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <span>05</span>
+        Contact
+      </a>
+
+      {/* Mobile Coffee Button */}
+      <a
+        href="#support"
+        className="mobile-coffee-button"
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        ☕ Buy Us A Coffee
+      </a>
+
+    </nav>
+  </div>
+
+</header>
 
 
       {/* =========================
