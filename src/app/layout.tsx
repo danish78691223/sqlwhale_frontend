@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "SQLwhale",
   description: "Created By WEBWHALE",
   icons: {
-    icon: '/my-custom-logo.png', // public folder me rakhi image ka path
+    icon: '/favicon.ico', // public folder me rakhi image ka path
     
   },
 };
