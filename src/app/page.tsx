@@ -71,8 +71,10 @@ export default function Home() {
     href="https://buymeacoffee.com/danishkhanww"
     target="_blank"
     rel="noopener noreferrer"
+    className="buy-coffee-btn"
     >
-      ☕ Support SQLWhale
+    <span className="coffee-icon">☕</span>
+      <span>Support SQLWhale</span>
     </a>
 
 
