@@ -68,10 +68,11 @@ export default function Home() {
 
     {/* DESKTOP COFFEE BUTTON */}
     <a
-      href="#support"
-      className="coffee-button"
+    href="https://buymeacoffee.com/danishkhanww"
+    target="_blank"
+    rel="noopener noreferrer"
     >
-      ☕ Buy Us A Coffee
+      ☕ Support SQLWhale
     </a>
 
 
@@ -646,7 +647,7 @@ export default function Home() {
           <span>Support the project</span>
 
           <h3>
-            ☕ Buy Us A Coffee
+            ☕ Support SQLwhale
           </h3>
 
           <p>
