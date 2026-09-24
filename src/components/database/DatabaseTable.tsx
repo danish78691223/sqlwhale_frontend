@@ -9,6 +9,7 @@ import {
 import {
   Handle,
   Position,
+  NodeResizer,
   type NodeProps,
 } from "@xyflow/react";
 
@@ -43,7 +44,14 @@ export default function DatabaseTable({
     ];
 
   return (
-    <div className="sql-table-node">
+    <>
+      <NodeResizer
+        minWidth={220}
+        minHeight={120}
+        lineStyle={{ borderWidth: 1 }}
+        handleStyle={{ width: 8, height: 8 }}
+      />
+      <div className="sql-table-node">
       <div
         className={`sql-table-header ${accent}`}
       >
@@ -140,6 +148,7 @@ export default function DatabaseTable({
           );
         })}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
