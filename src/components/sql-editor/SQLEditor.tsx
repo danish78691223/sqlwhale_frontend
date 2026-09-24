@@ -7,6 +7,7 @@ import { Play, RotateCcw } from "lucide-react";
 interface SQLEditorProps {
   initialQuery?: string;
   loading?: boolean;
+  darkMode?: boolean;
   onRun: (query: string) => void;
   onClear: () => void;
 }
@@ -17,6 +18,7 @@ const DEFAULT_QUERY =
 export default function SQLEditor({
   initialQuery = DEFAULT_QUERY,
   loading = false,
+  darkMode = false,
   onRun,
   onClear,
 }: SQLEditorProps) {
@@ -106,7 +108,7 @@ export default function SQLEditor({
             // forcing 280px and overflowing its box
             height="100%"
             language="sql"
-            theme="vs-dark"
+            theme={darkMode ? "vs-dark" : "vs-light"}
             value={query}
             onChange={(value) =>
               setQuery(value || "")
