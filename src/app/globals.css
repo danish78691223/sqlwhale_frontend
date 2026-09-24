@@ -7220,3 +7220,27 @@
 .database-edge-drag-handle:active {
   cursor: grabbing;
 }
+
+
+.database-canvas-lock-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid rgb(203 213 225);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.94);
+  color: rgb(30 41 59);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(15 23 42 / 0.12);
+}
+
+.database-canvas-lock-button:hover {
+  background: rgb(248 250 252);
+}
