@@ -376,6 +376,7 @@ export default function RunQueryPage() {
         <SQLEditor
           initialQuery={query}
           loading={loading}
+          darkMode={darkMode}
           onRun={handleRun}
           onClear={handleClear}
         />
