@@ -54,6 +54,14 @@ function createEdges(
   tables: DatabaseTableType[]
 ): Edge[] {
   const edges: Edge[] = [];
+  const relationshipColors = [
+    "#2563eb",
+    "#06b6d4",
+    "#8b5cf6",
+    "#10b981",
+    "#f59e0b",
+    "#ef4444",
+  ];
 
   for (const table of tables) {
     for (const column of table.columns) {
@@ -65,6 +73,9 @@ function createEdges(
         continue;
       }
 
+      const color =
+        relationshipColors[edges.length % relationshipColors.length];
+
       edges.push({
         id: `relationship-${table.name}-${column.name}-${column.referencesTable}-${column.referencesColumn}`,
         source: column.referencesTable,
@@ -73,13 +84,19 @@ function createEdges(
         targetHandle: `fk-${table.name}-${column.name}`,
         type: "smoothstep",
         animated: false,
+        pathOptions: {
+          offset: 28,
+          borderRadius: 14,
+        },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
           height: 16,
+          color,
         },
         style: {
-          strokeWidth: 2,
+          stroke: color,
+          strokeWidth: 2.5,
         },
       });
     }
