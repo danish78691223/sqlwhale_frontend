@@ -255,7 +255,15 @@ export default function RunQueryPage() {
       </header>
 
       <section className="sqlwhale-main-workspace">
-        <section className="sqlwhale-schema-workspace">
+        <section
+          className="sqlwhale-schema-workspace"
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 0,
+            pointerEvents: "none",
+          }}
+        >
           {tablesLoading ? (
             <div className="output-empty">
               <div className="output-empty-icon">◌</div>
