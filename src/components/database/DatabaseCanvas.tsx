@@ -119,7 +119,7 @@ function RelationshipWiringEdge({
 
   return (
     <>
-      <BaseEdge id={id} path={path} style={{ ...style, fill: "none", stroke: edgeColor, strokeWidth: 3 }} markerEnd={{ ...markerEnd, color: edgeColor }} />
+      <BaseEdge id={id} path={path} style={{ ...style, fill: "none", stroke: edgeColor, strokeWidth: 3 }} markerEnd={{ type: MarkerType.ArrowClosed, width: 16, height: 16, color: edgeColor }} />
       <EdgeLabelRenderer>
         <div
           className="database-edge-drag-handle"
