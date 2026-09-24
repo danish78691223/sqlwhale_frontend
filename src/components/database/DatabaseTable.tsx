@@ -18,6 +18,7 @@ import type { DatabaseTable as DatabaseTableType } from "@/types/table";
 interface DatabaseTableNodeData {
   table: DatabaseTableType;
   accentIndex?: number;
+  locked?: boolean;
 }
 
 export default function DatabaseTable({
@@ -30,6 +31,8 @@ export default function DatabaseTable({
 
   const accentIndex =
     nodeData.accentIndex ?? 0;
+
+  const locked = Boolean(nodeData.locked);
 
   const accentClasses = [
     "table-accent-blue",
@@ -46,12 +49,13 @@ export default function DatabaseTable({
   return (
     <>
       <NodeResizer
+        isVisible={!locked}
         minWidth={220}
         minHeight={120}
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className="sql-table-node">
+      <div className={`sql-table-node${locked ? " is-locked" : ""}`}>
       <div
         className={`sql-table-header ${accent}`}
       >
