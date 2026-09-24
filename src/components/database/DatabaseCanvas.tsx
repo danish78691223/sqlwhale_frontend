@@ -3,6 +3,7 @@
 import {
   Background,
   Controls,
+  MarkerType,
   ReactFlow,
   type Edge,
   type Node,
@@ -24,37 +25,29 @@ const nodeTypes = {
   databaseTable: DatabaseTable,
 };
 
+const positions: Record<string, { x: number; y: number }> = {
+  departments: { x: 40, y: 60 },
+  employees: { x: 560, y: 60 },
+  projects: { x: 1040, y: 60 },
+  salary: { x: 560, y: 440 },
+};
+
 function createNodes(
   tables: DatabaseTableType[]
 ): Node[] {
-  const positions = [
-    { x: 40, y: 40 },
-    { x: 760, y: 40 },
-    { x: 40, y: 420 },
-    { x: 760, y: 420 },
-    { x: 400, y: 40 },
-    { x: 400, y: 500 },
-  ];
-
-  return tables.map((table, index) => {
-    const position =
-      positions[index] ?? {
-        x: 100 + (index % 3) * 360,
-        y: 100 + Math.floor(index / 3) * 350,
-      };
-
-    return {
-      id: table.name,
-      type: "databaseTable",
-
-      position,
-
-      data: {
-        table,
-        accentIndex: index,
+  return tables.map((table, index) => ({
+    id: table.name,
+    type: "databaseTable",
+    position:
+      positions[table.name] ?? {
+        x: 80 + (index % 3) * 420,
+        y: 100 + Math.floor(index / 3) * 360,
       },
-    };
-  });
+    data: {
+      table,
+      accentIndex: index,
+    },
+  }));
 }
 
 function createEdges(
@@ -66,24 +59,25 @@ function createEdges(
     for (const column of table.columns) {
       if (
         !column.foreignKey ||
-        !column.referencesTable
+        !column.referencesTable ||
+        !column.referencesColumn
       ) {
         continue;
       }
 
       edges.push({
-        id: `${table.name}-${column.name}-${column.referencesTable}`,
-
-        source: table.name,
-
-        target: column.referencesTable,
-
+        id: `relationship-${table.name}-${column.name}-${column.referencesTable}-${column.referencesColumn}`,
+        source: column.referencesTable,
+        sourceHandle: `pk-${column.referencesTable}-${column.referencesColumn}`,
+        target: table.name,
+        targetHandle: `fk-${table.name}-${column.name}`,
         type: "smoothstep",
-
-        animated: true,
-
-        label: `${table.name}.${column.name}`,
-
+        animated: false,
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 16,
+          height: 16,
+        },
         style: {
           strokeWidth: 2,
         },
@@ -98,7 +92,6 @@ export default function DatabaseCanvas({
   tables,
 }: DatabaseCanvasProps) {
   const nodes = createNodes(tables);
-
   const edges = createEdges(tables);
 
   return (
