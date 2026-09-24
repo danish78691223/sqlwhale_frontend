@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Background,
   Controls,
@@ -20,6 +22,7 @@ import {
 import "@xyflow/react/dist/style.css";
 
 import DatabaseTable from "./DatabaseTable";
+import { Lock, Unlock } from "lucide-react";
 
 import type {
   DatabaseTable as DatabaseTableType,
@@ -209,6 +212,7 @@ export default function DatabaseCanvas({
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -217,6 +221,17 @@ export default function DatabaseCanvas({
       className="database-canvas"
       style={{ width: "100%", height: "100%" }}
     >
+      <button
+        type="button"
+        className="database-canvas-lock-button"
+        onClick={() => setTablesLocked((locked) => !locked)}
+        title={tablesLocked ? "Unlock table movement" : "Lock table movement"}
+        aria-label={tablesLocked ? "Unlock table movement" : "Lock table movement"}
+      >
+        {tablesLocked ? <Lock size={16} /> : <Unlock size={16} />}
+        <span>{tablesLocked ? "Locked" : "Unlocked"}</span>
+      </button>
+
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
@@ -230,7 +245,7 @@ export default function DatabaseCanvas({
         }}
         minZoom={0.25}
         maxZoom={1.5}
-        nodesDraggable
+        nodesDraggable={!tablesLocked}
         nodesConnectable={false}
         elementsSelectable
         style={{ width: "100%", height: "100%" }}
