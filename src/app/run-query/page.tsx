@@ -261,7 +261,7 @@ export default function RunQueryPage() {
             position: "absolute",
             inset: 0,
             zIndex: 1,
-            pointerEvents: "none",
+            pointerEvents: "auto",
           }}
         >
           {tablesLoading ? (
