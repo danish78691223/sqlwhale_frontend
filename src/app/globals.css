@@ -7204,3 +7204,19 @@
 .dark .run-mobile-menu-button span {
   background: #e2e8f0;
 }
+
+
+.database-edge-drag-handle {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  cursor: grab;
+  pointer-events: all;
+  background: transparent;
+}
+
+.database-edge-drag-handle:active {
+  cursor: grabbing;
+}
