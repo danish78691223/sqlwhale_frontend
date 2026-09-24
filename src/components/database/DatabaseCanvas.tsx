@@ -284,6 +284,11 @@ export default function DatabaseCanvas({
         elementsSelectable={!tablesLocked}
         nodesFocusable={!tablesLocked}
         edgesFocusable={!tablesLocked}
+        panOnDrag={!tablesLocked}
+        zoomOnScroll={!tablesLocked}
+        zoomOnPinch={!tablesLocked}
+        zoomOnDoubleClick={!tablesLocked}
+        panOnScroll={!tablesLocked}
         style={{ width: "100%", height: "100%" }}
         proOptions={{
           hideAttribution: true,
