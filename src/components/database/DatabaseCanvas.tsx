@@ -106,24 +106,40 @@ function RelationshipWiringEdge({
     });
   }
 
-  const moveRoute = (event: React.PointerEvent<HTMLDivElement>) => {
+  const moveRoute = (event: React.PointerEvent<SVGPathElement>) => {
     if (locked) return;
 
+    event.preventDefault();
+    event.stopPropagation();
+
     event.currentTarget.setPointerCapture(event.pointerId);
+
     const startY = event.clientY;
     const startOffset = routeOffset;
+
     const onMove = (moveEvent: PointerEvent) => {
       const delta = moveEvent.clientY - startY;
-      setEdges((current) => current.map((edge) =>
-        edge.id === id
-          ? { ...edge, data: { ...edge.data, routeOffset: startOffset + delta } }
-          : edge
-      ));
+
+      setEdges((current) =>
+        current.map((edge) =>
+          edge.id === id
+            ? {
+                ...edge,
+                data: {
+                  ...edge.data,
+                  routeOffset: startOffset + delta,
+                },
+              }
+            : edge
+        )
+      );
     };
+
     const onUp = () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
     };
+
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
   };
@@ -141,15 +157,35 @@ function RelationshipWiringEdge({
         }}
         markerEnd={markerEnd}
       />
+
       {!locked && (
-        <EdgeLabelRenderer>
-          <div
-            className="database-edge-drag-handle"
+        <>
+          <path
+            d={path}
+            fill="none"
+            stroke="transparent"
+            strokeWidth={24}
+            pointerEvents="stroke"
             onPointerDown={moveRoute}
-            style={{ left: midpointX, top: midpointY }}
-            title="Drag to bend relationship"
+            className="database-edge-interaction-path"
           />
-        </EdgeLabelRenderer>
+
+          <EdgeLabelRenderer>
+            <div
+              className="database-edge-drag-handle"
+              onPointerDown={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                event.currentTarget.setPointerCapture(event.pointerId);
+                moveRoute(
+                  event as unknown as React.PointerEvent<SVGPathElement>
+                );
+              }}
+              style={{ left: midpointX, top: midpointY }}
+              title="Drag to bend relationship"
+            />
+          </EdgeLabelRenderer>
+        </>
       )}
     </>
   );
