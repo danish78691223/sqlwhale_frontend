@@ -260,7 +260,7 @@ export default function RunQueryPage() {
           style={{
             position: "absolute",
             inset: 0,
-            zIndex: 0,
+            zIndex: 1,
             pointerEvents: "none",
           }}
         >
@@ -283,6 +283,7 @@ export default function RunQueryPage() {
 
         <section
           className="sqlwhale-center-output"
+          style={{ zIndex: 2 }}
           data-sql-output
         >
           <div className="output-box-header">
