@@ -6,7 +6,11 @@ import {
   Link2,
 } from "lucide-react";
 
-import type { NodeProps } from "@xyflow/react";
+import {
+  Handle,
+  Position,
+  type NodeProps,
+} from "@xyflow/react";
 
 import type { DatabaseTable as DatabaseTableType } from "@/types/table";
 
@@ -40,7 +44,6 @@ export default function DatabaseTable({
 
   return (
     <div className="sql-table-node">
-      {/* Header */}
       <div
         className={`sql-table-header ${accent}`}
       >
@@ -62,44 +65,80 @@ export default function DatabaseTable({
         </span>
       </div>
 
-      {/* Columns */}
       <div className="sql-table-columns">
-        {table.columns.map((column) => (
-          <div
-            key={column.name}
-            className="sql-table-column"
-          >
-            <div className="flex min-w-0 items-center gap-2">
-              {column.primaryKey ? (
-                <KeyRound
-                  size={13}
-                  className="shrink-0 text-amber-500"
+        {table.columns.map((column) => {
+          const isPrimaryKey = Boolean(column.primaryKey);
+          const isForeignKey = Boolean(column.foreignKey);
+
+          return (
+            <div
+              key={column.name}
+              className="sql-table-column relative"
+            >
+              {isPrimaryKey && (
+                <Handle
+                  id={`pk-${table.name}-${column.name}`}
+                  type="source"
+                  position={Position.Right}
+                  style={{
+                    width: 8,
+                    height: 8,
+                    right: -5,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    opacity: 0,
+                  }}
                 />
-              ) : column.foreignKey ? (
-                <Link2
-                  size={13}
-                  className="shrink-0 text-blue-500"
-                />
-              ) : (
-                <span className="column-dot" />
               )}
 
-              <span className="truncate">
-                {column.name}
-              </span>
+              {isForeignKey && (
+                <Handle
+                  id={`fk-${table.name}-${column.name}`}
+                  type="target"
+                  position={Position.Left}
+                  style={{
+                    width: 8,
+                    height: 8,
+                    left: -5,
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    opacity: 0,
+                  }}
+                />
+              )}
 
-              {column.foreignKey && (
-                <span className="fk-badge">
-                  FK
+              <div className="flex min-w-0 items-center gap-2">
+                {isPrimaryKey ? (
+                  <KeyRound
+                    size={13}
+                    className="shrink-0 text-amber-500"
+                  />
+                ) : isForeignKey ? (
+                  <Link2
+                    size={13}
+                    className="shrink-0 text-blue-500"
+                  />
+                ) : (
+                  <span className="column-dot" />
+                )}
+
+                <span className="truncate">
+                  {column.name}
                 </span>
-              )}
-            </div>
 
-            <span className="sql-column-type">
-              {column.type.toLowerCase()}
-            </span>
-          </div>
-        ))}
+                {isForeignKey && (
+                  <span className="fk-badge">
+                    FK
+                  </span>
+                )}
+              </div>
+
+              <span className="sql-column-type">
+                {column.type.toLowerCase()}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
