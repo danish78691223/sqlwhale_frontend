@@ -6,6 +6,7 @@ import {
   Background,
   Controls,
   MarkerType,
+  Panel,
   ReactFlow,
   BaseEdge,
   EdgeLabelRenderer,
@@ -122,7 +123,17 @@ function RelationshipWiringEdge({
 
   return (
     <>
-      <BaseEdge id={id} path={path} style={{ ...style, fill: "none", stroke: edgeColor, strokeWidth: 3 }} markerEnd={edgeColor} />
+      <BaseEdge
+        id={id}
+        path={path}
+        style={{
+          ...style,
+          fill: "none",
+          stroke: edgeColor,
+          strokeWidth: 3,
+        }}
+        markerEnd={markerEnd}
+      />
       <EdgeLabelRenderer>
         <div
           className="database-edge-drag-handle"
@@ -135,29 +146,25 @@ function RelationshipWiringEdge({
   );
 }
 
-function createNodes(
-  tables: DatabaseTableType[]
-): Node[] {
+function createNodes(tables: DatabaseTableType[]): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
     .map((table, index) => ({
-    id: table.name,
-    type: "databaseTable",
-    position:
-      positions[table.name] ?? {
-        x: 80 + (index % 3) * 420,
-        y: 100 + Math.floor(index / 3) * 360,
+      id: table.name,
+      type: "databaseTable",
+      position:
+        positions[table.name] ?? {
+          x: 80 + (index % 3) * 420,
+          y: 100 + Math.floor(index / 3) * 360,
+        },
+      data: {
+        table,
+        accentIndex: index,
       },
-    data: {
-      table,
-      accentIndex: index,
-    },
     }));
 }
 
-function createEdges(
-  tables: DatabaseTableType[]
-): Edge[] {
+function createEdges(tables: DatabaseTableType[]): Edge[] {
   const edges: Edge[] = [];
   const relationshipColors = [
     "#2563eb",
@@ -221,17 +228,6 @@ export default function DatabaseCanvas({
       className="database-canvas"
       style={{ width: "100%", height: "100%" }}
     >
-      <button
-        type="button"
-        className="database-canvas-lock-button"
-        onClick={() => setTablesLocked((locked) => !locked)}
-        title={tablesLocked ? "Unlock table movement" : "Lock table movement"}
-        aria-label={tablesLocked ? "Unlock table movement" : "Lock table movement"}
-      >
-        {tablesLocked ? <Lock size={16} /> : <Unlock size={16} />}
-        <span>{tablesLocked ? "Locked" : "Unlocked"}</span>
-      </button>
-
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
@@ -253,14 +249,24 @@ export default function DatabaseCanvas({
           hideAttribution: true,
         }}
       >
-        <Background
-          gap={24}
-          size={1}
-        />
+        <Panel position="top-right">
+          <button
+            type="button"
+            className="database-canvas-lock-button"
+            onClick={() => setTablesLocked((locked) => !locked)}
+            title={tablesLocked ? "Unlock table movement" : "Lock table movement"}
+            aria-label={
+              tablesLocked ? "Unlock table movement" : "Lock table movement"
+            }
+          >
+            {tablesLocked ? <Lock size={16} /> : <Unlock size={16} />}
+            <span>{tablesLocked ? "Locked" : "Unlocked"}</span>
+          </button>
+        </Panel>
 
-        <Controls
-          showInteractive={false}
-        />
+        <Background gap={24} size={1} />
+
+        <Controls showInteractive={false} />
       </ReactFlow>
     </div>
   );
