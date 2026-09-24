@@ -6,8 +6,9 @@ import {
   MarkerType,
   ReactFlow,
   BaseEdge,
-  getBezierPath,
   Position,
+  useNodesState,
+  getBezierPath,
   type Edge,
   type Node,
   type EdgeProps,
@@ -53,29 +54,39 @@ function RelationshipWiringEdge({
   sourceY,
   targetX,
   targetY,
-  sourcePosition = Position.Right,
-  targetPosition = Position.Left,
   style,
   markerEnd,
 }: EdgeProps) {
-  const [path] = getBezierPath({
-    sourceX,
-    sourceY,
-    sourcePosition,
-    targetX,
-    targetY,
-    targetPosition,
-    curvature: 0.55,
-  });
+  const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
+  let path: string;
 
-  return (
-    <BaseEdge
-      id={id}
-      path={path}
-      style={style}
-      markerEnd={markerEnd}
-    />
-  );
+  if (crossesCanvasCenter) {
+    const routeY = sourceY < 360 || targetY < 360
+      ? Math.min(sourceY, targetY) - 150
+      : Math.max(sourceY, targetY) + 150;
+    const bend = Math.max(120, Math.abs(targetX - sourceX) * 0.28);
+    path =
+      "M " + sourceX + " " + sourceY +
+      " C " + (sourceX + bend) + " " + sourceY + ", " +
+      (sourceX + bend) + " " + routeY + ", " +
+      (sourceX + bend) + " " + routeY +
+      " L " + (targetX - bend) + " " + routeY +
+      " C " + (targetX - bend) + " " + routeY + ", " +
+      (targetX - bend) + " " + targetY + ", " +
+      targetX + " " + targetY;
+  } else {
+    [path] = getBezierPath({
+      sourceX,
+      sourceY,
+      sourcePosition: Position.Right,
+      targetX,
+      targetY,
+      targetPosition: Position.Left,
+      curvature: 0.35,
+    });
+  }
+
+  return <BaseEdge id={id} path={path} style={{ ...style, fill: "none" }} markerEnd={markerEnd} />;
 }
 
 function createNodes(
@@ -152,7 +163,8 @@ function createEdges(
 export default function DatabaseCanvas({
   tables,
 }: DatabaseCanvasProps) {
-  const nodes = createNodes(tables);
+  const initialNodes = createNodes(tables);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const edges = createEdges(tables);
 
   return (
@@ -162,6 +174,7 @@ export default function DatabaseCanvas({
     >
       <ReactFlow
         nodes={nodes}
+        onNodesChange={onNodesChange}
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={relationshipEdgeTypes}
