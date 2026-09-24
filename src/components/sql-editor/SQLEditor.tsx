@@ -131,6 +131,13 @@ export default function SQLEditor({
 
               wordWrap: "on",
 
+              // Keep normal SQL typing behavior: a space after a comma
+              // must be inserted immediately instead of being consumed by
+              // autocomplete/commit-character handling.
+              acceptSuggestionOnCommitCharacter: false,
+              acceptSuggestionOnEnter: "off",
+              suggestOnTriggerCharacters: false,
+
               tabSize: 2,
 
               folding: true,
