@@ -5,8 +5,12 @@ import {
   Controls,
   MarkerType,
   ReactFlow,
+  BaseEdge,
+  getBezierPath,
+  Position,
   type Edge,
   type Node,
+  type EdgeProps,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -25,17 +29,61 @@ const nodeTypes = {
   databaseTable: DatabaseTable,
 };
 
-const positions: Record<string, { x: number; y: number }> = {
-  departments: { x: 40, y: 60 },
-  employees: { x: 560, y: 60 },
-  projects: { x: 1040, y: 60 },
-  salary: { x: 560, y: 440 },
+const relationshipEdgeTypes = {
+  wiring: RelationshipWiringEdge,
 };
+
+const positions: Record<string, { x: number; y: number }> = {
+  departments: { x: 40, y: 70 },
+  employees: { x: 40, y: 430 },
+  projects: { x: 980, y: 70 },
+  salary: { x: 980, y: 430 },
+};
+
+const visibleTableNames = new Set([
+  "departments",
+  "employees",
+  "projects",
+  "salary",
+]);
+
+function RelationshipWiringEdge({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition = Position.Right,
+  targetPosition = Position.Left,
+  style,
+  markerEnd,
+}: EdgeProps) {
+  const [path] = getBezierPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+    curvature: 0.55,
+  });
+
+  return (
+    <BaseEdge
+      id={id}
+      path={path}
+      style={style}
+      markerEnd={markerEnd}
+    />
+  );
+}
 
 function createNodes(
   tables: DatabaseTableType[]
 ): Node[] {
-  return tables.map((table, index) => ({
+  return tables
+    .filter((table) => visibleTableNames.has(table.name))
+    .map((table, index) => ({
     id: table.name,
     type: "databaseTable",
     position:
@@ -47,7 +95,7 @@ function createNodes(
       table,
       accentIndex: index,
     },
-  }));
+    }));
 }
 
 function createEdges(
@@ -63,7 +111,7 @@ function createEdges(
     "#ef4444",
   ];
 
-  for (const table of tables) {
+  for (const table of tables.filter((table) => visibleTableNames.has(table.name))) {
     for (const column of table.columns) {
       if (
         !column.foreignKey ||
@@ -82,7 +130,7 @@ function createEdges(
         sourceHandle: `pk-${column.referencesTable}-${column.referencesColumn}`,
         target: table.name,
         targetHandle: `fk-${table.name}-${column.name}`,
-        type: "smoothstep",
+        type: "wiring",
         animated: false,
         markerEnd: {
           type: MarkerType.ArrowClosed,
@@ -116,11 +164,12 @@ export default function DatabaseCanvas({
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
+        edgeTypes={relationshipEdgeTypes}
         fitView
         fitViewOptions={{
           padding: 0.2,
         }}
-        minZoom={0.35}
+        minZoom={0.25}
         maxZoom={1.5}
         nodesDraggable
         nodesConnectable={false}
