@@ -95,7 +95,10 @@ export default function DatabaseCanvas({
   const edges = createEdges(tables);
 
   return (
-    <div className="database-canvas">
+    <div
+      className="database-canvas"
+      style={{ width: "100%", height: "100%" }}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -109,6 +112,7 @@ export default function DatabaseCanvas({
         nodesDraggable
         nodesConnectable={false}
         elementsSelectable
+        style={{ width: "100%", height: "100%" }}
         proOptions={{
           hideAttribution: true,
         }}
