@@ -281,12 +281,6 @@ export default function RunQueryPage() {
           )}
         </section>
 
-        <QueryVisualization
-          query={query}
-          running={loading}
-          executed={Boolean(data)}
-        />
-
         <section
           className="sqlwhale-center-output"
           data-sql-output
@@ -367,6 +361,12 @@ export default function RunQueryPage() {
           </div>
         </section>
       </section>
+
+      <QueryVisualization
+        query={query}
+        running={loading}
+        executed={Boolean(data)}
+      />
 
       <section
         className="sqlwhale-query-editor"
