@@ -4327,16 +4327,11 @@
   display: none;
 }
 
+/* ReactFlow is the live database schema on /run-query. */
 .sqlwhale-run-page .react-flow {
-  display: none;
-}
-
-.sqlwhale-run-page .react-flow__background {
-  display: none;
-}
-
-.sqlwhale-run-page .react-flow__controls {
-  display: none;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 
