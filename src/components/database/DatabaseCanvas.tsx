@@ -62,7 +62,9 @@ function RelationshipWiringEdge({
   data,
 }: EdgeProps) {
   const { setEdges } = useReactFlow();
-  const routeOffset = Number((data as { routeOffset?: number } | undefined)?.routeOffset ?? 0);
+  const edgeData = data as { routeOffset?: number; color?: string } | undefined;
+  const routeOffset = Number(edgeData?.routeOffset ?? 0);
+  const edgeColor = edgeData?.color ?? "#2563eb";
   const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
   const midpointX = (sourceX + targetX) / 2;
   const midpointY = (sourceY + targetY) / 2 + routeOffset;
@@ -117,7 +119,7 @@ function RelationshipWiringEdge({
 
   return (
     <>
-      <BaseEdge id={id} path={path} style={{ ...style, fill: "none" }} markerEnd={markerEnd} />
+      <BaseEdge id={id} path={path} style={{ ...style, fill: "none", stroke: edgeColor, strokeWidth: 3 }} markerEnd={{ ...markerEnd, color: edgeColor }} />
       <EdgeLabelRenderer>
         <div
           className="database-edge-drag-handle"
@@ -184,6 +186,7 @@ function createEdges(
         targetHandle: `fk-${table.name}-${column.name}`,
         type: "wiring",
         animated: false,
+        data: { color },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
