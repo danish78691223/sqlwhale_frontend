@@ -66,9 +66,14 @@ function RelationshipWiringEdge({
   data,
 }: EdgeProps) {
   const { setEdges } = useReactFlow();
-  const edgeData = data as { routeOffset?: number; color?: string } | undefined;
+  const edgeData = data as {
+    routeOffset?: number;
+    color?: string;
+    locked?: boolean;
+  } | undefined;
   const routeOffset = Number(edgeData?.routeOffset ?? 0);
   const edgeColor = edgeData?.color ?? "#2563eb";
+  const locked = Boolean(edgeData?.locked);
   const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
   const midpointX = (sourceX + targetX) / 2;
   const midpointY = (sourceY + targetY) / 2 + routeOffset;
@@ -102,6 +107,8 @@ function RelationshipWiringEdge({
   }
 
   const moveRoute = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (locked) return;
+
     event.currentTarget.setPointerCapture(event.pointerId);
     const startY = event.clientY;
     const startOffset = routeOffset;
@@ -134,14 +141,16 @@ function RelationshipWiringEdge({
         }}
         markerEnd={markerEnd}
       />
-      <EdgeLabelRenderer>
-        <div
-          className="database-edge-drag-handle"
-          onPointerDown={moveRoute}
-          style={{ left: midpointX, top: midpointY }}
-          title="Drag to bend relationship"
-        />
-      </EdgeLabelRenderer>
+      {!locked && (
+        <EdgeLabelRenderer>
+          <div
+            className="database-edge-drag-handle"
+            onPointerDown={moveRoute}
+            style={{ left: midpointX, top: midpointY }}
+            title="Drag to bend relationship"
+          />
+        </EdgeLabelRenderer>
+      )}
     </>
   );
 }
@@ -160,6 +169,7 @@ function createNodes(tables: DatabaseTableType[]): Node[] {
       data: {
         table,
         accentIndex: index,
+        locked: false,
       },
     }));
 }
@@ -196,7 +206,7 @@ function createEdges(tables: DatabaseTableType[]): Edge[] {
         targetHandle: `fk-${table.name}-${column.name}`,
         type: "wiring",
         animated: false,
-        data: { color },
+        data: { color, locked: false },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
@@ -223,6 +233,34 @@ export default function DatabaseCanvas({
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const toggleTablesLock = () => {
+    setTablesLocked((locked) => {
+      const nextLocked = !locked;
+
+      setNodes((current) =>
+        current.map((node) => ({
+          ...node,
+          data: {
+            ...node.data,
+            locked: nextLocked,
+          },
+        }))
+      );
+
+      setEdges((current) =>
+        current.map((edge) => ({
+          ...edge,
+          data: {
+            ...edge.data,
+            locked: nextLocked,
+          },
+        }))
+      );
+
+      return nextLocked;
+    });
+  };
+
   return (
     <div
       className="database-canvas"
@@ -242,8 +280,10 @@ export default function DatabaseCanvas({
         minZoom={0.25}
         maxZoom={1.5}
         nodesDraggable={!tablesLocked}
-        nodesConnectable={false}
-        elementsSelectable
+        nodesConnectable={!tablesLocked}
+        elementsSelectable={!tablesLocked}
+        nodesFocusable={!tablesLocked}
+        edgesFocusable={!tablesLocked}
         style={{ width: "100%", height: "100%" }}
         proOptions={{
           hideAttribution: true,
@@ -253,7 +293,7 @@ export default function DatabaseCanvas({
           <button
             type="button"
             className="database-canvas-lock-button"
-            onClick={() => setTablesLocked((locked) => !locked)}
+            onClick={toggleTablesLock}
             title={tablesLocked ? "Unlock table movement" : "Lock table movement"}
             aria-label={
               tablesLocked ? "Unlock table movement" : "Lock table movement"
