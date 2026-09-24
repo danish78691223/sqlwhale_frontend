@@ -7242,3 +7242,145 @@
 .database-canvas-lock-button:hover {
   background: rgb(248 250 252);
 }
+
+/* =========================================================
+   RUN QUERY DARK MODE - OUTPUT + SQL EDITOR
+========================================================= */
+
+.dark .sqlwhale-center-output {
+  border-color: #1e293b;
+  background: #0a0f14;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.28);
+}
+
+.dark .output-box-header {
+  border-bottom-color: #1e293b;
+  background: #0a0f14;
+}
+
+.dark .output-box-symbol {
+  color: #60a5fa;
+}
+
+.dark .output-box-title strong {
+  color: #f8fafc;
+}
+
+.dark .output-box-subtitle {
+  color: #64748b;
+}
+
+.dark .output-box-content {
+  background: #0a0f14;
+}
+
+.dark .output-empty {
+  border-color: #1e293b;
+  background: #0d141c;
+}
+
+.dark .output-empty h3 {
+  color: #f8fafc;
+}
+
+.dark .output-empty p {
+  color: #94a3b8;
+}
+
+.dark .output-empty-icon {
+  color: #60a5fa;
+}
+
+.dark .query-result-preview {
+  border-color: #1e293b;
+  background: #0d141c;
+}
+
+.dark .result-preview-heading {
+  border-bottom-color: #1e293b;
+  color: #f8fafc;
+  background: #0d141c;
+}
+
+.dark .result-preview-heading small {
+  color: #94a3b8;
+}
+
+.dark .result-preview-table th {
+  background: #111827;
+  color: #cbd5e1;
+}
+
+.dark .result-preview-table td {
+  border-top-color: #1e293b;
+  color: #f8fafc;
+  background: #0d141c;
+}
+
+.dark .result-preview-table tr:hover td {
+  background: #111827;
+}
+
+.dark .output-error-state h3 {
+  color: #fca5a5;
+}
+
+.dark .output-error-state p {
+  color: #fecaca;
+}
+
+.dark .output-error-icon {
+  background: rgba(127, 29, 29, 0.28);
+  color: #f87171;
+}
+
+/* SQL editor follows the same dark surface as the output box. */
+
+.dark .sqlwhale-query-editor {
+  border-color: #1e293b;
+  background: #0a0f14;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.28);
+}
+
+.dark .sqlwhale-query-editor .sql-editor,
+.dark .sqlwhale-query-editor .sql-editor-card {
+  background: #0a0f14;
+}
+
+.dark .sqlwhale-query-editor .editor-header {
+  background: #0a0f14;
+  border-bottom-color: #1e293b;
+}
+
+.dark .sqlwhale-query-editor .sql-editor-heading h2 {
+  color: #f8fafc;
+}
+
+.dark .sqlwhale-query-editor .sql-editor-heading p {
+  color: #94a3b8;
+}
+
+.dark .sqlwhale-query-editor .sql-clear-button {
+  border-color: #334155;
+  background: #111827;
+  color: #e2e8f0;
+}
+
+.dark .sqlwhale-query-editor .sql-clear-button:hover {
+  border-color: #475569;
+  background: #1e293b;
+}
+
+.dark .sqlwhale-query-editor .sql-editor-footer {
+  border-top-color: #1e293b;
+  background: #0f172a;
+  color: #94a3b8;
+}
+
+.dark .sqlwhale-query-editor .monaco-editor,
+.dark .sqlwhale-query-editor .monaco-editor-background,
+.dark .sqlwhale-query-editor .monaco-editor .margin {
+  background: #0a0f14 !important;
+}
