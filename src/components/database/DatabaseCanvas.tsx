@@ -6,8 +6,11 @@ import {
   MarkerType,
   ReactFlow,
   BaseEdge,
+  EdgeLabelRenderer,
   Position,
+  useEdgesState,
   useNodesState,
+  useReactFlow,
   getBezierPath,
   type Edge,
   type Node,
@@ -56,14 +59,20 @@ function RelationshipWiringEdge({
   targetY,
   style,
   markerEnd,
+  data,
 }: EdgeProps) {
+  const { setEdges } = useReactFlow();
+  const routeOffset = Number((data as { routeOffset?: number } | undefined)?.routeOffset ?? 0);
   const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
+  const midpointX = (sourceX + targetX) / 2;
+  const midpointY = (sourceY + targetY) / 2 + routeOffset;
   let path: string;
 
   if (crossesCanvasCenter) {
-    const routeY = sourceY < 360 || targetY < 360
+    const baseRouteY = sourceY < 360 || targetY < 360
       ? Math.min(sourceY, targetY) - 150
       : Math.max(sourceY, targetY) + 150;
+    const routeY = baseRouteY + routeOffset;
     const bend = Math.max(120, Math.abs(targetX - sourceX) * 0.28);
     path =
       "M " + sourceX + " " + sourceY +
@@ -86,7 +95,39 @@ function RelationshipWiringEdge({
     });
   }
 
-  return <BaseEdge id={id} path={path} style={{ ...style, fill: "none" }} markerEnd={markerEnd} />;
+  const moveRoute = (event: React.PointerEvent<HTMLDivElement>) => {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const startY = event.clientY;
+    const startOffset = routeOffset;
+    const onMove = (moveEvent: PointerEvent) => {
+      const delta = moveEvent.clientY - startY;
+      setEdges((current) => current.map((edge) =>
+        edge.id === id
+          ? { ...edge, data: { ...edge.data, routeOffset: startOffset + delta } }
+          : edge
+      ));
+    };
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+
+  return (
+    <>
+      <BaseEdge id={id} path={path} style={{ ...style, fill: "none" }} markerEnd={markerEnd} />
+      <EdgeLabelRenderer>
+        <div
+          className="database-edge-drag-handle"
+          onPointerDown={moveRoute}
+          style={{ left: midpointX, top: midpointY }}
+          title="Drag to bend relationship"
+        />
+      </EdgeLabelRenderer>
+    </>
+  );
 }
 
 function createNodes(
@@ -165,7 +206,8 @@ export default function DatabaseCanvas({
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const edges = createEdges(tables);
+  const initialEdges = createEdges(tables);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   return (
     <div
@@ -175,6 +217,7 @@ export default function DatabaseCanvas({
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={relationshipEdgeTypes}
