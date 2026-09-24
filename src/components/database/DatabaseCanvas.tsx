@@ -84,10 +84,6 @@ function createEdges(
         targetHandle: `fk-${table.name}-${column.name}`,
         type: "smoothstep",
         animated: false,
-        pathOptions: {
-          offset: 28,
-          borderRadius: 14,
-        },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
