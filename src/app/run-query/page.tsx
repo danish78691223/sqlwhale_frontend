@@ -299,6 +299,8 @@ export default function RunQueryPage() {
           </div>
 
           <div className="output-box-content">
+            <QueryExplanation query={query} result={result} running={loading} executed={Boolean(data)} />
+
             {loading ? (
               <div className="output-empty">
                 <div className="output-empty-icon">◌</div>
@@ -315,7 +317,6 @@ export default function RunQueryPage() {
               </div>
             ) : result ? (
               <div className="query-result-preview">
-                <QueryExplanation query={query} result={result} running={loading} executed={Boolean(data)} />
                 <div className="result-preview-heading">
                   <span>Result</span>
                   <small>{result.rows.length} rows</small>
