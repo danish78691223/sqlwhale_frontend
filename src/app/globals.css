@@ -4065,8 +4065,11 @@
 
 .output-box-content {
   height: calc(100% - 58px);
-
+  min-height: 0;
   padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 
@@ -4125,7 +4128,9 @@
 
 .query-result-preview {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 0;
+  flex: 1 1 auto;
 
   overflow: hidden;
 
@@ -4161,8 +4166,8 @@
 
 
 .result-preview-table {
-  height: calc(100% - 40px);
-
+  height: auto;
+  max-height: calc(100% - 40px);
   overflow: auto;
 }
 
@@ -6786,6 +6791,7 @@
 ========================================================= */
 
 .sql-execution-overlay {
+  display: none;
   position: fixed;
 
   top: 0;
@@ -8281,7 +8287,10 @@ body.sql-loader-lock { overflow: hidden; }
 ========================================================= */
 
 .query-explanation {
-  margin: 0 0 14px;
+  flex: 0 0 auto;
+  max-height: 132px;
+  overflow: hidden;
+  margin: 0 0 10px;
   padding: 14px 16px;
   border: 1px solid rgb(226 232 240);
   border-radius: 12px;
