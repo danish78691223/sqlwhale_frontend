@@ -7,6 +7,7 @@ import Image from "next/image";
 import SQLEditor from "@/components/sql-editor/SQLEditor";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
+import QueryExplanation from "@/components/visualization/QueryExplanation";
 
 import { getAllTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
@@ -314,6 +315,7 @@ export default function RunQueryPage() {
               </div>
             ) : result ? (
               <div className="query-result-preview">
+                <QueryExplanation query={query} result={result} running={loading} executed={Boolean(data)} />
                 <div className="result-preview-heading">
                   <span>Result</span>
                   <small>{result.rows.length} rows</small>
