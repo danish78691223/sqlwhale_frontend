@@ -8483,3 +8483,290 @@ body.sql-loader-lock { overflow: hidden; }
     font-size: 0.52rem;
   }
 }
+
+
+/* =========================================================
+   QUERY EXECUTION ANIMATION
+   Subtle, inline, data-first — no floating arrows/overlay.
+========================================================= */
+
+.sql-query-animation {
+  margin: 0 0 10px;
+  padding: 10px 11px;
+  border-bottom: 1px solid #e1e8f2;
+  background: transparent;
+}
+
+.dark .sql-query-animation {
+  border-bottom-color: #334155;
+}
+
+.sql-query-animation-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.sql-query-animation-kicker {
+  color: #64748b;
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.dark .sql-query-animation-kicker {
+  color: #94a3b8;
+}
+
+.sql-query-animation-step {
+  color: #2563eb;
+  font-size: 0.52rem;
+  font-weight: 800;
+}
+
+.sql-query-animation-track {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sql-query-animation-track::-webkit-scrollbar {
+  display: none;
+}
+
+.sql-query-animation-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  color: #94a3b8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.54rem;
+  transition: color 180ms ease;
+}
+
+.sql-query-animation-stage::after {
+  content: "→";
+  margin-left: 2px;
+  color: #cbd5e1;
+}
+
+.sql-query-animation-stage:last-child::after {
+  display: none;
+}
+
+.dark .sql-query-animation-stage::after {
+  color: #475569;
+}
+
+.sql-query-animation-stage.is-active {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.sql-query-animation-stage.is-done {
+  color: #64748b;
+}
+
+.sql-query-animation-dot {
+  width: 5px;
+  height: 5px;
+  flex: 0 0 5px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.sql-query-animation-stage.is-active .sql-query-animation-dot {
+  background: #2563eb;
+  transform: scale(1.25);
+}
+
+.sql-query-animation-stage.is-done .sql-query-animation-dot {
+  background: #10b981;
+}
+
+.sql-query-animation-action {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 7px;
+  min-width: 0;
+}
+
+.sql-query-animation-action strong {
+  flex: 0 0 auto;
+  color: #0f172a;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.dark .sql-query-animation-action strong {
+  color: #f1f5f9;
+}
+
+.sql-query-animation-action span {
+  min-width: 0;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dark .sql-query-animation-action span {
+  color: #94a3b8;
+}
+
+.sql-query-animation-preview {
+  margin-top: 8px;
+  overflow: hidden;
+  border: 1px solid #e1e8f2;
+  border-radius: 7px;
+  animation: sql-query-preview-in 220ms ease both;
+}
+
+.dark .sql-query-animation-preview {
+  border-color: #334155;
+}
+
+.sql-query-animation-preview-label {
+  padding: 5px 7px;
+  border-bottom: 1px solid #e1e8f2;
+  color: #64748b;
+  font-size: 0.51rem;
+  font-weight: 700;
+}
+
+.dark .sql-query-animation-preview-label {
+  border-bottom-color: #334155;
+  color: #94a3b8;
+}
+
+.sql-query-animation-preview-table {
+  max-height: 105px;
+  overflow: auto;
+}
+
+.sql-query-animation-preview-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.56rem;
+}
+
+.sql-query-animation-preview-table th,
+.sql-query-animation-preview-table td {
+  padding: 5px 7px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.dark .sql-query-animation-preview-table th,
+.dark .sql-query-animation-preview-table td {
+  border-bottom-color: #1e293b;
+}
+
+.sql-query-animation-preview-table th {
+  color: #64748b;
+  font-weight: 800;
+}
+
+.dark .sql-query-animation-preview-table th {
+  color: #94a3b8;
+}
+
+.sql-query-animation-preview-table td {
+  color: #334155;
+}
+
+.dark .sql-query-animation-preview-table td {
+  color: #cbd5e1;
+}
+
+.sql-query-animation-preview-table tr {
+  animation: sql-query-row-in 260ms ease both;
+}
+
+.sql-query-animation-preview-table th.is-selected,
+.sql-query-animation-preview-table td.is-selected {
+  background: rgba(37, 99, 235, 0.09);
+  color: #1d4ed8;
+}
+
+.dark .sql-query-animation-preview-table th.is-selected,
+.dark .sql-query-animation-preview-table td.is-selected {
+  background: rgba(37, 99, 235, 0.18);
+  color: #bfdbfe;
+}
+
+.sql-query-animation-complete {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  color: #10b981;
+  font-size: 0.58rem;
+}
+
+.sql-query-animation-complete span {
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.12);
+  font-size: 0.55rem;
+}
+
+.sql-query-animation-complete strong {
+  font-size: 0.58rem;
+}
+
+.sql-query-animation-complete small {
+  color: #64748b;
+  font-size: 0.52rem;
+}
+
+.dark .sql-query-animation-complete small {
+  color: #94a3b8;
+}
+
+.sqlwhale-query-source-active {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12) !important;
+}
+
+.sqlwhale-query-column-active {
+  background: rgba(37, 99, 235, 0.12) !important;
+  box-shadow: inset 2px 0 0 #2563eb;
+}
+
+.dark .sqlwhale-query-column-active {
+  background: rgba(37, 99, 235, 0.2) !important;
+}
+
+@keyframes sql-query-preview-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sql-query-row-in {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-query-animation-preview,
+  .sql-query-animation-preview-table tr {
+    animation: none;
+  }
+
+  .sql-query-animation-stage,
+  .sql-query-animation-dot {
+    transition: none;
+  }
+}
