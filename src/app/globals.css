@@ -4166,9 +4166,10 @@
 
 
 .result-preview-table {
-  height: auto;
-  max-height: calc(100% - 40px);
-  overflow: auto;
+  height: calc(100% - 40px);
+  min-height: 0;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 
