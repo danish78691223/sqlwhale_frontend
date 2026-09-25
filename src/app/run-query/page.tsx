@@ -298,6 +298,13 @@ export default function RunQueryPage() {
           </div>
 
           <div className="output-box-content">
+            <QueryVisualization
+              query={query}
+              running={loading}
+              executed={Boolean(data)}
+              result={result}
+            />
+
             {loading ? (
               <div className="output-empty">
                 <div className="output-empty-icon">◌</div>
@@ -362,13 +369,6 @@ export default function RunQueryPage() {
           </div>
         </section>
       </section>
-
-      <QueryVisualization
-        query={query}
-        running={loading}
-        executed={Boolean(data)}
-        result={result}
-      />
 
       <section
         className="sqlwhale-query-editor"
