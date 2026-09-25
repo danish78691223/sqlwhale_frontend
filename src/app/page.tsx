@@ -78,7 +78,7 @@ export default function Home() {
       <header className="sqlwhale-navbar">
         <div className="navbar-inner">
           <Link href="/" className="sqlwhale-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
-            <Image src="/assets/sqlwhale-logo.jpeg" alt="SQLWhale" width={46} height={46} className="sqlwhale-logo-image" priority />
+            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={46} height={46} className="sqlwhale-logo-image" priority />
             <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
           </Link>
           <nav className="navbar-links" aria-label="Primary navigation">
@@ -188,7 +188,7 @@ export default function Home() {
 
       <footer className="sqlwhale-footer">
         <div className="footer-industrial-grid">
-          <div className="footer-brand-block"><Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home"><Image src="/assets/sqlwhale-logo.jpeg" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" /><span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span></Link><p className="footer-tagline">Learn SQL. See the process. Understand the result.</p><div className="footer-status"><span className="status-dot" />SQL LEARNING SYSTEM</div></div>
+          <div className="footer-brand-block"><Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home"><Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" /><span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span></Link><p className="footer-tagline">Learn SQL. See the process. Understand the result.</p><div className="footer-status"><span className="status-dot" />SQL LEARNING SYSTEM</div></div>
           <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><a href="#about">About</a><a href="#how-it-works">How It Works</a><a href="#contact">Contact</a></div>
           <div className="footer-column"><span className="footer-column-title">PLATFORM</span><span>SQL Editor</span><span>Query Execution</span><span>Visual Learning</span><span>Interactive Database</span></div>
           <div className="footer-column"><span className="footer-column-title">BUILT BY</span><span className="footer-company">WEBWHALE</span><span className="footer-company-description">Technology &amp; digital learning systems.</span></div>

@@ -381,7 +381,7 @@ export default function TermsPage() {
       <header className="legal-topbar">
         <Link href="/" className="legal-logo">
           <img
-            src="/assets/sqlwhale-logo.jpeg"
+            src="/assets/sqlwhale-logo.png"
             alt="SQLWhale"
             className="legal-logo-mark"
           />
