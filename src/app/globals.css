@@ -8281,10 +8281,10 @@ body.sql-loader-lock { overflow: hidden; }
 ========================================================= */
 
 .query-explanation {
-  margin: 0 0 18px;
-  padding: 18px;
+  margin: 0 0 14px;
+  padding: 14px 16px;
   border: 1px solid rgb(226 232 240);
-  border-radius: 16px;
+  border-radius: 12px;
   background: rgb(248 250 252);
 }
 
@@ -8297,24 +8297,25 @@ body.sql-loader-lock { overflow: hidden; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .query-explanation-eyebrow {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   color: rgb(37 99 235);
-  font-size: 0.6rem;
+  font-size: 0.56rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
 }
 
 .query-explanation-heading h3 {
   margin: 0;
   color: rgb(15 23 42);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
   font-weight: 800;
+  letter-spacing: 0;
 }
 
 .dark .query-explanation-heading h3 {
@@ -8322,53 +8323,48 @@ body.sql-loader-lock { overflow: hidden; }
 }
 
 .query-explanation-running {
-  border-radius: 999px;
-  background: rgba(37, 99, 235, 0.1);
-  padding: 5px 9px;
   color: rgb(37 99 235);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .query-explanation-steps {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .query-explanation-step {
   display: grid;
-  grid-template-columns: 27px minmax(0, 1fr);
+  grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
-  gap: 10px;
-  min-height: 46px;
-  padding: 7px 9px;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 6px;
   border: 1px solid transparent;
-  border-radius: 10px;
-  opacity: 0.55;
-  transition: opacity 220ms ease, border-color 220ms ease, background 220ms ease, transform 220ms ease;
+  border-radius: 7px;
+  opacity: 0.48;
+  transition: opacity 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
 .query-explanation-step.is-active {
-  border-color: rgba(37, 99, 235, 0.28);
-  background: rgba(37, 99, 235, 0.07);
+  border-color: rgba(37, 99, 235, 0.2);
+  background: rgba(37, 99, 235, 0.055);
   opacity: 1;
-  transform: translateX(2px);
 }
 
 .query-explanation-step.is-complete {
-  opacity: 0.82;
+  opacity: 0.75;
 }
 
 .query-explanation-step-marker {
   display: grid;
-  width: 27px;
-  height: 27px;
+  width: 22px;
+  height: 22px;
   place-items: center;
-  border-radius: 50%;
+  border-radius: 6px;
   background: rgb(226 232 240);
   color: rgb(71 85 105);
-  font-size: 0.64rem;
+  font-size: 0.56rem;
   font-weight: 800;
 }
 
@@ -8390,13 +8386,15 @@ body.sql-loader-lock { overflow: hidden; }
 .query-explanation-step-copy {
   display: flex;
   min-width: 0;
-  flex-direction: column;
-  gap: 2px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 7px;
 }
 
 .query-explanation-step-copy strong {
+  flex: 0 0 auto;
   color: rgb(30 41 59);
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 800;
 }
 
@@ -8405,9 +8403,10 @@ body.sql-loader-lock { overflow: hidden; }
 }
 
 .query-explanation-step-copy span {
+  min-width: 0;
   color: rgb(100 116 139);
-  font-size: 0.68rem;
-  line-height: 1.45;
+  font-size: 0.61rem;
+  line-height: 1.35;
 }
 
 .dark .query-explanation-step-copy span {
@@ -8416,16 +8415,16 @@ body.sql-loader-lock { overflow: hidden; }
 
 .query-explanation-flow {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: 5px;
-  margin-top: 13px;
-  padding-top: 11px;
+  margin-top: 9px;
+  padding-top: 8px;
   border-top: 1px solid rgb(226 232 240);
   color: rgb(100 116 139);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.62rem;
-  line-height: 1.5;
+  font-size: 0.56rem;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .dark .query-explanation-flow {
@@ -8439,14 +8438,12 @@ body.sql-loader-lock { overflow: hidden; }
 
 .sqlwhale-explain-table-active {
   border-color: rgb(37 99 235) !important;
-  box-shadow:
-    0 0 0 4px rgba(37, 99, 235, 0.12),
-    0 18px 45px rgba(37, 99, 235, 0.16) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
 }
 
 .sqlwhale-explain-column-active {
   background: rgba(37, 99, 235, 0.13) !important;
-  box-shadow: inset 3px 0 0 rgb(37 99 235);
+  box-shadow: inset 2px 0 0 rgb(37 99 235);
   color: rgb(15 23 42) !important;
 }
 
@@ -8457,12 +8454,16 @@ body.sql-loader-lock { overflow: hidden; }
 
 @media (max-width: 768px) {
   .query-explanation {
-    margin-left: 12px;
-    margin-right: 12px;
-    padding: 14px;
+    margin-bottom: 10px;
+    padding: 12px;
   }
 
-  .query-explanation-heading {
-    align-items: flex-start;
+  .query-explanation-step-copy {
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .query-explanation-flow {
+    font-size: 0.52rem;
   }
 }
