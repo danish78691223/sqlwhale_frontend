@@ -8274,3 +8274,195 @@ body.sql-loader-lock { overflow: hidden; }
   .hero-orbit-one,
   .hero-orbit-two { animation: none; }
 }
+
+
+/* =========================================================
+   EXPLAIN MY QUERY
+========================================================= */
+
+.query-explanation {
+  margin: 0 0 18px;
+  padding: 18px;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 16px;
+  background: rgb(248 250 252);
+}
+
+.dark .query-explanation {
+  border-color: rgb(51 65 85);
+  background: rgb(9 20 35);
+}
+
+.query-explanation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.query-explanation-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: rgb(37 99 235);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.query-explanation-heading h3 {
+  margin: 0;
+  color: rgb(15 23 42);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.dark .query-explanation-heading h3 {
+  color: rgb(241 245 249);
+}
+
+.query-explanation-running {
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.1);
+  padding: 5px 9px;
+  color: rgb(37 99 235);
+  font-size: 0.62rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.query-explanation-steps {
+  display: grid;
+  gap: 8px;
+}
+
+.query-explanation-step {
+  display: grid;
+  grid-template-columns: 27px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 7px 9px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  opacity: 0.55;
+  transition: opacity 220ms ease, border-color 220ms ease, background 220ms ease, transform 220ms ease;
+}
+
+.query-explanation-step.is-active {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: rgba(37, 99, 235, 0.07);
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.query-explanation-step.is-complete {
+  opacity: 0.82;
+}
+
+.query-explanation-step-marker {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(226 232 240);
+  color: rgb(71 85 105);
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.dark .query-explanation-step-marker {
+  background: rgb(30 41 59);
+  color: rgb(148 163 184);
+}
+
+.query-explanation-step.is-active .query-explanation-step-marker {
+  background: rgb(37 99 235);
+  color: white;
+}
+
+.query-explanation-step.is-complete .query-explanation-step-marker {
+  background: rgb(16 185 129);
+  color: white;
+}
+
+.query-explanation-step-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.query-explanation-step-copy strong {
+  color: rgb(30 41 59);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.dark .query-explanation-step-copy strong {
+  color: rgb(226 232 240);
+}
+
+.query-explanation-step-copy span {
+  color: rgb(100 116 139);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.dark .query-explanation-step-copy span {
+  color: rgb(148 163 184);
+}
+
+.query-explanation-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px solid rgb(226 232 240);
+  color: rgb(100 116 139);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  line-height: 1.5;
+}
+
+.dark .query-explanation-flow {
+  border-top-color: rgb(51 65 85);
+  color: rgb(148 163 184);
+}
+
+.sql-table-node {
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.sqlwhale-explain-table-active {
+  border-color: rgb(37 99 235) !important;
+  box-shadow:
+    0 0 0 4px rgba(37, 99, 235, 0.12),
+    0 18px 45px rgba(37, 99, 235, 0.16) !important;
+}
+
+.sqlwhale-explain-column-active {
+  background: rgba(37, 99, 235, 0.13) !important;
+  box-shadow: inset 3px 0 0 rgb(37 99 235);
+  color: rgb(15 23 42) !important;
+}
+
+.dark .sqlwhale-explain-column-active {
+  background: rgba(37, 99, 235, 0.22) !important;
+  color: rgb(241 245 249) !important;
+}
+
+@media (max-width: 768px) {
+  .query-explanation {
+    margin-left: 12px;
+    margin-right: 12px;
+    padding: 14px;
+  }
+
+  .query-explanation-heading {
+    align-items: flex-start;
+  }
+}
