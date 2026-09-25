@@ -54,10 +54,23 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     document.body.classList.toggle("sql-loader-lock", loading);
     return () => document.body.classList.remove("sql-loader-lock");
+  }, [loading]);
+
+  useEffect(() => {
+    if (loading) return;
+    const updateScrollProgress = () => {
+      const scrollTop = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollHeight > 0 ? Math.min(100, (scrollTop / scrollHeight) * 100) : 0);
+    };
+    updateScrollProgress();
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollProgress);
   }, [loading]);
 
   useEffect(() => {
@@ -75,6 +88,8 @@ export default function Home() {
 
   return (
     <main className="sqlwhale-home">
+      <div className="home-scroll-progress" aria-hidden="true"><span style={{ width: `${scrollProgress}%` }} /></div>
+      <div className="home-grid-overlay" aria-hidden="true" />
       <header className="sqlwhale-navbar">
         <div className="navbar-inner">
           <Link href="/" className="sqlwhale-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
@@ -100,13 +115,13 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="home-hero hero-revamp">
+      <section className="home-hero hero-revamp" id="home">
         <Reveal className="hero-content">
-          <div className="hero-badge"><span className="hero-badge-dot" />Interactive SQL Learning</div>
+          <div className="hero-kicker"><span>SQLWHALE / LEARNING SYSTEM</span><i /></div><div className="hero-badge"><span className="hero-badge-dot" />Interactive SQL Learning</div>
           <h1>Learn SQL by seeing<br /><span>what actually happens.</span></h1>
           <p>Write a query, run it, and watch the data move. SQLWhale makes the execution journey visible so concepts become easier to understand.</p>
           <div className="hero-actions"><Link href="/run-query" className="primary-button">Run Your First Query <span>→</span></Link><a href="#how-it-works" className="secondary-button">How It Works</a></div>
-          <div className="hero-mini-info"><div className="mini-info"><strong>SQL</strong><span>Learn by doing</span></div><div className="mini-divider" /><div className="mini-info"><strong>Visual</strong><span>See every step</span></div><div className="mini-divider" /><div className="mini-info"><strong>Free</strong><span>Practice anytime</span></div></div>
+          <div className="hero-metrics"><span><b>01</b> QUERY</span><span><b>02</b> VISUALIZE</span><span><b>03</b> UNDERSTAND</span></div><div className="hero-mini-info"><div className="mini-info"><strong>SQL</strong><span>Learn by doing</span></div><div className="mini-divider" /><div className="mini-info"><strong>Visual</strong><span>See every step</span></div><div className="mini-divider" /><div className="mini-info"><strong>Free</strong><span>Practice anytime</span></div></div>
         </Reveal>
         <Reveal className="hero-visual">
           <div className="hero-orbit hero-orbit-one" /><div className="hero-orbit hero-orbit-two" />
@@ -123,7 +138,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section id="about" className="home-section about-section">
+      <section id="about" className="home-section about-section home-dark-section">
         <Reveal><div className="section-label">ABOUT SQLWHALE</div><div className="about-grid"><div className="section-heading"><h2>SQL should be<br /><span>understood, not memorized.</span></h2></div><div className="section-description"><p>SQLWhale is an interactive platform designed to help beginners understand how SQL queries work internally.</p><p>Instead of showing only the final result, SQLWhale focuses on the journey of your query — from source table to filtering, sorting, joining, grouping and finally producing the result.</p></div></div></Reveal>
         <div className="about-cards">{[["01","Write","Write a real SQL query using our interactive SQL editor."],["02","Execute","Execute the query against the available database tables."],["03","Understand","See the operations performed by SQL and understand the final result."]].map(([num,title,copy]) => <Reveal key={num} className="info-card-wrap"><div className="info-card"><div className="card-number">{num}</div><h3>{title}</h3><p>{copy}</p></div></Reveal>)}</div>
       </section>
@@ -133,7 +148,7 @@ export default function Home() {
         <div className="purpose-features">{[["01","Interactive SQL Editor","Write and execute SQL queries in a simple, beginner-friendly environment."],["02","Execution Visualization","Understand how SQL operations affect rows and tables."],["03","Step-by-Step Explanation","Follow the execution process instead of jumping directly to the answer."]].map(([num,title,copy]) => <Reveal key={num}><div className="purpose-feature"><div className="feature-icon">{num}</div><div><h3>{title}</h3><p>{copy}</p></div></div></Reveal>)}</div>
       </section>
 
-      <section id="how-it-works" className="home-section how-section">
+      <section id="how-it-works" className="home-section how-section home-light-section">
         <Reveal><div className="section-label">HOW TO USE SQLWHALE</div><div className="how-header"><h2>Four simple steps.<br /><span>One better way to learn SQL.</span></h2><p>Start with a query and follow the execution process visually.</p></div></Reveal>
         <div className="steps-container">{[["01","Write","Write your SQL query in the SQLWhale editor."],["02","Run","Execute your query against the available tables."],["03","Visualize","Watch the query execution and see what changes."],["04","Understand","Read the explanation and understand the result."]].map(([num,title,copy]) => <Reveal key={num} className="learning-step-wrap"><div className="learning-step"><div className="step-top"><span>{num}</span><div className={`step-line ${num === "04" ? "last" : ""}`} /></div><h3>{title}</h3><p>{copy}</p></div></Reveal>)}</div>
         <Reveal className="how-cta"><h3>Ready to understand SQL differently?</h3><Link href="/run-query" className="primary-button">Start Running Queries <span>→</span></Link></Reveal>
