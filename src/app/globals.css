@@ -4000,7 +4000,7 @@
   top: 50%;
 
   width: 500px;
-  height: 360px;
+  height: 440px;
 
   transform: translate(-50%, -50%);
 
@@ -4072,6 +4072,16 @@
   overflow: hidden;
 }
 
+.output-box-content > .sql-query-animation {
+  flex: 0 0 auto;
+  min-height: 0;
+}
+
+.output-box-content > .query-result-preview {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
 
 .output-empty {
   width: 100%;
@@ -4130,6 +4140,7 @@
   width: 100%;
   min-height: 0;
   flex: 1 1 0;
+  max-height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -4170,8 +4181,11 @@
 .result-preview-table {
   flex: 1 1 0;
   min-height: 0;
-  height: auto;
-  overflow: auto;
+  height: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
 }
 
 .result-preview-table table {
