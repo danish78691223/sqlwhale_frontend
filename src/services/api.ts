@@ -2,12 +2,17 @@ import axios from "axios";
 
 const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
 
-const API_URL = (
+let API_URL =
   configuredApiUrl ||
   (process.env.NODE_ENV === "development"
     ? "http://localhost:5000/api"
-    : "")
-).replace(/\/+$/, "");
+    : "");
+
+API_URL = API_URL.replace(/\/+$/, "");
+
+if (API_URL && !/\/api$/i.test(API_URL)) {
+  API_URL = `${API_URL}/api`;
+}
 
 if (!configuredApiUrl && process.env.NODE_ENV === "production") {
   console.warn(
