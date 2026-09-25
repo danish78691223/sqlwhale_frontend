@@ -7,7 +7,6 @@ import Image from "next/image";
 import SQLEditor from "@/components/sql-editor/SQLEditor";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
-import QueryExplanation from "@/components/visualization/QueryExplanation";
 
 import { getAllTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
@@ -299,8 +298,6 @@ export default function RunQueryPage() {
           </div>
 
           <div className="output-box-content">
-            <QueryExplanation query={query} result={result} running={loading} executed={Boolean(data)} />
-
             {loading ? (
               <div className="output-empty">
                 <div className="output-empty-icon">◌</div>
@@ -385,10 +382,6 @@ export default function RunQueryPage() {
         />
       </section>
 
-      <div
-        id="query-explanation"
-        className="query-explanation-anchor"
-      />
     </main>
   );
 }
