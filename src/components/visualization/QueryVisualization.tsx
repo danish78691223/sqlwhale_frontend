@@ -118,13 +118,10 @@ export default function QueryVisualization({
   const [stageIndex, setStageIndex] = useState(0);
 
   useEffect(() => {
-    if (!running && !executed) {
-      setStageIndex(0);
-      return;
-    }
+    if (!running || !stages.length) return;
 
-    if (!stages.length) return;
-
+    // Start the visual trace when Run is clicked.
+    // Keep it running even if the backend responds quickly.
     setStageIndex(0);
 
     const timer = window.setInterval(() => {
@@ -134,7 +131,7 @@ export default function QueryVisualization({
     }, 1400);
 
     return () => window.clearInterval(timer);
-  }, [running, executed, query, stages.length]);
+  }, [running, query, stages.length]);
 
   useEffect(() => {
     document
@@ -183,7 +180,7 @@ export default function QueryVisualization({
     };
   }, [executed, stages, stageIndex, selectedColumns]);
 
-  if (!executed || !stages.length) return null;
+  if ((!running && !executed) || !stages.length) return null;
 
   const current = stages[stageIndex];
   const showRows = stageIndex >= stages.findIndex((stage) => stage.key === "where");
