@@ -367,6 +367,7 @@ export default function RunQueryPage() {
         query={query}
         running={loading}
         executed={Boolean(data)}
+        result={result}
       />
 
       <section
