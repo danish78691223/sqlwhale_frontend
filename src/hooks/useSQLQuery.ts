@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import axios from "axios";
 
 import { executeSQL } from "@/services/sql.service";
 
@@ -52,25 +53,18 @@ export function useSQLQuery(): UseSQLQueryResult {
         );
 
         let message =
-          "Unable to connect to SQLCrew backend.";
+          "Unable to connect to the SQLWhale backend.";
 
-        if (
-          err &&
-          typeof err === "object" &&
-          "response" in err
-        ) {
-          const response = (
-            err as {
-              response?: {
-                data?: {
-                  error?: string;
-                };
-              };
-            }
-          ).response;
-
-          message =
-            response?.data?.error || message;
+        if (axios.isAxiosError(err)) {
+          if (err.response?.data?.error) {
+            message = err.response.data.error;
+          } else if (err.code === "ECONNABORTED") {
+            message =
+              "The SQLWhale backend took too long to respond. Please try again.";
+          } else if (!err.response) {
+            message =
+              "Unable to reach the SQLWhale backend. Check the API service and try again.";
+          }
         }
 
         setError(message);
