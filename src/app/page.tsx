@@ -101,26 +101,68 @@ export default function Home() {
       </header>
 
       <section className="home-hero hero-revamp">
+        <div className="ww-hero-grid" aria-hidden="true" />
+        <div className="ww-hero-orb ww-hero-orb-one" aria-hidden="true" />
+        <div className="ww-hero-orb ww-hero-orb-two" aria-hidden="true" />
+
         <Reveal className="hero-content">
-          <div className="hero-badge"><span className="hero-badge-dot" />Interactive SQL Learning</div>
-          <h1>Learn SQL by seeing<br /><span>what actually happens.</span></h1>
-          <p>Write a query, run it, and watch the data move. SQLWhale makes the execution journey visible so concepts become easier to understand.</p>
-          <div className="hero-actions"><Link href="/run-query" className="primary-button">Run Your First Query <span>→</span></Link><a href="#how-it-works" className="secondary-button">How It Works</a></div>
-          <div className="hero-mini-info"><div className="mini-info"><strong>SQL</strong><span>Learn by doing</span></div><div className="mini-divider" /><div className="mini-info"><strong>Visual</strong><span>See every step</span></div><div className="mini-divider" /><div className="mini-info"><strong>Free</strong><span>Practice anytime</span></div></div>
+          <div className="hero-kicker">Built for learning what&apos;s next</div>
+          <h1>
+            Learn SQL by seeing.
+            <br />
+            <em>What actually happens.</em>
+          </h1>
+          <p>
+            Write a query, run it, and watch the data move. SQLWhale turns SQL
+            execution into something you can see, follow, and understand.
+          </p>
+
+          <div className="hero-actions">
+            <Link href="/run-query" className="primary-button">
+              Run Your First Query <span>↗</span>
+            </Link>
+            <a href="#how-it-works" className="secondary-button">
+              See how it works <span>↓</span>
+            </a>
+          </div>
         </Reveal>
+
         <Reveal className="hero-visual">
-          <div className="hero-orbit hero-orbit-one" /><div className="hero-orbit hero-orbit-two" />
+          <div className="hero-orbit hero-orbit-one" />
+          <div className="hero-orbit hero-orbit-two" />
+
           <div className="sql-window">
-            <div className="sql-window-header"><div className="window-dots"><span /><span /><span /></div><span>SQLWhale Editor</span><span className="window-status">LIVE</span></div>
+            <div className="sql-window-header">
+              <div className="window-dots"><span /><span /><span /></div>
+              <span>SQLWhale Editor</span>
+              <span className="window-status">LIVE</span>
+            </div>
             <div className="sql-code">
               <div><span className="line-number">01</span><span className="keyword">SELECT</span>{" "}<span className="field">name</span>,{" "}<span className="field">salary</span></div>
               <div><span className="line-number">02</span><span className="keyword">FROM</span>{" "}<span className="table-name">employees</span></div>
               <div><span className="line-number">03</span><span className="keyword">WHERE</span>{" "}<span className="field">salary</span>{" "}<span className="operator">&gt;</span>{" "}<span className="number">50000</span>;</div>
             </div>
             <div className="sql-flow-strip"><span>TABLE</span><b>→</b><span>FILTER</span><b>→</b><span>RESULT</span></div>
-            <div className="sql-result-preview"><div className="result-title">Query Result <span>✓ Executed</span></div><div className="result-row result-heading"><span>Name</span><span>Salary</span></div><div className="result-row"><span>Rahul</span><span>₹75,000</span></div><div className="result-row highlighted"><span>Priya</span><span>₹62,000</span></div><div className="result-row"><span>Arjun</span><span>₹58,000</span></div></div>
+            <div className="sql-result-preview">
+              <div className="result-title">Query Result <span>✓ Executed</span></div>
+              <div className="result-row result-heading"><span>Name</span><span>Salary</span></div>
+              <div className="result-row"><span>Rahul</span><span>₹75,000</span></div>
+              <div className="result-row highlighted"><span>Priya</span><span>₹62,000</span></div>
+              <div className="result-row"><span>Arjun</span><span>₹58,000</span></div>
+            </div>
           </div>
         </Reveal>
+
+        <div className="ww-hero-stats" aria-label="SQLWhale platform facts">
+          <div><strong>01</strong><span>place to learn,<br />build &amp; understand</span></div>
+          <div><strong>SQL</strong><span>learn by doing,<br />not memorizing</span></div>
+        </div>
+
+        <div className="ww-hero-sticker">
+          <span>SQL</span>
+          <span>IN MOTION</span>
+          <i>↗</i>
+        </div>
       </section>
 
       <section id="about" className="home-section about-section">
