@@ -333,7 +333,7 @@ export default function RunQueryPage() {
                     </thead>
 
                     <tbody>
-                      {result.rows.slice(0, 8).map(
+                      {result.rows.map(
                         (row, rowIndex) => (
                           <tr key={rowIndex}>
                             {result.columns.map(
