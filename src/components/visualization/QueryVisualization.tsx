@@ -131,7 +131,7 @@ export default function QueryVisualization({
       setStageIndex((current) =>
         current >= stages.length - 1 ? current : current + 1
       );
-    }, 850);
+    }, 1400);
 
     return () => window.clearInterval(timer);
   }, [running, executed, query, stages.length]);
