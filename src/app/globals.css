@@ -3999,8 +3999,8 @@
   left: 50%;
   top: 50%;
 
-  width: 438px;
-  height: 295px;
+  width: 500px;
+  height: 360px;
 
   transform: translate(-50%, -50%);
 
@@ -4128,10 +4128,11 @@
 
 .query-result-preview {
   width: 100%;
-  height: auto;
   min-height: 0;
-  flex: 1 1 auto;
+  flex: 1 1 0;
 
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 
   border: 1px solid #e1e8f2;
@@ -4141,6 +4142,7 @@
 
 
 .result-preview-heading {
+  flex: 0 0 40px;
   height: 40px;
 
   padding: 0 11px;
@@ -4166,10 +4168,14 @@
 
 
 .result-preview-table {
-  height: calc(100% - 40px);
+  flex: 1 1 0;
   min-height: 0;
-  overflow-x: auto;
-  overflow-y: auto;
+  height: auto;
+  overflow: auto;
+}
+
+.result-preview-table table {
+  min-width: max-content;
 }
 
 
@@ -8289,7 +8295,7 @@ body.sql-loader-lock { overflow: hidden; }
 
 .query-explanation {
   flex: 0 0 auto;
-  max-height: 132px;
+  max-height: 104px;
   overflow: hidden;
   margin: 0 0 10px;
   padding: 14px 16px;
