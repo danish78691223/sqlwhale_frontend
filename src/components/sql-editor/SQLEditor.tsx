@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { type OnMount } from "@monaco-editor/react";
 import { Play, RotateCcw } from "lucide-react";
 
 interface SQLEditorProps {
@@ -40,6 +40,31 @@ export default function SQLEditor({
   const handleClear = () => {
     setQuery("");
     onClear();
+  };
+
+  const handleEditorMount: OnMount = (editor) => {
+    editor.onKeyDown((event) => {
+      if (
+        (event.browserEvent.key === " " ||
+          event.browserEvent.key === ",") &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.altKey
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        editor.executeEdits("sqlwhale-normal-text-input", [
+          {
+            range: editor.getSelection()!,
+            text: event.browserEvent.key,
+            forceMoveMarkers: true,
+          },
+        ]);
+
+        editor.pushUndoStop();
+      }
+    });
   };
 
   return (
@@ -109,6 +134,7 @@ export default function SQLEditor({
             height="100%"
             language="sql"
             theme={darkMode ? "vs-dark" : "vs-light"}
+            onMount={handleEditorMount}
             value={query}
             onChange={(value) =>
               setQuery(value || "")
