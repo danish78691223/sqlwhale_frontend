@@ -6,14 +6,18 @@ import Link from "next/link";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
+  const keywords = ["SELECT", "WHERE", "FROM", "HAVING", "JOIN", "ORDER BY"];
 
   useEffect(() => {
     const timers = [
       window.setTimeout(() => setStep(1), 650),
-      window.setTimeout(() => setStep(2), 1450),
+      window.setTimeout(() => setStep(2), 1500),
       window.setTimeout(() => setStep(3), 2350),
-      window.setTimeout(() => setStep(4), 3250),
-      window.setTimeout(onDone, 3900),
+      window.setTimeout(() => setStep(4), 3200),
+      window.setTimeout(() => setStep(5), 4050),
+      window.setTimeout(() => setStep(6), 4900),
+      window.setTimeout(() => setStep(7), 5900),
+      window.setTimeout(onDone, 6600),
     ];
     return () => timers.forEach(window.clearTimeout);
   }, [onDone]);
@@ -23,25 +27,46 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
       <div className="sql-loader-grid" />
       <div className="sql-loader-topline"><span>SQLWHALE / SYSTEM BOOT</span><span>ONLINE</span></div>
       <div className="sql-loader-stage">
-        <div className={`loader-user ${step >= 1 ? "loader-user-active" : ""}`}>
-          <div className="loader-user-head" /><div className="loader-user-body" />
-          <div className="loader-user-arm" /><div className="loader-user-leg loader-user-leg-left" /><div className="loader-user-leg loader-user-leg-right" />
+        <div className={"loader-user " + (step >= 1 ? "loader-user-active" : "")}>
+          <div className="loader-user-head"><span className="loader-user-eye loader-user-eye-left" /><span className="loader-user-eye loader-user-eye-right" /></div>
+          <div className="loader-user-neck" />
+          <div className="loader-user-body" />
+          <div className="loader-user-arm loader-user-arm-back" />
+          <div className="loader-user-arm loader-user-arm-gun" />
+          <div className="loader-user-hand" />
+          <div className="loader-user-leg loader-user-leg-left" /><div className="loader-user-leg loader-user-leg-right" />
+          <div className="loader-user-foot loader-user-foot-left" /><div className="loader-user-foot loader-user-foot-right" />
+          <div className="loader-gun"><span className="loader-gun-barrel" /><span className="loader-gun-grip" /><span className="loader-gun-core" /></div>
+          {step >= 1 && step <= 6 ? <span key={"flash-" + step} className="loader-muzzle-flash" /> : null}
         </div>
-        <div className="loader-query-pill"><span className="loader-query-dot" />{step < 2 ? "collecting query..." : "query captured"}</div>
-        <div className={`loader-route ${step >= 2 ? "loader-route-active" : ""}`}><span /></div>
-        <div className={`loader-database ${step >= 3 ? "loader-database-active" : ""}`}>
+
+        <div className="loader-keyword-field" aria-hidden="true">
+          {keywords.map((keyword, index) => (
+            <span key={keyword} className={"loader-keyword " + (step >= index + 1 ? "loader-keyword-fired" : "")}>
+              {keyword}
+            </span>
+          ))}
+        </div>
+
+        <div className="loader-shot-status">
+          <span className="loader-shot-dot" />
+          {step >= 6 ? "QUERY SYNTAX CLEARED" : step > 0 ? "BREAKING KEYWORD " + step + "/6" : "TARGETING SQL KEYWORDS"}
+        </div>
+
+        <div className={"loader-route " + (step >= 7 ? "loader-route-active" : "")}><span /></div>
+        <div className={"loader-database " + (step >= 7 ? "loader-database-active" : "")}>
           <div className="loader-db-top"><span>DATABASE</span><i /></div>
           <div className="loader-db-body"><span>SELECT</span><span>FROM</span><span>WHERE</span></div>
           <div className="loader-db-scan" />
         </div>
-        <div className={`loader-message ${step >= 4 ? "loader-message-show" : ""}`}>
+        <div className={"loader-message " + (step >= 7 ? "loader-message-show" : "")}>
           <span className="loader-check">✓</span>
           <div><strong>Connection ready.</strong><span>You can go — happy learning!</span></div>
         </div>
       </div>
       <div className="sql-loader-footer">
-        <div className="loader-progress"><span style={{ width: `${Math.min(step * 25, 100)}%` }} /></div>
-        <span>{step >= 4 ? "READY" : "PREPARING YOUR SQL JOURNEY..."}</span>
+        <div className="loader-progress"><span style={{ width: Math.min(step * (100 / 7), 100) + "%" }} /></div>
+        <span>{step >= 7 ? "READY" : "BREAKING SQL KEYWORDS..."}</span>
       </div>
     </div>
   );
