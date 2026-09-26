@@ -28,6 +28,16 @@ function getWhereCondition(query: string) {
   return normalizeQuery(query).match(/\bWHERE\s+([\s\S]*?)(?=\s+(?:GROUP\s+BY|ORDER\s+BY|LIMIT|HAVING|UNION)\b|$)/i)?.[1]?.trim();
 }
 
+
+function getWhereColumns(query: string) {
+  const condition = getWhereCondition(query);
+  if (!condition) return [];
+
+  return Array.from(
+    condition.matchAll(/(?:\b[a-zA-Z_][\w$]*\.)?([a-zA-Z_][\w$]*)\s*(?:=|<>|!=|<=|>=|<|>|LIKE|IN|IS)\b/gi)
+  ).map((match) => match[1].replace(/["']/g, "")).filter(Boolean);
+}
+
 function getSelectedColumns(query: string, result?: SQLResult) {
   const part = normalizeQuery(query).match(/^SELECT\s+([\s\S]*?)\s+FROM\b/i)?.[1]?.trim();
   if (!part || part === "*") return result?.columns ?? [];
@@ -112,6 +122,7 @@ export default function QueryVisualization({
   const tableName = getTableName(query);
   const whereCondition = getWhereCondition(query);
   const selectedColumns = useMemo(() => getSelectedColumns(query, result), [query, result]);
+  const whereColumns = useMemo(() => getWhereColumns(query), [query]);
 
   const scanStep = getStep(execution, "scan");
   const filterStep = getStep(execution, "filter");
@@ -163,21 +174,26 @@ export default function QueryVisualization({
 
     if (source) source.classList.add("sqlwhale-query-source-active");
 
-    if (stages[stageIndex] === "select") {
-      selectedColumns.forEach((column) => {
-        document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => {
-          if (el.dataset.sqlColumn?.toLowerCase() === column.toLowerCase()) {
-            el.classList.add("sqlwhale-query-column-active");
-          }
-        });
+    const targetedColumns =
+      stages[stageIndex] === "filter"
+        ? whereColumns
+        : stages[stageIndex] === "select"
+          ? selectedColumns
+          : [];
+
+    targetedColumns.forEach((column) => {
+      document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => {
+        if (el.dataset.sqlColumn?.toLowerCase() === column.toLowerCase()) {
+          el.classList.add("sqlwhale-query-column-active");
+        }
       });
-    }
+    });
 
     return () => {
       document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
       document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => el.classList.remove("sqlwhale-query-column-active"));
     };
-  }, [tableName, stageIndex, stages, selectedColumns]);
+  }, [tableName, stageIndex, stages, selectedColumns, whereColumns]);
 
   useEffect(() => {
     if (executed && !stages.length) onComplete?.();
