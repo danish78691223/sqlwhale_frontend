@@ -10481,3 +10481,69 @@ body.sql-loader-lock { overflow: hidden; }
       #ffffff 75%
     );
 }
+
+
+/* =========================================================
+   QUERY SOURCE ACTIVE HIGHLIGHT
+========================================================= */
+.sql-table-node.sqlwhale-query-source-active {
+  border-color: #facc15 !important;
+  background: #fffdf0 !important;
+  box-shadow:
+    0 0 0 2px rgba(250, 204, 21, 0.28),
+    0 0 28px rgba(250, 204, 21, 0.34),
+    0 14px 32px rgba(15, 23, 42, 0.12) !important;
+  transform: translateY(-1px);
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-header {
+  border-bottom-color: #fde68a !important;
+  background: linear-gradient(135deg, #fef08a, #fffdf0 78%) !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-icon {
+  background: #facc15 !important;
+  color: #713f12 !important;
+  border-color: #eab308 !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-columns {
+  background: #fffdf0 !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-column {
+  border-bottom-color: #fef3c7;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active {
+  border-color: #facc15 !important;
+  background: #29220b !important;
+  box-shadow:
+    0 0 0 2px rgba(250, 204, 21, 0.3),
+    0 0 30px rgba(250, 204, 21, 0.32),
+    0 18px 40px rgba(0, 0, 0, 0.32) !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-header {
+  border-bottom-color: #a16207 !important;
+  background: linear-gradient(135deg, #713f12, #29220b 78%) !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-icon {
+  background: #facc15 !important;
+  color: #422006 !important;
+  border-color: #facc15 !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-columns {
+  background: #29220b !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-column {
+  border-bottom-color: #4a3a0b;
+}
