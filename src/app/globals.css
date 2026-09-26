@@ -179,6 +179,62 @@
     );
 }
 
+/* Distinct colors for each table title/header box */
+.sql-table-header.table-accent-blue {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff) !important;
+  border-bottom-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+.sql-table-header.table-accent-cyan {
+  background: linear-gradient(135deg, #cffafe, #ecfeff) !important;
+  border-bottom-color: #a5f3fc;
+  color: #155e75;
+}
+
+.sql-table-header.table-accent-purple {
+  background: linear-gradient(135deg, #ede9fe, #f5f3ff) !important;
+  border-bottom-color: #ddd6fe;
+  color: #5b21b6;
+}
+
+.sql-table-header.table-accent-green {
+  background: linear-gradient(135deg, #d1fae5, #ecfdf5) !important;
+  border-bottom-color: #a7f3d0;
+  color: #065f46;
+}
+
+.sql-table-header.table-accent-blue span,
+.sql-table-header.table-accent-cyan span,
+.sql-table-header.table-accent-purple span,
+.sql-table-header.table-accent-green span {
+  color: inherit !important;
+}
+
+.dark .sql-table-header.table-accent-blue {
+  background: linear-gradient(135deg, #172554, #1e3a5f) !important;
+  border-bottom-color: #1d4ed8;
+  color: #dbeafe;
+}
+
+.dark .sql-table-header.table-accent-cyan {
+  background: linear-gradient(135deg, #083344, #164e63) !important;
+  border-bottom-color: #0891b2;
+  color: #cffafe;
+}
+
+.dark .sql-table-header.table-accent-purple {
+  background: linear-gradient(135deg, #2e1065, #3b1d68) !important;
+  border-bottom-color: #7c3aed;
+  color: #ede9fe;
+}
+
+.dark .sql-table-header.table-accent-green {
+  background: linear-gradient(135deg, #052e16, #14532d) !important;
+  border-bottom-color: #16a34a;
+  color: #d1fae5;
+}
+
 .sql-column-count {
   border-radius: 999px;
   background: rgb(241 245 249);
