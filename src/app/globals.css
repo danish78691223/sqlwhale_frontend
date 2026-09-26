@@ -10288,3 +10288,196 @@ body.sql-loader-lock { overflow: hidden; }
 .dark .output-animation-status {
   color: #7f8da0;
 }
+
+
+/* =========================================================
+   TABLE NODE UI — DISTINCT TABLE COLORS
+   ========================================================= */
+
+.sql-table-node {
+  position: relative;
+  min-width: 220px;
+  overflow: hidden;
+  border: 1px solid var(--table-border, #dbe4ef);
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow:
+    0 10px 24px rgba(15, 23, 42, 0.07),
+    0 2px 5px rgba(15, 23, 42, 0.04);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.sql-table-node:hover {
+  border-color: var(--table-accent, #3b82f6);
+  box-shadow:
+    0 14px 28px rgba(15, 23, 42, 0.1),
+    0 3px 8px rgba(15, 23, 42, 0.05);
+}
+
+.sql-table-header {
+  position: relative;
+  min-height: 50px;
+  padding: 0 13px;
+  border-bottom: 1px solid var(--table-border, #dbe4ef);
+  background:
+    linear-gradient(
+      135deg,
+      var(--table-soft, #eff6ff),
+      #ffffff 75%
+    );
+  color: #172033;
+}
+
+.sql-table-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--table-accent, #3b82f6);
+}
+
+.sql-table-icon {
+  width: 29px;
+  height: 29px;
+  border-radius: 8px;
+  background: var(--table-soft, #eff6ff);
+  color: var(--table-accent, #3b82f6);
+}
+
+.sql-column-count {
+  border: 1px solid var(--table-border, #dbe4ef);
+  background: rgba(255, 255, 255, 0.72);
+  color: #64748b;
+  font-size: 0.64rem;
+}
+
+.sql-table-columns {
+  padding: 5px 0;
+  background: #ffffff;
+}
+
+.sql-table-column {
+  min-height: 39px;
+  padding: 0 13px;
+  border-bottom: 1px solid #f0f3f7;
+  color: #334155;
+  font-size: 0.79rem;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.sql-table-column:last-child {
+  border-bottom: 0;
+}
+
+.sql-table-column:hover {
+  background: var(--table-soft, #f8fafc);
+  color: #172033;
+}
+
+.sql-table-column .text-amber-500 {
+  color: var(--table-key, #f59e0b) !important;
+}
+
+.sql-table-column .text-blue-500 {
+  color: var(--table-accent, #3b82f6) !important;
+}
+
+.fk-badge {
+  border: 1px solid var(--table-border, #dbe4ef);
+  background: var(--table-soft, #eff6ff);
+  color: var(--table-accent, #3b82f6);
+}
+
+.table-accent-blue {
+  --table-accent: #3b82f6;
+  --table-soft: #eff6ff;
+  --table-border: #bfdbfe;
+}
+
+.table-accent-cyan {
+  --table-accent: #0891b2;
+  --table-soft: #ecfeff;
+  --table-border: #a5f3fc;
+}
+
+.table-accent-purple {
+  --table-accent: #8b5cf6;
+  --table-soft: #f5f3ff;
+  --table-border: #ddd6fe;
+}
+
+.table-accent-green {
+  --table-accent: #059669;
+  --table-soft: #ecfdf5;
+  --table-border: #a7f3d0;
+}
+
+.table-accent-blue .sql-table-icon,
+.table-accent-cyan .sql-table-icon,
+.table-accent-purple .sql-table-icon,
+.table-accent-green .sql-table-icon {
+  border: 1px solid var(--table-border);
+}
+
+.dark .sql-table-node {
+  border-color: var(--table-border, #334155);
+  background: #0d1b2d;
+}
+
+.dark .sql-table-header {
+  border-bottom-color: var(--table-border, #334155);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--table-accent, #3b82f6) 18%, #0d1b2d),
+      #0d1b2d 78%
+    );
+  color: #e5edf7;
+}
+
+.dark .sql-table-icon {
+  background: color-mix(in srgb, var(--table-accent, #3b82f6) 18%, #0d1b2d);
+  color: color-mix(in srgb, var(--table-accent, #3b82f6) 75%, white);
+}
+
+.dark .sql-column-count {
+  border-color: #334155;
+  background: rgba(15, 23, 42, 0.65);
+  color: #94a3b8;
+}
+
+.dark .sql-table-columns {
+  background: #0d1b2d;
+}
+
+.dark .sql-table-column {
+  border-bottom-color: #1e293b;
+  color: #dbe5f0;
+}
+
+.dark .sql-table-column:hover {
+  background: color-mix(in srgb, var(--table-accent, #3b82f6) 9%, #0d1b2d);
+}
+
+.dark .fk-badge {
+  border-color: #334155;
+  background: color-mix(in srgb, var(--table-accent, #3b82f6) 14%, #0d1b2d);
+  color: color-mix(in srgb, var(--table-accent, #3b82f6) 75%, white);
+}
+
+/* Keep the existing class on the header, but make the color identity
+   belong to the whole table card rather than only the header. */
+.sql-table-header.table-accent-blue,
+.sql-table-header.table-accent-cyan,
+.sql-table-header.table-accent-purple,
+.sql-table-header.table-accent-green {
+  background:
+    linear-gradient(
+      135deg,
+      var(--table-soft),
+      #ffffff 75%
+    );
+}
