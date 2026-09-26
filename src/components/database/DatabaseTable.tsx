@@ -55,7 +55,7 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node${locked ? " is-locked" : ""}`} data-sql-table={table.name}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}`} data-sql-table={table.name}>
       <div
         className={`sql-table-header ${accent}`}
       >
