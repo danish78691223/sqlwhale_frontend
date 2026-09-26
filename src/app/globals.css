@@ -10701,3 +10701,93 @@ body.sql-loader-lock { overflow: hidden; }
 .dark .sql-table-node.sqlwhale-query-source-active .sql-table-column {
   border-bottom-color: #4a3a0b;
 }
+
+
+/* =========================================================
+   QUERY TARGETED COLUMN HIGHLIGHT
+========================================================= */
+@keyframes sqlwhale-column-target-flicker {
+  0%, 100% {
+    background: #fffdf0;
+    box-shadow: inset 3px 0 0 #facc15;
+    color: #422006;
+  }
+  35% {
+    background: #fef08a;
+    box-shadow:
+      inset 3px 0 0 #eab308,
+      0 0 14px rgba(250, 204, 21, 0.24);
+    color: #422006;
+  }
+  65% {
+    background: #fffbeb;
+    box-shadow: inset 3px 0 0 #facc15;
+    color: #422006;
+  }
+}
+
+.sql-table-column.sqlwhale-query-column-active {
+  position: relative;
+  z-index: 2;
+  border-radius: 6px;
+  animation: sqlwhale-column-target-flicker 700ms ease-in-out infinite;
+  font-weight: 700;
+  will-change: background, box-shadow, color;
+}
+
+.sql-table-column.sqlwhale-query-column-active .sql-column-type {
+  color: #854d0e !important;
+  font-weight: 600;
+}
+
+.sql-table-column.sqlwhale-query-column-active .column-dot {
+  background: #facc15;
+  box-shadow: 0 0 7px rgba(250, 204, 21, 0.65);
+}
+
+.dark .sql-table-column.sqlwhale-query-column-active {
+  animation-name: sqlwhale-column-target-flicker-dark;
+}
+
+@keyframes sqlwhale-column-target-flicker-dark {
+  0%, 100% {
+    background: #29220b;
+    box-shadow: inset 3px 0 0 #facc15;
+    color: #fef3c7;
+  }
+  35% {
+    background: #713f12;
+    box-shadow:
+      inset 3px 0 0 #facc15,
+      0 0 16px rgba(250, 204, 21, 0.28);
+    color: #fef3c7;
+  }
+  65% {
+    background: #3f310b;
+    box-shadow: inset 3px 0 0 #facc15;
+    color: #fef3c7;
+  }
+}
+
+.dark .sql-table-column.sqlwhale-query-column-active .sql-column-type {
+  color: #fde68a !important;
+}
+
+.dark .sql-table-column.sqlwhale-query-column-active .column-dot {
+  background: #facc15;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-table-column.sqlwhale-query-column-active {
+    animation: none;
+    background: #fef08a;
+    box-shadow: inset 3px 0 0 #facc15;
+    color: #422006;
+  }
+
+  .dark .sql-table-column.sqlwhale-query-column-active {
+    background: #713f12;
+    color: #fef3c7;
+  }
+}
