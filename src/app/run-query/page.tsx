@@ -26,7 +26,9 @@ export default function RunQueryPage() {
   const [query, setQuery] = useState(DEFAULT_QUERY);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
-  const [tablesError, setTablesError] = useState<string | null>(null);\n  const [animationRunId, setAnimationRunId] = useState(0);\n  const [animationComplete, setAnimationComplete] = useState(false);
+  const [tablesError, setTablesError] = useState<string | null>(null);
+  const [animationRunId, setAnimationRunId] = useState(0);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -110,12 +112,15 @@ export default function RunQueryPage() {
     const cleanSQL = sql.trim();
 
     setQuery(cleanSQL);
+    setAnimationComplete(false);
+    setAnimationRunId((current) => current + 1);
 
     await runQuery(cleanSQL);
   };
 
   const handleClear = () => {
     setQuery("");
+    setAnimationComplete(false);
     clearResult();
   };
 
@@ -303,6 +308,9 @@ export default function RunQueryPage() {
               running={loading}
               executed={Boolean(data)}
               result={result}
+              execution={data?.execution}
+              runId={animationRunId}
+              onComplete={() => setAnimationComplete(true)}
             />
 
             {loading ? (
