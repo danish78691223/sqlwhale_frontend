@@ -10553,6 +10553,62 @@ body.sql-loader-lock { overflow: hidden; }
 
 
 /* =========================================================
+   QUERY SOURCE TARGET MOTION
+========================================================= */
+@keyframes sqlwhale-target-flicker {
+  0%, 100% {
+    transform: translateY(0);
+    filter: brightness(1);
+  }
+  25% {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+  }
+  50% {
+    transform: translateY(1px);
+    filter: brightness(0.98);
+  }
+  75% {
+    transform: translateY(-1px);
+    filter: brightness(1.03);
+  }
+}
+
+@keyframes sqlwhale-target-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px rgba(250, 204, 21, 0.22),
+      0 0 18px rgba(250, 204, 21, 0.18),
+      0 14px 32px rgba(15, 23, 42, 0.10);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgba(250, 204, 21, 0.34),
+      0 0 26px rgba(250, 204, 21, 0.30),
+      0 16px 34px rgba(15, 23, 42, 0.13);
+  }
+}
+
+.sql-table-node.sqlwhale-query-source-active {
+  animation:
+    sqlwhale-target-flicker 900ms ease-in-out infinite,
+    sqlwhale-target-pulse 1100ms ease-in-out infinite;
+  will-change: transform, filter, box-shadow;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active {
+  animation:
+    sqlwhale-target-flicker 900ms ease-in-out infinite,
+    sqlwhale-target-pulse 1100ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-table-node.sqlwhale-query-source-active {
+    animation: none;
+  }
+}
+
+/* =========================================================
    QUERY SOURCE ACTIVE HIGHLIGHT
 ========================================================= */
 .sql-table-node.sqlwhale-query-source-active {
