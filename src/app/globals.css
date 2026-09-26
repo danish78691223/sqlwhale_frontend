@@ -8784,3 +8784,153 @@ body.sql-loader-lock { overflow: hidden; }
     transition: none;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE RESPONSIVE OVERFLOW SAFETY
+   Keep hero content and CTA/editor visuals inside the viewport.
+========================================================= */
+
+.hero-revamp,
+.hero-revamp .hero-content,
+.hero-revamp .hero-visual,
+.hero-revamp .sql-window {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hero-revamp .sql-window {
+  width: min(100%, 570px);
+  max-width: 100%;
+}
+
+.hero-revamp .hero-actions {
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.hero-revamp .primary-button,
+.hero-revamp .secondary-button {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hero-revamp .sql-code {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.hero-revamp .sql-flow-strip,
+.hero-revamp .sql-result-preview {
+  max-width: calc(100% - 30px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .hero-revamp {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 18px;
+    padding-right: 18px;
+    box-sizing: border-box;
+  }
+
+  .hero-revamp .hero-content,
+  .hero-revamp .hero-visual {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero-revamp .hero-content h1 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-revamp .hero-actions {
+    width: 100%;
+    max-width: 100%;
+    align-items: stretch;
+  }
+
+  .hero-revamp .primary-button,
+  .hero-revamp .secondary-button {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero-revamp .hero-visual {
+    overflow: hidden;
+  }
+
+  .hero-revamp .sql-window {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-revamp .sql-window-header {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-revamp .sql-window-header > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero-revamp .sql-code {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-revamp .sql-flow-strip {
+    width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+  }
+
+  .hero-revamp .sql-result-preview {
+    width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-revamp {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .hero-revamp .hero-content h1 {
+    font-size: clamp(34px, 11.5vw, 44px);
+    letter-spacing: -2px;
+  }
+
+  .hero-revamp .hero-content > p {
+    font-size: 14px;
+  }
+
+  .hero-revamp .sql-window-header {
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 9px;
+  }
+
+  .hero-revamp .sql-code {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .hero-revamp .sql-flow-strip,
+  .hero-revamp .sql-result-preview {
+    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
