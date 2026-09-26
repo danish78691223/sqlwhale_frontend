@@ -9863,3 +9863,428 @@ body.sql-loader-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .contact-submit-spinner { animation: none; }
 }
+
+
+/* =========================
+   DATA TRANSFORMATION QUERY ANIMATION
+========================== */
+
+.sqlwhale-data-animation {
+  width: 100%;
+  flex: 0 0 auto;
+  padding: 12px 12px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fbfcfe;
+  overflow: hidden;
+}
+
+.sqlwhale-data-animation-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sqlwhale-data-kicker {
+  display: block;
+  margin-bottom: 4px;
+  color: #94a3b8;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.sqlwhale-data-action {
+  color: #172033;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.sqlwhale-data-counter {
+  flex: 0 0 auto;
+  color: #64748b;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sqlwhale-visual-stage-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.sqlwhale-visual-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  height: 25px;
+  border: 1px solid #e5eaf1;
+  border-radius: 6px;
+  color: #94a3b8;
+  background: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: border-color 300ms ease, color 300ms ease, background 300ms ease;
+}
+
+.sqlwhale-visual-stage.is-active {
+  border-color: #2563eb;
+  color: #1d4ed8;
+  background: #eff6ff;
+}
+
+.sqlwhale-visual-stage.is-done {
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.sqlwhale-visual-stage-number {
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.sqlwhale-filter-explanation,
+.sqlwhale-select-explanation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  min-height: 24px;
+  color: #475569;
+  font-size: 10px;
+}
+
+.sqlwhale-filter-expression {
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: #f1f5f9;
+  color: #334155;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+}
+
+.sqlwhale-filter-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.sqlwhale-legend-match,
+.sqlwhale-legend-reject {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.sqlwhale-legend-match {
+  background: #22c55e;
+}
+
+.sqlwhale-legend-reject {
+  background: #cbd5e1;
+}
+
+.sqlwhale-select-explanation {
+  padding: 6px 8px;
+  border-left: 2px solid #2563eb;
+  background: #f8fafc;
+}
+
+.sqlwhale-select-explanation span {
+  color: #2563eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+}
+
+.sqlwhale-select-explanation strong {
+  color: #172033;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.sqlwhale-select-explanation small {
+  margin-left: auto;
+  color: #94a3b8;
+}
+
+.sqlwhale-visual-table-wrap {
+  width: 100%;
+  max-height: 205px;
+  overflow: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  background: #ffffff;
+  scrollbar-width: thin;
+}
+
+.sqlwhale-visual-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 10px;
+}
+
+.sqlwhale-visual-table th,
+.sqlwhale-visual-table td {
+  height: 25px;
+  padding: 4px 7px;
+  border-right: 1px solid #edf1f5;
+  border-bottom: 1px solid #edf1f5;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sqlwhale-visual-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.sqlwhale-visual-table td {
+  color: #334155;
+  background: #ffffff;
+}
+
+.sqlwhale-visual-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.sqlwhale-visual-table th:last-child,
+.sqlwhale-visual-table td:last-child {
+  border-right: 0;
+}
+
+.sqlwhale-visual-table .is-selected-column {
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.sqlwhale-visual-table tr.is-matching-row td {
+  transition: opacity 550ms ease, background 300ms ease;
+}
+
+.sqlwhale-visual-table tr.is-rejected-row {
+  animation: sqlwhale-row-fade-out 900ms ease forwards;
+  animation-delay: 250ms;
+}
+
+.sqlwhale-visual-table tr.is-rejected-row td {
+  color: #94a3b8;
+  background: #f8fafc;
+}
+
+.sqlwhale-visual-more {
+  padding: 5px 7px;
+  border-top: 1px solid #edf1f5;
+  color: #94a3b8;
+  font-size: 9px;
+}
+
+.sqlwhale-filter-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 7px;
+  color: #94a3b8;
+  font-size: 9px;
+}
+
+.sqlwhale-filter-count strong {
+  color: #334155;
+  font-size: 10px;
+}
+
+.sqlwhale-filter-arrow {
+  margin: 0 3px;
+  color: #cbd5e1;
+}
+
+.sqlwhale-result-arrival {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 7px 9px;
+  border: 1px solid #dbeafe;
+  border-radius: 7px;
+  background: #f8fbff;
+  animation: sqlwhale-result-arrive 650ms cubic-bezier(.2,.8,.2,1);
+}
+
+.sqlwhale-result-arrival-mark {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.sqlwhale-result-arrival strong,
+.sqlwhale-result-arrival span {
+  display: block;
+}
+
+.sqlwhale-result-arrival strong {
+  color: #172033;
+  font-size: 10px;
+}
+
+.sqlwhale-result-arrival span {
+  margin-top: 1px;
+  color: #94a3b8;
+  font-size: 9px;
+}
+
+.sqlwhale-visual-caption {
+  margin-top: 6px;
+  color: #94a3b8;
+  font-size: 9px;
+}
+
+.sqlwhale-visual-waiting,
+.output-animation-status {
+  padding: 16px;
+  color: #94a3b8;
+  font-size: 10px;
+  text-align: center;
+}
+
+.query-result-preview {
+  animation: sqlwhale-result-table-arrive 650ms cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes sqlwhale-row-fade-out {
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0.18; transform: translateX(-4px); }
+}
+
+@keyframes sqlwhale-result-arrive {
+  0% { opacity: 0; transform: translateY(5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sqlwhale-result-table-arrive {
+  0% { opacity: 0; transform: translateY(12px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-visual-stage,
+  .sqlwhale-visual-table tr.is-rejected-row,
+  .sqlwhale-result-arrival,
+  .query-result-preview {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.dark .sqlwhale-data-animation {
+  border-color: #273241;
+  background: #0f151c;
+}
+
+.dark .sqlwhale-data-action,
+.dark .sqlwhale-select-explanation strong,
+.dark .sqlwhale-result-arrival strong {
+  color: #e5edf7;
+}
+
+.dark .sqlwhale-visual-stage {
+  border-color: #273241;
+  background: #121922;
+  color: #7f8da0;
+}
+
+.dark .sqlwhale-visual-stage.is-active {
+  border-color: #60a5fa;
+  background: #14243a;
+  color: #93c5fd;
+}
+
+.dark .sqlwhale-visual-stage.is-done {
+  background: #10161e;
+}
+
+.dark .sqlwhale-filter-expression,
+.dark .sqlwhale-select-explanation {
+  background: #121922;
+  color: #b8c4d4;
+}
+
+.dark .sqlwhale-select-explanation {
+  border-left-color: #60a5fa;
+}
+
+.dark .sqlwhale-select-explanation span {
+  color: #93c5fd;
+}
+
+.dark .sqlwhale-visual-table-wrap {
+  border-color: #273241;
+  background: #0b1117;
+}
+
+.dark .sqlwhale-visual-table th,
+.dark .sqlwhale-visual-table td {
+  border-color: #202a36;
+}
+
+.dark .sqlwhale-visual-table th {
+  background: #151d27;
+  color: #9aa8b9;
+}
+
+.dark .sqlwhale-visual-table td {
+  background: #0f151c;
+  color: #cbd5e1;
+}
+
+.dark .sqlwhale-visual-table .is-selected-column {
+  background: #14243a;
+  color: #93c5fd;
+}
+
+.dark .sqlwhale-visual-table tr.is-rejected-row td {
+  background: #111820;
+  color: #667487;
+}
+
+.dark .sqlwhale-result-arrival {
+  border-color: #29486d;
+  background: #101d2d;
+}
+
+.dark .sqlwhale-result-arrival-mark {
+  background: #3b82f6;
+}
+
+.dark .sqlwhale-filter-count strong {
+  color: #cbd5e1;
+}
+
+.dark .sqlwhale-data-counter,
+.dark .sqlwhale-filter-legend,
+.dark .sqlwhale-visual-caption,
+.dark .sqlwhale-visual-more,
+.dark .sqlwhale-visual-waiting,
+.dark .output-animation-status {
+  color: #7f8da0;
+}
