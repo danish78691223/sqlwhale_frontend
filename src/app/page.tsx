@@ -132,7 +132,7 @@ export default function Home() {
           </Link>
           <nav className="navbar-links" aria-label="Primary navigation">
             <Link href="/" className="nav-link active">Home</Link><Link href="/run-query" className="nav-link">Run Query</Link>
-            <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><a href="#contact" className="nav-link">Contact</a>
+            <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>
           </nav>
           <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
           <button type="button" className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`} onClick={() => setMobileMenuOpen((prev) => !prev)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}><span /><span /><span /></button>
@@ -143,7 +143,7 @@ export default function Home() {
             <Link href="/run-query" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>02</span>Run Query</Link>
             <a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>03</span>About</a>
             <a href="#how-it-works" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>04</span>How It Works</a>
-            <a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</a>
+            <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</Link>
             <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="mobile-coffee-button" onClick={() => setMobileMenuOpen(false)}>☕ Support SQLWhale</a>
           </nav>
         </div>
@@ -238,13 +238,13 @@ export default function Home() {
       <footer className="sqlwhale-footer">
         <div className="footer-industrial-grid">
           <div className="footer-brand-block"><Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home"><Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" /><span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span></Link><p className="footer-tagline">Learn SQL. See the process. Understand the result.</p><div className="footer-status"><span className="status-dot" />SQL LEARNING SYSTEM</div></div>
-          <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><a href="#about">About</a><a href="#how-it-works">How It Works</a><a href="#contact">Contact</a></div>
+          <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><a href="#about">About</a><a href="#how-it-works">How It Works</a><Link href="/contact">Contact</Link></div>
           <div className="footer-column"><span className="footer-column-title">PLATFORM</span><span>SQL Editor</span><span>Query Execution</span><span>Visual Learning</span><span>Interactive Database</span></div>
-          <div className="footer-column"><span className="footer-column-title">BUILT BY</span><span className="footer-company">WEBWHALE</span><span className="footer-company-description">Technology &amp; digital learning systems.</span></div>
+          <div className="footer-column"><span className="footer-column-title">BUILT BY</span><a className="footer-company footer-company-link" href="https://webxwhale-ebon.vercel.app/home" target="_blank" rel="noopener noreferrer">WEBXWHALE TECH &amp; SOLUTIONS</a><span className="footer-company-description">Technology &amp; digital learning systems.</span></div>
           <div className="footer-column"><span className="footer-column-title">LEGAL</span><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms">Terms &amp; Conditions</Link><Link href="/refund-policy">Return &amp; Refund Policy</Link></div>
         </div>
-        <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBWHALE</span><span /></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">Learning service by <strong>WEBWHALE</strong></span></div>
+        <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBXWHALE TECH &amp; SOLUTIONS</span><span /></div>
+        <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">Learning service by <a href="https://webxwhale-ebon.vercel.app/home" target="_blank" rel="noopener noreferrer"><strong>WEBXWHALE TECH &amp; SOLUTIONS</strong></a></span></div>
       </footer>
     </main>
   );
