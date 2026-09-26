@@ -8934,3 +8934,304 @@ body.sql-loader-lock { overflow: hidden; }
     margin-right: 10px;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE LOADER — KEYWORD BREAKER
+   Stylized sci-fi training sequence; the weapon is clearly
+   fictional and purely part of the loading animation.
+========================================================= */
+
+.loader-user {
+  left: 9%;
+  bottom: 24%;
+  width: 92px;
+  height: 160px;
+  opacity: .62;
+  transform: translateX(0) scale(.96);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.28));
+}
+
+.loader-user-active {
+  transform: translateX(105%) scale(1);
+  opacity: 1;
+}
+
+.loader-user-head {
+  left: 31px;
+  top: 0;
+  width: 31px;
+  height: 31px;
+  border: 3px solid #e7eef5;
+  background: radial-gradient(circle at 38% 32%, #263747 0 22%, #111b27 23% 100%);
+  box-shadow: inset 0 -5px 8px rgba(0,0,0,.28), 0 0 0 1px rgba(96,165,250,.12);
+}
+
+.loader-user-eye {
+  position: absolute;
+  top: 11px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  box-shadow: 0 0 8px rgba(125,211,252,.8);
+}
+.loader-user-eye-left { left: 9px; }
+.loader-user-eye-right { right: 9px; }
+
+.loader-user-neck {
+  position: absolute;
+  left: 43px;
+  top: 29px;
+  width: 7px;
+  height: 9px;
+  border-radius: 2px;
+  background: #cbd5e1;
+}
+
+.loader-user-body {
+  left: 34px;
+  top: 36px;
+  width: 25px;
+  height: 52px;
+  border-radius: 8px 8px 5px 5px;
+  background: linear-gradient(90deg, #cbd5e1 0 10%, #334155 11% 82%, #172233 83%);
+  border: 1px solid #64748b;
+  box-shadow: inset 3px 0 rgba(255,255,255,.12), inset -4px 0 rgba(0,0,0,.2);
+}
+
+.loader-user-arm {
+  position: absolute;
+  width: 9px;
+  height: 47px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #94a3b8, #e2e8f0 45%, #475569);
+  transform-origin: 50% 7px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+
+.loader-user-arm-back {
+  left: 29px;
+  top: 40px;
+  transform: rotate(20deg);
+}
+
+.loader-user-arm-gun {
+  left: 56px;
+  top: 39px;
+  height: 49px;
+  transform: rotate(-64deg);
+}
+
+.loader-user-hand {
+  position: absolute;
+  left: 66px;
+  top: 78px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+
+.loader-user-leg {
+  top: 85px;
+  width: 10px;
+  height: 54px;
+  background: linear-gradient(90deg, #64748b, #cbd5e1 48%, #334155);
+  border-radius: 7px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.loader-user-leg-left { left: 35px; animation: loader-run-left .32s linear infinite alternate; }
+.loader-user-leg-right { left: 49px; animation: loader-run-right .32s linear infinite alternate; }
+
+.loader-user-foot {
+  position: absolute;
+  top: 135px;
+  width: 25px;
+  height: 9px;
+  border-radius: 7px 3px 3px 7px;
+  background: #1e293b;
+  border: 1px solid #64748b;
+}
+.loader-user-foot-left { left: 22px; }
+.loader-user-foot-right { left: 48px; }
+
+.loader-gun {
+  position: absolute;
+  left: 61px;
+  top: 47px;
+  width: 72px;
+  height: 18px;
+  border: 1px solid #64748b;
+  border-radius: 5px 3px 3px 5px;
+  background: linear-gradient(#3d4b5c, #111827);
+  transform: rotate(-5deg);
+  box-shadow: inset 0 2px rgba(255,255,255,.12), 0 4px 10px rgba(0,0,0,.32);
+}
+.loader-gun::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: -7px;
+  width: 27px;
+  height: 7px;
+  border-radius: 3px 3px 0 0;
+  background: #263447;
+  border: 1px solid #64748b;
+}
+.loader-gun-barrel {
+  position: absolute;
+  right: -31px;
+  top: 5px;
+  width: 34px;
+  height: 7px;
+  border-radius: 0 4px 4px 0;
+  background: #172033;
+  border: 1px solid #64748b;
+}
+.loader-gun-grip {
+  position: absolute;
+  left: 20px;
+  top: 14px;
+  width: 11px;
+  height: 20px;
+  border-radius: 2px 2px 5px 5px;
+  background: #202b3b;
+  transform: rotate(14deg);
+  border: 1px solid #475569;
+}
+.loader-gun-core {
+  position: absolute;
+  right: 12px;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 12px #22d3ee;
+}
+
+.loader-muzzle-flash {
+  position: absolute;
+  left: 156px;
+  top: 47px;
+  width: 25px;
+  height: 25px;
+  background: #fef08a;
+  clip-path: polygon(50% 0, 62% 34%, 100% 20%, 70% 52%, 91% 82%, 54% 66%, 40% 100%, 35% 64%, 0 76%, 29% 47%, 7% 20%, 43% 34%);
+  filter: drop-shadow(0 0 10px #f59e0b);
+  animation: loader-muzzle-pop .12s ease-out both;
+}
+
+.loader-keyword-field {
+  position: absolute;
+  left: 38%;
+  right: 4%;
+  top: 17%;
+  bottom: 22%;
+  pointer-events: none;
+}
+
+.loader-keyword {
+  position: absolute;
+  right: 0;
+  padding: 9px 13px;
+  border: 1px solid rgba(96,165,250,.35);
+  border-radius: 8px;
+  background: rgba(15,23,42,.9);
+  color: #7dd3fc;
+  font: 800 12px/1 "DM Mono", monospace;
+  letter-spacing: .08em;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25), inset 0 0 18px rgba(37,99,235,.06);
+  transition: opacity .18s ease, filter .18s ease;
+}
+.loader-keyword:nth-child(1) { top: 0; }
+.loader-keyword:nth-child(2) { top: 19%; }
+.loader-keyword:nth-child(3) { top: 38%; }
+.loader-keyword:nth-child(4) { top: 57%; }
+.loader-keyword:nth-child(5) { top: 76%; }
+.loader-keyword:nth-child(6) { top: 95%; }
+
+.loader-keyword::before {
+  content: "TARGET";
+  position: absolute;
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  color: #475569;
+  font: 700 7px/1 monospace;
+  letter-spacing: .1em;
+}
+
+.loader-keyword-fired {
+  animation: loader-keyword-break .72s cubic-bezier(.22,1,.36,1) both;
+}
+
+.loader-keyword-fired::after {
+  content: "×";
+  position: absolute;
+  inset: -8px;
+  display: grid;
+  place-items: center;
+  color: #f8fafc;
+  font-size: 28px;
+  font-weight: 300;
+  opacity: 0;
+  animation: loader-break-cross .38s .18s ease-out both;
+}
+
+.loader-shot-status {
+  position: absolute;
+  left: 39%;
+  top: 4%;
+  color: #64748b;
+  font: 800 9px/1 "DM Mono", monospace;
+  letter-spacing: .13em;
+}
+.loader-shot-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 10px rgba(34,211,238,.65);
+}
+
+@keyframes loader-keyword-break {
+  0% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+  42% { opacity: 1; transform: translateX(-42px) scale(1.08); filter: blur(0); }
+  68% { opacity: 1; transform: translateX(-58px) scale(.9) rotate(-3deg); filter: blur(0); }
+  100% { opacity: 0; transform: translateX(-72px) scale(.35) rotate(8deg); filter: blur(4px); }
+}
+@keyframes loader-break-cross {
+  0% { opacity: 0; transform: scale(.35) rotate(-30deg); }
+  45% { opacity: 1; transform: scale(1.1) rotate(0); }
+  100% { opacity: 0; transform: scale(1.45) rotate(20deg); }
+}
+@keyframes loader-muzzle-pop {
+  from { opacity: 0; transform: scale(.25); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .loader-keyword-field { left: 36%; }
+  .loader-user-active { transform: translateX(82%) scale(.9); }
+}
+
+@media (max-width: 600px) {
+  .sql-loader-stage { height: 500px; }
+  .loader-user { left: 2%; transform: scale(.78); transform-origin: left bottom; }
+  .loader-user-active { transform: translateX(44%) scale(.78); }
+  .loader-keyword-field { left: 34%; right: 1%; top: 20%; }
+  .loader-keyword { font-size: 9px; padding: 7px 9px; }
+  .loader-keyword::before { display: none; }
+  .loader-shot-status { left: 34%; font-size: 7px; }
+  .loader-gun { transform: rotate(-5deg) scale(.85); transform-origin: left center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-keyword-fired,
+  .loader-muzzle-flash { animation: none; }
+}
