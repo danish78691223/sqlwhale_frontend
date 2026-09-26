@@ -41,7 +41,7 @@ export default function ContactPage() {
     };
 
     try {
-      const response = await fetch("https://webxwhale-ebon.vercel.app/api/contact", {
+      const response = await fetch("/api/webxwhale-contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
