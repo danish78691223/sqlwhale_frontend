@@ -139,6 +139,10 @@ export default function SQLEditor({
               acceptSuggestionOnCommitCharacter: false,
               acceptSuggestionOnEnter: "off",
               suggestOnTriggerCharacters: false,
+              quickSuggestions: false,
+              inlineSuggest: {
+                enabled: false,
+              },
 
               tabSize: 2,
 
