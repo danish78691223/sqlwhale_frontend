@@ -26,7 +26,7 @@ export default function RunQueryPage() {
   const [query, setQuery] = useState(DEFAULT_QUERY);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
-  const [tablesError, setTablesError] = useState<string | null>(null);
+  const [tablesError, setTablesError] = useState<string | null>(null);\n  const [animationRunId, setAnimationRunId] = useState(0);\n  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -319,7 +319,7 @@ export default function RunQueryPage() {
                 <h3>Query failed</h3>
                 <p>{error}</p>
               </div>
-            ) : result ? (
+            ) : result && animationComplete ? (
               <div className="query-result-preview">
                 <div className="result-preview-heading">
                   <span>Result</span>
