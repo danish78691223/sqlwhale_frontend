@@ -10504,6 +10504,35 @@ body.sql-loader-lock { overflow: hidden; }
 .sql-table-node.sqlwhale-query-source-active .sql-table-header {
   border-bottom-color: #fde68a !important;
   background: linear-gradient(135deg, #fef08a, #fffdf0 78%) !important;
+  color: #422006 !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-header span {
+  color: #422006 !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-table-column {
+  color: #334155 !important;
+}
+
+.sql-table-node.sqlwhale-query-source-active .sql-column-type {
+  color: #64748b !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-header {
+  color: #fef3c7 !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-header span {
+  color: #fef3c7 !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-table-column {
+  color: #e5edf7 !important;
+}
+
+.dark .sql-table-node.sqlwhale-query-source-active .sql-column-type {
+  color: #a8b3c2 !important;
 }
 
 .sql-table-node.sqlwhale-query-source-active .sql-table-icon {
