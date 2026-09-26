@@ -22,11 +22,46 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
     return () => timers.forEach(window.clearTimeout);
   }, [onDone]);
 
+  const activeKeyword = step >= 1 && step <= 6 ? keywords[step - 1] : null;
+  const clearedKeywords = keywords.slice(0, Math.min(step, keywords.length));
+
   return (
     <div className="sql-loader" role="status" aria-label="Loading SQLWhale">
       <div className="sql-loader-grid" />
       <div className="sql-loader-topline"><span>SQLWHALE / SYSTEM BOOT</span><span>ONLINE</span></div>
+
       <div className="sql-loader-stage">
+        <div className="loader-shot-status">
+          <span className="loader-shot-dot" />
+          {step >= 7 ? "QUERY SYNTAX CLEARED" : activeKeyword ? "TARGETING " + activeKeyword : "TARGETING SQL KEYWORDS"}
+        </div>
+
+        <div className="loader-keyword-console" aria-hidden="true">
+          <div className="loader-console-head">
+            <span>SQL KEYWORD BUFFER</span>
+            <i />
+          </div>
+          <div className="loader-console-body">
+            {clearedKeywords.map((keyword, index) => (
+              <div className="loader-console-keyword" key={keyword}>
+                <span className="loader-console-index">0{index + 1}</span>
+                <span>{keyword}</span>
+                <b>✓</b>
+              </div>
+            ))}
+            {step === 0 ? (
+              <div className="loader-console-empty">AWAITING TARGETS...</div>
+            ) : null}
+          </div>
+          <div className="loader-console-scan" />
+        </div>
+
+        {activeKeyword ? (
+          <div className="loader-incoming-keyword" key={activeKeyword}>
+            <span>{activeKeyword}</span>
+          </div>
+        ) : null}
+
         <div className={"loader-user " + (step >= 1 ? "loader-user-active" : "")}>
           <div className="loader-user-head"><span className="loader-user-eye loader-user-eye-left" /><span className="loader-user-eye loader-user-eye-right" /></div>
           <div className="loader-user-neck" />
@@ -40,30 +75,19 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
           {step >= 1 && step <= 6 ? <span key={"flash-" + step} className="loader-muzzle-flash" /> : null}
         </div>
 
-        <div className="loader-keyword-field" aria-hidden="true">
-          {keywords.map((keyword, index) => (
-            <span key={keyword} className={"loader-keyword " + (step >= index + 1 ? "loader-keyword-fired" : "")}>
-              {keyword}
-            </span>
-          ))}
-        </div>
-
-        <div className="loader-shot-status">
-          <span className="loader-shot-dot" />
-          {step >= 6 ? "QUERY SYNTAX CLEARED" : step > 0 ? "BREAKING KEYWORD " + step + "/6" : "TARGETING SQL KEYWORDS"}
-        </div>
-
         <div className={"loader-route " + (step >= 7 ? "loader-route-active" : "")}><span /></div>
         <div className={"loader-database " + (step >= 7 ? "loader-database-active" : "")}>
           <div className="loader-db-top"><span>DATABASE</span><i /></div>
           <div className="loader-db-body"><span>SELECT</span><span>FROM</span><span>WHERE</span></div>
           <div className="loader-db-scan" />
         </div>
+
         <div className={"loader-message " + (step >= 7 ? "loader-message-show" : "")}>
           <span className="loader-check">✓</span>
           <div><strong>Connection ready.</strong><span>You can go — happy learning!</span></div>
         </div>
       </div>
+
       <div className="sql-loader-footer">
         <div className="loader-progress"><span style={{ width: Math.min(step * (100 / 7), 100) + "%" }} /></div>
         <span>{step >= 7 ? "READY" : "BREAKING SQL KEYWORDS..."}</span>
