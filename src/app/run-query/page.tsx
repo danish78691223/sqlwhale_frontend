@@ -395,6 +395,29 @@ export default function RunQueryPage() {
         </section>
       </section>
 
+      <section className="sqlwhale-builder-shell">
+        <button
+          type="button"
+          className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
+          onClick={() => setBuilderOpen((current) => !current)}
+          aria-expanded={builderOpen}
+        >
+          <span>Build the Query</span>
+          <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
+        </button>
+
+        {builderOpen && (
+          <SQLQueryBuilder
+            tables={tables}
+            onGenerate={(generatedSQL) => {
+              setQuery(generatedSQL);
+              setExecutedQuery(null);
+              setAnimationComplete(false);
+            }}
+          />
+        )}
+      </section>
+
       <section
         className="sqlwhale-query-editor"
         data-sql-editor
