@@ -10864,3 +10864,20 @@ body.sql-loader-lock { overflow: hidden; }
     box-shadow: inset 3px 0 0 #facc15;
   }
 }
+
+
+@keyframes sqlwhale-query-relationship-pulse {
+  0%, 100% { opacity: 0.78; }
+  50% { opacity: 1; }
+}
+
+.sqlwhale-query-relationship-active {
+  animation: sqlwhale-query-relationship-pulse 750ms ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-query-relationship-active {
+    animation: none;
+    opacity: 1;
+  }
+}
