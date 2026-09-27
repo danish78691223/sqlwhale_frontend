@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { WandSparkles } from "lucide-react";
+import { Plus, Trash2, WandSparkles } from "lucide-react";
 import type { DatabaseTable } from "@/types/table";
 
 interface SQLQueryBuilderProps {
@@ -69,15 +69,45 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
       <div className="sqlwhale-builder-flow">
         <div className="sqlwhale-builder-block">
           <span className="sqlwhale-builder-label">SELECT</span>
-          <div className="sqlwhale-builder-selectors">
-            {columns.map((column) => (
-              <button key={column.name} type="button" className={`sqlwhale-builder-chip ${selectedColumns.includes(column.name) ? "is-selected" : ""}`} onClick={() => toggleColumn(column.name)}>
-                {column.name} <span>⌄</span>
-              </button>
+          <div className="sqlwhale-builder-column-list">
+            {selectedColumns.map((column, index) => (
+              <div className="sqlwhale-builder-column-row" key={`${index}-${column}`}>
+                <select
+                  value={column}
+                  onChange={(event) => {
+                    const next = [...selectedColumns];
+                    next[index] = event.target.value;
+                    setSelectedColumns(next);
+                  }}
+                  aria-label={`SELECT column ${index + 1}`}
+                >
+                  {columns.map((item) => (
+                    <option key={item.name} value={item.name}>{item.name}</option>
+                  ))}
+                </select>
+                {selectedColumns.length > 1 && (
+                  <button
+                    type="button"
+                    className="sqlwhale-builder-icon-button"
+                    onClick={() => setSelectedColumns((current) => current.filter((_, itemIndex) => itemIndex !== index))}
+                    aria-label={`Remove column ${index + 1}`}
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                )}
+              </div>
             ))}
+            <button
+              type="button"
+              className="sqlwhale-builder-add-column"
+              onClick={() => setSelectedColumns((current) => [...current, columns[0]?.name ?? ""])}
+              disabled={!columns.length}
+            >
+              <Plus size={12} /> Add column
+            </button>
             {!columns.length && <span className="sqlwhale-builder-muted">Loading columns...</span>}
           </div>
-          <small>Click columns to include them in the result.</small>
+          <small>Each row becomes one selected field in the SQL result.</small>
         </div>
 
         <div className="sqlwhale-builder-arrow">↓</div>
@@ -87,6 +117,7 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
           <select value={selectedTable?.name ?? tableName} onChange={(event) => setTableName(event.target.value)}>
             {tables.map((table) => <option key={table.name} value={table.name}>{table.name}</option>)}
           </select>
+          <small>Choose the table SQLWhale should read.</small>
         </div>
 
         <div className="sqlwhale-builder-arrow">↓</div>
