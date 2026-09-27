@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type QuerySection = {
   id: string;
@@ -268,6 +268,8 @@ export default function UnderstandPage() {
   const [menuOpen, setMenuOpen] =
     useState(false);
 
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const observer =
       new IntersectionObserver(
@@ -283,6 +285,7 @@ export default function UnderstandPage() {
           });
         },
         {
+          root: contentRef.current,
           rootMargin:
             "-20% 0px -65% 0px",
         }
@@ -704,7 +707,10 @@ export default function UnderstandPage() {
 
           {/* Main content */}
 
-          <div className="understand-content">
+          <div
+            ref={contentRef}
+            className="understand-content"
+          >
             {/* =================================================
                 SELECT
             ================================================= */}
