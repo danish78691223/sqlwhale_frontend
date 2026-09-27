@@ -4478,6 +4478,15 @@
 
 @media (max-width: 800px) {
 
+  .sqlwhale-builder-shell {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: calc(100% - 16px);
+    margin: 0 auto 10px;
+  }
+
   .sqlwhale-run-page {
     height: auto;
     min-height: 100vh;
