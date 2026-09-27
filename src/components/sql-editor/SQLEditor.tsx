@@ -10,6 +10,7 @@ interface SQLEditorProps {
   darkMode?: boolean;
   onRun: (query: string) => void;
   onClear: () => void;
+  onCursorTargetChange?: (target: { alias?: string; column: string } | null) => void;
 }
 
 const DEFAULT_QUERY =
@@ -21,6 +22,7 @@ export default function SQLEditor({
   darkMode = false,
   onRun,
   onClear,
+  onCursorTargetChange,
 }: SQLEditorProps) {
   const [query, setQuery] =
     useState(initialQuery);
@@ -43,6 +45,34 @@ export default function SQLEditor({
   };
 
   const handleEditorMount: OnMount = (editor) => {
+    const updateCursorTarget = () => {
+      const model = editor.getModel();
+      const position = editor.getPosition();
+
+      if (!model || !position) {
+        onCursorTargetChange?.(null);
+        return;
+      }
+
+      const word = model.getWordAtPosition(position);
+      if (!word) {
+        onCursorTargetChange?.(null);
+        return;
+      }
+
+      const lineBeforeCursor = model.getLineContent(position.lineNumber).slice(0, word.startColumn - 1);
+      const aliasMatch = lineBeforeCursor.match(/([A-Za-z_][\w$]*)\.\s*$/);
+
+      onCursorTargetChange?.({
+        alias: aliasMatch?.[1],
+        column: word.word,
+      });
+    };
+
+    editor.onDidChangeCursorPosition(updateCursorTarget);
+    editor.onDidChangeModelContent(updateCursorTarget);
+    updateCursorTarget();
+
     editor.onKeyDown((event) => {
       if (
         (event.browserEvent.key === " " ||
