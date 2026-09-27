@@ -10791,3 +10791,49 @@ body.sql-loader-lock { overflow: hidden; }
     color: #fef3c7;
   }
 }
+
+
+/* =========================================================
+   SQL CURSOR ↔ DATABASE COLUMN
+========================================================= */
+@keyframes sqlwhale-cursor-column-pulse {
+  0%, 100% {
+    background: rgba(250, 204, 21, 0.14);
+    box-shadow: inset 3px 0 0 #facc15;
+  }
+  50% {
+    background: rgba(250, 204, 21, 0.34);
+    box-shadow:
+      inset 3px 0 0 #facc15,
+      0 0 16px rgba(250, 204, 21, 0.22);
+  }
+}
+
+.sql-table-column.sqlwhale-sql-cursor-column-active {
+  position: relative;
+  z-index: 3;
+  border-radius: 6px;
+  color: #422006 !important;
+  font-weight: 700;
+  animation: sqlwhale-cursor-column-pulse 800ms ease-in-out infinite;
+}
+
+.sql-table-column.sqlwhale-sql-cursor-column-active .sql-column-type {
+  color: #854d0e !important;
+}
+
+.dark .sql-table-column.sqlwhale-sql-cursor-column-active {
+  color: #fef3c7 !important;
+}
+
+.dark .sql-table-column.sqlwhale-sql-cursor-column-active .sql-column-type {
+  color: #fde68a !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-table-column.sqlwhale-sql-cursor-column-active {
+    animation: none;
+    background: rgba(250, 204, 21, 0.25);
+    box-shadow: inset 3px 0 0 #facc15;
+  }
+}
