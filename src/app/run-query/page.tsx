@@ -29,6 +29,7 @@ export default function RunQueryPage() {
   const [tablesError, setTablesError] = useState<string | null>(null);
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
     column: string;
@@ -116,14 +117,20 @@ export default function RunQueryPage() {
     const cleanSQL = sql.trim();
 
     setQuery(cleanSQL);
+    setExecutedQuery(null);
     setAnimationComplete(false);
     setAnimationRunId((current) => current + 1);
 
     await runQuery(cleanSQL);
   };
 
+  useEffect(() => {
+    if (data) setExecutedQuery(query);
+  }, [data, query]);
+
   const handleClear = () => {
     setQuery("");
+    setExecutedQuery(null);
     setAnimationComplete(false);
     clearResult();
   };
@@ -289,6 +296,7 @@ export default function RunQueryPage() {
             <DatabaseCanvas
               tables={tables}
               activeSqlTarget={activeSqlTarget}
+              executedQuery={executedQuery}
             />
           )}
         </section>
