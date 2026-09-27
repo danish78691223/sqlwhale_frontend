@@ -35,7 +35,7 @@ interface DatabaseCanvasProps {
 }
 
 interface SQLCursorTarget {
-  alias?: string;
+  table?: string;
   column: string;
 }
 
@@ -299,9 +299,9 @@ export default function DatabaseCanvas({
         const active =
           Boolean(activeSqlTarget?.column) &&
           (
-            (activeSqlTarget?.alias === sourceTable &&
+            (activeSqlTarget?.table?.toLowerCase() === sourceTable.toLowerCase() &&
               activeSqlTarget?.column.toLowerCase() === sourceColumn.toLowerCase()) ||
-            (activeSqlTarget?.alias === targetTable &&
+            (activeSqlTarget?.table?.toLowerCase() === targetTable.toLowerCase() &&
               activeSqlTarget?.column.toLowerCase() === targetColumn.toLowerCase())
           );
 
@@ -329,8 +329,8 @@ export default function DatabaseCanvas({
 
       if (
         tableName &&
-        activeSqlTarget.alias &&
-        tableName.toLowerCase() === activeSqlTarget.alias.toLowerCase() &&
+        activeSqlTarget.table &&
+        tableName.toLowerCase() === activeSqlTarget.table.toLowerCase() &&
         element.dataset.sqlColumn?.toLowerCase() === activeSqlTarget.column.toLowerCase()
       ) {
         element.classList.add("sqlwhale-sql-cursor-column-active");
