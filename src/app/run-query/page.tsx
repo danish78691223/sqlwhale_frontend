@@ -125,7 +125,7 @@ export default function RunQueryPage() {
   };
 
   useEffect(() => {
-    if (data) setExecutedQuery(query);
+    if (data?.success) setExecutedQuery(query);
   }, [data, query]);
 
   const handleClear = () => {
