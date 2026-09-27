@@ -32,6 +32,7 @@ import type {
 interface DatabaseCanvasProps {
   tables: DatabaseTableType[];
   activeSqlTarget?: SQLCursorTarget | null;
+  executedQuery?: string | null;
 }
 
 interface SQLCursorTarget {
@@ -78,11 +79,13 @@ function RelationshipWiringEdge({
     color?: string;
     locked?: boolean;
     active?: boolean;
+    queryActive?: boolean;
   } | undefined;
   const routeOffset = Number(edgeData?.routeOffset ?? 0);
   const edgeColor = edgeData?.color ?? "#2563eb";
   const locked = Boolean(edgeData?.locked);
   const active = Boolean(edgeData?.active);
+  const queryActive = Boolean(edgeData?.queryActive);
   const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
   const midpointX = (sourceX + targetX) / 2;
   const midpointY = (sourceY + targetY) / 2 + routeOffset;
@@ -161,11 +164,12 @@ function RelationshipWiringEdge({
         style={{
           ...style,
           fill: "none",
-          stroke: active ? "#facc15" : edgeColor,
-          strokeWidth: active ? 5 : 3,
-          filter: active ? "drop-shadow(0 0 6px rgba(250, 204, 21, 0.72))" : undefined,
+          stroke: queryActive || active ? "#facc15" : edgeColor,
+          strokeWidth: queryActive || active ? 5 : 3,
+          filter: queryActive || active ? "drop-shadow(0 0 7px rgba(250, 204, 21, 0.78))" : undefined,
         }}
         markerEnd={markerEnd}
+        className={queryActive ? "sqlwhale-query-relationship-active" : undefined}
       />
 
       {!locked && (
@@ -287,6 +291,57 @@ export default function DatabaseCanvas({
   const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    if (!executedQuery) {
+      setEdges((current) =>
+        current.map((edge) => ({
+          ...edge,
+          data: { ...edge.data, queryActive: false },
+        }))
+      );
+      return;
+    }
+
+    const aliases = new Map<string, string>();
+    const tablePattern = /\b(?:FROM|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/gi;
+    let tableMatch: RegExpExecArray | null;
+
+    while ((tableMatch = tablePattern.exec(executedQuery)) !== null) {
+      const tableName = tableMatch[1];
+      const alias = tableMatch[2];
+      aliases.set(tableName.toLowerCase(), tableName);
+      if (alias) aliases.set(alias.toLowerCase(), tableName);
+    }
+
+    const joinPattern = /\bJOIN\s+[A-Za-z_][\w$]*(?:\s+(?:AS\s+)?[A-Za-z_][\w$]*)?\s+ON\s+([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)\s*=\s*([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)/gi;
+    const usedColumns = new Set<string>();
+    let joinMatch: RegExpExecArray | null;
+
+    while ((joinMatch = joinPattern.exec(executedQuery)) !== null) {
+      const leftTable = aliases.get(joinMatch[1].toLowerCase()) ?? joinMatch[1];
+      const rightTable = aliases.get(joinMatch[3].toLowerCase()) ?? joinMatch[3];
+      usedColumns.add(leftTable.toLowerCase() + "." + joinMatch[2].toLowerCase());
+      usedColumns.add(rightTable.toLowerCase() + "." + joinMatch[4].toLowerCase());
+    }
+
+    setEdges((current) =>
+      current.map((edge) => {
+        const sourceTable = String(edge.data?.sourceTable ?? "");
+        const sourceColumn = String(edge.data?.sourceColumn ?? "");
+        const targetTable = String(edge.data?.targetTable ?? "");
+        const targetColumn = String(edge.data?.targetColumn ?? "");
+        const sourceKey = sourceTable.toLowerCase() + "." + sourceColumn.toLowerCase();
+        const targetKey = targetTable.toLowerCase() + "." + targetColumn.toLowerCase();
+        const queryActive = usedColumns.has(sourceKey) && usedColumns.has(targetKey);
+
+        return {
+          ...edge,
+          data: { ...edge.data, queryActive },
+        };
+      })
+    );
+  }, [executedQuery, setEdges]);
 
   useEffect(() => {
     setEdges((current) =>
