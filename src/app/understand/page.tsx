@@ -2974,6 +2974,18 @@ WHERE department IS NULL;`}
             120px 0;
         }
 
+        /*
+         * Desktop reading mode:
+         * keep the query map fixed in its own viewport while only
+         * the long article column scrolls. This lets users jump
+         * between the 20 concepts without returning to the top of
+         * the page.
+         */
+        .understand-main,
+        .understand-layout {
+          overscroll-behavior: contain;
+        }
+
         .understand-layout {
           width:
             min(1220px, calc(100% - 70px));
@@ -2995,10 +3007,15 @@ WHERE department IS NULL;`}
 
           top: 105px;
 
+          height:
+            calc(100vh - 130px);
+
           max-height:
             calc(100vh - 130px);
 
           overflow-y: auto;
+
+          overscroll-behavior: contain;
 
           padding-right: 10px;
         }
@@ -3113,6 +3130,43 @@ WHERE department IS NULL;`}
 
         .understand-content {
           min-width: 0;
+
+          height:
+            calc(100vh - 130px);
+
+          max-height:
+            calc(100vh - 130px);
+
+          overflow-y: auto;
+
+          overscroll-behavior: contain;
+
+          scrollbar-gutter: stable;
+
+          scroll-padding-top: 20px;
+
+          padding-right: 18px;
+        }
+
+        .understand-content::-webkit-scrollbar,
+        .understand-sidebar::-webkit-scrollbar {
+          width: 7px;
+        }
+
+        .understand-content::-webkit-scrollbar-track,
+        .understand-sidebar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .understand-content::-webkit-scrollbar-thumb,
+        .understand-sidebar::-webkit-scrollbar-thumb {
+          border-radius: 999px;
+          background: #d4deeb;
+        }
+
+        .understand-content::-webkit-scrollbar-thumb:hover,
+        .understand-sidebar::-webkit-scrollbar-thumb:hover {
+          background: #b7c7dc;
         }
 
         .understand-article {
@@ -4089,6 +4143,14 @@ WHERE department IS NULL;`}
               1fr;
 
             gap: 40px;
+          }
+
+          .understand-content {
+            height: auto;
+            max-height: none;
+            overflow: visible;
+            padding-right: 0;
+            scrollbar-gutter: auto;
           }
 
           .understand-sidebar {
