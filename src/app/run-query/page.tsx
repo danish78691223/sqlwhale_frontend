@@ -30,7 +30,7 @@ export default function RunQueryPage() {
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
-    alias?: string;
+    table?: string;
     column: string;
   } | null>(null);
 
