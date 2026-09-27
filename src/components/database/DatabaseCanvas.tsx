@@ -285,6 +285,7 @@ function createEdges(tables: DatabaseTableType[]): Edge[] {
 export default function DatabaseCanvas({
   tables,
   activeSqlTarget = null,
+  executedQuery = null,
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
