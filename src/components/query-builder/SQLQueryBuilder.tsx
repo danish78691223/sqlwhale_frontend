@@ -43,9 +43,6 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
     }));
   }, [selectedTable, tableName]);
 
-  const toggleColumn = (column: string) => {
-    setSelectedColumns((current) => current.includes(column) ? current.filter((item) => item !== column) : [...current, column]);
-  };
 
   const generateSQL = () => {
     const selection = selectedColumns.length ? selectedColumns.join(", ") : "*";
