@@ -29,6 +29,10 @@ export default function RunQueryPage() {
   const [tablesError, setTablesError] = useState<string | null>(null);
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
+  const [activeSqlTarget, setActiveSqlTarget] = useState<{
+    alias?: string;
+    column: string;
+  } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -282,7 +286,10 @@ export default function RunQueryPage() {
               <p>{tablesError}</p>
             </div>
           ) : (
-            <DatabaseCanvas tables={tables} />
+            <DatabaseCanvas
+              tables={tables}
+              activeSqlTarget={activeSqlTarget}
+            />
           )}
         </section>
 
@@ -388,6 +395,7 @@ export default function RunQueryPage() {
           darkMode={darkMode}
           onRun={handleRun}
           onClear={handleClear}
+          onCursorTargetChange={setActiveSqlTarget}
         />
       </section>
 
