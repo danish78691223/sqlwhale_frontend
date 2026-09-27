@@ -4138,17 +4138,44 @@
   padding: 14px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #b8c4d4 transparent;
 }
 
-.output-box-content > .sql-query-animation {
+.output-box-content::-webkit-scrollbar {
+  width: 7px;
+}
+
+.output-box-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.output-box-content::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #b8c4d4;
+}
+
+.output-box-content > .sqlwhale-data-animation {
   flex: 0 0 auto;
   min-height: 0;
 }
 
 .output-box-content > .query-result-preview {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   min-height: 0;
+  height: 300px;
+  max-height: 300px;
+}
+
+.dark .output-box-content {
+  scrollbar-color: #475569 transparent;
+}
+
+.dark .output-box-content::-webkit-scrollbar-thumb {
+  background: #475569;
 }
 
 
