@@ -10888,10 +10888,14 @@ body.sql-loader-lock { overflow: hidden; }
 ========================================================= */
 
 .sqlwhale-builder-shell {
-  position: relative;
-  z-index: 4;
-  width: min(980px, calc(100% - 28px));
-  margin: 0 auto 10px;
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  bottom: 235px;
+  z-index: 5;
+  width: auto;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
 .sqlwhale-builder-toggle-button {
