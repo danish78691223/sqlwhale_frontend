@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import SQLEditor from "@/components/sql-editor/SQLEditor";
+import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
 
@@ -30,6 +31,7 @@ export default function RunQueryPage() {
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
+  const [builderOpen, setBuilderOpen] = useState(true);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
     column: string;
