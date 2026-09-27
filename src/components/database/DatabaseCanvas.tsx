@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Background,
@@ -31,7 +31,14 @@ import type {
 
 interface DatabaseCanvasProps {
   tables: DatabaseTableType[];
+  activeSqlTarget?: SQLCursorTarget | null;
 }
+
+interface SQLCursorTarget {
+  alias?: string;
+  column: string;
+}
+
 
 const nodeTypes = {
   databaseTable: DatabaseTable,
@@ -70,10 +77,12 @@ function RelationshipWiringEdge({
     routeOffset?: number;
     color?: string;
     locked?: boolean;
+    active?: boolean;
   } | undefined;
   const routeOffset = Number(edgeData?.routeOffset ?? 0);
   const edgeColor = edgeData?.color ?? "#2563eb";
   const locked = Boolean(edgeData?.locked);
+  const active = Boolean(edgeData?.active);
   const crossesCanvasCenter = Math.abs(sourceX - targetX) > 500;
   const midpointX = (sourceX + targetX) / 2;
   const midpointY = (sourceY + targetY) / 2 + routeOffset;
@@ -152,8 +161,9 @@ function RelationshipWiringEdge({
         style={{
           ...style,
           fill: "none",
-          stroke: edgeColor,
-          strokeWidth: 3,
+          stroke: active ? "#facc15" : edgeColor,
+          strokeWidth: active ? 5 : 3,
+          filter: active ? "drop-shadow(0 0 6px rgba(250, 204, 21, 0.72))" : undefined,
         }}
         markerEnd={markerEnd}
       />
@@ -242,7 +252,15 @@ function createEdges(tables: DatabaseTableType[]): Edge[] {
         targetHandle: `fk-${table.name}-${column.name}`,
         type: "wiring",
         animated: false,
-        data: { color, locked: false },
+        data: {
+          color,
+          locked: false,
+          sourceTable: column.referencesTable,
+          sourceColumn: column.referencesColumn,
+          targetTable: table.name,
+          targetColumn: column.name,
+          active: false,
+        },
         markerEnd: {
           type: MarkerType.ArrowClosed,
           width: 16,
@@ -262,12 +280,69 @@ function createEdges(tables: DatabaseTableType[]): Edge[] {
 
 export default function DatabaseCanvas({
   tables,
+  activeSqlTarget = null,
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    setEdges((current) =>
+      current.map((edge) => {
+        const sourceTable = String(edge.data?.sourceTable ?? "");
+        const sourceColumn = String(edge.data?.sourceColumn ?? "");
+        const targetTable = String(edge.data?.targetTable ?? "");
+        const targetColumn = String(edge.data?.targetColumn ?? "");
+
+        const active =
+          Boolean(activeSqlTarget?.column) &&
+          (
+            (activeSqlTarget?.alias === sourceTable &&
+              activeSqlTarget?.column.toLowerCase() === sourceColumn.toLowerCase()) ||
+            (activeSqlTarget?.alias === targetTable &&
+              activeSqlTarget?.column.toLowerCase() === targetColumn.toLowerCase())
+          );
+
+        return {
+          ...edge,
+          data: {
+            ...edge.data,
+            active,
+          },
+        };
+      })
+    );
+  }, [activeSqlTarget, setEdges]);
+
+  useEffect(() => {
+    const columns = document.querySelectorAll<HTMLElement>("[data-sql-column]");
+
+    columns.forEach((element) => {
+      element.classList.remove("sqlwhale-sql-cursor-column-active");
+
+      if (!activeSqlTarget?.column) return;
+
+      const tableElement = element.closest<HTMLElement>("[data-sql-table]");
+      const tableName = tableElement?.dataset.sqlTable;
+
+      if (
+        tableName &&
+        activeSqlTarget.alias &&
+        tableName.toLowerCase() === activeSqlTarget.alias.toLowerCase() &&
+        element.dataset.sqlColumn?.toLowerCase() === activeSqlTarget.column.toLowerCase()
+      ) {
+        element.classList.add("sqlwhale-sql-cursor-column-active");
+      }
+    });
+
+    return () => {
+      columns.forEach((element) =>
+        element.classList.remove("sqlwhale-sql-cursor-column-active")
+      );
+    };
+  }, [activeSqlTarget, tables]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
