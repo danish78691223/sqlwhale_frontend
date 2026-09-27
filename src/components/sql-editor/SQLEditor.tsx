@@ -10,7 +10,7 @@ interface SQLEditorProps {
   darkMode?: boolean;
   onRun: (query: string) => void;
   onClear: () => void;
-  onCursorTargetChange?: (target: { alias?: string; column: string } | null) => void;
+  onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
 }
 
 const DEFAULT_QUERY =
@@ -62,9 +62,26 @@ export default function SQLEditor({
 
       const lineBeforeCursor = model.getLineContent(position.lineNumber).slice(0, word.startColumn - 1);
       const aliasMatch = lineBeforeCursor.match(/([A-Za-z_][\w$]*)\.\s*$/);
+      const sql = model.getValue();
+      const aliases = new Map<string, string>();
+
+      for (const match of sql.matchAll(
+        /\b(?:FROM|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/gi
+      )) {
+        const table = match[1];
+        const alias = match[2];
+        if (alias && !/^(ON|WHERE|JOIN|INNER|LEFT|RIGHT|FULL|CROSS|GROUP|ORDER|LIMIT|HAVING)$/i.test(alias)) {
+          aliases.set(alias.toLowerCase(), table);
+        }
+        aliases.set(table.toLowerCase(), table);
+      }
+
+      const table = aliasMatch
+        ? aliases.get(aliasMatch[1].toLowerCase())
+        : undefined;
 
       onCursorTargetChange?.({
-        alias: aliasMatch?.[1],
+        table,
         column: word.word,
       });
     };
