@@ -8,7 +8,7 @@ const API_URL =
 
 export default function SignupPage() {
   function signupWithWebXWhale() {
-    window.location.assign(`${API_URL}/auth/webxwhale/start`);
+    window.location.assign(`${API_URL}/auth/webxwhale/start?screen=signup`);
   }
 
   return (
