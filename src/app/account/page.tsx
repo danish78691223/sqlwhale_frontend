@@ -15,17 +15,32 @@ type User = {
   currentPlan: string;
 };
 
+type QueryHistoryItem = {
+  id: number;
+  query: string;
+  command: string | null;
+  status: "success" | "error";
+  executionTimeMs: number;
+  rowsReturned: number;
+  errorMessage: string | null;
+  createdAt: string;
+};
+
 export default function AccountPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [history, setHistory] = useState<QueryHistoryItem[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
 
   useEffect(() => {
     api.get("/auth/me")
       .then((response) => {
         if (response.data?.authenticated) {
           setUser(response.data.user);
+          const historyResponse = await api.get("/auth/query-history?limit=50");
+          setHistory(historyResponse.data?.history || []);
         } else {
           router.replace("/login");
         }
@@ -56,6 +71,16 @@ export default function AccountPage() {
   }
 
   if (!user) return null;
+
+  function formatDate(value: string) {
+    const date = new Date(value + (value.endsWith("Z") ? "" : "Z"));
+    return date.toLocaleString([], {
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
 
   return (
     <main className="account-page">
@@ -132,6 +157,46 @@ export default function AccountPage() {
             </div>
           </section>
         </div>
+
+        <section className="account-history-card">
+          <div className="account-history-header">
+            <div>
+              <span className="account-card-label">QUERY HISTORY</span>
+              <h2>Your SQL activity</h2>
+            </div>
+            <span className="account-history-count">{history.length} queries</span>
+          </div>
+
+          {historyLoading ? (
+            <div className="account-history-empty">Loading query history...</div>
+          ) : history.length === 0 ? (
+            <div className="account-history-empty">
+              No queries yet. Run your first SQL query and it will appear here.
+            </div>
+          ) : (
+            <div className="account-history-list">
+              {history.map((item) => (
+                <div className="account-history-item" key={item.id}>
+                  <div className="account-history-main">
+                    <code>{item.query}</code>
+                    <span>{formatDate(item.createdAt)}</span>
+                  </div>
+                  <div className="account-history-meta">
+                    <span className={item.status === "success" ? "history-success" : "history-error"}>
+                      {item.status === "success" ? "Success" : "Error"}
+                    </span>
+                    {item.status === "success" && (
+                      <span>{item.rowsReturned} rows · {item.executionTimeMs} ms</span>
+                    )}
+                    {item.status === "error" && item.errorMessage && (
+                      <span title={item.errorMessage}>Failed</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         <div className="account-actions">
           <Link href="/run-query" className="account-primary-action">
