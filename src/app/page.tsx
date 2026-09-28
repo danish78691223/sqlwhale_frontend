@@ -134,7 +134,7 @@ export default function Home() {
             <Link href="/" className="nav-link active">Home</Link><Link href="/run-query" className="nav-link">Run Query</Link>
             <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>
           </nav>
-          <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
+          <div className="navbar-auth-actions">\n            <Link href="/login" className="navbar-login-btn">Login</Link>\n            <Link href="/signup" className="navbar-signup-btn">Sign Up</Link>\n          </div>\n          <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
           <button type="button" className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`} onClick={() => setMobileMenuOpen((prev) => !prev)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}><span /><span /><span /></button>
         </div>
         <div className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}>
