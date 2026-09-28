@@ -267,8 +267,52 @@ export default function UnderstandPage() {
 
   const [menuOpen, setMenuOpen] =
     useState(false);
+  const [completedSections, setCompletedSections] =
+    useState<string[]>([]);
+  const [savingCompletion, setSavingCompletion] =
+    useState(false);
 
   const contentRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/learning-progress`, {
+      credentials: "include",
+    })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => {
+        if (data?.success) {
+          setCompletedSections(
+            (data.progress || []).map((item: { sectionId: string }) => item.sectionId)
+          );
+        }
+      })
+      .catch(() => undefined);
+  }, []);
+
+  async function markSectionComplete() {
+    if (completedSections.includes(activeSection) || savingCompletion) return;
+
+    setSavingCompletion(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/learning-progress/${activeSection}`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        setCompletedSections((current) =>
+          current.includes(activeSection)
+            ? current
+            : [...current, activeSection]
+        );
+      }
+    } finally {
+      setSavingCompletion(false);
+    }
+  }
 
   useEffect(() => {
     const observer =
@@ -703,6 +747,19 @@ export default function UnderstandPage() {
                 )
               )}
             </div>
+
+            <button
+              type="button"
+              className="understand-complete-button"
+              onClick={markSectionComplete}
+              disabled={completedSections.includes(activeSection) || savingCompletion}
+            >
+              {completedSections.includes(activeSection)
+                ? "✓ Section completed"
+                : savingCompletion
+                  ? "Saving..."
+                  : "Mark section complete"}
+            </button>
           </aside>
 
           {/* Main content */}
