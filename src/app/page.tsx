@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { api } from "@/services/api";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -103,11 +104,38 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUser] = useState<{ name: string; email: string; currentPlan: string } | null>(null);
 
   useEffect(() => {
     document.body.classList.toggle("sql-loader-lock", loading);
     return () => document.body.classList.remove("sql-loader-lock");
   }, [loading]);
+
+  useEffect(() => {
+    if (loading) return;
+    let cancelled = false;
+    api.get("/auth/me")
+      .then((response) => {
+        if (!cancelled && response.data?.authenticated) setUser(response.data.user);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelled) setAuthLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [loading]);
+
+  async function handleLogout() {
+    try {
+      await api.post("/auth/logout");
+    } finally {
+      setUser(null);
+      setMobileMenuOpen(false);
+    }
+  }
 
   useEffect(() => {
     if (loading) return;
@@ -134,7 +162,25 @@ export default function Home() {
             <Link href="/" className="nav-link active">Home</Link><Link href="/run-query" className="nav-link">Run Query</Link>
             <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>
           </nav>
-          <div className="navbar-auth-actions">\n            <Link href="/login" className="navbar-login-btn">Login</Link>\n            <Link href="/signup" className="navbar-signup-btn">Sign Up</Link>\n          </div>\n          <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
+          <div className="navbar-auth-actions">
+            {authLoading ? (
+              <span className="navbar-auth-loading">Checking...</span>
+            ) : user ? (
+              <>
+                <Link href="/profile" className="navbar-account-btn" title={user.email}>
+                  <span className="navbar-account-dot" />
+                  <span>{user.name || "Account"}</span>
+                </Link>
+                <button type="button" className="navbar-logout-btn" onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="navbar-login-btn">Login</Link>
+                <Link href="/signup" className="navbar-signup-btn">Sign Up</Link>
+              </>
+            )}
+          </div>
+          <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
           <button type="button" className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`} onClick={() => setMobileMenuOpen((prev) => !prev)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}><span /><span /><span /></button>
         </div>
         <div className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}>
@@ -144,6 +190,17 @@ export default function Home() {
             <a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>03</span>About</a>
             <a href="#how-it-works" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>04</span>How It Works</a>
             <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</Link>
+            {!authLoading && user ? (
+              <>
+                <Link href="/profile" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>06</span>Account</Link>
+                <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>07</span>Logout</button>
+              </>
+            ) : !authLoading ? (
+              <>
+                <Link href="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>06</span>Login</Link>
+                <Link href="/signup" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>07</span>Sign Up</Link>
+              </>
+            ) : null}
             <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="mobile-coffee-button" onClick={() => setMobileMenuOpen(false)}>☕ Support SQLWhale</a>
           </nav>
         </div>
