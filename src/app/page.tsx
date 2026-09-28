@@ -167,10 +167,10 @@ export default function Home() {
               <span className="navbar-auth-loading">Checking...</span>
             ) : user ? (
               <>
-                <div className="navbar-account-btn" title={user.email}>
+                <Link href="/account" className="navbar-account-btn" title={user.email}>
                   <span className="navbar-account-dot" />
                   <span>{user.name || "Account"}</span>
-                </div>
+                </Link>
                 <button type="button" className="navbar-logout-btn" onClick={handleLogout}>Logout</button>
               </>
             ) : (
@@ -192,7 +192,7 @@ export default function Home() {
             <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</Link>
             {!authLoading && user ? (
               <>
-                <div className="mobile-nav-link mobile-account-label"><span>06</span>{user.name || "Account"}</div>
+                <Link href="/account" className="mobile-nav-link mobile-account-label" onClick={() => setMobileMenuOpen(false)}><span>06</span>{user.name || "Account"}</Link>
                 <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>07</span>Logout</button>
               </>
             ) : !authLoading ? (
