@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { api } from "@/services/api";
+import { useEffect, useState } from "react";
+import { api, authApi } from "@/services/api";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -124,7 +124,7 @@ export default function Home() {
   useEffect(() => {
     if (loading) return;
     let cancelled = false;
-    api.get("/auth/me")
+    authApi.get("/auth/me")
       .then((response) => {
         if (!cancelled && response.data?.authenticated) setUser(response.data.user);
       })
@@ -139,7 +139,7 @@ export default function Home() {
 
   async function handleLogout() {
     try {
-      await api.post("/auth/logout");
+      await authApi.post("/auth/logout");
     } finally {
       setUser(null);
       setMobileMenuOpen(false);
@@ -221,7 +221,7 @@ export default function Home() {
         <div className="ww-hero-orb ww-hero-orb-two" aria-hidden="true" />
 
         <Reveal className="hero-content">
-          <div className="hero-kicker">Built for learning what&apos;s next</div>
+          <div className="hero-kicker">Built for learning what's next</div>
           <h1>
             Learn SQL by seeing.
             <br />
