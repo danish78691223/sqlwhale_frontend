@@ -22,11 +22,75 @@ function quoteValue(value: string) {
 export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderProps) {
   const [tableName, setTableName] = useState("");
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+  const [joinEnabled, setJoinEnabled] = useState(false);
+  const [joinType, setJoinType] = useState<"INNER JOIN" | "LEFT JOIN">("INNER JOIN");
+  const [joinTableName, setJoinTableName] = useState("");
+  const [leftJoinColumn, setLeftJoinColumn] = useState("");
+  const [rightJoinColumn, setRightJoinColumn] = useState("");
   const [whereEnabled, setWhereEnabled] = useState(false);
   const [condition, setCondition] = useState<Condition>({ column: "", operator: ">", value: "50000" });
 
   const selectedTable = useMemo(() => tables.find((table) => table.name === tableName) ?? tables[0], [tables, tableName]);
   const columns = selectedTable?.columns ?? [];
+
+  const joinableTables = useMemo(() => {
+    if (!selectedTable) return tables;
+
+    const directRelations = selectedTable.columns
+      .filter((column) => column.foreignKey && column.referencesTable)
+      .map((column) => column.referencesTable as string);
+
+    const reverseRelations = tables
+      .filter((table) => table.name !== selectedTable.name)
+      .filter((table) =>
+        table.columns.some(
+          (column) =>
+            column.foreignKey &&
+            column.referencesTable?.toLowerCase() === selectedTable.name.toLowerCase()
+        )
+      )
+      .map((table) => table.name);
+
+    const related = new Set([...directRelations, ...reverseRelations]);
+    return tables.filter(
+      (table) =>
+        table.name !== selectedTable.name &&
+        (related.size === 0 || related.has(table.name))
+    );
+  }, [tables, selectedTable]);
+
+  const selectedJoinTable = useMemo(
+    () => joinableTables.find((table) => table.name === joinTableName) ?? joinableTables[0],
+    [joinableTables, joinTableName]
+  );
+
+  const joinColumns = selectedJoinTable?.columns ?? [];
+
+  const joinRelationship = useMemo(() => {
+    if (!selectedTable || !selectedJoinTable) return null;
+
+    const forward = selectedTable.columns.find(
+      (column) =>
+        column.foreignKey &&
+        column.referencesTable?.toLowerCase() === selectedJoinTable.name.toLowerCase()
+    );
+
+    if (forward?.referencesColumn) {
+      return { left: forward.name, right: forward.referencesColumn };
+    }
+
+    const reverse = selectedJoinTable.columns.find(
+      (column) =>
+        column.foreignKey &&
+        column.referencesTable?.toLowerCase() === selectedTable.name.toLowerCase()
+    );
+
+    if (reverse?.referencesColumn) {
+      return { left: reverse.referencesColumn, right: reverse.name };
+    }
+
+    return null;
+  }, [selectedTable, selectedJoinTable]);
 
   useEffect(() => {
     if (!selectedTable) return;
@@ -43,13 +107,102 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
     }));
   }, [selectedTable, tableName]);
 
+  useEffect(() => {
+    if (!selectedJoinTable) return;
+
+    if (selectedJoinTable.name !== joinTableName) {
+      setJoinTableName(selectedJoinTable.name);
+    }
+
+    setLeftJoinColumn(
+      joinRelationship?.left ??
+      (columns.some((column) => column.name === leftJoinColumn)
+        ? leftJoinColumn
+        : columns[0]?.name ?? "")
+    );
+
+    setRightJoinColumn(
+      joinRelationship?.right ??
+      (joinColumns.some((column) => column.name === rightJoinColumn)
+        ? rightJoinColumn
+        : joinColumns[0]?.name ?? "")
+    );
+  }, [
+    selectedJoinTable,
+    joinTableName,
+    joinRelationship,
+    columns,
+    joinColumns,
+    leftJoinColumn,
+    rightJoinColumn,
+  ]);
+
+  const selectOptions = useMemo(() => {
+    const primary = columns.map((column) => ({
+      value: column.name,
+      label: column.name,
+    }));
+
+    if (!joinEnabled || !selectedJoinTable) return primary;
+
+    return [
+      ...primary,
+      ...joinColumns.map((column) => ({
+        value: selectedJoinTable.name + "." + column.name,
+        label: selectedJoinTable.name + "." + column.name,
+      })),
+    ];
+  }, [columns, joinColumns, joinEnabled, selectedJoinTable]);
+
 
   const generateSQL = () => {
-    const selection = selectedColumns.length ? selectedColumns.join(", ") : "*";
-    const where = whereEnabled && condition.column && condition.value.trim()
-      ? `\nWHERE ${condition.column} ${condition.operator} ${quoteValue(condition.value)};`
-      : ";";
-    onGenerate(`SELECT ${selection}\nFROM ${selectedTable?.name ?? tableName}${where}`);
+    const primaryAlias = "e";
+    const joinAlias = "d";
+
+    const selection = selectedColumns.length
+      ? selectedColumns
+          .map((column) => {
+            if (!joinEnabled) return column;
+            if (column.includes(".")) {
+              const [, name] = column.split(".");
+              return joinAlias + "." + name;
+            }
+            return primaryAlias + "." + column;
+          })
+          .join(", ")
+      : joinEnabled
+        ? primaryAlias + ".*"
+        : "*";
+
+    const fromClause = joinEnabled
+      ? "FROM " + (selectedTable?.name ?? tableName) + " " + primaryAlias
+      : "FROM " + (selectedTable?.name ?? tableName);
+
+    const joinClause =
+      joinEnabled && selectedJoinTable && leftJoinColumn && rightJoinColumn
+        ? "\n" + joinType + " " + selectedJoinTable.name + " " + joinAlias +
+          "\n  ON " + primaryAlias + "." + leftJoinColumn +
+          " = " + joinAlias + "." + rightJoinColumn
+        : "";
+
+    const where =
+      whereEnabled && condition.column && condition.value.trim()
+        ? "\nWHERE " + (joinEnabled ? primaryAlias + "." : "") +
+          condition.column + " " + condition.operator + " " +
+          quoteValue(condition.value) + ";"
+        : ";";
+
+    onGenerate("SELECT " + selection + "\n" + fromClause + joinClause + where);
+  };
+
+  const handleJoinToggle = () => {
+    setJoinEnabled((current) => {
+      const next = !current;
+      if (next && !joinTableName && joinableTables[0]) {
+        setJoinTableName(joinableTables[0].name);
+      }
+      return next;
+    });
   };
 
   return (
@@ -78,8 +231,8 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
                   }}
                   aria-label={`SELECT column ${index + 1}`}
                 >
-                  {columns.map((item) => (
-                    <option key={item.name} value={item.name}>{item.name}</option>
+                  {selectOptions.map((item) => (
+                    <option key={item.value} value={item.value}>{item.label}</option>
                   ))}
                 </select>
                 {selectedColumns.length > 1 && (
@@ -115,6 +268,85 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
             {tables.map((table) => <option key={table.name} value={table.name}>{table.name}</option>)}
           </select>
           <small>Choose the table SQLWhale should read.</small>
+        </div>
+
+        <div className="sqlwhale-builder-arrow">↓</div>
+
+        <div className={`sqlwhale-builder-block sqlwhale-builder-join ${joinEnabled ? "is-enabled" : ""}`}>
+          <div className="sqlwhale-builder-where-heading">
+            <span className="sqlwhale-builder-label">JOIN</span>
+            <button
+              type="button"
+              className="sqlwhale-builder-toggle"
+              onClick={handleJoinToggle}
+              aria-pressed={joinEnabled}
+              disabled={!joinableTables.length}
+            >
+              {joinEnabled ? "Enabled" : "Add JOIN"}
+            </button>
+          </div>
+
+          {joinEnabled ? (
+            <div className="sqlwhale-builder-join-grid">
+              <select
+                value={joinType}
+                onChange={(event) =>
+                  setJoinType(event.target.value as "INNER JOIN" | "LEFT JOIN")
+                }
+                aria-label="JOIN type"
+              >
+                <option value="INNER JOIN">INNER JOIN</option>
+                <option value="LEFT JOIN">LEFT JOIN</option>
+              </select>
+
+              <select
+                value={selectedJoinTable?.name ?? joinTableName}
+                onChange={(event) => setJoinTableName(event.target.value)}
+                aria-label="JOIN table"
+              >
+                {joinableTables.map((table) => (
+                  <option key={table.name} value={table.name}>{table.name}</option>
+                ))}
+              </select>
+
+              <div className="sqlwhale-builder-join-condition">
+                <select
+                  value={leftJoinColumn}
+                  onChange={(event) => setLeftJoinColumn(event.target.value)}
+                  aria-label="Left JOIN column"
+                >
+                  {columns.map((column) => (
+                    <option key={column.name} value={column.name}>
+                      {selectedTable?.name}.{column.name}
+                    </option>
+                  ))}
+                </select>
+
+                <span>=</span>
+
+                <select
+                  value={rightJoinColumn}
+                  onChange={(event) => setRightJoinColumn(event.target.value)}
+                  aria-label="Right JOIN column"
+                >
+                  {joinColumns.map((column) => (
+                    <option key={column.name} value={column.name}>
+                      {selectedJoinTable?.name}.{column.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {joinRelationship && (
+                <div className="sqlwhale-builder-relationship-note">
+                  <span>↔</span>
+                  Relationship detected — this JOIN can light up the database link.
+                </div>
+              )}
+            </div>
+          ) : (
+            <small>Add a JOIN to combine rows from a related table.</small>
+          )}
         </div>
 
         <div className="sqlwhale-builder-arrow">↓</div>
