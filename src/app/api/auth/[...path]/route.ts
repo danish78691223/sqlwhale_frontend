@@ -5,7 +5,29 @@ const BACKEND_URL =
     .replace(/\/+$/, "")
     .replace(/\/api$/i, "");
 
-async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
+function getSetCookieValues(headers: Headers): string[] {
+  const direct =
+    typeof headers.getSetCookie === "function" ? headers.getSetCookie() : [];
+
+  if (direct.length > 0) return direct;
+
+  const combined = headers.get("set-cookie");
+  if (!combined) return [];
+
+  // Node/Next can expose multiple Set-Cookie headers as one combined value.
+  // These auth cookies do not contain comma-separated Expires attributes, so
+  // split only where the next cookie name begins.
+  return combined.split(/,\s*(?=[^;,=\s]+=[^;,]*)/);
+}
+
+function stripCookieDomain(cookieValue: string): string {
+  return cookieValue.replace(/;\s*Domain=[^;]+/gi, "");
+}
+
+async function proxy(
+  request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
+) {
   const { path } = await context.params;
   const suffix = path.join("/");
   const target = new URL(`${BACKEND_URL}/api/auth/${suffix}`);
@@ -41,21 +63,13 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   if (location) responseHeaders.set("location", location);
   responseHeaders.set("cache-control", "no-store");
 
-  // Forward every Set-Cookie value without a Domain attribute. Because this
-  // response is coming from sqlwhalefrontend.vercel.app, the browser stores
-  // the SQLWhale auth/state cookies on the first-party frontend origin.
-  const setCookies =
-    typeof upstream.headers.getSetCookie === "function"
-      ? upstream.headers.getSetCookie()
-      : (() => {
-          const combined = upstream.headers.get("set-cookie");
-          return combined ? combined.split(/, (?=[^;,=]+=[^;,]+)/) : [];
-        })();
-
-  for (const cookieValue of setCookies) {
+  // The browser receives this response from sqlwhalefrontend.vercel.app.
+  // Strip any backend Domain attribute so OAuth/session cookies become
+  // first-party cookies on the SQLWhale frontend origin.
+  for (const cookieValue of getSetCookieValues(upstream.headers)) {
     responseHeaders.append(
       "set-cookie",
-      cookieValue.replace(/;\s*Domain=[^;]+/gi, "")
+      stripCookieDomain(cookieValue)
     );
   }
 
