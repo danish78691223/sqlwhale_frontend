@@ -35,28 +35,52 @@ export default function AccountPage() {
   const [historyLoading, setHistoryLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/auth/me")
-      .then((response) => {
-        if (response.data?.authenticated) {
-          setUser(response.data.user);
-          try {
-            const historyResponse = await api.get("/auth/query-history?limit=50");
+    let mounted = true;
+
+    async function loadAccount() {
+      try {
+        const response = await api.get("/auth/me");
+
+        if (!response.data?.authenticated) {
+          if (mounted) {
+            setHistoryLoading(false);
+            router.replace("/login");
+          }
+          return;
+        }
+
+        if (!mounted) return;
+        setUser(response.data.user);
+
+        try {
+          const historyResponse = await api.get("/auth/query-history?limit=50");
+          if (mounted) {
             setHistory(historyResponse.data?.history || []);
-          } catch (historyError) {
-            console.error("Unable to load query history:", historyError);
-          } finally {
+          }
+        } catch (historyError) {
+          console.error("Unable to load query history:", historyError);
+        } finally {
+          if (mounted) {
             setHistoryLoading(false);
           }
-        } else {
+        }
+      } catch {
+        if (mounted) {
           setHistoryLoading(false);
           router.replace("/login");
         }
-      })
-      .catch(() => {
-        setHistoryLoading(false);
-        router.replace("/login");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadAccount();
+
+    return () => {
+      mounted = false;
+    };
   }, [router]);
 
   async function handleLogout() {
