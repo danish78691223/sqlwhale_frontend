@@ -5,8 +5,6 @@ const BACKEND_URL =
     .replace(/\/+$/, "")
     .replace(/\/api$/i, "");
 
-const AUTH_PREFIX = "/api/auth";
-
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
   const suffix = path.join("/");
