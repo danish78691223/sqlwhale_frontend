@@ -103,9 +103,18 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<{ name: string; email: string; currentPlan: string } | null>(null);
+
+  useEffect(() => {
+    const shouldShowLoader = window.sessionStorage.getItem("sqlwhale_show_home_loader") === "1";
+
+    if (shouldShowLoader) {
+      window.sessionStorage.removeItem("sqlwhale_show_home_loader");
+      setLoading(true);
+    }
+  }, []);
 
   useEffect(() => {
     document.body.classList.toggle("sql-loader-lock", loading);
