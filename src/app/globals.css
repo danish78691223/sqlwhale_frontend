@@ -12010,3 +12010,99 @@ body.sql-loader-lock { overflow: hidden; }
   .account-history-meta { flex-wrap:wrap; }
   .account-history-main code { white-space:normal; overflow:visible; text-overflow:clip; word-break:break-word; }
 }
+
+
+/* SQLWhale personal learning dashboard */
+.account-dashboard-section {
+  margin-top: 28px;
+  padding: 28px;
+  border: 1px solid rgba(120, 220, 255, 0.12);
+  border-radius: 24px;
+  background: rgba(8, 16, 30, 0.72);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.22);
+}
+.account-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 22px;
+}
+.account-stat-card {
+  padding: 18px 16px;
+  border: 1px solid rgba(120, 220, 255, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.account-stat-card span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  opacity: 0.58;
+}
+.account-stat-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 24px;
+}
+.account-progress-panel {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 28px;
+  align-items: center;
+  margin-top: 16px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+}
+.account-progress-copy > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.account-progress-copy span {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  opacity: 0.62;
+}
+.account-progress-copy strong {
+  font-size: 14px;
+}
+.account-progress-track {
+  height: 9px;
+  margin-top: 13px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.account-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #17d7d7, #55aaff);
+  transition: width 0.5s ease;
+}
+.account-progress-note {
+  max-width: 270px;
+  font-size: 12px;
+  line-height: 1.6;
+  opacity: 0.62;
+}
+@media (max-width: 900px) {
+  .account-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 620px) {
+  .account-dashboard-section {
+    padding: 20px;
+  }
+  .account-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .account-progress-panel {
+    grid-template-columns: 1fr;
+  }
+  .account-progress-note {
+    max-width: none;
+  }
+}
