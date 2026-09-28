@@ -29,4 +29,15 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+// Auth calls intentionally use the SQLWhale frontend origin. This keeps
+// OAuth/session cookies first-party in browsers with strict privacy rules.
+export const authApi = axios.create({
+  baseURL: "/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+  withCredentials: true,
+});
+
 export default api;
