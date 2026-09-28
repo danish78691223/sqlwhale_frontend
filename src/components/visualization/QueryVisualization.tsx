@@ -11,9 +11,10 @@ interface QueryVisualizationProps {
   execution?: SQLExecution;
   runId: number;
   onComplete?: () => void;
+  onStageChange?: (stage: VisualStage) => void;
 }
 
-type VisualStage = "scan" | "filter" | "select" | "result";
+type VisualStage = "scan" | "filter" | "join" | "select" | "result";
 const STAGE_DURATION = 1700;
 
 function normalizeQuery(query: string) {
@@ -28,6 +29,29 @@ function getWhereCondition(query: string) {
   return normalizeQuery(query).match(/\bWHERE\s+([\s\S]*?)(?=\s+(?:GROUP\s+BY|ORDER\s+BY|LIMIT|HAVING|UNION)\b|$)/i)?.[1]?.trim();
 }
 
+
+function getJoinTargets(query: string) {
+  const normalized = normalizeQuery(query);
+  const match = normalized.match(/\b(?:INNER\s+JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|FULL\s+JOIN|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?\s+ON\s+([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)\s*=\s*([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)/i);
+  if (!match) return null;
+
+  const fromMatch = normalized.match(/\bFROM\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/i);
+  const aliases = new Map<string, string>();
+  if (fromMatch) {
+    aliases.set(fromMatch[1].toLowerCase(), fromMatch[1]);
+    if (fromMatch[2]) aliases.set(fromMatch[2].toLowerCase(), fromMatch[1]);
+  }
+  aliases.set(match[1].toLowerCase(), match[1]);
+  if (match[2]) aliases.set(match[2].toLowerCase(), match[1]);
+
+  return {
+    joinType: (normalized.match(/\b(INNER\s+JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|FULL\s+JOIN|JOIN)\b/i)?.[1] ?? "JOIN"),
+    leftTable: aliases.get(match[3].toLowerCase()) ?? match[3],
+    leftColumn: match[4],
+    rightTable: aliases.get(match[5].toLowerCase()) ?? match[5],
+    rightColumn: match[6],
+  };
+}
 
 function getWhereColumns(query: string) {
   const condition = getWhereCondition(query);
@@ -118,11 +142,13 @@ export default function QueryVisualization({
   execution,
   runId,
   onComplete,
+  onStageChange,
 }: QueryVisualizationProps) {
   const tableName = getTableName(query);
   const whereCondition = getWhereCondition(query);
   const selectedColumns = useMemo(() => getSelectedColumns(query, result), [query, result]);
   const whereColumns = useMemo(() => getWhereColumns(query), [query]);
+  const joinTargets = useMemo(() => getJoinTargets(query), [query]);
 
   const scanStep = getStep(execution, "scan");
   const filterStep = getStep(execution, "filter");
@@ -130,8 +156,14 @@ export default function QueryVisualization({
 
   const stages = useMemo<VisualStage[]>(() => {
     if (!tableName) return [];
-    return ["scan", ...(whereCondition ? ["filter" as const] : []), "select", "result"];
-  }, [tableName, whereCondition]);
+    return [
+      "scan",
+      ...(whereCondition ? ["filter" as const] : []),
+      ...(joinTargets ? ["join" as const] : []),
+      "select",
+      "result",
+    ];
+  }, [tableName, whereCondition, joinTargets]);
 
   const [stageIndex, setStageIndex] = useState(0);
   const [completedRun, setCompletedRun] = useState<number | null>(null);
@@ -164,6 +196,10 @@ export default function QueryVisualization({
   }, [runId, executed, stages.length, stageIndex, completedRun, onComplete]);
 
   useEffect(() => {
+    onStageChange?.(stages[Math.min(stageIndex, stages.length - 1)]);
+  }, [stageIndex, stages, onStageChange]);
+
+  useEffect(() => {
     document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
     document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => el.classList.remove("sqlwhale-query-column-active"));
 
@@ -177,9 +213,11 @@ export default function QueryVisualization({
     const targetedColumns =
       stages[stageIndex] === "filter"
         ? whereColumns
-        : stages[stageIndex] === "select"
-          ? selectedColumns
-          : [];
+        : stages[stageIndex] === "join" && joinTargets
+          ? [joinTargets.leftColumn, joinTargets.rightColumn]
+          : stages[stageIndex] === "select"
+            ? selectedColumns
+            : [];
 
     targetedColumns.forEach((column) => {
       document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => {
@@ -217,6 +255,8 @@ export default function QueryVisualization({
   const actionText =
     currentStage === "scan" ? "Take the rows from " + tableName + "." :
     currentStage === "filter" ? "Keep only rows where " + whereCondition + "." :
+    currentStage === "join" && joinTargets
+      ? "Connect " + joinTargets.leftTable + "." + joinTargets.leftColumn + " to " + joinTargets.rightTable + "." + joinTargets.rightColumn + "." :
     currentStage === "select" ? "Keep " + (selectedColumns.length ? selectedColumns.join(", ") : "the requested columns") + "." :
     "The transformed data becomes your result.";
 
@@ -234,10 +274,18 @@ export default function QueryVisualization({
         {stages.map((stage, index) => (
           <div key={stage} className={"sqlwhale-visual-stage " + (index === stageIndex ? "is-active " : "") + (index < stageIndex ? "is-done" : "")}>
             <span className="sqlwhale-visual-stage-number">{index < stageIndex ? "✓" : index + 1}</span>
-            <span>{stage === "scan" ? "FROM" : stage === "filter" ? "WHERE" : stage === "select" ? "SELECT" : "RESULT"}</span>
+            <span>{stage === "scan" ? "FROM" : stage === "filter" ? "WHERE" : stage === "join" ? "JOIN" : stage === "select" ? "SELECT" : "RESULT"}</span>
           </div>
         ))}
       </div>
+
+      {currentStage === "join" && joinTargets && (
+        <div className="sqlwhale-join-explanation">
+          <span className="sqlwhale-join-expression">{joinTargets.joinType}</span>
+          <strong>{joinTargets.leftTable}.{joinTargets.leftColumn} = {joinTargets.rightTable}.{joinTargets.rightColumn}</strong>
+          <small>The relationship is being used to connect the two tables.</small>
+        </div>
+      )}
 
       {currentStage === "filter" && (
         <div className="sqlwhale-filter-explanation">
