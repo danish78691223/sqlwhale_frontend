@@ -31,6 +31,7 @@ export default function RunQueryPage() {
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
+  const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(true);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
@@ -133,6 +134,7 @@ export default function RunQueryPage() {
   const handleClear = () => {
     setQuery("");
     setExecutedQuery(null);
+    setQueryAnimationStage(null);
     setAnimationComplete(false);
     clearResult();
   };
