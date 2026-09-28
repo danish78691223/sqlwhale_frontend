@@ -11916,3 +11916,97 @@ body.sql-loader-lock { overflow: hidden; }
     height: 38px;
   }
 }
+
+/* =========================================================
+   SQLWHALE QUERY HISTORY
+========================================================= */
+.account-history-card {
+  position: relative;
+  margin-top: 18px;
+  padding: 28px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 22px;
+  background: linear-gradient(145deg,rgba(17,31,40,.94),rgba(7,20,27,.94));
+  box-shadow: 0 25px 70px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.account-history-header {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+.account-history-header h2 {
+  margin:8px 0 0;
+  color:#f8fafc;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:28px;
+  letter-spacing:-.035em;
+}
+.account-history-count {
+  color:#67e8f9;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
+}
+.account-history-list {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-height:480px;
+  overflow:auto;
+}
+.account-history-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:15px 16px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+}
+.account-history-main {
+  min-width:0;
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  gap:7px;
+}
+.account-history-main code {
+  overflow:hidden;
+  color:#dbeafe;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.account-history-main span {
+  color:#536b78;
+  font-size:9px;
+}
+.account-history-meta {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#617783;
+  font-size:9px;
+  white-space:nowrap;
+}
+.history-success { color:#86efac; font-weight:800; }
+.history-error { color:#fca5a5; font-weight:800; }
+.account-history-empty {
+  padding:35px 18px;
+  border:1px dashed rgba(255,255,255,.09);
+  border-radius:13px;
+  color:#718792;
+  font-size:12px;
+  text-align:center;
+}
+@media (max-width:760px) {
+  .account-history-card { padding:20px; }
+  .account-history-header { align-items:flex-start; flex-direction:column; }
+  .account-history-item { align-items:flex-start; flex-direction:column; gap:10px; }
+  .account-history-meta { flex-wrap:wrap; }
+  .account-history-main code { white-space:normal; overflow:visible; text-overflow:clip; word-break:break-word; }
+}
