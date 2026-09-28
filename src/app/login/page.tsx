@@ -20,6 +20,7 @@ export default function LoginPage() {
 
   function loginWithWebXWhale() {
     setError("");
+    window.sessionStorage.setItem("sqlwhale_show_home_loader", "1");
     setLoading(true);
     window.location.assign(`${API_URL}/auth/webxwhale/start`);
   }
