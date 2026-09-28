@@ -33,6 +33,19 @@ export default function AccountPage() {
   const [loggingOut, setLoggingOut] = useState(false);
   const [history, setHistory] = useState<QueryHistoryItem[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
+  const [dashboard, setDashboard] = useState<{
+    totalQueries: number;
+    successfulQueries: number;
+    failedQueries: number;
+    successRate: number;
+    averageExecutionTimeMs: number;
+    totalRowsReturned: number;
+    completedConcepts: number;
+    totalConcepts: number;
+    progressPercent: number;
+    lastActivity: string | null;
+  } | null>(null);
+  const [dashboardLoading, setDashboardLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
@@ -44,6 +57,7 @@ export default function AccountPage() {
         if (!response.data?.authenticated) {
           if (mounted) {
             setHistoryLoading(false);
+            setDashboardLoading(false);
             router.replace("/login");
           }
           return;
@@ -53,20 +67,26 @@ export default function AccountPage() {
         setUser(response.data.user);
 
         try {
-          const historyResponse = await api.get("/auth/query-history?limit=50");
+          const [historyResponse, dashboardResponse] = await Promise.all([
+            api.get("/auth/query-history?limit=50"),
+            api.get("/auth/learning-dashboard"),
+          ]);
           if (mounted) {
             setHistory(historyResponse.data?.history || []);
+            setDashboard(dashboardResponse.data?.stats || null);
           }
         } catch (historyError) {
-          console.error("Unable to load query history:", historyError);
+          console.error("Unable to load account activity:", historyError);
         } finally {
           if (mounted) {
             setHistoryLoading(false);
+            setDashboardLoading(false);
           }
         }
       } catch {
         if (mounted) {
           setHistoryLoading(false);
+          setDashboardLoading(false);
           router.replace("/login");
         }
       } finally {
@@ -191,6 +211,52 @@ export default function AccountPage() {
             </div>
           </section>
         </div>
+
+        <section className="account-dashboard-section">
+          <div className="account-history-header">
+            <div>
+              <span className="account-card-label">LEARNING DASHBOARD</span>
+              <h2>Your SQLWhale progress</h2>
+            </div>
+            {dashboard && (
+              <span className="account-history-count">
+                {dashboard.progressPercent}% learning progress
+              </span>
+            )}
+          </div>
+
+          {dashboardLoading ? (
+            <div className="account-history-empty">Loading your learning stats...</div>
+          ) : dashboard ? (
+            <>
+              <div className="account-stat-grid">
+                <div className="account-stat-card"><span>TOTAL QUERIES</span><strong>{dashboard.totalQueries}</strong></div>
+                <div className="account-stat-card"><span>SUCCESSFUL</span><strong>{dashboard.successfulQueries}</strong></div>
+                <div className="account-stat-card"><span>FAILED</span><strong>{dashboard.failedQueries}</strong></div>
+                <div className="account-stat-card"><span>SUCCESS RATE</span><strong>{dashboard.successRate}%</strong></div>
+                <div className="account-stat-card"><span>AVG. EXECUTION</span><strong>{dashboard.averageExecutionTimeMs} ms</strong></div>
+                <div className="account-stat-card"><span>ROWS RETURNED</span><strong>{dashboard.totalRowsReturned}</strong></div>
+              </div>
+
+              <div className="account-progress-panel">
+                <div className="account-progress-copy">
+                  <div>
+                    <span>UNDERSTAND CONCEPTS</span>
+                    <strong>{dashboard.completedConcepts} / {dashboard.totalConcepts}</strong>
+                  </div>
+                  <div className="account-progress-track">
+                    <span style={{ width: `${dashboard.progressPercent}%` }} />
+                  </div>
+                </div>
+                <div className="account-progress-note">
+                  {dashboard.completedConcepts === 0
+                    ? "Start an Understand section to build your learning progress."
+                    : "Keep exploring SQL concepts to complete your learning path."}
+                </div>
+              </div>
+            </>
+          ) : null}
+        </section>
 
         <section className="account-history-card">
           <div className="account-history-header">
