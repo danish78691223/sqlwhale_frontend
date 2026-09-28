@@ -301,6 +301,7 @@ export default function RunQueryPage() {
               tables={tables}
               activeSqlTarget={activeSqlTarget}
               executedQuery={executedQuery}
+              queryAnimationStage={queryAnimationStage}
             />
           )}
         </section>
@@ -330,6 +331,7 @@ export default function RunQueryPage() {
               execution={data?.execution}
               runId={animationRunId}
               onComplete={() => setAnimationComplete(true)}
+              onStageChange={setQueryAnimationStage}
             />
 
             {loading ? (
