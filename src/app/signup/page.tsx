@@ -3,59 +3,71 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
-const API_URL =
-  (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api").replace(/\/$/, "");
+import { api } from "@/services/api";
 
 export default function SignupPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [webLoading, setWebLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function signupLocal() {
+    setError("");
+    setLoading(true);
+    try {
+      await api.post("/auth/local/signup", { name, email, password });
+      window.sessionStorage.setItem("sqlwhale_show_home_loader", "1");
+      window.location.assign("/");
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to create SQLWhale account.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function signupWithWebXWhale() {
-    setLoading(true);
-    window.location.assign(`${API_URL}/auth/webxwhale/start?screen=signup`);
+    setError("");
+    setWebLoading(true);
+    window.location.assign(`${process.env.NEXT_PUBLIC_API_URL}/auth/webxwhale/start?screen=signup`);
   }
 
   return (
     <main className="auth-page">
-      <div className="auth-grid" aria-hidden="true" />
-      <div className="auth-orb auth-orb-one" aria-hidden="true" />
-      <div className="auth-orb auth-orb-two" aria-hidden="true" />
-
-      <div className="auth-shell">
+      <div className="auth-shell auth-simple-shell">
         <Link href="/" className="auth-brand">
           <span className="auth-logo-wrap">
-            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={52} height={52} priority />
+            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={46} height={46} priority />
           </span>
           <span className="auth-brand-text"><strong>SQL</strong>Whale</span>
         </Link>
 
-        <section className="auth-card auth-card-signup">
-          <div className="auth-card-glow" aria-hidden="true" />
-          <div className="auth-eyebrow"><span /> JOIN SQLWHALE</div>
-          <h1>Create your account</h1>
-          <p className="auth-intro">Create one <strong>WEBXWHALE</strong> identity and use it across SQLWhale and future products.</p>
+        <section className="auth-card auth-simple-card">
+          <h1>Create SQLWhale account</h1>
+          <p className="auth-intro">Create a SQLWhale-only account or use WEBXWHALE.</p>
 
-          <button type="button" onClick={signupWithWebXWhale} disabled={loading} className="webx-auth-button">
+          {error ? <div className="auth-error" role="alert">{error}</div> : null}
+
+          <div className="local-auth-form">
+            <label>Name<input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" /></label>
+            <label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" /></label>
+            <label>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Minimum 8 characters" /></label>
+            <button type="button" className="auth-primary-button" onClick={signupLocal} disabled={loading || webLoading}>
+              {loading ? "Creating..." : "Create SQLWhale account"}
+            </button>
+          </div>
+
+          <div className="auth-divider"><span>OR</span></div>
+
+          <button type="button" className="webx-auth-button webx-simple-button" onClick={signupWithWebXWhale} disabled={loading || webLoading}>
             <span className="webx-icon">W</span>
-            <span className="webx-button-copy">
-              <strong>{loading ? "Connecting..." : "Sign up with WEBXWHALE"}</strong>
-              <small>Create your central account</small>
-            </span>
-            <span className="webx-arrow">↗</span>
+            <span>{webLoading ? "Connecting..." : "Sign up with WEBXWHALE"}</span>
           </button>
 
-          <div className="auth-divider"><span>CENTRAL IDENTITY</span></div>
-
-          <p className="auth-switch">
-            Already have an account?{" "}
-            <Link href="/login">Login with WEBXWHALE <span>↗</span></Link>
-          </p>
+          <p className="auth-switch">Already have a SQLWhale account? <Link href="/login">Login here</Link></p>
+          <p className="auth-switch">WEBXWHALE account creates one identity for supported products.</p>
         </section>
-
-        <div className="auth-trust">
-          <span className="auth-lock">◆</span>
-          <span>Your WEBXWHALE password stays with the central identity service.</span>
-        </div>
 
         <Link href="/" className="auth-back">← Back to SQLWhale</Link>
       </div>
