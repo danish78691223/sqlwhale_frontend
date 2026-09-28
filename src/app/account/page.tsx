@@ -44,6 +44,7 @@ export default function AccountPage() {
     totalConcepts: number;
     progressPercent: number;
     lastActivity: string | null;
+    learningStreak: number;
   } | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
 
@@ -236,6 +237,18 @@ export default function AccountPage() {
                 <div className="account-stat-card"><span>SUCCESS RATE</span><strong>{dashboard.successRate}%</strong></div>
                 <div className="account-stat-card"><span>AVG. EXECUTION</span><strong>{dashboard.averageExecutionTimeMs} ms</strong></div>
                 <div className="account-stat-card"><span>ROWS RETURNED</span><strong>{dashboard.totalRowsReturned}</strong></div>
+                <div className="account-stat-card"><span>LEARNING STREAK</span><strong>{dashboard.learningStreak} day{dashboard.learningStreak === 1 ? "" : "s"}</strong></div>
+              </div>
+
+              <div className="account-learning-highlights">
+                <div>
+                  <span>LAST ACTIVITY</span>
+                  <strong>{dashboard.lastActivity ? new Date(dashboard.lastActivity + "Z").toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" }) : "No activity yet"}</strong>
+                </div>
+                <div>
+                  <span>LEARNING STREAK</span>
+                  <strong>{dashboard.learningStreak} day{dashboard.learningStreak === 1 ? "" : "s"}</strong>
+                </div>
               </div>
 
               <div className="account-progress-panel">
