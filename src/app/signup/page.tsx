@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { api } from "@/services/api";
+import { api, authApi } from "@/services/api";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -17,7 +17,7 @@ export default function SignupPage() {
     setError("");
     setLoading(true);
     try {
-      await api.post("/auth/local/signup", { name, email, password });
+      await authApi.post("/auth/local/signup", { name, email, password });
       window.sessionStorage.setItem("sqlwhale_show_home_loader", "1");
       window.location.assign("/");
     } catch (err: any) {
@@ -30,7 +30,7 @@ export default function SignupPage() {
   function signupWithWebXWhale() {
     setError("");
     setWebLoading(true);
-    window.location.assign(`${process.env.NEXT_PUBLIC_API_URL}/auth/webxwhale/start?screen=signup`);
+    window.location.assign("/api/auth/webxwhale/start?screen=signup");
   }
 
   return (
