@@ -47,12 +47,15 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
   const setCookies =
     typeof upstream.headers.getSetCookie === "function"
       ? upstream.headers.getSetCookie()
-      : [];
+      : (() => {
+          const combined = upstream.headers.get("set-cookie");
+          return combined ? combined.split(/, (?=[^;,=]+=[^;,]+)/) : [];
+        })();
 
   for (const cookieValue of setCookies) {
     responseHeaders.append(
       "set-cookie",
-      cookieValue.replace(/;\\s*Domain=[^;]+/gi, "")
+      cookieValue.replace(/;\s*Domain=[^;]+/gi, "")
     );
   }
 
