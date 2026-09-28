@@ -11859,3 +11859,60 @@ body.sql-loader-lock { overflow: hidden; }
   .account-primary-action,.account-logout-action { justify-content:center;text-align:center; }
   .account-footer-note { flex-direction:column;align-items:flex-start;gap:7px; }
 }
+
+
+/* =========================================================
+   MOBILE HOME NAVBAR — COMPACT HEADER
+   Keep only the SQLWhale brand and hamburger on small screens.
+========================================================= */
+@media (max-width: 760px) {
+  .sqlwhale-navbar .navbar-inner {
+    min-height: 64px;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+
+  .sqlwhale-navbar .navbar-links,
+  .sqlwhale-navbar .navbar-auth-actions,
+  .sqlwhale-navbar .buy-coffee-btn {
+    display: none !important;
+  }
+
+  .sqlwhale-navbar .sqlwhale-logo {
+    min-width: 0;
+    flex: 1 1 auto;
+    font-size: 20px;
+  }
+
+  .sqlwhale-navbar .sqlwhale-logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sqlwhale-navbar .mobile-menu-button {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    flex: 0 0 42px;
+  }
+
+  .sqlwhale-navbar .mobile-menu {
+    display: block;
+  }
+}
+
+@media (max-width: 420px) {
+  .sqlwhale-navbar .navbar-inner {
+    padding: 8px 12px;
+  }
+
+  .sqlwhale-navbar .sqlwhale-logo {
+    font-size: 19px;
+  }
+
+  .sqlwhale-navbar .sqlwhale-logo-image {
+    width: 38px;
+    height: 38px;
+  }
+}
