@@ -3,22 +3,20 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 const API_URL =
   (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api").replace(/\/$/, "");
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const reason = searchParams.get("error");
+    const reason = new URLSearchParams(window.location.search).get("error");
     if (reason === "oauth_cancelled") setError("WEBXWHALE login was cancelled.");
     if (reason === "oauth_failed") setError("WEBXWHALE login could not be completed. Please try again.");
     if (reason === "missing_code") setError("WEBXWHALE did not return an authorization code.");
-  }, [searchParams]);
+  }, []);
 
   function loginWithWebXWhale() {
     setError("");
