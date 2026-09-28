@@ -12159,3 +12159,76 @@ body.sql-loader-lock { overflow: hidden; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Simple SQLWhale authentication */
+.auth-simple-shell {
+  width: min(100% - 32px, 460px);
+}
+.auth-simple-card {
+  padding: 32px;
+}
+.auth-simple-card h1 {
+  margin: 0;
+  font-size: 28px;
+}
+.local-auth-form {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+.local-auth-form label {
+  display: grid;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.local-auth-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 13px;
+  border: 1px solid rgba(80, 210, 220, 0.18);
+  border-radius: 10px;
+  background: rgba(5, 12, 24, 0.7);
+  color: inherit;
+  outline: none;
+}
+.local-auth-form input:focus {
+  border-color: rgba(80, 210, 220, 0.55);
+}
+.auth-primary-button,
+.webx-simple-button {
+  width: 100%;
+  min-height: 46px;
+  border-radius: 10px;
+}
+.auth-primary-button {
+  border: 0;
+  background: linear-gradient(90deg, #17cfd3, #4e9cff);
+  color: #04101c;
+  font-weight: 700;
+  cursor: pointer;
+}
+.auth-primary-button:disabled,
+.webx-simple-button:disabled {
+  opacity: .65;
+  cursor: default;
+}
+.webx-simple-button {
+  justify-content: center;
+  border: 1px solid rgba(80, 210, 220, 0.2);
+}
+.auth-simple-card .auth-divider {
+  margin: 22px 0;
+}
+.auth-simple-card .auth-switch {
+  margin-top: 16px;
+}
+@media (max-width: 520px) {
+  .auth-simple-shell {
+    width: min(100% - 20px, 460px);
+  }
+  .auth-simple-card {
+    padding: 24px 18px;
+  }
+}
