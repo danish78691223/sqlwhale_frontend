@@ -1932,7 +1932,53 @@
 }
 
 
-.navbar-auth-actions {\n  display: inline-flex;\n  align-items: center;\n  gap: 8px;\n  flex-shrink: 0;\n}\n\n.navbar-login-btn,\n.navbar-signup-btn {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-height: 40px;\n  padding: 0 16px;\n  border-radius: 10px;\n  text-decoration: none;\n  font-size: 13px;\n  font-weight: 700;\n  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;\n}\n\n.navbar-login-btn {\n  border: 1px solid #cbd5e1;\n  background: rgba(255, 255, 255, 0.72);\n  color: #334155;\n}\n\n.navbar-login-btn:hover {\n  border-color: #2563eb;\n  color: #2563eb;\n  transform: translateY(-1px);\n}\n\n.navbar-signup-btn {\n  border: 1px solid #2563eb;\n  background: #2563eb;\n  color: #ffffff;\n  box-shadow: 0 5px 16px rgba(37, 99, 235, 0.18);\n}\n\n.navbar-signup-btn:hover {\n  background: #1d4ed8;\n  border-color: #1d4ed8;\n  transform: translateY(-1px);\n}\n\n/* =========================================================
+.navbar-auth-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.navbar-login-btn,
+.navbar-signup-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.navbar-login-btn {
+  border: 1px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.72);
+  color: #334155;
+}
+
+.navbar-login-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.navbar-signup-btn {
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 5px 16px rgba(37, 99, 235, 0.18);
+}
+
+.navbar-signup-btn:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
    MOBILE MENU BUTTON
 ========================================================= */
 
