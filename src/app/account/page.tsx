@@ -39,13 +39,23 @@ export default function AccountPage() {
       .then((response) => {
         if (response.data?.authenticated) {
           setUser(response.data.user);
-          const historyResponse = await api.get("/auth/query-history?limit=50");
-          setHistory(historyResponse.data?.history || []);
+          try {
+            const historyResponse = await api.get("/auth/query-history?limit=50");
+            setHistory(historyResponse.data?.history || []);
+          } catch (historyError) {
+            console.error("Unable to load query history:", historyError);
+          } finally {
+            setHistoryLoading(false);
+          }
         } else {
+          setHistoryLoading(false);
           router.replace("/login");
         }
       })
-      .catch(() => router.replace("/login"))
+      .catch(() => {
+        setHistoryLoading(false);
+        router.replace("/login");
+      })
       .finally(() => setLoading(false));
   }, [router]);
 
