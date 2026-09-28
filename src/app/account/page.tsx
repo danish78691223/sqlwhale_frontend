@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { api } from "@/services/api";
+import { api, authApi } from "@/services/api";
 
 type User = {
   id: number;
@@ -53,7 +53,7 @@ export default function AccountPage() {
 
     async function loadAccount() {
       try {
-        const response = await api.get("/auth/me");
+        const response = await authApi.get("/auth/me");
 
         if (!response.data?.authenticated) {
           if (mounted) {
@@ -107,7 +107,7 @@ export default function AccountPage() {
   async function handleLogout() {
     setLoggingOut(true);
     try {
-      await api.post("/auth/logout");
+      await authApi.post("/auth/logout");
     } finally {
       router.replace("/");
       router.refresh();
