@@ -33,6 +33,7 @@ interface DatabaseCanvasProps {
   tables: DatabaseTableType[];
   activeSqlTarget?: SQLCursorTarget | null;
   executedQuery?: string | null;
+  queryAnimationStage?: string | null;
 }
 
 interface SQLCursorTarget {
@@ -286,6 +287,7 @@ export default function DatabaseCanvas({
   tables,
   activeSqlTarget = null,
   executedQuery = null,
+  queryAnimationStage = null,
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -334,7 +336,12 @@ export default function DatabaseCanvas({
         const targetColumn = String(edge.data?.targetColumn ?? "");
         const sourceKey = sourceTable.toLowerCase() + "." + sourceColumn.toLowerCase();
         const targetKey = targetTable.toLowerCase() + "." + targetColumn.toLowerCase();
-        const queryActive = usedColumns.has(sourceKey) && usedColumns.has(targetKey);
+        const joinStageActive =
+        queryAnimationStage === "join" || queryAnimationStage === "result";
+      const queryActive =
+        joinStageActive &&
+        usedColumns.has(sourceKey) &&
+        usedColumns.has(targetKey);
 
         return {
           ...edge,
@@ -342,7 +349,7 @@ export default function DatabaseCanvas({
         };
       })
     );
-  }, [executedQuery, setEdges]);
+  }, [executedQuery, queryAnimationStage, setEdges]);
 
   useEffect(() => {
     setEdges((current) =>
