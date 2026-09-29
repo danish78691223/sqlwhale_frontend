@@ -166,7 +166,16 @@ export default function RunQueryPage() {
       }
       return Boolean(response.success);
     } catch (editError) {
-      window.alert(editError instanceof Error ? editError.message : "Unable to execute SQL.");
+      if (axios.isAxiosError(editError)) {
+        const serverError =
+          editError.response?.data?.error ||
+          editError.response?.data?.message ||
+          editError.message;
+        console.error("SQLWhale edit SQL failed:", editError.response?.data || editError);
+        window.alert("SQL update failed: " + serverError);
+      } else {
+        window.alert(editError instanceof Error ? editError.message : "Unable to execute SQL.");
+      }
       return false;
     }
   };
