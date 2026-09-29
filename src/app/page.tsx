@@ -172,24 +172,18 @@ export default function Home() {
             <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>
           </nav>
           <div className="navbar-auth-actions">
-            {authLoading ? (
-              <span className="navbar-auth-loading">Checking...</span>
-            ) : user ? (
-              <>
-                <Link href="/account" className="navbar-account-btn" title={user.email}>
-                  <span className="navbar-account-dot" />
-                  <span>{user.name || "Account"}</span>
-                </Link>
-                <button type="button" className="navbar-logout-btn" onClick={handleLogout}>Logout</button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="navbar-login-btn">Login</Link>
-                <Link href="/signup" className="navbar-signup-btn">Sign Up</Link>
-              </>
-            )}
+            {!authLoading && user ? (
+              <Link href="/account" className="navbar-profile-btn" title={user.email} aria-label="Open SQLWhale Profile">
+                <span className="navbar-profile-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <circle cx="12" cy="8" r="3.2" />
+                    <path d="M5.5 19.2c.9-3.2 3.1-4.8 6.5-4.8s5.6 1.6 6.5 4.8" strokeLinecap="round" />
+                  </svg>
+                </span>
+                <span>Profile</span>
+              </Link>
+            ) : null}
           </div>
-          <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="buy-coffee-btn"><span className="coffee-icon">☕</span><span>Support SQLWhale</span></a>
           <button type="button" className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`} onClick={() => setMobileMenuOpen((prev) => !prev)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}><span /><span /><span /></button>
         </div>
         <div className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}>
@@ -201,7 +195,7 @@ export default function Home() {
             <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</Link>
             {!authLoading && user ? (
               <>
-                <Link href="/account" className="mobile-nav-link mobile-account-label" onClick={() => setMobileMenuOpen(false)}><span>06</span>{user.name || "Account"}</Link>
+                <Link href="/account" className="mobile-nav-link mobile-account-label" onClick={() => setMobileMenuOpen(false)}><span>06</span>Profile</Link>
                 <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>07</span>Logout</button>
               </>
             ) : !authLoading ? (
