@@ -81,13 +81,13 @@ function getWhyClauses(query: string): WhyClause[] {
   const normalized = normalizeQuery(query);
   const clauses: WhyClause[] = [];
   const patterns: Array<[WhyClause, RegExp]> = [
-    ["SELECT", /^SELECT\\b/i],
-    ["FROM", /\\bFROM\\b/i],
-    ["WHERE", /\\bWHERE\\b/i],
-    ["GROUP BY", /\\bGROUP\\s+BY\\b/i],
-    ["HAVING", /\\bHAVING\\b/i],
-    ["ORDER BY", /\\bORDER\\s+BY\\b/i],
-    ["JOIN", /\\b(?:INNER|LEFT|RIGHT|FULL|CROSS)?\\s*JOIN\\b/i],
+    ["SELECT", /^SELECT\b/i],
+    ["FROM", /\bFROM\b/i],
+    ["WHERE", /\bWHERE\b/i],
+    ["GROUP BY", /\bGROUP\s+BY\b/i],
+    ["HAVING", /\bHAVING\b/i],
+    ["ORDER BY", /\bORDER\s+BY\b/i],
+    ["JOIN", /\b(?:INNER|LEFT|RIGHT|FULL|CROSS)?\s*JOIN\b/i],
   ];
 
   patterns.forEach(([clause, pattern]) => {
