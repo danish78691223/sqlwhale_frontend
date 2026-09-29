@@ -12318,3 +12318,48 @@ body.sql-loader-lock { overflow: hidden; }
     padding: 24px 18px;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE STANDALONE AUTH — LIGHT UI
+========================================================= */
+.sqlwhale-light-auth {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: linear-gradient(180deg, #f7fcff 0%, #eef9fb 100%);
+  color: #18313a;
+}
+.sqlwhale-light-auth .auth-shell { width: min(100%, 460px); }
+.sqlwhale-light-auth .auth-brand { color: #18313a; }
+.sqlwhale-light-auth .auth-brand-text strong { color: #159da5; }
+.sqlwhale-light-auth .auth-card {
+  border: 1px solid #d9edf0;
+  border-radius: 18px;
+  background: rgba(255,255,255,.96);
+  box-shadow: 0 18px 50px rgba(28,91,103,.10);
+  backdrop-filter: none;
+}
+.sqlwhale-light-auth .auth-eyebrow { color: #168f99; }
+.sqlwhale-light-auth .auth-eyebrow span { background: #19aab3; box-shadow: none; }
+.sqlwhale-light-auth .auth-card h1 { color: #17343d; font-family: var(--font-geist-sans), Arial, sans-serif; font-size: 30px; letter-spacing: -.035em; }
+.sqlwhale-light-auth .auth-intro { color: #68818a; }
+.sqlwhale-light-auth .local-auth-form label { color: #35545d; }
+.sqlwhale-light-auth .local-auth-form input {
+  border: 1px solid #cfe4e8;
+  background: #fbfeff;
+  color: #17343d;
+  box-shadow: none;
+}
+.sqlwhale-light-auth .local-auth-form input::placeholder { color: #9aadb3; }
+.sqlwhale-light-auth .local-auth-form input:focus { border-color: #45b9c0; box-shadow: 0 0 0 3px rgba(69,185,192,.12); }
+.sqlwhale-light-auth .auth-primary-button { background: #159da5; color: #fff; box-shadow: 0 8px 20px rgba(21,157,165,.18); }
+.sqlwhale-light-auth .auth-primary-button:hover:not(:disabled) { background: #118b93; }
+.sqlwhale-light-auth .auth-switch { color: #718991; }
+.sqlwhale-light-auth .auth-switch a { color: #138f98; }
+.sqlwhale-light-auth .auth-switch a:hover { color: #08757d; }
+.sqlwhale-light-auth .auth-error { border-color: #f2caca; background: #fff5f5; color: #a53f3f; }
+.sqlwhale-light-auth .auth-back { color: #708990; }
+.sqlwhale-light-auth .auth-back:hover { color: #138f98; }
+@media (max-width:520px) { .sqlwhale-light-auth { padding: 24px 12px; } .sqlwhale-light-auth .auth-simple-card { padding: 24px 20px; } }
