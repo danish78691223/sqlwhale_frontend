@@ -8,7 +8,7 @@ import { api, authApi } from "@/services/api";
 
 type User = {
   id: number;
-  webxwhaleUserId: string;
+  localUserId: string;
   name: string;
   email: string;
   role: string;
@@ -161,7 +161,7 @@ export default function AccountPage() {
         <div className="account-heading">
           <div className="account-eyebrow"><span /> YOUR SQLWHALE ACCOUNT</div>
           <h1>Welcome, <em>{user.name}</em>.</h1>
-          <p>Your WEBXWHALE identity is connected and ready across SQLWhale.</p>
+          <p>Your separate SQLWhale account is ready.</p>
         </div>
 
         <div className="account-layout">
@@ -192,23 +192,10 @@ export default function AccountPage() {
 
           <section className="account-card account-central-card">
             <div className="account-card-header">
-              <span className="account-card-label">CENTRAL IDENTITY</span>
-              <span className="account-webx">WEBXWHALE</span>
+              <span className="account-card-label">SQLWHALE ACCOUNT</span>
             </div>
 
-            <div className="central-identity-mark">W</div>
-            <h2>WEBXWHALE Identity</h2>
-            <p>
-              This account is authenticated through WEBXWHALE. Your SQLWhale
-              session is linked to the same central identity.
-            </p>
-
-            <div className="identity-status">
-              <span className="identity-status-dot" />
-              <div>
-                <strong>Identity connected</strong>
-                <span>SSO authentication is active</span>
-              </div>
+            <div className="central-identity-mark sqlwhale-account-mark">SQL</div><h2>Independent SQLWhale Account</h2><p>Your SQLWhale login, session, learning progress and query history are stored independently from WEBXWHALE.</p><div className="identity-status sqlwhale-account-status"><span className="identity-status-dot" /><div><strong>SQLWhale account active</strong><span>Standalone authentication is active</span></div></div>
             </div>
           </section>
         </div>
@@ -325,10 +312,7 @@ export default function AccountPage() {
           </button>
         </div>
 
-        <div className="account-footer-note">
-          <span>WEBXWHALE SSO</span>
-          <p>One central identity. Separate product experiences.</p>
-        </div>
+        <div className="account-footer-note"><span>SQLWHALE ACCOUNT</span><p>Independent account and learning data.</p></div>
       </section>
     </main>
   );
