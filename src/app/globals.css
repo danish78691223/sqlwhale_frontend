@@ -3456,6 +3456,13 @@
     transform 0.2s ease;
 }
 
+.run-feedback-button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
 .run-nav-link:hover {
   color: #2563eb;
 
@@ -3652,6 +3659,15 @@
     color 0.2s ease,
     padding-left 0.2s ease,
     background 0.2s ease;
+}
+
+.run-mobile-feedback-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
 }
 
 .run-mobile-nav-link:hover {
