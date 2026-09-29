@@ -12752,3 +12752,300 @@ body.sql-loader-lock { overflow: hidden; }
 .sqlwhale-feedback-modal form>button[type=submit]:disabled{opacity:.5;cursor:not-allowed}
 .sqlwhale-feedback-result{margin:4px 0 0;padding:10px 12px;border-radius:10px;background:#f3f3f3;font-size:13px}
 @media(max-width:600px){.sqlwhale-feedback-trigger{right:14px;bottom:14px}.sqlwhale-feedback-modal{padding:24px;border-radius:18px}}
+
+/* =========================================================
+   SQLWHALE TABLE EDITOR
+========================================================= */
+.sql-table-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.sql-table-edit-button {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 7px;
+  background: rgba(255,255,255,.12);
+  color: inherit;
+  cursor: pointer;
+  transition: .18s ease;
+}
+.sql-table-edit-button:hover {
+  background: rgba(255,255,255,.24);
+  transform: translateY(-1px);
+}
+.sqlwhale-edit-canvas-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 8, 23, .62);
+  backdrop-filter: blur(7px);
+}
+.sqlwhale-edit-canvas {
+  width: min(1180px, 100%);
+  max-height: min(820px, calc(100vh - 48px));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d9e3ed;
+  border-radius: 20px;
+  background: #f8fafc;
+  color: #172033;
+  box-shadow: 0 30px 100px rgba(0,0,0,.32);
+}
+.sqlwhale-edit-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+}
+.sqlwhale-edit-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #0f9da8;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.sqlwhale-edit-header h2 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -.03em;
+}
+.sqlwhale-edit-header p {
+  margin: 5px 0 0;
+  color: #64748b;
+  font-size: 11px;
+}
+.sqlwhale-edit-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #dbe3ec;
+  border-radius: 9px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+}
+.sqlwhale-edit-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.sqlwhale-edit-locked {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #475569;
+  font-size: 11px;
+}
+.sqlwhale-edit-locked svg { color: #94a3b8; }
+.sqlwhale-edit-locked span {
+  padding-left: 6px;
+  color: #94a3b8;
+  font-size: 9px;
+}
+.sqlwhale-edit-add-row,
+.sqlwhale-edit-add-row-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #334155;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.sqlwhale-edit-add-row { padding: 7px 10px; }
+.sqlwhale-edit-grid-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 18px 24px;
+}
+.sqlwhale-edit-grid {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #dce5ee;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  font-size: 11px;
+}
+.sqlwhale-edit-grid th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 10px 11px;
+  border-bottom: 1px solid #dce5ee;
+  background: #f1f5f9;
+  color: #334155;
+  text-align: left;
+}
+.sqlwhale-edit-grid th span,
+.sqlwhale-edit-grid th small {
+  display: block;
+}
+.sqlwhale-edit-grid th small {
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 8px;
+  font-weight: 600;
+}
+.sqlwhale-edit-grid td {
+  padding: 5px;
+  border-bottom: 1px solid #edf2f7;
+  border-right: 1px solid #edf2f7;
+  max-width: 240px;
+}
+.sqlwhale-edit-grid tbody tr:last-child td { border-bottom: 0; }
+.sqlwhale-edit-cell {
+  width: 100%;
+  min-height: 30px;
+  padding: 6px 7px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #334155;
+  text-align: left;
+  cursor: text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sqlwhale-edit-cell:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+.sqlwhale-edit-grid td input {
+  width: 100%;
+  min-width: 80px;
+  box-sizing: border-box;
+  padding: 7px 8px;
+  border: 1px solid #14b8a6;
+  border-radius: 6px;
+  outline: none;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+}
+.sqlwhale-edit-row-actions {
+  width: 48px;
+  text-align: center;
+}
+.sqlwhale-edit-row-actions button {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.sqlwhale-edit-row-actions button:hover {
+  background: #fef2f2;
+  color: #ef4444;
+}
+.sqlwhale-edit-new-row td {
+  background: #f8fafc;
+}
+.sqlwhale-edit-add-row-inline {
+  padding: 7px 9px;
+  border-color: #99f6e4;
+  background: #f0fdfa;
+  color: #0f766e;
+}
+.sqlwhale-edit-bottom {
+  padding: 13px 24px 18px;
+  border-top: 1px solid #e2e8f0;
+  background: #fff;
+}
+.sqlwhale-edit-tip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #64748b;
+  font-size: 10px;
+}
+.sqlwhale-edit-tip svg { color: #0f9da8; flex: 0 0 auto; }
+.sqlwhale-edit-sql-preview {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  overflow: auto;
+  border-radius: 9px;
+  background: #0f172a;
+  color: #d1fae5;
+  font: 10px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.sqlwhale-edit-status {
+  margin-top: 8px;
+  color: #0f766e;
+  font-size: 10px;
+  font-weight: 700;
+}
+.sqlwhale-edit-empty {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  color: #64748b;
+  font-size: 12px;
+}
+.dark .sqlwhale-edit-canvas {
+  border-color: #334155;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+.dark .sqlwhale-edit-header,
+.dark .sqlwhale-edit-bottom {
+  border-color: #263449;
+  background: #111c2d;
+}
+.dark .sqlwhale-edit-toolbar,
+.dark .sqlwhale-edit-grid td {
+  border-color: #263449;
+}
+.dark .sqlwhale-edit-header p,
+.dark .sqlwhale-edit-tip,
+.dark .sqlwhale-edit-locked span { color: #94a3b8; }
+.dark .sqlwhale-edit-close,
+.dark .sqlwhale-edit-add-row,
+.dark .sqlwhale-edit-grid {
+  border-color: #334155;
+  background: #162235;
+  color: #e2e8f0;
+}
+.dark .sqlwhale-edit-grid th { background: #1e293b; color: #e2e8f0; border-color: #334155; }
+.dark .sqlwhale-edit-grid td { border-color: #263449; }
+.dark .sqlwhale-edit-cell { color: #cbd5e1; }
+.dark .sqlwhale-edit-cell:hover { border-color: #475569; background: #1e293b; }
+.dark .sqlwhale-edit-grid td input { border-color: #14b8a6; background: #0f172a; color: #e2e8f0; }
+.dark .sqlwhale-edit-new-row td { background: #111c2d; }
+@media (max-width: 760px) {
+  .sqlwhale-edit-canvas-backdrop { padding: 10px; }
+  .sqlwhale-edit-canvas { max-height: calc(100vh - 20px); border-radius: 15px; }
+  .sqlwhale-edit-header { padding: 17px; }
+  .sqlwhale-edit-toolbar { padding: 10px 17px; }
+  .sqlwhale-edit-grid-wrap { padding: 12px 17px; }
+  .sqlwhale-edit-bottom { padding: 12px 17px 15px; }
+}
