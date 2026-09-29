@@ -21,6 +21,8 @@ export default function FeedbackWidget() {
   const [result, setResult] = useState("");
 
   useEffect(() => {
+    const openFeedback = () => setOpen(true);
+    window.addEventListener("sqlwhale:open-feedback", openFeedback);
     let active = true;
     authApi.get("/auth/me")
       .then((response) => {
@@ -29,7 +31,10 @@ export default function FeedbackWidget() {
       .catch(() => {
         if (active) setUser(null);
       });
-    return () => { active = false; };
+    return () => {
+      active = false;
+      window.removeEventListener("sqlwhale:open-feedback", openFeedback);
+    };
   }, []);
 
   if (!user) return null;
@@ -73,16 +78,7 @@ export default function FeedbackWidget() {
 
   return (
     <>
-      <button
-        type="button"
-        className="sqlwhale-feedback-trigger"
-        onClick={() => { setOpen(true); setResult(""); }}
-        aria-label="Give feedback"
-      >
-        Feedback
-      </button>
-
-      {open && (
+   {open && (
         <div className="sqlwhale-feedback-backdrop" onClick={() => setOpen(false)}>
           <section className="sqlwhale-feedback-modal" onClick={(event) => event.stopPropagation()}>
             <button className="sqlwhale-feedback-close" onClick={() => setOpen(false)} aria-label="Close">×</button>
