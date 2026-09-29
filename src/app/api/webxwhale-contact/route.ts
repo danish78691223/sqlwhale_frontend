@@ -16,6 +16,7 @@ export async function POST(request: Request) {
         email: body?.email,
         service: body?.service,
         message: body?.message,
+        source: "SQLWHALE",
       }),
       cache: "no-store",
     });
