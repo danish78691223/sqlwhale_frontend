@@ -25,6 +25,78 @@ function getTableName(query: string) {
   return normalizeQuery(query).match(/\bFROM\s+[a-zA-Z_][\w$]*/i)?.[0]?.replace(/^FROM\s+/i, "");
 }
 
+type WhyClause = "SELECT" | "FROM" | "WHERE" | "GROUP BY" | "HAVING" | "ORDER BY" | "JOIN";
+
+const WHY_CONTENT: Record<WhyClause, {
+  title: string;
+  sentence: string;
+  steps: string[];
+  think: string;
+}> = {
+  SELECT: {
+    title: "WHY SELECT?",
+    sentence: "Choose which columns you want to see in the final result.",
+    steps: ["TABLE", "CHOOSE COLUMNS", "RESULT"],
+    think: "Which information do I want?",
+  },
+  FROM: {
+    title: "WHY FROM?",
+    sentence: "Tell SQL which table your data should come from.",
+    steps: ["DATABASE", "TABLE", "QUERY"],
+    think: "Where is my data?",
+  },
+  WHERE: {
+    title: "WHY WHERE?",
+    sentence: "Filter out rows that do not satisfy your condition.",
+    steps: ["TABLE", "FILTER ROWS", "RESULT"],
+    think: "Which rows do I want?",
+  },
+  "GROUP BY": {
+    title: "WHY GROUP BY?",
+    sentence: "Turn individual rows into groups so each group can be calculated.",
+    steps: ["ROWS", "GROUP", "CALCULATE"],
+    think: "What should be treated as one group?",
+  },
+  HAVING: {
+    title: "WHY HAVING?",
+    sentence: "Filter groups after GROUP BY has created them.",
+    steps: ["ROWS", "GROUP", "FILTER GROUPS"],
+    think: "Which groups should remain?",
+  },
+  "ORDER BY": {
+    title: "WHY ORDER BY?",
+    sentence: "Sort the rows in the order you want to see them.",
+    steps: ["RESULT", "SORT", "ORDERED RESULT"],
+    think: "How should the result be arranged?",
+  },
+  JOIN: {
+    title: "WHY JOIN?",
+    sentence: "Connect related tables when the data you need lives in more than one table.",
+    steps: ["TABLE A", "RELATIONSHIP", "TABLE B"],
+    think: "Which tables need to connect?",
+  },
+};
+
+function getWhyClauses(query: string): WhyClause[] {
+  const normalized = normalizeQuery(query);
+  const clauses: WhyClause[] = [];
+  const patterns: Array<[WhyClause, RegExp]> = [
+    ["SELECT", /^SELECT\\b/i],
+    ["FROM", /\\bFROM\\b/i],
+    ["WHERE", /\\bWHERE\\b/i],
+    ["GROUP BY", /\\bGROUP\\s+BY\\b/i],
+    ["HAVING", /\\bHAVING\\b/i],
+    ["ORDER BY", /\\bORDER\\s+BY\\b/i],
+    ["JOIN", /\\b(?:INNER|LEFT|RIGHT|FULL|CROSS)?\\s*JOIN\\b/i],
+  ];
+
+  patterns.forEach(([clause, pattern]) => {
+    if (pattern.test(normalized)) clauses.push(clause);
+  });
+
+  return clauses;
+}
+
 function getWhereCondition(query: string) {
   return normalizeQuery(query).match(/\bWHERE\s+([\s\S]*?)(?=\s+(?:GROUP\s+BY|ORDER\s+BY|LIMIT|HAVING|UNION)\b|$)/i)?.[1]?.trim();
 }
@@ -149,6 +221,14 @@ export default function QueryVisualization({
   const selectedColumns = useMemo(() => getSelectedColumns(query, result), [query, result]);
   const whereColumns = useMemo(() => getWhereColumns(query), [query]);
   const joinTargets = useMemo(() => getJoinTargets(query), [query]);
+  const whyClauses = useMemo(() => getWhyClauses(query), [query]);
+  const [whyClause, setWhyClause] = useState<WhyClause | null>(null);
+
+  useEffect(() => {
+    if (whyClause && !whyClauses.includes(whyClause)) {
+      setWhyClause(null);
+    }
+  }, [whyClause, whyClauses]);
 
   const scanStep = getStep(execution, "scan");
   const filterStep = getStep(execution, "filter");
@@ -278,6 +358,61 @@ export default function QueryVisualization({
           </div>
         ))}
       </div>
+
+      {whyClauses.length > 0 && (
+        <div className="sqlwhale-why-clause-row" aria-label="Learn why each SQL clause is used">
+          <span className="sqlwhale-why-label">Learn the why</span>
+          {whyClauses.map((clause) => (
+            <button
+              key={clause}
+              type="button"
+              className={"sqlwhale-why-button " + (whyClause === clause ? "is-active" : "")}
+              onClick={() => setWhyClause((current) => current === clause ? null : clause)}
+            >
+              💡 Why {clause}?
+            </button>
+          ))}
+        </div>
+      )}
+
+      {whyClause && (
+        <div className="sqlwhale-why-card" role="status">
+          <div className="sqlwhale-why-card-header">
+            <div>
+              <span className="sqlwhale-why-kicker">UNDERSTAND THE CLAUSE</span>
+              <strong>{WHY_CONTENT[whyClause].title}</strong>
+            </div>
+            <button
+              type="button"
+              className="sqlwhale-why-close"
+              onClick={() => setWhyClause(null)}
+              aria-label="Close explanation"
+            >
+              ×
+            </button>
+          </div>
+
+          <p className="sqlwhale-why-sentence">
+            {whyClause === "WHERE" && whereCondition
+              ? "WHERE removes rows that do not satisfy " + whereCondition + "."
+              : WHY_CONTENT[whyClause].sentence}
+          </p>
+
+          <div className="sqlwhale-why-flow" aria-label={WHY_CONTENT[whyClause].steps.join(" to ")}>
+            {WHY_CONTENT[whyClause].steps.map((step, index) => (
+              <div key={step} className="sqlwhale-why-flow-step">
+                <span>{step}</span>
+                {index < WHY_CONTENT[whyClause].steps.length - 1 && <b>↓</b>}
+              </div>
+            ))}
+          </div>
+
+          <div className="sqlwhale-why-think">
+            <span>THINK:</span>
+            <strong>{WHY_CONTENT[whyClause].think}</strong>
+          </div>
+        </div>
+      )}
 
       {currentStage === "join" && joinTargets && (
         <div className="sqlwhale-join-explanation">
