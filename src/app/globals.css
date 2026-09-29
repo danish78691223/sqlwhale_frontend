@@ -12363,3 +12363,87 @@ body.sql-loader-lock { overflow: hidden; }
 .sqlwhale-light-auth .auth-back { color: #708990; }
 .sqlwhale-light-auth .auth-back:hover { color: #138f98; }
 @media (max-width:520px) { .sqlwhale-light-auth { padding: 24px 12px; } .sqlwhale-light-auth .auth-simple-card { padding: 24px 20px; } }
+
+
+/* =========================================================
+   SQLWHALE — ALWAYS HAMBURGER NAVIGATION
+   ========================================================= */
+.sqlwhale-navbar .navbar-inner {
+  min-height: 72px;
+  gap: 12px;
+}
+.sqlwhale-navbar .navbar-links,
+.sqlwhale-navbar .buy-coffee-btn {
+  display: none !important;
+}
+.sqlwhale-navbar .navbar-inner {
+  justify-content: flex-start;
+}
+.sqlwhale-navbar .navbar-auth-actions {
+  margin-left: auto;
+}
+.sqlwhale-navbar .mobile-menu-button {
+  display: flex !important;
+  flex-shrink: 0;
+}
+.sqlwhale-navbar .navbar-auth-actions .navbar-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: rgba(255,255,255,.9);
+  color: #334155;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  transition: .2s ease;
+}
+.sqlwhale-navbar .navbar-auth-actions .navbar-profile-btn:hover {
+  border-color: #17aeb7;
+  color: #118b93;
+  transform: translateY(-1px);
+}
+.navbar-profile-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e8f8fa;
+  color: #159da5;
+}
+.navbar-profile-icon svg {
+  width: 15px;
+  height: 15px;
+}
+@media (max-width: 760px) {
+  .sqlwhale-navbar .navbar-inner {
+    min-height: 68px;
+    padding: 10px 18px;
+  }
+  .sqlwhale-navbar .navbar-auth-actions {
+    margin-left: auto;
+  }
+  .sqlwhale-navbar .navbar-auth-actions .navbar-profile-btn {
+    min-height: 40px;
+    padding: 0 11px;
+  }
+}
+@media (max-width: 420px) {
+  .sqlwhale-navbar .navbar-inner {
+    padding: 9px 14px;
+  }
+  .sqlwhale-navbar .navbar-auth-actions .navbar-profile-btn {
+    width: 42px;
+    padding: 0;
+    font-size: 0;
+  }
+  .sqlwhale-navbar .navbar-auth-actions .navbar-profile-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
