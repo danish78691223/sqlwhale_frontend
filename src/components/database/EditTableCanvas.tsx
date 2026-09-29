@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Plus, Trash2, X, LockKeyhole, Code2 } from "lucide-react";
-import { getTable } from "@/services/table.service";
+import { getTableWithData } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
 
 interface EditTableCanvasProps {
@@ -47,8 +47,8 @@ export default function EditTableCanvas({
   const refresh = async () => {
     setLoading(true);
     try {
-      const latest = await getTable(table.name);
-      setData(latest.data?.rows ?? []);
+      const latest = await getTableWithData(table.name);
+      setData(latest.data.rows ?? []);
       setDraft({});
       setSelectedCell(null);
       setSqlPreview(null);
