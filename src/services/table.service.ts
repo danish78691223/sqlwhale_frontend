@@ -37,3 +37,12 @@ export async function getAllTableDetails(): Promise<
 
   return tables;
 }
+
+export async function getTableWithData(
+  tableName: string
+): Promise<TableResponse> {
+  const response = await api.get<TableResponse>(
+    `/tables/${encodeURIComponent(tableName)}`
+  );
+  return response.data;
+}
