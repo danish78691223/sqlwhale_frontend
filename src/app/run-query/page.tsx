@@ -164,7 +164,7 @@ export default function RunQueryPage() {
       if (!response.success) {
         window.alert(response.error || "SQL operation failed.");
       }
-      return response.success;
+      return Boolean(response.success);
     } catch (editError) {
       window.alert(editError instanceof Error ? editError.message : "Unable to execute SQL.");
       return false;
