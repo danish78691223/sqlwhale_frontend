@@ -12447,3 +12447,19 @@ body.sql-loader-lock { overflow: hidden; }
     height: 24px;
   }
 }
+
+
+/* Hamburger navigation is available on every screen size */
+.sqlwhale-navbar .mobile-menu {
+  display: block;
+}
+.sqlwhale-navbar .mobile-menu-open {
+  max-height: 560px;
+  opacity: 1;
+  border-top-color: #e5e7eb;
+}
+.sqlwhale-navbar .mobile-menu:not(.mobile-menu-open) {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
