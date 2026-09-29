@@ -169,7 +169,7 @@ export default function Home() {
           </Link>
           <nav className="navbar-links" aria-label="Primary navigation">
             <Link href="/" className="nav-link active">Home</Link><Link href="/run-query" className="nav-link">Run Query</Link>
-            <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>
+            <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>{!authLoading && user ? <button type="button" className="nav-link nav-feedback-button" onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}>Feedback</button> : null}
           </nav>
           <div className="navbar-auth-actions">
             {!authLoading && user ? (
@@ -196,7 +196,8 @@ export default function Home() {
             {!authLoading && user ? (
               <>
                 <Link href="/account" className="mobile-nav-link mobile-account-label" onClick={() => setMobileMenuOpen(false)}><span>06</span>Profile</Link>
-                <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>07</span>Logout</button>
+                <button type="button" className="mobile-nav-link mobile-feedback-button" onClick={() => { setMobileMenuOpen(false); window.dispatchEvent(new Event("sqlwhale:open-feedback")); }}><span>07</span>Feedback</button>
+                <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>08</span>Logout</button>
               </>
             ) : !authLoading ? (
               <>
