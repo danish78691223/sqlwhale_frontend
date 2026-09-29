@@ -8,10 +8,12 @@ import SQLEditor from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
+import EditTableCanvas from "@/components/database/EditTableCanvas";
 
 import { getAllTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
 import { useSQLQuery } from "@/hooks/useSQLQuery";
+import { executeSQL } from "@/services/sql.service";
 
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
@@ -37,6 +39,7 @@ export default function RunQueryPage() {
     table?: string;
     column: string;
   } | null>(null);
+  const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -154,6 +157,24 @@ export default function RunQueryPage() {
   };
 
   const result = data?.result;
+
+  const runEditSQL = async (sql: string) => {
+    try {
+      const response = await executeSQL(sql);
+      if (!response.success) {
+        window.alert(response.error || "SQL operation failed.");
+      }
+      return response.success;
+    } catch (editError) {
+      window.alert(editError instanceof Error ? editError.message : "Unable to execute SQL.");
+      return false;
+    }
+  };
+
+  const refreshTables = async () => {
+    const latest = await getAllTableDetails();
+    setTables(latest);
+  };
 
   return (
     <main className="sqlwhale-run-page">
@@ -341,6 +362,7 @@ export default function RunQueryPage() {
               activeSqlTarget={activeSqlTarget}
               executedQuery={executedQuery}
               queryAnimationStage={queryAnimationStage}
+              onEditTable={setEditTable}
             />
           )}
         </section>
@@ -475,6 +497,14 @@ export default function RunQueryPage() {
         />
       </section>
 
+      {editTable && (
+        <EditTableCanvas
+          table={editTable}
+          onClose={() => setEditTable(null)}
+          onRunSQL={runEditSQL}
+          onTableChanged={refreshTables}
+        />
+      )}
     </main>
   );
 }
