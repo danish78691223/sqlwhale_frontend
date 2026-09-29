@@ -79,9 +79,23 @@ export default function RunQueryPage() {
 
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
+  const [feedbackUser, setFeedbackUser] = useState<any>(null);
 
   const [darkMode, setDarkMode] =
     useState(false);
+
+  useEffect(() => {
+    let active = true;
+    fetch("/api/auth/me", { credentials: "include" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((data) => {
+        if (active) setFeedbackUser(data?.user || null);
+      })
+      .catch(() => {
+        if (active) setFeedbackUser(null);
+      });
+    return () => { active = false; };
+  }, []);
 
   useEffect(() => {
     const savedTheme =
@@ -207,6 +221,16 @@ export default function RunQueryPage() {
                 <span className="run-nav-number">03</span>
                 Understand
               </Link>
+
+              {feedbackUser ? (
+                <button
+                  type="button"
+                  className="run-nav-link run-feedback-button"
+                  onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
+                >
+                  Feedback
+                </button>
+              ) : null}
             </nav>
 
             <button
@@ -265,6 +289,21 @@ export default function RunQueryPage() {
               <span>Understand</span>
               <span className="run-mobile-arrow">→</span>
             </Link>
+
+            {feedbackUser ? (
+              <button
+                type="button"
+                className="run-mobile-nav-link run-mobile-feedback-button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new Event("sqlwhale:open-feedback"));
+                }}
+              >
+                <span className="run-mobile-nav-number">04</span>
+                <span>Feedback</span>
+                <span className="run-mobile-arrow">→</span>
+              </button>
+            ) : null}
           </nav>
 
           <div className="run-mobile-status">
