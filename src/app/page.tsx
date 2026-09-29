@@ -306,11 +306,11 @@ export default function Home() {
           <div className="footer-brand-block"><Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home"><Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" /><span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span></Link><p className="footer-tagline">Learn SQL. See the process. Understand the result.</p><div className="footer-status"><span className="status-dot" />SQL LEARNING SYSTEM</div></div>
           <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><a href="#about">About</a><a href="#how-it-works">How It Works</a><Link href="/contact">Contact</Link></div>
           <div className="footer-column"><span className="footer-column-title">PLATFORM</span><span>SQL Editor</span><span>Query Execution</span><span>Visual Learning</span><span>Interactive Database</span></div>
-          <div className="footer-column"><span className="footer-column-title">BUILT BY</span><a className="footer-company footer-company-link" href="https://webxwhale-ebon.vercel.app/home" target="_blank" rel="noopener noreferrer">WEBXWHALE TECH &amp; SOLUTIONS</a><span className="footer-company-description">Technology &amp; digital learning systems.</span></div>
+          <div className="footer-column"><span className="footer-column-title">BUILT BY</span><span className="footer-company">SQLWHALE</span><span className="footer-company-description">Interactive SQL learning platform.</span></div>
           <div className="footer-column"><span className="footer-column-title">LEGAL</span><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms">Terms &amp; Conditions</Link><Link href="/refund-policy">Return &amp; Refund Policy</Link></div>
         </div>
-        <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBXWHALE TECH &amp; SOLUTIONS</span><span /></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">Learning service by <a href="https://webxwhale-ebon.vercel.app/home" target="_blank" rel="noopener noreferrer"><strong>WEBXWHALE TECH &amp; SOLUTIONS</strong></a></span></div>
+        <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / INDEPENDENT ACCOUNT SYSTEM</span><span /></div>
+        <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">SQLWhale learning platform</span></div>
       </footer>
     </main>
   );
