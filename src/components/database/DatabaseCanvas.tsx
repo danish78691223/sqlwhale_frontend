@@ -34,6 +34,7 @@ interface DatabaseCanvasProps {
   activeSqlTarget?: SQLCursorTarget | null;
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
+  onEditTable?: (table: DatabaseTableType) => void;
 }
 
 interface SQLCursorTarget {
@@ -206,7 +207,10 @@ function RelationshipWiringEdge({
   );
 }
 
-function createNodes(tables: DatabaseTableType[]): Node[] {
+function createNodes(
+  tables: DatabaseTableType[],
+  onEditTable?: (table: DatabaseTableType) => void
+): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
     .map((table, index) => ({
@@ -221,6 +225,7 @@ function createNodes(tables: DatabaseTableType[]): Node[] {
         table,
         accentIndex: index,
         locked: false,
+        onEditTable,
       },
     }));
 }
@@ -288,8 +293,9 @@ export default function DatabaseCanvas({
   activeSqlTarget = null,
   executedQuery = null,
   queryAnimationStage = null,
+  onEditTable,
 }: DatabaseCanvasProps) {
-  const initialNodes = createNodes(tables);
+  const initialNodes = createNodes(tables, onEditTable);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
