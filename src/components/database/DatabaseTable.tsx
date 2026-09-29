@@ -4,6 +4,7 @@ import {
   Database,
   KeyRound,
   Link2,
+  Pencil,
 } from "lucide-react";
 
 import {
@@ -19,6 +20,7 @@ interface DatabaseTableNodeData {
   table: DatabaseTableType;
   accentIndex?: number;
   locked?: boolean;
+  onEditTable?: (table: DatabaseTableType) => void;
 }
 
 export default function DatabaseTable({
@@ -33,6 +35,7 @@ export default function DatabaseTable({
     nodeData.accentIndex ?? 0;
 
   const locked = Boolean(nodeData.locked);
+  const onEditTable = nodeData.onEditTable;
 
   const accentClasses = [
     "table-accent-blue",
@@ -69,12 +72,27 @@ export default function DatabaseTable({
           </span>
         </div>
 
-        <span className="sql-column-count">
-          {table.columns.length}{" "}
-          {table.columns.length === 1
-            ? "column"
-            : "columns"}
-        </span>
+        <div className="sql-table-header-actions">
+          <span className="sql-column-count">
+            {table.columns.length}{" "}
+            {table.columns.length === 1 ? "column" : "columns"}
+          </span>
+          {onEditTable && (
+            <button
+              type="button"
+              className="sql-table-edit-button nodrag nopan"
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                onEditTable(table);
+              }}
+              title={"Edit " + table.name}
+              aria-label={"Edit " + table.name}
+            >
+              <Pencil size={12} />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="sql-table-columns">
