@@ -10,7 +10,7 @@ export default function SignupPage() {
   const [loading,setLoading]=useState(false); const [error,setError]=useState(""); const [showPassword,setShowPassword]=useState(false);
   async function signup(){
     setError(""); setLoading(true);
-    try{await authApi.post("/auth/signup",{name,email,password});window.sessionStorage.setItem("sqlwhale_show_home_loader","1");window.location.assign("/");}
+    try{await authApi.post("/auth/signup",{name,email,password});window.location.assign("/");}
     catch(err:any){setError(err?.response?.data?.error||"Unable to create SQLWhale account.");}
     finally{setLoading(false);}
   }
