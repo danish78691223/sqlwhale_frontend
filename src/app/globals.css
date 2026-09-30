@@ -2036,55 +2036,39 @@
 }
 
 /* =========================================================
-   MOBILE MENU BUTTON
+   SIDE NAVIGATION
 ========================================================= */
 
 .mobile-menu-button {
-  display: none;
-
-  width: 44px;
-  height: 44px;
-
+  display: flex;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border: 1px solid #dbe1ea;
-  border-radius: 11px;
-
-  background: rgba(255, 255, 255, 0.9);
-
+  border-radius: 9px;
+  background: #ffffff;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 5px;
-
   cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+  flex-shrink: 0;
+  transition: background .2s ease, border-color .2s ease;
 }
 
 .mobile-menu-button:hover {
-  background: #ffffff;
-  border-color: #2563eb;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .mobile-menu-button span {
   display: block;
-  width: 19px;
+  width: 18px;
   height: 2px;
-
-  border-radius: 20px;
-  background: #111827;
-
-  transition:
-    transform 0.25s ease,
-    opacity 0.2s ease,
-    width 0.25s ease;
+  border-radius: 2px;
+  background: #334155;
+  transition: transform .22s ease, opacity .18s ease;
 }
-
-
-/* Hamburger → X */
 
 .mobile-menu-button.is-open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
@@ -2092,214 +2076,142 @@
 
 .mobile-menu-button.is-open span:nth-child(2) {
   opacity: 0;
-  width: 0;
 }
 
 .mobile-menu-button.is-open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-
-/* =========================================================
-   MOBILE DROPDOWN
-========================================================= */
+/* Hide the large horizontal navigation; it is opened from the side. */
+.navbar-links {
+  display: none;
+}
 
 .mobile-menu {
-  display: none;
-
-  max-height: 0;
-  overflow: hidden;
-
-  background: rgba(247, 248, 252, 0.98);
-  border-top: 1px solid transparent;
-
-  opacity: 0;
-
-  transition:
-    max-height 0.35s ease,
-    opacity 0.25s ease,
-    border-color 0.25s ease;
+  position: fixed;
+  top: 76px;
+  left: 0;
+  bottom: 0;
+  z-index: 1100;
+  display: block;
+  width: 300px;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 18px 22px;
+  box-sizing: border-box;
+  background: #f7f8fc;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 12px 0 30px rgba(15, 23, 42, .08);
+  opacity: 1;
+  transform: translateX(-100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform .28s ease, visibility 0s linear .28s;
 }
 
 .mobile-menu-open {
-  max-height: 500px;
-  opacity: 1;
-  border-top-color: #e5e7eb;
+  max-height: none;
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform .28s ease;
 }
 
 .mobile-menu-links {
   display: flex;
   flex-direction: column;
-  padding: 10px 20px 22px;
+  padding: 0;
 }
 
-.mobile-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  min-height: 54px;
-
-  padding: 0 4px;
-
-  color: #374151;
-  text-decoration: none;
-
-  font-size: 15px;
-  font-weight: 600;
-
-  border-bottom: 1px solid #e5e7eb;
-
-  transition:
-    color 0.2s ease,
-    padding-left 0.2s ease,
-    background 0.2s ease;
-}
-
-.mobile-nav-link span {
-  min-width: 26px;
-
-  color: #94a3b8;
-
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.mobile-nav-link:hover {
-  color: #2563eb;
-  padding-left: 8px;
-}
-
-.mobile-nav-link.active {
-  color: #2563eb;
-}
-
-.mobile-nav-link.active span {
-  color: #2563eb;
-}
-
-
-/* Mobile Coffee */
-
+.mobile-nav-link,
 .mobile-auth-button {
   display: flex;
   align-items: center;
   gap: 14px;
-  min-height: 54px;
   width: 100%;
+  min-height: 50px;
+  box-sizing: border-box;
   padding: 0 4px;
   border: 0;
   border-bottom: 1px solid #e5e7eb;
+  border-radius: 0;
   background: transparent;
   color: #374151;
+  text-decoration: none;
   text-align: left;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
 
+.mobile-nav-link span,
 .mobile-auth-button span {
   min-width: 26px;
   color: #94a3b8;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: .08em;
 }
 
+.mobile-nav-link:hover,
 .mobile-auth-button:hover {
-  color: #dc2626;
   padding-left: 8px;
+  background: transparent;
+  color: #2563eb;
+}
+
+.mobile-nav-link.active,
+.mobile-nav-link.active span {
+  color: #2563eb;
 }
 
 .mobile-coffee-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  min-height: 48px;
-
-  margin-top: 15px;
-
-  border-radius: 10px;
-
+  min-height: 46px;
+  margin-top: 16px;
+  border-radius: 8px;
   background: #111827;
-  color: #ffffff;
-
+  color: #fff;
   text-decoration: none;
-
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
 .mobile-coffee-button:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+  background: #1f2937;
 }
 
-
-/* =========================================================
-   NAVBAR RESPONSIVE
-========================================================= */
-
-@media (max-width: 1000px) {
-
-  .navbar-inner {
-    gap: 18px;
-  }
-
-  .navbar-links {
-    gap: 15px;
-  }
-
-  .nav-link {
-    font-size: 13px;
-  }
-
-  .coffee-button {
-    padding: 10px 13px;
-    font-size: 12px;
-  }
+/* Simple background overlay while the side menu is open. */
+.mobile-menu::after {
+  content: "";
+  position: fixed;
+  top: 76px;
+  left: 300px;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: rgba(15, 23, 42, .10);
+  pointer-events: none;
 }
-
-
-/* =========================================================
-   MOBILE NAVBAR
-========================================================= */
 
 @media (max-width: 760px) {
-
   .navbar-inner {
     min-height: 68px;
     padding: 10px 18px;
     gap: 10px;
   }
 
-  /* Hide desktop navigation */
-  .navbar-links {
-    display: none;
-  }
-
-  /* Keep coffee button hidden on mobile */
-  .coffee-button {
-    display: none;
-  }
-
-  /* Show hamburger */
-  .mobile-menu-button {
-    display: flex;
-    flex-shrink: 0;
-  }
-
-  /* Show dropdown */
   .mobile-menu {
-    display: block;
+    top: 68px;
+    width: min(300px, 82vw);
+  }
+
+  .mobile-menu::after {
+    top: 68px;
+    left: min(300px, 82vw);
   }
 
   .sqlwhale-logo {
@@ -2312,15 +2224,17 @@
   }
 }
 
-
-/* =========================================================
-   SMALL PHONES
-========================================================= */
-
 @media (max-width: 420px) {
-
   .navbar-inner {
     padding: 9px 14px;
+  }
+
+  .mobile-menu {
+    width: min(285px, 86vw);
+  }
+
+  .mobile-menu::after {
+    left: min(285px, 86vw);
   }
 
   .sqlwhale-logo {
@@ -2331,14 +2245,41 @@
     width: 38px;
     height: 38px;
   }
-
-  .mobile-menu-links {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
 }
 
+
+/* Password visibility control */
+.password-field-wrap {
+  position: relative;
+  width: 100%;
+}
+.password-field-wrap input {
+  padding-right: 48px !important;
+}
+.password-toggle-button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #718991;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.password-toggle-button:hover {
+  background: #eef8fa;
+  color: #138f98;
+}
+.password-toggle-button svg {
+  width: 18px;
+  height: 18px;
+}
 
 /* =========================================================
    HERO
