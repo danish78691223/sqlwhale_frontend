@@ -168,6 +168,23 @@ export default function Home() {
             <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
           </Link>
 
+          <nav className="navbar-links" aria-label="Primary navigation">
+            <Link href="/" className="nav-link active">Home</Link>
+            <Link href="/run-query" className="nav-link">Run Query</Link>
+            <a href="#about" className="nav-link">About</a>
+            <a href="#how-it-works" className="nav-link">How It Works</a>
+            <Link href="/contact" className="nav-link">Contact</Link>
+            {!authLoading && user ? (
+              <button
+                type="button"
+                className="nav-link nav-feedback-button"
+                onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
+              >
+                Feedback
+              </button>
+            ) : null}
+          </nav>
+
           <div className="navbar-auth-actions">
             {!authLoading && user ? (
               <Link href="/account" className="navbar-profile-btn" title={user.email} aria-label="Open SQLWhale Profile">
