@@ -167,10 +167,7 @@ export default function Home() {
             <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={46} height={46} className="sqlwhale-logo-image" priority />
             <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
           </Link>
-          <nav className="navbar-links" aria-label="Primary navigation">
-            <Link href="/" className="nav-link active">Home</Link><Link href="/run-query" className="nav-link">Run Query</Link>
-            <a href="#about" className="nav-link">About</a><a href="#how-it-works" className="nav-link">How It Works</a><Link href="/contact" className="nav-link">Contact</Link>{!authLoading && user ? <button type="button" className="nav-link nav-feedback-button" onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}>Feedback</button> : null}
-          </nav>
+
           <div className="navbar-auth-actions">
             {!authLoading && user ? (
               <Link href="/account" className="navbar-profile-btn" title={user.email} aria-label="Open SQLWhale Profile">
@@ -184,10 +181,20 @@ export default function Home() {
               </Link>
             ) : null}
           </div>
-          <button type="button" className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`} onClick={() => setMobileMenuOpen((prev) => !prev)} aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileMenuOpen}><span /><span /><span /></button>
+
+          <button
+            type="button"
+            className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileMenuOpen}
+          >
+            <span /><span /><span />
+          </button>
         </div>
+
         <div className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}>
-          <nav className="mobile-menu-links">
+          <nav className="mobile-menu-links" aria-label="Primary navigation">
             <Link href="/" className="mobile-nav-link active" onClick={() => setMobileMenuOpen(false)}><span>01</span>Home</Link>
             <Link href="/run-query" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>02</span>Run Query</Link>
             <a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>03</span>About</a>
