@@ -13049,3 +13049,108 @@ body.sql-loader-lock { overflow: hidden; }
   .sqlwhale-edit-grid-wrap { padding: 12px 17px; }
   .sqlwhale-edit-bottom { padding: 12px 17px 15px; }
 }
+
+
+/* =========================================================
+   SQLWHALE — SIDE NAVIGATION PANEL
+   ========================================================= */
+.sqlwhale-navbar .mobile-menu {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  bottom: 0;
+  z-index: 1100;
+  display: block;
+  width: min(360px, 88vw);
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px;
+  background: rgba(247, 250, 252, 0.98);
+  border-top: 1px solid #dfe7ee;
+  border-right: 1px solid #dfe7ee;
+  box-shadow: 24px 0 60px rgba(15, 35, 50, 0.14);
+  opacity: 1;
+  transform: translateX(-105%);
+  transition: transform .32s cubic-bezier(.22,1,.36,1);
+}
+.sqlwhale-navbar .mobile-menu-open {
+  max-height: none;
+  transform: translateX(0);
+  opacity: 1;
+}
+.sqlwhale-navbar .mobile-menu-links {
+  padding: 0;
+}
+.sqlwhale-navbar .mobile-nav-link,
+.sqlwhale-navbar .mobile-auth-button {
+  min-height: 58px;
+  padding: 0 14px;
+  border: 1px solid #e3eaf0;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  background: rgba(255,255,255,.72);
+}
+.sqlwhale-navbar .mobile-nav-link:hover,
+.sqlwhale-navbar .mobile-auth-button:hover {
+  padding-left: 18px;
+  background: #fff;
+}
+.sqlwhale-navbar .mobile-coffee-button {
+  margin-top: 14px;
+}
+.sqlwhale-navbar .mobile-menu::after {
+  content: "";
+  position: fixed;
+  top: 72px;
+  left: min(360px, 88vw);
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background: rgba(8, 20, 28, 0.22);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+@media (max-width: 760px) {
+  .sqlwhale-navbar .mobile-menu {
+    top: 68px;
+    width: min(340px, 90vw);
+  }
+  .sqlwhale-navbar .mobile-menu::after {
+    top: 68px;
+    left: min(340px, 90vw);
+  }
+}
+
+/* Password visibility control */
+.password-field-wrap {
+  position: relative;
+  width: 100%;
+}
+.password-field-wrap input {
+  padding-right: 48px !important;
+}
+.password-toggle-button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #718991;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+.password-toggle-button:hover {
+  background: #eef8fa;
+  color: #138f98;
+}
+.password-toggle-button svg {
+  width: 18px;
+  height: 18px;
+}
