@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { api, authApi } from "@/services/api";
+import { authApi } from "@/services/api";
 
 type User = {
   id: number;
