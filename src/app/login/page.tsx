@@ -10,7 +10,7 @@ export default function LoginPage() {
   const [loading,setLoading]=useState(false); const [error,setError]=useState(""); const [showPassword,setShowPassword]=useState(false);
   async function login(){
     setError(""); setLoading(true);
-    try{await authApi.post("/auth/login",{email,password});window.sessionStorage.setItem("sqlwhale_show_home_loader","1");window.location.assign("/");}
+    try{await authApi.post("/auth/login",{email,password});window.location.assign("/");}
     catch(err:any){setError(err?.response?.data?.error||"Unable to login to SQLWhale.");}
     finally{setLoading(false);}
   }
