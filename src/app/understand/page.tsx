@@ -275,7 +275,7 @@ export default function UnderstandPage() {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/learning-progress`, {
+    fetch("/api/auth/learning-progress", {
       credentials: "include",
     })
       .then((response) => response.ok ? response.json() : null)
@@ -295,7 +295,7 @@ export default function UnderstandPage() {
     setSavingCompletion(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/learning-progress/${activeSection}`,
+        `/api/auth/learning-progress/${activeSection}`,
         {
           method: "POST",
           credentials: "include",
