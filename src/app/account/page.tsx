@@ -69,8 +69,8 @@ export default function AccountPage() {
 
         try {
           const [historyResponse, dashboardResponse] = await Promise.all([
-            api.get("/auth/query-history?limit=50"),
-            api.get("/auth/learning-dashboard"),
+            authApi.get("/auth/query-history?limit=50"),
+            authApi.get("/auth/learning-dashboard"),
           ]);
           if (mounted) {
             setHistory(historyResponse.data?.history || []);
