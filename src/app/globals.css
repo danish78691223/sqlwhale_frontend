@@ -13024,3 +13024,28 @@ body.sql-loader-lock { overflow: hidden; }
   width: 18px;
   height: 18px;
 }
+
+/* SQLWhale Admin */
+.sqlwhale-admin-page{min-height:100vh;padding:38px;max-width:1480px;margin:0 auto;background:#f7f9fc;color:#111827}
+.sqlwhale-admin-header{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:28px}
+.sqlwhale-admin-brand{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:#2563eb}
+.sqlwhale-admin-header h1{margin:8px 0 4px;font-size:32px;letter-spacing:-.04em}
+.sqlwhale-admin-header p,.sqlwhale-admin-muted{color:#64748b;font-size:13px}
+.sqlwhale-admin-refresh,.sqlwhale-admin-primary,.sqlwhale-admin-save,.sqlwhale-admin-delete{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:9px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer}
+.sqlwhale-admin-refresh{background:#fff;border:1px solid #dbe3ee;color:#334155}
+.sqlwhale-admin-refresh:disabled,.sqlwhale-admin-primary:disabled,.sqlwhale-admin-save:disabled{opacity:.55;cursor:not-allowed}
+.sqlwhale-admin-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px;margin-bottom:18px}
+.sqlwhale-admin-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 8px 28px rgba(15,23,42,.04)}
+.sqlwhale-admin-card-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}
+.sqlwhale-admin-card-title>div{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800}
+.sqlwhale-status-pill{font-size:9px;font-weight:900;padding:4px 7px;border-radius:999px}
+.sqlwhale-status-pill.is-on{background:#dcfce7;color:#166534}.sqlwhale-status-pill.is-off{background:#f1f5f9;color:#64748b}
+.sqlwhale-admin-switch-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;font-size:12px;font-weight:700}
+.sqlwhale-admin-input,.sqlwhale-admin-textarea,.sqlwhale-admin-search,.sqlwhale-admin-cell-input,.sqlwhale-admin-select{width:100%;border:1px solid #dbe3ee;background:#fff;border-radius:9px;padding:9px 10px;font:inherit;font-size:12px;color:#0f172a;outline:none}
+.sqlwhale-admin-input,.sqlwhale-admin-textarea{margin-top:8px}.sqlwhale-admin-input:focus,.sqlwhale-admin-textarea:focus,.sqlwhale-admin-cell-input:focus,.sqlwhale-admin-select:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+.sqlwhale-admin-textarea{resize:vertical}.sqlwhale-admin-primary{margin-top:10px;background:#111827;color:#fff}
+.sqlwhale-admin-search{display:flex;align-items:center;gap:8px;margin-top:12px}.sqlwhale-admin-search input{border:0;outline:0;flex:1;font-size:12px}
+.sqlwhale-admin-notice{margin-bottom:18px;padding:11px 13px;border-radius:9px;font-size:12px;font-weight:700}.sqlwhale-admin-notice.is-error{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}.sqlwhale-admin-notice.is-success{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.sqlwhale-admin-table-wrap{overflow:auto}.sqlwhale-admin-table{width:100%;border-collapse:collapse;min-width:920px}.sqlwhale-admin-table th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;padding:11px 10px;border-bottom:1px solid #e2e8f0}.sqlwhale-admin-table td{padding:12px 10px;border-bottom:1px solid #eef2f7;vertical-align:top;font-size:11px;color:#475569}.sqlwhale-admin-cell-input{margin-bottom:5px}.sqlwhale-admin-cell-input.is-secondary{color:#64748b}.sqlwhale-admin-table code{font-size:9px;color:#94a3b8}.sqlwhale-admin-select{min-width:95px}.sqlwhale-admin-actions{display:flex;gap:7px}.sqlwhale-admin-save{background:#eff6ff;color:#1d4ed8}.sqlwhale-admin-delete{background:#fef2f2;color:#b91c1c}.sqlwhale-admin-empty{padding:50px;text-align:center;color:#64748b;font-size:13px}.sqlwhale-spin{animation:sqlwhale-admin-spin 1s linear infinite}@keyframes sqlwhale-admin-spin{to{transform:rotate(360deg)}}
+.sqlwhale-maintenance-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;background:#05070b;color:#f8fafc}.sqlwhale-maintenance-mark{font-size:54px;margin-bottom:8px}.sqlwhale-maintenance-eyebrow{font-size:10px;letter-spacing:.28em;font-weight:900;color:#94a3b8}.sqlwhale-maintenance-page h1{margin:14px 0 10px;font-size:clamp(28px,5vw,52px);letter-spacing:-.04em}.sqlwhale-maintenance-page p{max-width:560px;color:#94a3b8;font-size:15px;line-height:1.7;margin:0}.sqlwhale-maintenance-page strong{margin-top:18px;color:#e2e8f0;font-size:12px}.sqlwhale-maintenance-line{width:70px;height:1px;background:#334155;margin:28px 0 12px}.sqlwhale-maintenance-page small{color:#64748b}
+@media(max-width:800px){.sqlwhale-admin-page{padding:22px 14px}.sqlwhale-admin-header{flex-direction:column}.sqlwhale-admin-grid{grid-template-columns:1fr}.sqlwhale-admin-header h1{font-size:26px}}
