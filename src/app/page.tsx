@@ -108,10 +108,12 @@ export default function Home() {
   const [user, setUser] = useState<{ name: string; email: string; currentPlan: string } | null>(null);
 
   useEffect(() => {
-    const shouldShowLoader = window.sessionStorage.getItem("sqlwhale_show_home_loader") === "1";
+    // The intro loader is only for the first homepage visit in this browser tab.
+    // Navigation, refreshes and returning to "/" must not replay it.
+    const loaderSeen = window.sessionStorage.getItem("sqlwhale_home_loader_seen");
 
-    if (shouldShowLoader) {
-      window.sessionStorage.removeItem("sqlwhale_show_home_loader");
+    if (!loaderSeen) {
+      window.sessionStorage.setItem("sqlwhale_home_loader_seen", "1");
       setLoading(true);
     }
   }, []);
