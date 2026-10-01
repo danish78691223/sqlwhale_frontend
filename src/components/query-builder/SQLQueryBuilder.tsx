@@ -6,6 +6,7 @@ import type { DatabaseTable } from "@/types/table";
 
 interface SQLQueryBuilderProps {
   tables: DatabaseTable[];
+  initialTableName?: string;
   onGenerate: (sql: string) => void;
 }
 
@@ -19,8 +20,8 @@ function quoteValue(value: string) {
   return `'${trimmed.replace(/'/g, "''")}'`;
 }
 
-export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderProps) {
-  const [tableName, setTableName] = useState("");
+export default function SQLQueryBuilder({ tables, initialTableName = "employees", onGenerate }: SQLQueryBuilderProps) {
+  const [tableName, setTableName] = useState(initialTableName);
   const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
   const [joinEnabled, setJoinEnabled] = useState(false);
   const [joinType, setJoinType] = useState<"INNER JOIN" | "LEFT JOIN">("INNER JOIN");
@@ -30,7 +31,7 @@ export default function SQLQueryBuilder({ tables, onGenerate }: SQLQueryBuilderP
   const [whereEnabled, setWhereEnabled] = useState(false);
   const [condition, setCondition] = useState<Condition>({ column: "", operator: ">", value: "50000" });
 
-  const selectedTable = useMemo(() => tables.find((table) => table.name === tableName) ?? tables[0], [tables, tableName]);
+  const selectedTable = useMemo(() => tables.find((table) => table.name === tableName) ?? tables.find((table) => table.name === initialTableName) ?? tables[0], [tables, tableName, initialTableName]);
   const columns = selectedTable?.columns ?? [];
 
   const joinableTables = useMemo(() => {
