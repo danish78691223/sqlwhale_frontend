@@ -129,10 +129,13 @@ export default function SQLEditor({
             </div>
 
             <div>
-              <h2>Query</h2>
+              <h2>
+                <span className="sqlwhale-query-mode-number">02</span>
+                Write SQL
+              </h2>
 
               <p>
-                Write and execute SQL
+                Write and practice the query yourself.
               </p>
             </div>
 
