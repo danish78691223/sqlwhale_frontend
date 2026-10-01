@@ -35,31 +35,31 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
       <main className="sqlwhale-maintenance-page">
         <div className="sqlwhale-sleep-scene" aria-hidden="true">
           <div className="sqlwhale-sleep-zs"><span>Z</span><span>Z</span><span>Z</span></div>
-          {/* Sleeping cat — curled up naturally with paws under its head. */}
+          {/* Sleeping white cat */}
           <svg className="sqlwhale-dolphin-svg sqlwhale-sleep-whale" viewBox="0 0 560 300" aria-hidden="true">
             <g className="dolphin-float whale-float">
-              <ellipse className="dolphin-shadow" cx="280" cy="232" rx="128" ry="13" />
+              <ellipse className="dolphin-shadow" cx="280" cy="238" rx="145" ry="12" />
 
-              <path className="cute-whale-body white-cat-body" d="M154 192 C126 174 119 143 131 119 C143 94 170 82 198 87 C233 92 259 113 271 139 C286 128 310 121 334 128 C365 137 384 161 382 187 C380 210 358 224 327 224 C299 224 276 213 256 204 C231 220 191 219 154 192Z" />
+              <path className="cute-whale-body white-cat-body" d="M236 194 C249 151 287 126 333 128 C381 130 414 158 414 191 C414 217 393 230 357 232 C321 234 287 220 264 210 C253 205 244 201 236 194Z" />
 
-              <path className="cute-whale-belly white-cat-belly" d="M174 180 C160 162 160 138 175 123 C192 107 217 112 232 129 C245 144 249 167 240 187 C226 201 194 201 174 180Z" />
+              <path className="cute-whale-belly white-cat-belly" d="M277 190 C289 164 312 151 337 153 C361 155 377 172 377 191 C376 207 359 215 339 215 C316 214 294 204 277 190Z" />
 
-              <path className="cute-whale-forehead white-cat-head" d="M139 137 C126 122 128 100 143 91 L151 67 L171 88 C184 81 201 84 211 95 L235 77 L235 108 C248 124 244 145 229 157 C210 173 174 169 151 157Z" />
+              <path className="cute-whale-forehead white-cat-head" d="M146 161 C132 149 127 130 134 113 L143 83 L164 101 C176 95 190 96 202 103 L225 81 L227 114 C241 126 244 146 234 161 C220 181 173 183 146 161Z" />
 
-              <path className="cute-whale-fin white-cat-paw" d="M185 159 C170 164 160 174 158 186 C171 190 188 184 199 174 C205 168 198 157 185 159Z" />
-              <path className="cute-whale-fin white-cat-paw" d="M211 159 C225 163 235 172 237 183 C225 188 210 182 200 173 C195 168 202 157 211 159Z" />
+              <path className="cute-whale-fin white-cat-paw" d="M171 160 C155 163 143 174 140 188 C154 193 171 187 182 177 C188 171 183 158 171 160Z" />
+              <path className="cute-whale-fin white-cat-paw" d="M199 160 C214 164 224 175 225 188 C211 191 197 184 187 175 C182 169 189 157 199 160Z" />
 
-              <path className="cute-whale-tail white-cat-tail" d="M350 180 C373 188 392 201 399 217 C384 227 363 221 348 207 C336 196 326 190 314 188 C305 186 306 175 314 172 C326 168 338 174 350 180Z" />
+              <path className="cute-whale-tail white-cat-tail" d="M390 192 C418 198 443 215 449 232 C433 243 410 235 394 221 C383 212 372 207 359 204 C349 201 350 189 359 185 C369 181 380 188 390 192Z" />
 
-              <path className="cute-whale-eye" d="M157 127 Q166 136 175 127" />
-              <path className="cute-whale-eye" d="M194 127 Q203 136 212 127" />
-              <path className="cute-whale-mouth" d="M181 140 Q186 145 191 140" />
-              <circle className="cute-whale-blush" cx="153" cy="143" r="7" />
-              <circle className="cute-whale-blush" cx="216" cy="143" r="7" />
+              <path className="cute-whale-eye" d="M153 135 Q162 144 171 135" />
+              <path className="cute-whale-eye" d="M194 135 Q203 144 212 135" />
+              <path className="cute-whale-mouth" d="M179 150 Q184 155 189 150" />
+              <circle className="cute-whale-blush" cx="153" cy="150" r="7" />
+              <circle className="cute-whale-blush" cx="213" cy="150" r="7" />
 
               <g className="dolphin-bubble-svg">
-                <circle cx="187" cy="151" r="6" />
-                <circle cx="180" cy="166" r="3.5" />
+                <circle cx="184" cy="158" r="6" />
+                <circle cx="177" cy="173" r="3.5" />
               </g>
             </g>
           </svg>
