@@ -55,12 +55,21 @@ export default function RunQueryPage() {
     if (!showProductTour) return;
     const target = document.querySelector<HTMLElement>(`[data-sqlwhale-tour="${tourSteps[tourStep].target}"]`);
     if (!target) return;
+
+    // Keep the canvas and builder from visually colliding while the tour
+    // explains a specific area of the workspace.
+    document.body.classList.toggle(
+      "sqlwhale-tour-active",
+      tourSteps[tourStep].target === "schema"
+    );
+
     target.scrollIntoView({ behavior: "smooth", block: "center" });
     const updateRect = () => setTourRect(target.getBoundingClientRect());
     updateRect();
     window.addEventListener("resize", updateRect);
     window.addEventListener("scroll", updateRect, true);
     return () => {
+      document.body.classList.remove("sqlwhale-tour-active");
       window.removeEventListener("resize", updateRect);
       window.removeEventListener("scroll", updateRect, true);
     };
