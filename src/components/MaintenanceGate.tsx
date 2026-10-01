@@ -35,113 +35,95 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
       <main className="sqlwhale-maintenance-page">
         <div className="sqlwhale-sleep-scene" aria-hidden="true">
           <div className="sqlwhale-sleep-zs"><span>Z</span><span>Z</span><span>Z</span></div>
-          {/* Curled sleeping dolphin: nose tucked toward its belly and tail wrapped inward. */}
-          <svg className="sqlwhale-dolphin-svg" viewBox="0 0 520 300" aria-hidden="true">
+          {/* Sleeping SQLWhale — curled gently on its side. */}
+          <svg className="sqlwhale-dolphin-svg sqlwhale-sleep-whale" viewBox="0 0 560 300" aria-hidden="true">
             <defs>
-              <linearGradient id="sleepDolphin" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#82dceb" />
-                <stop offset="0.55" stopColor="#329bb7" />
-                <stop offset="1" stopColor="#12556e" />
+              <linearGradient id="sleepWhaleBody" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#5c8298" />
+                <stop offset="0.5" stopColor="#31586f" />
+                <stop offset="1" stopColor="#132f43" />
               </linearGradient>
-              <linearGradient id="sleepBelly" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#e5fbff" />
-                <stop offset="1" stopColor="#8bcfdb" />
+              <linearGradient id="sleepWhaleBelly" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#dcebf0" />
+                <stop offset="1" stopColor="#87aab9" />
               </linearGradient>
             </defs>
 
-            <g className="dolphin-float">
+            <g className="dolphin-float whale-float">
+              <ellipse className="dolphin-shadow" cx="275" cy="246" rx="170" ry="18" />
 
-              <ellipse className="dolphin-shadow" cx="258" cy="238" rx="145" ry="16" />
+              <!-- main whale body -->
+              <path className="sleep-whale-body" fill="url(#sleepWhaleBody)"
+                d="M104 181
+                   C105 124 151 82 221 72
+                   C294 61 369 78 416 112
+                   C444 132 459 154 451 176
+                   C444 197 419 210 389 210
+                   C350 210 322 190 295 181
+                   C270 173 250 178 238 197
+                   C226 217 236 232 259 239
+                   C228 247 187 241 153 225
+                   C125 212 105 198 104 181Z" />
 
-              <path
-                className="sleep-dolphin-body"
-                fill="url(#sleepDolphin)"
-                d="M108 192
-                   C96 149 115 108 153 83
-                   C193 57 252 55 302 77
-                   C345 96 366 130 360 162
-                   C355 189 334 207 306 215
-                   C274 224 245 210 226 190
-                   C208 171 207 146 222 128
-                   C235 112 256 107 277 115
-                   C293 121 302 134 300 148
-                   C297 164 283 173 267 171
-                   C254 169 246 159 249 148
-                   C252 138 263 134 272 139
-                   C279 143 280 151 276 157
-                   C290 154 296 143 291 132
-                   C285 117 265 108 247 113
-                   C218 121 201 151 209 179
-                   C218 210 252 229 292 230
-                   C331 231 362 211 383 188
-                   C401 168 414 150 432 146
-                   C453 141 473 151 487 165
-                   C468 164 452 170 439 184
-                   C425 200 416 221 395 232
-                   C356 252 298 258 240 244
-                   C178 229 126 220 108 192Z"
-              />
+              <!-- pale belly -->
+              <path className="sleep-whale-belly" fill="url(#sleepWhaleBelly)"
+                d="M155 174
+                   C169 137 210 116 257 117
+                   C306 118 347 139 361 163
+                   C344 178 321 184 298 177
+                   C274 170 251 162 229 169
+                   C205 177 193 198 204 218
+                   C184 213 162 197 155 174Z" />
 
-              <path
-                className="sleep-dolphin-belly"
-                fill="url(#sleepBelly)"
-                d="M185 111 C218 91 264 94 291 116
-                   C307 129 308 148 296 160
-                   C286 171 271 177 256 174
-                   C246 171 241 164 244 154
-                   C248 141 261 137 272 143
-                   C265 130 246 126 231 134
-                   C211 145 204 166 213 186
-                   C224 209 249 224 277 229
-                   C243 226 211 215 191 196
-                   C166 172 159 133 185 111Z"
-              />
+              <!-- whale head -->
+              <path className="sleep-whale-head" fill="url(#sleepWhaleBody)"
+                d="M366 107
+                   C405 89 449 98 475 122
+                   C492 138 497 158 487 174
+                   C477 190 454 196 429 190
+                   C409 185 391 173 379 157
+                   C369 143 361 123 366 107Z" />
 
-              <path
-                className="sleep-dolphin-fin"
-                d="M181 88 C154 67 151 38 168 20
-                   C190 42 207 64 211 91Z"
-              />
+              <!-- rounded forehead -->
+              <ellipse className="sleep-whale-forehead" cx="427" cy="112" rx="42" ry="23" />
 
-              <path
-                className="sleep-dolphin-fin"
-                d="M276 184 C305 196 324 211 321 226
-                   C299 224 278 211 261 194Z"
-              />
+              <!-- broad flipper tucked across belly -->
+              <path className="sleep-whale-flipper"
+                d="M310 169
+                   C343 181 365 198 366 218
+                   C347 220 320 207 294 188
+                   C286 181 294 170 310 169Z" />
 
-              <path
-                className="sleep-dolphin-tail"
-                d="M119 193 C84 185 58 195 45 217
-                   C69 212 88 218 104 233
-                   C94 212 99 201 119 193Z"
-              />
-              <path
-                className="sleep-dolphin-tail"
-                d="M113 204 C84 224 76 247 86 265
-                   C101 244 116 236 136 237
-                   C119 228 112 217 113 204Z"
-              />
+              <!-- second tucked flipper -->
+              <path className="sleep-whale-flipper"
+                d="M235 193
+                   C254 207 267 222 262 235
+                   C243 230 226 216 213 202Z" />
 
-              <path
-                className="sleep-dolphin-head"
-                d="M354 132 C377 112 405 111 426 124
-                   C441 133 449 145 444 157
-                   C437 171 418 174 398 168
-                   C381 163 368 153 354 146Z"
-              />
-              <path
-                className="sleep-dolphin-rostrum"
-                d="M414 126 C449 117 481 126 496 142
-                   C478 153 453 157 431 151Z"
-              />
+              <!-- tail curled inward -->
+              <path className="sleep-whale-tail"
+                d="M137 202
+                   C104 199 73 209 57 231
+                   C84 225 105 229 124 243
+                   C114 225 118 213 137 202Z" />
+              <path className="sleep-whale-tail"
+                d="M128 213
+                   C99 230 91 250 101 268
+                   C116 249 132 243 153 245
+                   C136 236 129 226 128 213Z" />
 
-              <path className="sleep-dolphin-eye" d="M404 139 Q415 130 426 139" />
-              <path className="sleep-dolphin-smile" d="M431 151 Q441 158 451 152" />
+              <!-- blowhole -->
+              <ellipse className="sleep-whale-blowhole" cx="447" cy="101" rx="8" ry="4" />
 
+              <!-- closed sleepy eye and smile -->
+              <path className="sleep-whale-eye" d="M434 145 Q445 136 456 145" />
+              <path className="sleep-whale-smile" d="M451 162 Q462 168 473 161" />
+
+              <!-- tiny nose/breath bubbles -->
               <g className="dolphin-bubble-svg">
-                <circle cx="493" cy="131" r="10" />
-                <circle cx="475" cy="116" r="5" />
-                <circle cx="501" cy="104" r="3.5" />
+                <circle cx="453" cy="83" r="9" />
+                <circle cx="466" cy="65" r="5" />
+                <circle cx="480" cy="48" r="3.5" />
               </g>
             </g>
           </svg>
