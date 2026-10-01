@@ -438,6 +438,7 @@ export default function RunQueryPage() {
           ) : (
             <DatabaseCanvas
               tables={tables}
+              initialTableName="employees"
               activeSqlTarget={activeSqlTarget}
               executedQuery={executedQuery}
               queryAnimationStage={queryAnimationStage}
@@ -559,6 +560,7 @@ export default function RunQueryPage() {
         {builderOpen && (
           <SQLQueryBuilder
             tables={tables}
+            initialTableName="employees"
             onGenerate={(generatedSQL) => {
               setQuery(generatedSQL);
               setExecutedQuery(null);
