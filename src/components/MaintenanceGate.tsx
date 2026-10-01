@@ -33,8 +33,25 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
   if (maintenance?.enabled) {
     return (
       <main className="sqlwhale-maintenance-page">
-        <div className="sqlwhale-maintenance-mark">🐋</div>
-        <span className="sqlwhale-maintenance-eyebrow">SQLWHALE</span>
+        <div className="sqlwhale-sleep-scene" aria-hidden="true">
+          <div className="sqlwhale-sleep-zs"><span>Z</span><span>Z</span><span>Z</span></div>
+          <div className="sqlwhale-dolphin">
+            <div className="dolphin-fin dolphin-fin-top" />
+            <div className="dolphin-body" />
+            <div className="dolphin-belly" />
+            <div className="dolphin-fin dolphin-fin-left" />
+            <div className="dolphin-fin dolphin-fin-right" />
+            <div className="dolphin-tail dolphin-tail-left" />
+            <div className="dolphin-tail dolphin-tail-right" />
+            <div className="dolphin-snout" />
+            <span className="dolphin-eye" />
+            <span className="dolphin-smile" />
+            <span className="dolphin-bubble" />
+          </div>
+          <div className="sqlwhale-sleep-wave wave-one" />
+          <div className="sqlwhale-sleep-wave wave-two" />
+        </div>
+        <span className="sqlwhale-maintenance-eyebrow">SQLWHALE / SLEEP MODE</span>
         <h1>{maintenance.title}</h1>
         <p>{maintenance.message}</p>
         {maintenance.estimatedReturn && <strong>{maintenance.estimatedReturn}</strong>}
