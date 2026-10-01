@@ -13051,22 +13051,23 @@ body.sql-loader-lock { overflow: hidden; }
 @media(max-width:800px){.sqlwhale-admin-page{padding:22px 14px}.sqlwhale-admin-header{flex-direction:column}.sqlwhale-admin-grid{grid-template-columns:1fr}.sqlwhale-admin-header h1{font-size:26px}}
 
 
-/* Maintenance sleeping SQLWhale — curled resting pose */
+/* Maintenance sleeping SQLWhale — cute floating baby whale */
 .sqlwhale-dolphin-svg{position:absolute;left:50%;top:8px;width:min(520px,100%);height:270px;transform:translateX(-50%);overflow:visible}
-.dolphin-float{transform-origin:280px 150px;animation:sqlwhale-dolphin-float 4.8s ease-in-out infinite}
+.dolphin-float{transform-origin:280px 155px;animation:sqlwhale-dolphin-float 4.8s ease-in-out infinite}
 .whale-float{transform-origin:280px 155px}
-.sleep-whale-body{filter:drop-shadow(0 18px 14px rgba(0,0,0,.3))}
-.sleep-whale-belly{opacity:.95}
-.sleep-whale-head{filter:drop-shadow(0 8px 8px rgba(0,0,0,.18))}
-.sleep-whale-forehead{fill:#4b7186}
-.sleep-whale-flipper,.sleep-whale-tail{fill:#254b61}
-.sleep-whale-blowhole{fill:#102c3d}
-.sleep-whale-eye{fill:none;stroke:#071e2c;stroke-width:6;stroke-linecap:round}
-.sleep-whale-smile{fill:none;stroke:#082838;stroke-width:4;stroke-linecap:round}
-.dolphin-shadow{fill:rgba(36,190,211,.13);filter:blur(8px);animation:sqlwhale-shadow 4.8s ease-in-out infinite}
-.dolphin-bubble-svg{fill:none;stroke:#b4f4fb;stroke-width:3;opacity:.9;animation:sqlwhale-bubble 3s ease-out infinite}
+.cute-whale-body{filter:drop-shadow(0 17px 13px rgba(7,20,48,.28))}
+.cute-whale-belly{fill:url(#cuteWhaleBelly);opacity:.98;filter:drop-shadow(0 2px 4px rgba(255,255,255,.12))}
+.cute-whale-head{filter:drop-shadow(0 7px 8px rgba(7,20,48,.18))}
+.cute-whale-forehead{fill:#2b3968;opacity:.9}
+.cute-whale-fin,.cute-whale-tail{fill:#182244}
+.cute-whale-blowhole{fill:#0e1733}
+.cute-whale-eye{fill:none;stroke:#0b1430;stroke-width:5.5;stroke-linecap:round}
+.cute-whale-blush{fill:#efaa9b;opacity:.7;filter:blur(2px)}
+.cute-whale-mouth{fill:none;stroke:#0d1734;stroke-width:3;stroke-linecap:round}
+.dolphin-shadow{fill:rgba(72,201,223,.16);filter:blur(8px);animation:sqlwhale-shadow 4.8s ease-in-out infinite}
+.dolphin-bubble-svg{fill:rgba(255,255,255,.08);stroke:#fff;stroke-width:3;opacity:.9;animation:sqlwhale-bubble 3s ease-out infinite}
 .sqlwhale-sleep-zs{left:63%;top:0}
-@keyframes sqlwhale-dolphin-float{0%,100%{transform:translateY(5px) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
-@keyframes sqlwhale-shadow{0%,100%{transform:scaleX(1);opacity:.45}50%{transform:scaleX(.82);opacity:.2}}
-@keyframes sqlwhale-bubble{0%{opacity:0;transform:translate(0,7px) scale(.55)}15%{opacity:1}65%{opacity:.8}100%{opacity:0;transform:translate(12px,-42px) scale(1.35)}}
+@keyframes sqlwhale-dolphin-float{0%,100%{transform:translateY(5px) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+@keyframes sqlwhale-shadow{0%,100%{transform:scaleX(1);opacity:.4}50%{transform:scaleX(.8);opacity:.18}}
+@keyframes sqlwhale-bubble{0%{opacity:0;transform:translate(0,7px) scale(.55)}15%{opacity:1}65%{opacity:.85}100%{opacity:0;transform:translate(12px,-42px) scale(1.35)}}
 @media(prefers-reduced-motion:reduce){.dolphin-float,.dolphin-shadow,.dolphin-bubble-svg{animation:none}.dolphin-bubble-svg{opacity:.8}}
