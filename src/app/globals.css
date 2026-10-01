@@ -13071,3 +13071,7 @@ body.sql-loader-lock { overflow: hidden; }
 @keyframes sqlwhale-shadow{0%,100%{transform:scaleX(1);opacity:.4}50%{transform:scaleX(.8);opacity:.18}}
 @keyframes sqlwhale-bubble{0%{opacity:0;transform:translate(0,7px) scale(.55)}15%{opacity:1}65%{opacity:.85}100%{opacity:0;transform:translate(12px,-42px) scale(1.35)}}
 @media(prefers-reduced-motion:reduce){.dolphin-float,.dolphin-shadow,.dolphin-bubble-svg{animation:none}.dolphin-bubble-svg{opacity:.8}}
+
+/* White sleeping cat */
+.white-cat-body,.white-cat-head,.white-cat-paw,.white-cat-tail{fill:#f8fafc!important;filter:drop-shadow(0 10px 10px rgba(0,0,0,.22))}
+.white-cat-belly{fill:#ffffff!important;opacity:1}
