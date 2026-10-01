@@ -13286,3 +13286,67 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
     0 0 0 2px rgba(114,217,231,.18),
     0 18px 42px rgba(0,0,0,.3);
 }
+
+
+/* Make the SQL editor the primary practice surface */
+.sqlwhale-query-editor .sql-editor-card{
+  border-color:rgba(37,99,235,.28);
+  box-shadow:
+    0 14px 40px rgba(15,23,42,.08),
+    0 0 0 1px rgba(37,99,235,.05);
+}
+.sqlwhale-query-editor .sql-editor-header{
+  min-height:72px;
+}
+.sqlwhale-query-editor .sql-editor-heading h2{
+  font-size:1rem;
+  font-weight:800;
+}
+.sqlwhale-query-editor .sql-editor-heading p{
+  max-width:520px;
+  font-size:.72rem;
+}
+.sql-editor-hint{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:38px;
+  padding:0 16px;
+  border-bottom:1px solid rgba(37,99,235,.12);
+  background:rgba(37,99,235,.045);
+  color:#64748b;
+  font-size:10px;
+  line-height:1.45;
+}
+.sql-editor-hint strong{
+  color:#334155;
+  font-weight:800;
+}
+.sql-editor-hint-dot{
+  width:7px;
+  height:7px;
+  flex:0 0 7px;
+  border-radius:50%;
+  background:#2563eb;
+  box-shadow:0 0 0 4px rgba(37,99,235,.1);
+}
+.dark .sqlwhale-query-editor .sql-editor-card{
+  border-color:rgba(96,165,250,.32);
+  box-shadow:
+    0 18px 46px rgba(0,0,0,.25),
+    0 0 0 1px rgba(96,165,250,.06);
+}
+.dark .sql-editor-hint{
+  border-bottom-color:rgba(96,165,250,.15);
+  background:rgba(37,99,235,.08);
+  color:#94a3b8;
+}
+.dark .sql-editor-hint strong{
+  color:#dbeafe;
+}
+@media(max-width:700px){
+  .sql-editor-hint{
+    align-items:flex-start;
+    padding:9px 12px;
+  }
+}
