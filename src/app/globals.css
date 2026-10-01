@@ -13051,19 +13051,21 @@ body.sql-loader-lock { overflow: hidden; }
 @media(max-width:800px){.sqlwhale-admin-page{padding:22px 14px}.sqlwhale-admin-header{flex-direction:column}.sqlwhale-admin-grid{grid-template-columns:1fr}.sqlwhale-admin-header h1{font-size:26px}}
 
 
-/* Maintenance sleeping dolphin — curled/cuddled pose */
+/* Maintenance sleeping SQLWhale — curled resting pose */
 .sqlwhale-dolphin-svg{position:absolute;left:50%;top:8px;width:min(520px,100%);height:270px;transform:translateX(-50%);overflow:visible}
-.dolphin-float{transform-origin:260px 150px;animation:sqlwhale-dolphin-float 4.8s ease-in-out infinite}
-.sleep-dolphin-body{filter:drop-shadow(0 18px 14px rgba(0,0,0,.25))}
-.sleep-dolphin-belly{opacity:.95}
-.sleep-dolphin-fin,.sleep-dolphin-tail{fill:#176b88}
-.sleep-dolphin-head{fill:#2b91ad}
-.sleep-dolphin-rostrum{fill:#267f9b}
-.sleep-dolphin-eye{fill:none;stroke:#062f3e;stroke-width:6;stroke-linecap:round}
-.sleep-dolphin-smile{fill:none;stroke:#06394a;stroke-width:4;stroke-linecap:round}
+.dolphin-float{transform-origin:280px 150px;animation:sqlwhale-dolphin-float 4.8s ease-in-out infinite}
+.whale-float{transform-origin:280px 155px}
+.sleep-whale-body{filter:drop-shadow(0 18px 14px rgba(0,0,0,.3))}
+.sleep-whale-belly{opacity:.95}
+.sleep-whale-head{filter:drop-shadow(0 8px 8px rgba(0,0,0,.18))}
+.sleep-whale-forehead{fill:#4b7186}
+.sleep-whale-flipper,.sleep-whale-tail{fill:#254b61}
+.sleep-whale-blowhole{fill:#102c3d}
+.sleep-whale-eye{fill:none;stroke:#071e2c;stroke-width:6;stroke-linecap:round}
+.sleep-whale-smile{fill:none;stroke:#082838;stroke-width:4;stroke-linecap:round}
 .dolphin-shadow{fill:rgba(36,190,211,.13);filter:blur(8px);animation:sqlwhale-shadow 4.8s ease-in-out infinite}
 .dolphin-bubble-svg{fill:none;stroke:#b4f4fb;stroke-width:3;opacity:.9;animation:sqlwhale-bubble 3s ease-out infinite}
-.sqlwhale-sleep-zs{left:62%;top:0}
+.sqlwhale-sleep-zs{left:63%;top:0}
 @keyframes sqlwhale-dolphin-float{0%,100%{transform:translateY(5px) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
 @keyframes sqlwhale-shadow{0%,100%{transform:scaleX(1);opacity:.45}50%{transform:scaleX(.82);opacity:.2}}
 @keyframes sqlwhale-bubble{0%{opacity:0;transform:translate(0,7px) scale(.55)}15%{opacity:1}65%{opacity:.8}100%{opacity:0;transform:translate(12px,-42px) scale(1.35)}}
