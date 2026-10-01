@@ -13271,3 +13271,18 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
   .sqlwhale-builder-button-main > span:last-child{min-width:0}
   .sqlwhale-builder-button-main small{white-space:normal}
 }
+
+
+/* Initial query context */
+.sql-table-node.is-initial-focus{
+  border-color:#72d9e7;
+  box-shadow:
+    0 0 0 2px rgba(114,217,231,.22),
+    0 14px 34px rgba(15,23,42,.12);
+}
+.dark .sql-table-node.is-initial-focus{
+  border-color:#72d9e7;
+  box-shadow:
+    0 0 0 2px rgba(114,217,231,.18),
+    0 18px 42px rgba(0,0,0,.3);
+}
