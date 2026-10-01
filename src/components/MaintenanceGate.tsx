@@ -38,92 +38,77 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
           {/* Sleeping SQLWhale — curled gently on its side. */}
           <svg className="sqlwhale-dolphin-svg sqlwhale-sleep-whale" viewBox="0 0 560 300" aria-hidden="true">
             <defs>
-              <linearGradient id="sleepWhaleBody" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#5c8298" />
-                <stop offset="0.5" stopColor="#31586f" />
-                <stop offset="1" stopColor="#132f43" />
+              <linearGradient id="cuteWhaleBody" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#344477" />
+                <stop offset="0.55" stopColor="#1e2852" />
+                <stop offset="1" stopColor="#111936" />
               </linearGradient>
-              <linearGradient id="sleepWhaleBelly" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#dcebf0" />
-                <stop offset="1" stopColor="#87aab9" />
+              <linearGradient id="cuteWhaleBelly" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#fff5dc" />
+                <stop offset="1" stopColor="#f4e8c9" />
               </linearGradient>
+              <filter id="cuteWhaleGlow">
+                <feGaussianBlur stdDeviation="7" />
+              </filter>
             </defs>
 
             <g className="dolphin-float whale-float">
-              <ellipse className="dolphin-shadow" cx="275" cy="246" rx="170" ry="18" />
+              <ellipse className="dolphin-shadow" cx="278" cy="242" rx="155" ry="17" />
 
-              
-              <path className="sleep-whale-body" fill="url(#sleepWhaleBody)"
-                d="M104 181
-                   C105 124 151 82 221 72
-                   C294 61 369 78 416 112
-                   C444 132 459 154 451 176
-                   C444 197 419 210 389 210
-                   C350 210 322 190 295 181
-                   C270 173 250 178 238 197
-                   C226 217 236 232 259 239
-                   C228 247 187 241 153 225
-                   C125 212 105 198 104 181Z" />
+              <path className="cute-whale-body" fill="url(#cuteWhaleBody)"
+                d="M113 157
+                   C119 108 168 78 230 76
+                   C298 74 351 91 388 116
+                   C414 134 427 154 418 174
+                   C409 194 383 204 354 199
+                   C325 194 305 178 277 174
+                   C246 170 226 184 222 205
+                   C218 225 235 238 261 241
+                   C219 253 166 237 137 211
+                   C119 195 109 176 113 157Z" />
 
-              
-              <path className="sleep-whale-belly" fill="url(#sleepWhaleBelly)"
-                d="M155 174
-                   C169 137 210 116 257 117
-                   C306 118 347 139 361 163
-                   C344 178 321 184 298 177
-                   C274 170 251 162 229 169
-                   C205 177 193 198 204 218
-                   C184 213 162 197 155 174Z" />
+              <ellipse className="cute-whale-belly" cx="231" cy="174" rx="91" ry="57"
+                transform="rotate(12 231 174)" />
 
-              
-              <path className="sleep-whale-head" fill="url(#sleepWhaleBody)"
-                d="M366 107
-                   C405 89 449 98 475 122
-                   C492 138 497 158 487 174
-                   C477 190 454 196 429 190
-                   C409 185 391 173 379 157
-                   C369 143 361 123 366 107Z" />
+              <path className="cute-whale-head" fill="url(#cuteWhaleBody)"
+                d="M352 112
+                   C390 91 431 101 454 124
+                   C470 140 474 159 464 174
+                   C454 189 431 193 409 185
+                   C388 178 369 163 357 147
+                   C348 134 346 120 352 112Z" />
 
-              
-              <ellipse className="sleep-whale-forehead" cx="427" cy="112" rx="42" ry="23" />
+              <ellipse className="cute-whale-forehead" cx="407" cy="111" rx="40" ry="19" />
 
-              
-              <path className="sleep-whale-flipper"
-                d="M310 169
-                   C343 181 365 198 366 218
-                   C347 220 320 207 294 188
-                   C286 181 294 170 310 169Z" />
+              <path className="cute-whale-fin"
+                d="M292 170 C323 178 346 195 345 212
+                   C326 215 301 201 279 184 C273 179 281 171 292 170Z" />
 
-              
-              <path className="sleep-whale-flipper"
-                d="M235 193
-                   C254 207 267 222 262 235
-                   C243 230 226 216 213 202Z" />
+              <path className="cute-whale-fin"
+                d="M220 194 C239 207 251 222 247 235
+                   C229 231 214 216 201 202Z" />
 
-              
-              <path className="sleep-whale-tail"
+              <path className="cute-whale-tail"
                 d="M137 202
-                   C104 199 73 209 57 231
-                   C84 225 105 229 124 243
-                   C114 225 118 213 137 202Z" />
-              <path className="sleep-whale-tail"
-                d="M128 213
-                   C99 230 91 250 101 268
-                   C116 249 132 243 153 245
-                   C136 236 129 226 128 213Z" />
+                   C104 197 76 207 57 229
+                   C84 224 105 230 123 244
+                   C114 226 118 213 137 202Z" />
+              <path className="cute-whale-tail"
+                d="M128 211
+                   C99 229 91 249 100 267
+                   C116 248 132 242 153 244
+                   C136 235 129 225 128 211Z" />
 
-              
-              <ellipse className="sleep-whale-blowhole" cx="447" cy="101" rx="8" ry="4" />
+              <ellipse className="cute-whale-blowhole" cx="427" cy="98" rx="7" ry="3.5" />
 
-              
-              <path className="sleep-whale-eye" d="M434 145 Q445 136 456 145" />
-              <path className="sleep-whale-smile" d="M451 162 Q462 168 473 161" />
+              <path className="cute-whale-eye" d="M419 143 Q428 133 437 143" />
+              <circle className="cute-whale-blush" cx="443" cy="157" r="8" />
+              <path className="cute-whale-mouth" d="M438 160 Q445 165 452 160" />
 
-              
               <g className="dolphin-bubble-svg">
-                <circle cx="453" cy="83" r="9" />
-                <circle cx="466" cy="65" r="5" />
-                <circle cx="480" cy="48" r="3.5" />
+                <circle cx="431" cy="79" r="9" />
+                <circle cx="447" cy="60" r="5" />
+                <circle cx="462" cy="43" r="3.5" />
               </g>
             </g>
           </svg>
