@@ -13116,6 +13116,24 @@ body.sql-loader-lock { overflow: hidden; }
   font-size:14px;
   line-height:1.6;
 }
+.sqlwhale-start-actions{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sqlwhale-start-dismiss{
+  min-height:44px;
+  padding:0 14px;
+  border:1px solid rgba(148,163,184,.28);
+  border-radius:11px;
+  background:transparent;
+  color:#a9bac3;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+.sqlwhale-start-dismiss:hover{border-color:rgba(148,163,184,.5);color:#f8fafc}
 .sqlwhale-start-cta{
   flex:0 0 auto;
   display:inline-flex;
@@ -13138,5 +13156,6 @@ body.sql-loader-lock { overflow: hidden; }
 .sqlwhale-start-cta:disabled{cursor:wait;opacity:.65}
 @media(max-width:700px){
   .sqlwhale-start-here{width:calc(100% - 20px);margin:14px auto;padding:20px;align-items:stretch;flex-direction:column;gap:16px}
-  .sqlwhale-start-cta{width:100%}
+  .sqlwhale-start-actions{width:100%;flex-direction:column-reverse}
+  .sqlwhale-start-dismiss,.sqlwhale-start-cta{width:100%}
 }
