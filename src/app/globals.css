@@ -13171,3 +13171,18 @@ body.sql-loader-lock { overflow: hidden; }
 .sqlwhale-tour-skip{border:0;background:transparent;color:#94a3b8;font-size:11px;font-weight:700;cursor:pointer}
 .sqlwhale-tour-next{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 13px;border:1px solid rgba(114,217,231,.45);border-radius:9px;background:#72d9e7;color:#06212a;font-size:11px;font-weight:900;cursor:pointer}
 @media(max-width:700px){.sqlwhale-tour-card{top:auto!important;left:16px!important;right:16px;width:auto;bottom:16px}}
+
+/* Keep lower workspace sections out of the way while the canvas is being explained */
+body.sqlwhale-tour-active .sqlwhale-builder-shell,
+body.sqlwhale-tour-active .sqlwhale-query-editor{
+  position:relative;
+  z-index:0;
+  opacity:.18;
+  pointer-events:none;
+}
+body.sqlwhale-tour-active .sqlwhale-main-workspace{
+  z-index:20;
+}
+body.sqlwhale-tour-active .sqlwhale-schema-workspace{
+  z-index:30 !important;
+}
