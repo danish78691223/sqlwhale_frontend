@@ -35,68 +35,53 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
       <main className="sqlwhale-maintenance-page">
         <div className="sqlwhale-sleep-scene" aria-hidden="true">
           <div className="sqlwhale-sleep-zs"><span>Z</span><span>Z</span><span>Z</span></div>
-          {/* Sleeping SQLWhale — curled gently on its side. */}
+          {/* Sleeping SQLWhale — unmistakable rounded whale silhouette. */}
           <svg className="sqlwhale-dolphin-svg sqlwhale-sleep-whale" viewBox="0 0 560 300" aria-hidden="true">
             <defs>
               <linearGradient id="cuteWhaleBody" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#344477" />
-                <stop offset="0.55" stopColor="#1e2852" />
+                <stop offset="0" stopColor="#3b4d82" />
+                <stop offset="0.5" stopColor="#202b59" />
                 <stop offset="1" stopColor="#111936" />
               </linearGradient>
               <linearGradient id="cuteWhaleBelly" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#fff5dc" />
-                <stop offset="1" stopColor="#f4e8c9" />
+                <stop offset="0" stopColor="#fff7df" />
+                <stop offset="1" stopColor="#f1e2bd" />
               </linearGradient>
             </defs>
 
             <g className="dolphin-float whale-float">
-              <ellipse className="dolphin-shadow" cx="280" cy="239" rx="158" ry="16" />
+              <ellipse className="dolphin-shadow" cx="278" cy="238" rx="166" ry="15" />
 
-              <path className="cute-whale-tail"
-                d="M430 181 C460 169 487 151 501 128 C507 151 500 176 480 192
-                   C499 191 516 199 529 214 C505 217 480 209 460 195
-                   C449 190 439 187 430 181Z" />
+              <!-- Tail flukes: two clear rounded lobes. -->
+              <path className="cute-whale-tail" d="M421 172 C450 164 474 145 491 121 C503 137 500 158 486 174 C503 168 522 169 541 180 C526 198 501 201 477 190 C460 183 441 181 421 180Z" />
+              <path className="cute-whale-tail" d="M422 180 C448 181 470 190 486 207 C470 218 447 214 430 198 C421 191 414 185 407 181Z" />
 
-              <path className="cute-whale-body" fill="url(#cuteWhaleBody)"
-                d="M122 166
-                   C126 119 174 94 240 92
-                   C303 90 365 103 412 128
-                   C439 143 451 160 446 179
-                   C440 200 414 211 381 211
-                   C342 211 315 198 283 197
-                   C247 196 221 208 190 211
-                   C156 214 128 198 122 166Z" />
+              <!-- Big rounded whale body with a distinct forehead and tapered rear. -->
+              <path className="cute-whale-body" fill="url(#cuteWhaleBody)" d="M112 166 C93 158 81 142 83 125 C85 102 103 84 128 80 C153 76 172 86 183 103 C217 91 261 87 310 92 C358 97 400 111 429 134 C445 147 451 162 447 176 C442 194 424 204 398 208 C364 213 331 203 303 198 C275 193 249 196 224 205 C194 216 160 215 137 202 C121 193 113 181 112 166Z" />
 
-              <ellipse className="cute-whale-belly" cx="274" cy="176" rx="116" ry="48"
-                transform="rotate(2 274 176)" />
+              <!-- Cream belly makes the whale silhouette immediately recognizable. -->
+              <path className="cute-whale-belly" d="M130 163 C146 151 171 145 202 146 C242 147 283 154 320 165 C351 174 374 185 387 195 C365 205 335 201 304 195 C276 190 249 193 224 202 C191 213 159 207 141 192 C130 183 126 173 130 163Z" />
 
-              <path className="cute-whale-head" fill="url(#cuteWhaleBody)"
-                d="M121 165
-                   C105 154 94 137 99 120
-                   C104 103 122 94 142 98
-                   C160 102 171 118 168 135
-                   C165 151 151 164 133 169Z" />
+              <!-- Rounded forehead / snout. -->
+              <ellipse className="cute-whale-forehead" cx="120" cy="105" rx="39" ry="25" />
 
-              <ellipse className="cute-whale-forehead" cx="126" cy="108" rx="28" ry="13" />
+              <!-- Relaxed pectoral fin. -->
+              <path className="cute-whale-fin" d="M244 192 C229 202 219 217 223 230 C240 228 257 216 268 201 C273 194 260 188 244 192Z" />
 
-              <path className="cute-whale-fin"
-                d="M211 193 C196 198 184 208 180 221
-                   C194 226 212 219 226 205 C231 199 223 191 211 193Z" />
+              <!-- Second fin peeking from the far side. -->
+              <path className="cute-whale-fin" d="M322 194 C337 199 347 209 348 220 C335 222 321 214 311 205 C307 200 313 193 322 194Z" />
 
-              <path className="cute-whale-fin"
-                d="M321 198 C338 202 348 211 350 221
-                   C337 224 322 217 311 207 C306 202 312 197 321 198Z" />
+              <!-- Blowhole, closed sleepy eye and tiny smile. -->
+              <ellipse className="cute-whale-blowhole" cx="139" cy="86" rx="7" ry="3.5" />
+              <path className="cute-whale-eye" d="M108 132 Q119 142 130 132" />
+              <circle className="cute-whale-blush" cx="139" cy="144" r="9" />
+              <path className="cute-whale-mouth" d="M132 153 Q140 158 148 151" />
 
-              <ellipse className="cute-whale-blowhole" cx="112" cy="105" rx="6" ry="3" />
-
-              <path className="cute-whale-eye" d="M111 130 Q120 140 129 130" />
-              <circle className="cute-whale-blush" cx="137" cy="143" r="8" />
-              <path className="cute-whale-mouth" d="M128 150 Q135 154 142 149" />
-
+              <!-- Small sleepy bubbles rising from the blowhole. -->
               <g className="dolphin-bubble-svg">
-                <circle cx="104" cy="83" r="9" />
-                <circle cx="91" cy="63" r="5" />
-                <circle cx="78" cy="47" r="3.5" />
+                <circle cx="143" cy="72" r="9" />
+                <circle cx="154" cy="51" r="5.5" />
+                <circle cx="164" cy="34" r="3.5" />
               </g>
             </g>
           </svg>
