@@ -52,7 +52,7 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
             <g className="dolphin-float whale-float">
               <ellipse className="dolphin-shadow" cx="275" cy="246" rx="170" ry="18" />
 
-              <!-- main whale body -->
+              
               <path className="sleep-whale-body" fill="url(#sleepWhaleBody)"
                 d="M104 181
                    C105 124 151 82 221 72
@@ -65,7 +65,7 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C228 247 187 241 153 225
                    C125 212 105 198 104 181Z" />
 
-              <!-- pale belly -->
+              
               <path className="sleep-whale-belly" fill="url(#sleepWhaleBelly)"
                 d="M155 174
                    C169 137 210 116 257 117
@@ -75,7 +75,7 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C205 177 193 198 204 218
                    C184 213 162 197 155 174Z" />
 
-              <!-- whale head -->
+              
               <path className="sleep-whale-head" fill="url(#sleepWhaleBody)"
                 d="M366 107
                    C405 89 449 98 475 122
@@ -84,23 +84,23 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C409 185 391 173 379 157
                    C369 143 361 123 366 107Z" />
 
-              <!-- rounded forehead -->
+              
               <ellipse className="sleep-whale-forehead" cx="427" cy="112" rx="42" ry="23" />
 
-              <!-- broad flipper tucked across belly -->
+              
               <path className="sleep-whale-flipper"
                 d="M310 169
                    C343 181 365 198 366 218
                    C347 220 320 207 294 188
                    C286 181 294 170 310 169Z" />
 
-              <!-- second tucked flipper -->
+              
               <path className="sleep-whale-flipper"
                 d="M235 193
                    C254 207 267 222 262 235
                    C243 230 226 216 213 202Z" />
 
-              <!-- tail curled inward -->
+              
               <path className="sleep-whale-tail"
                 d="M137 202
                    C104 199 73 209 57 231
@@ -112,14 +112,14 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C116 249 132 243 153 245
                    C136 236 129 226 128 213Z" />
 
-              <!-- blowhole -->
+              
               <ellipse className="sleep-whale-blowhole" cx="447" cy="101" rx="8" ry="4" />
 
-              <!-- closed sleepy eye and smile -->
+              
               <path className="sleep-whale-eye" d="M434 145 Q445 136 456 145" />
               <path className="sleep-whale-smile" d="M451 162 Q462 168 473 161" />
 
-              <!-- tiny nose/breath bubbles -->
+              
               <g className="dolphin-bubble-svg">
                 <circle cx="453" cy="83" r="9" />
                 <circle cx="466" cy="65" r="5" />
