@@ -53,6 +53,7 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
             </defs>
 
             <g className="dolphin-float whale-float">
+              <g transform="translate(560 0) scale(-1 1)">
               <ellipse className="dolphin-shadow" cx="278" cy="242" rx="155" ry="17" />
 
               <path className="cute-whale-body" fill="url(#cuteWhaleBody)"
@@ -109,6 +110,7 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                 <circle cx="431" cy="79" r="9" />
                 <circle cx="447" cy="60" r="5" />
                 <circle cx="462" cy="43" r="3.5" />
+              </g>
               </g>
             </g>
           </svg>
