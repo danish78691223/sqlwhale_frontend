@@ -13186,3 +13186,48 @@ body.sqlwhale-tour-active .sqlwhale-main-workspace{
 body.sqlwhale-tour-active .sqlwhale-schema-workspace{
   z-index:30 !important;
 }
+
+
+/* Explicit SQL query modes */
+.sqlwhale-query-mode-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0 0 10px;
+  padding:0 2px;
+}
+.sqlwhale-query-mode-number{
+  display:grid;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  place-items:center;
+  border:1px solid rgba(114,217,231,.28);
+  border-radius:7px;
+  background:rgba(114,217,231,.08);
+  color:#72d9e7;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+.sqlwhale-query-mode-label div{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  min-width:0;
+}
+.sqlwhale-query-mode-label strong{
+  color:#0f172a;
+  font-size:12px;
+  font-weight:900;
+}
+.sqlwhale-query-mode-label span:not(.sqlwhale-query-mode-number){
+  color:#94a3b8;
+  font-size:10px;
+  line-height:1.4;
+}
+.dark .sqlwhale-query-mode-label strong{color:#e2e8f0}
+@media(max-width:700px){
+  .sqlwhale-query-mode-label div{display:block}
+  .sqlwhale-query-mode-label span:not(.sqlwhale-query-mode-number){display:block;margin-top:2px}
+}
