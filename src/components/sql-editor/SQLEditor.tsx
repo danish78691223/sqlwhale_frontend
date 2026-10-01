@@ -135,7 +135,7 @@ export default function SQLEditor({
               </h2>
 
               <p>
-                Write and practice the query yourself.
+                Edit the example, then run it to see what the database does.
               </p>
             </div>
 
@@ -174,6 +174,11 @@ export default function SQLEditor({
             </button>
 
           </div>
+        </div>
+
+        <div className="sql-editor-hint" aria-label="SQL editor tip">
+          <span className="sql-editor-hint-dot" aria-hidden="true" />
+          <span><strong>Start here:</strong> edit the example query or write your own, then click <strong>Run</strong>.</span>
         </div>
 
         <div className="sql-editor-container">
