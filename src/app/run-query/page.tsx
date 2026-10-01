@@ -80,7 +80,7 @@ export default function RunQueryPage() {
       window.removeEventListener("resize", updateRect);
       window.removeEventListener("scroll", updateRect, true);
     };
-  }, [showProductTour, tourStep]);
+  }, [showProductTour, tourStep, builderOpen]);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
     column: string;
