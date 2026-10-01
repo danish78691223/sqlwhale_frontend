@@ -36,6 +36,11 @@ export default function RunQueryPage() {
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(true);
+  const [showStartHere, setShowStartHere] = useState(false);
+
+  useEffect(() => {
+    setShowStartHere(localStorage.getItem("sqlwhale-start-here-dismissed") !== "true");
+  }, []);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
     column: string;
@@ -134,10 +139,16 @@ export default function RunQueryPage() {
     });
   };
 
+  const dismissStartHere = () => {
+    setShowStartHere(false);
+    localStorage.setItem("sqlwhale-start-here-dismissed", "true");
+  };
+
   const handleRun = async (sql: string) => {
     const cleanSQL = sql.trim();
 
     setQuery(cleanSQL);
+    dismissStartHere();
     setExecutedQuery(null);
     setAnimationComplete(false);
     setAnimationRunId((current) => current + 1);
@@ -344,24 +355,35 @@ export default function RunQueryPage() {
         </div>
       </header>
 
-      <section className="sqlwhale-start-here" aria-labelledby="sqlwhale-start-title">
-        <div className="sqlwhale-start-copy">
-          <span className="sqlwhale-start-eyebrow">START HERE</span>
-          <h1 id="sqlwhale-start-title">Learn SQL by seeing what the database does.</h1>
-          <p>
-            Your first query is ready below. Run it as-is, or edit it to see how SQL changes the result.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="sqlwhale-start-cta"
-          onClick={() => handleRun(DEFAULT_QUERY)}
-          disabled={loading}
-        >
-          {loading ? "Running..." : "Run example query"}
-          <span aria-hidden="true">→</span>
-        </button>
-      </section>
+      {showStartHere && (
+        <section className="sqlwhale-start-here" aria-labelledby="sqlwhale-start-title">
+          <div className="sqlwhale-start-copy">
+            <span className="sqlwhale-start-eyebrow">START HERE</span>
+            <h1 id="sqlwhale-start-title">Learn SQL by seeing what the database does.</h1>
+            <p>
+              Your first query is ready below. Run it as-is, or edit it to see how SQL changes the result.
+            </p>
+          </div>
+          <div className="sqlwhale-start-actions">
+            <button
+              type="button"
+              className="sqlwhale-start-dismiss"
+              onClick={dismissStartHere}
+            >
+              Dismiss
+            </button>
+            <button
+              type="button"
+              className="sqlwhale-start-cta"
+              onClick={() => handleRun(DEFAULT_QUERY)}
+              disabled={loading}
+            >
+              {loading ? "Running..." : "Run example query"}
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </section>
+      )}
 
       <section className="sqlwhale-main-workspace">
         <section
