@@ -344,6 +344,25 @@ export default function RunQueryPage() {
         </div>
       </header>
 
+      <section className="sqlwhale-start-here" aria-labelledby="sqlwhale-start-title">
+        <div className="sqlwhale-start-copy">
+          <span className="sqlwhale-start-eyebrow">START HERE</span>
+          <h1 id="sqlwhale-start-title">Learn SQL by seeing what the database does.</h1>
+          <p>
+            Your first query is ready below. Run it as-is, or edit it to see how SQL changes the result.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="sqlwhale-start-cta"
+          onClick={() => handleRun(DEFAULT_QUERY)}
+          disabled={loading}
+        >
+          {loading ? "Running..." : "Run example query"}
+          <span aria-hidden="true">→</span>
+        </button>
+      </section>
+
       <section className="sqlwhale-main-workspace">
         <section
           className="sqlwhale-schema-workspace"
