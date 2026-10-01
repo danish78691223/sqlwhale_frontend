@@ -35,32 +35,38 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
       <main className="sqlwhale-maintenance-page">
         <div className="sqlwhale-sleep-scene" aria-hidden="true">
           <div className="sqlwhale-sleep-zs"><span>Z</span><span>Z</span><span>Z</span></div>
-          {/* Simple sleeping cat — verification version */}
+          {/* Sleeping cat — curled up naturally with paws under its head. */}
           <svg className="sqlwhale-dolphin-svg sqlwhale-sleep-whale" viewBox="0 0 560 300" aria-hidden="true">
             <g className="dolphin-float whale-float">
-              <ellipse className="dolphin-shadow" cx="280" cy="232" rx="130" ry="13" />
+              <ellipse className="dolphin-shadow" cx="280" cy="232" rx="128" ry="13" />
 
-              <path className="cute-whale-body" d="M145 176 C128 158 126 133 139 115 L151 91 L169 109 C191 98 219 99 241 110 C273 126 292 153 287 177 C282 201 254 213 220 213 C190 213 163 201 145 176Z" />
+              <!-- Curled body -->
+              <path className="cute-whale-body" d="M154 192 C126 174 119 143 131 119 C143 94 170 82 198 87 C233 92 259 113 271 139 C286 128 310 121 334 128 C365 137 384 161 382 187 C380 210 358 224 327 224 C299 224 276 213 256 204 C231 220 191 219 154 192Z" />
 
-              <path className="cute-whale-belly" d="M157 166 C174 151 198 150 220 156 C242 162 257 175 260 189 C246 201 219 204 195 197 C174 191 160 180 157 166Z" />
+              <!-- Cream belly -->
+              <path className="cute-whale-belly" d="M174 180 C160 162 160 138 175 123 C192 107 217 112 232 129 C245 144 249 167 240 187 C226 201 194 201 174 180Z" />
 
-              <path className="cute-whale-fin" d="M229 193 C245 198 256 208 259 220 C245 223 231 216 220 207 C215 202 220 191 229 193Z" />
+              <!-- Head with two cat ears -->
+              <path className="cute-whale-forehead" d="M139 137 C126 122 128 100 143 91 L151 67 L171 88 C184 81 201 84 211 95 L235 77 L235 108 C248 124 244 145 229 157 C210 173 174 169 151 157Z" />
 
-              <path className="cute-whale-fin" d="M176 195 C164 201 155 211 155 221 C168 222 181 214 190 204 C194 199 186 191 176 195Z" />
+              <!-- Front paws tucked under the sleeping head -->
+              <path className="cute-whale-fin" d="M185 159 C170 164 160 174 158 186 C171 190 188 184 199 174 C205 168 198 157 185 159Z" />
+              <path className="cute-whale-fin" d="M211 159 C225 163 235 172 237 183 C225 188 210 182 200 173 C195 168 202 157 211 159Z" />
 
-              <path className="cute-whale-tail" d="M275 169 C307 158 328 142 345 120 C354 142 348 161 331 175 C351 170 369 174 384 187 C367 201 344 201 324 190 C307 181 292 178 275 181Z" />
+              <!-- Tail wrapped around the front of the curled body -->
+              <path className="cute-whale-tail" d="M350 180 C373 188 392 201 399 217 C384 227 363 221 348 207 C336 196 326 190 314 188 C305 186 306 175 314 172 C326 168 338 174 350 180Z" />
 
-              <path className="cute-whale-tail" d="M277 178 C302 184 319 198 329 215 C311 219 294 207 282 194 C276 188 273 182 277 178Z" />
+              <!-- Closed sleepy face -->
+              <path className="cute-whale-eye" d="M157 127 Q166 136 175 127" />
+              <path className="cute-whale-eye" d="M194 127 Q203 136 212 127" />
+              <path className="cute-whale-mouth" d="M181 140 Q186 145 191 140" />
+              <circle className="cute-whale-blush" cx="153" cy="143" r="7" />
+              <circle className="cute-whale-blush" cx="216" cy="143" r="7" />
 
-              <path className="cute-whale-forehead" d="M137 119 L151 83 L168 103 C181 99 193 101 202 107 C185 111 174 120 166 133 C156 137 145 132 137 119Z" />
-
-              <path className="cute-whale-eye" d="M151 130 Q159 138 167 130" />
-              <path className="cute-whale-mouth" d="M166 143 Q172 147 178 143" />
-              <circle className="cute-whale-blush" cx="180" cy="139" r="7" />
-
+              <!-- Tiny nose bubble -->
               <g className="dolphin-bubble-svg">
-                <circle cx="150" cy="121" r="5" />
-                <circle cx="142" cy="109" r="3" />
+                <circle cx="187" cy="151" r="6" />
+                <circle cx="180" cy="166" r="3.5" />
               </g>
             </g>
           </svg>
