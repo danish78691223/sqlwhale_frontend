@@ -40,16 +40,16 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
             <g className="dolphin-float whale-float">
               <ellipse className="dolphin-shadow" cx="280" cy="232" rx="128" ry="13" />
 
-              <path className="cute-whale-body" d="M154 192 C126 174 119 143 131 119 C143 94 170 82 198 87 C233 92 259 113 271 139 C286 128 310 121 334 128 C365 137 384 161 382 187 C380 210 358 224 327 224 C299 224 276 213 256 204 C231 220 191 219 154 192Z" />
+              <path className="cute-whale-body white-cat-body" d="M154 192 C126 174 119 143 131 119 C143 94 170 82 198 87 C233 92 259 113 271 139 C286 128 310 121 334 128 C365 137 384 161 382 187 C380 210 358 224 327 224 C299 224 276 213 256 204 C231 220 191 219 154 192Z" />
 
-              <path className="cute-whale-belly" d="M174 180 C160 162 160 138 175 123 C192 107 217 112 232 129 C245 144 249 167 240 187 C226 201 194 201 174 180Z" />
+              <path className="cute-whale-belly white-cat-belly" d="M174 180 C160 162 160 138 175 123 C192 107 217 112 232 129 C245 144 249 167 240 187 C226 201 194 201 174 180Z" />
 
-              <path className="cute-whale-forehead" d="M139 137 C126 122 128 100 143 91 L151 67 L171 88 C184 81 201 84 211 95 L235 77 L235 108 C248 124 244 145 229 157 C210 173 174 169 151 157Z" />
+              <path className="cute-whale-forehead white-cat-head" d="M139 137 C126 122 128 100 143 91 L151 67 L171 88 C184 81 201 84 211 95 L235 77 L235 108 C248 124 244 145 229 157 C210 173 174 169 151 157Z" />
 
-              <path className="cute-whale-fin" d="M185 159 C170 164 160 174 158 186 C171 190 188 184 199 174 C205 168 198 157 185 159Z" />
-              <path className="cute-whale-fin" d="M211 159 C225 163 235 172 237 183 C225 188 210 182 200 173 C195 168 202 157 211 159Z" />
+              <path className="cute-whale-fin white-cat-paw" d="M185 159 C170 164 160 174 158 186 C171 190 188 184 199 174 C205 168 198 157 185 159Z" />
+              <path className="cute-whale-fin white-cat-paw" d="M211 159 C225 163 235 172 237 183 C225 188 210 182 200 173 C195 168 202 157 211 159Z" />
 
-              <path className="cute-whale-tail" d="M350 180 C373 188 392 201 399 217 C384 227 363 221 348 207 C336 196 326 190 314 188 C305 186 306 175 314 172 C326 168 338 174 350 180Z" />
+              <path className="cute-whale-tail white-cat-tail" d="M350 180 C373 188 392 201 399 217 C384 227 363 221 348 207 C336 196 326 190 314 188 C305 186 306 175 314 172 C326 168 338 174 350 180Z" />
 
               <path className="cute-whale-eye" d="M157 127 Q166 136 175 127" />
               <path className="cute-whale-eye" d="M194 127 Q203 136 212 127" />
