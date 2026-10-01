@@ -541,6 +541,13 @@ export default function RunQueryPage() {
       </section>
 
       <section className="sqlwhale-builder-shell" data-sqlwhale-tour="builder">
+        <div className="sqlwhale-query-mode-label">
+          <span className="sqlwhale-query-mode-number">01</span>
+          <div>
+            <strong>Build Visually</strong>
+            <span>Create a query without writing SQL manually.</span>
+          </div>
+        </div>
         <button
           type="button"
           className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
@@ -568,6 +575,13 @@ export default function RunQueryPage() {
         data-sql-editor
         data-sqlwhale-tour="editor"
       >
+        <div className="sqlwhale-query-mode-label">
+          <span className="sqlwhale-query-mode-number">02</span>
+          <div>
+            <strong>Write SQL</strong>
+            <span>Write and practice the query yourself.</span>
+          </div>
+        </div>
         <SQLEditor
           initialQuery={query}
           loading={loading}
