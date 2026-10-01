@@ -43,6 +43,11 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
               <path fill="#77BCF7" d="M10.396 21.896s4-.876 7.167-2.688c4.625-2.646 7.26-2.594 8.885-.823s1.99 6.594-2.885 9.677c2.604-2.75 1.146-8.349-2.014-7.588-8.153 1.964-8.903 1.547-11.153 1.422z"/>
               <path fill="#4292E0" d="M19.383 17.744l-2.922 1.285c-.254.064-.433.3-.412.561.122 1.504.756 3.625 2.263 4.629 2.354 1.569 2.367 1.897 3 0 .768-2.303-.182-4.462-1.333-6.24-.127-.196-.37-.293-.596-.235z"/>
             </g>
+            <g className="dolphin-bubble-svg" fill="none" stroke="#b4f4fb" strokeWidth="0.55">
+              <circle cx="31.2" cy="2.2" r="1.5" />
+              <circle cx="33.2" cy="-0.8" r="0.7" />
+              <circle cx="29.2" cy="-0.5" r="0.5" />
+            </g>
           </svg>
           <div className="sqlwhale-sleep-wave wave-one" />
           <div className="sqlwhale-sleep-wave wave-two" />
