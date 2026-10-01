@@ -50,10 +50,9 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
             </defs>
 
             <g className="dolphin-float">
-              <!-- soft sleeping shadow -->
+
               <ellipse className="dolphin-shadow" cx="258" cy="238" rx="145" ry="16" />
 
-              <!-- main curled body -->
               <path
                 className="sleep-dolphin-body"
                 fill="url(#sleepDolphin)"
@@ -83,7 +82,6 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C178 229 126 220 108 192Z"
               />
 
-              <!-- pale belly visible inside the cuddle -->
               <path
                 className="sleep-dolphin-belly"
                 fill="url(#sleepBelly)"
@@ -99,21 +97,18 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C166 172 159 133 185 111Z"
               />
 
-              <!-- dorsal fin folded down like a sleeping pose -->
               <path
                 className="sleep-dolphin-fin"
                 d="M181 88 C154 67 151 38 168 20
                    C190 42 207 64 211 91Z"
               />
 
-              <!-- pectoral fin tucked over the belly -->
               <path
                 className="sleep-dolphin-fin"
                 d="M276 184 C305 196 324 211 321 226
                    C299 224 278 211 261 194Z"
               />
 
-              <!-- tucked tail flukes -->
               <path
                 className="sleep-dolphin-tail"
                 d="M119 193 C84 185 58 195 45 217
@@ -127,7 +122,6 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C119 228 112 217 113 204Z"
               />
 
-              <!-- head and tucked snout -->
               <path
                 className="sleep-dolphin-head"
                 d="M354 132 C377 112 405 111 426 124
@@ -141,11 +135,9 @@ export default function MaintenanceGate({ children }: { children: React.ReactNod
                    C478 153 453 157 431 151Z"
               />
 
-              <!-- closed eye + tiny sleepy smile -->
               <path className="sleep-dolphin-eye" d="M404 139 Q415 130 426 139" />
               <path className="sleep-dolphin-smile" d="M431 151 Q441 158 451 152" />
 
-              <!-- bubbles from nose -->
               <g className="dolphin-bubble-svg">
                 <circle cx="493" cy="131" r="10" />
                 <circle cx="475" cy="116" r="5" />
