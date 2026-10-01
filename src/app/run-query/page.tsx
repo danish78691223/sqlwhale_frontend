@@ -298,6 +298,99 @@ const RUN_QUERY_LAYOUT_CSS = String.raw`
   background: rgba(96, 165, 250, 0.06);
 }
 
+
+/* Final alignment pass:
+   keep the three upper panels identical in height and contain
+   the visual query builder inside its right-hand panel. */
+.sqlwhale-run-page > .sqlwhale-main-workspace,
+.sqlwhale-run-page > .sqlwhale-builder-shell {
+  align-self: stretch;
+  min-height: 0 !important;
+  box-sizing: border-box;
+}
+
+.sqlwhale-run-page > .sqlwhale-main-workspace {
+  overflow: hidden !important;
+}
+
+.sqlwhale-run-page > .sqlwhale-main-workspace > .sqlwhale-schema-workspace,
+.sqlwhale-run-page > .sqlwhale-main-workspace > .sqlwhale-center-output,
+.sqlwhale-run-page > .sqlwhale-builder-shell {
+  height: 100% !important;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell {
+  position: relative !important;
+  inset: auto !important;
+  align-self: stretch;
+  overflow: hidden !important;
+  container-type: inline-size;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell > .sqlwhale-query-builder {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  flex: 1 1 auto;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-header,
+.sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-flow,
+.sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-flow {
+  min-width: 0;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-block {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.sqlwhale-run-page > .sqlwhale-builder-shell select,
+.sqlwhale-run-page > .sqlwhale-builder-shell input,
+.sqlwhale-run-page > .sqlwhale-builder-shell button {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@container (max-width: 500px) {
+  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-arrow {
+    min-height: 18px;
+    transform: rotate(90deg);
+  }
+
+  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate button {
+    width: 100%;
+  }
+}
+
 @media (max-width: 900px) {
   .sqlwhale-run-page {
     display: block !important;
