@@ -35,7 +35,7 @@ export default function RunQueryPage() {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
-  const [builderOpen, setBuilderOpen] = useState(true);
+  const [builderOpen, setBuilderOpen] = useState(false);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
@@ -58,9 +58,16 @@ export default function RunQueryPage() {
 
     // Keep the canvas and builder from visually colliding while the tour
     // explains a specific area of the workspace.
+    const isCanvasStep = tourSteps[tourStep].target === "schema";
+    const isBuilderStep = tourSteps[tourStep].target === "builder";
+
+    // The builder stays collapsed during normal use. The tour is the only
+    // automatic moment when it opens without the user clicking it.
+    setBuilderOpen(isBuilderStep);
+
     document.body.classList.toggle(
       "sqlwhale-tour-active",
-      tourSteps[tourStep].target === "schema"
+      isCanvasStep
     );
 
     target.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -174,6 +181,7 @@ export default function RunQueryPage() {
 
   const finishProductTour = () => {
     setShowProductTour(false);
+    setBuilderOpen(false);
     localStorage.setItem("sqlwhale-product-tour-seen", "true");
     setTourRect(null);
   };
