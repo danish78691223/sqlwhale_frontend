@@ -36,11 +36,35 @@ export default function RunQueryPage() {
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(true);
-  const [showStartHere, setShowStartHere] = useState(false);
+  const [showProductTour, setShowProductTour] = useState(false);
+  const [tourStep, setTourStep] = useState(0);
+  const [tourRect, setTourRect] = useState<DOMRect | null>(null);
+
+  const tourSteps = [
+    { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
+    { target: "output", title: "Query Output", text: "After you run SQL, the result appears here along with the visual execution flow." },
+    { target: "builder", title: "Visual Query Builder", text: "Build a query visually when you don't want to write all the SQL yourself." },
+    { target: "editor", title: "SQL Editor", text: "Write and edit your SQL here. This is where you practice the actual query." },
+  ];
 
   useEffect(() => {
-    setShowStartHere(localStorage.getItem("sqlwhale-start-here-dismissed") !== "true");
+    if (localStorage.getItem("sqlwhale-product-tour-seen") !== "true") setShowProductTour(true);
   }, []);
+
+  useEffect(() => {
+    if (!showProductTour) return;
+    const target = document.querySelector<HTMLElement>(`[data-sqlwhale-tour="${tourSteps[tourStep].target}"]`);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    const updateRect = () => setTourRect(target.getBoundingClientRect());
+    updateRect();
+    window.addEventListener("resize", updateRect);
+    window.addEventListener("scroll", updateRect, true);
+    return () => {
+      window.removeEventListener("resize", updateRect);
+      window.removeEventListener("scroll", updateRect, true);
+    };
+  }, [showProductTour, tourStep]);
   const [activeSqlTarget, setActiveSqlTarget] = useState<{
     table?: string;
     column: string;
@@ -139,16 +163,16 @@ export default function RunQueryPage() {
     });
   };
 
-  const dismissStartHere = () => {
-    setShowStartHere(false);
-    localStorage.setItem("sqlwhale-start-here-dismissed", "true");
+  const finishProductTour = () => {
+    setShowProductTour(false);
+    localStorage.setItem("sqlwhale-product-tour-seen", "true");
+    setTourRect(null);
   };
 
   const handleRun = async (sql: string) => {
     const cleanSQL = sql.trim();
 
     setQuery(cleanSQL);
-    dismissStartHere();
     setExecutedQuery(null);
     setAnimationComplete(false);
     setAnimationRunId((current) => current + 1);
@@ -355,37 +379,24 @@ export default function RunQueryPage() {
         </div>
       </header>
 
-      {showStartHere && (
-        <section className="sqlwhale-start-here" aria-labelledby="sqlwhale-start-title">
-          <div className="sqlwhale-start-copy">
-            <span className="sqlwhale-start-eyebrow">START HERE</span>
-            <h1 id="sqlwhale-start-title">Learn SQL by seeing what the database does.</h1>
-            <p>
-              Your first query is ready below. Run it as-is, or edit it to see how SQL changes the result.
-            </p>
+      {showProductTour && tourRect && (
+        <div className="sqlwhale-product-tour" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-tour-title">
+          <div className="sqlwhale-tour-spotlight" style={{ top: Math.max(8, tourRect.top - 8), left: Math.max(8, tourRect.left - 8), width: tourRect.width + 16, height: tourRect.height + 16 }} />
+          <div className="sqlwhale-tour-card" style={{ top: tourRect.bottom + 18, left: Math.min(Math.max(16, tourRect.left), window.innerWidth - 336) }}>
+            <span className="sqlwhale-tour-step">STEP {tourStep + 1} OF {tourSteps.length}</span>
+            <h2 id="sqlwhale-tour-title">{tourSteps[tourStep].title}</h2>
+            <p>{tourSteps[tourStep].text}</p>
+            <div className="sqlwhale-tour-actions">
+              <button type="button" className="sqlwhale-tour-skip" onClick={finishProductTour}>Skip tour</button>
+              <button type="button" className="sqlwhale-tour-next" onClick={() => tourStep === tourSteps.length - 1 ? finishProductTour() : setTourStep((step) => step + 1)}>
+                {tourStep === tourSteps.length - 1 ? "Got it" : "Next"} <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
-          <div className="sqlwhale-start-actions">
-            <button
-              type="button"
-              className="sqlwhale-start-dismiss"
-              onClick={dismissStartHere}
-            >
-              Dismiss
-            </button>
-            <button
-              type="button"
-              className="sqlwhale-start-cta"
-              onClick={() => handleRun(DEFAULT_QUERY)}
-              disabled={loading}
-            >
-              {loading ? "Running..." : "Run example query"}
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        </section>
+        </div>
       )}
 
-      <section className="sqlwhale-main-workspace">
+      <section className="sqlwhale-main-workspace" data-sqlwhale-tour="schema">
         <section
           className="sqlwhale-schema-workspace"
           style={{
@@ -422,6 +433,7 @@ export default function RunQueryPage() {
           className="sqlwhale-center-output"
           style={{ zIndex: 2 }}
           data-sql-output
+          data-sqlwhale-tour="output"
         >
           <div className="output-box-header">
             <div className="output-box-title">
@@ -511,7 +523,7 @@ export default function RunQueryPage() {
         </section>
       </section>
 
-      <section className="sqlwhale-builder-shell">
+      <section className="sqlwhale-builder-shell" data-sqlwhale-tour="builder">
         <button
           type="button"
           className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
@@ -537,6 +549,7 @@ export default function RunQueryPage() {
       <section
         className="sqlwhale-query-editor"
         data-sql-editor
+        data-sqlwhale-tour="editor"
       >
         <SQLEditor
           initialQuery={query}
