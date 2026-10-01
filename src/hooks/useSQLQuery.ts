@@ -33,8 +33,11 @@ export function useSQLQuery(): UseSQLQueryResult {
       }
 
       try {
+        // Clear the previous execution immediately so stale rows never
+        // remain visible while the new query is running.
         setLoading(true);
         setError(null);
+        setData(null);
 
         const result = await executeSQL(query);
 
