@@ -541,21 +541,19 @@ export default function RunQueryPage() {
       </section>
 
       <section className="sqlwhale-builder-shell" data-sqlwhale-tour="builder">
-        <div className="sqlwhale-query-mode-label">
-          <span className="sqlwhale-query-mode-number">01</span>
-          <div>
-            <strong>Build Visually</strong>
-            <span>Create a query without writing SQL manually.</span>
-          </div>
-        </div>
         <button
           type="button"
           className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
           onClick={() => setBuilderOpen((current) => !current)}
           aria-expanded={builderOpen}
         >
-          <span>Build the Query</span>
-          <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
+          <span className="sqlwhale-builder-button-main">
+            <span className="sqlwhale-query-mode-number">01</span>
+            <span>
+              <strong>Build the Query</strong>
+              <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
+            </span>
+          </span>
         </button>
 
         {builderOpen && (
@@ -575,13 +573,6 @@ export default function RunQueryPage() {
         data-sql-editor
         data-sqlwhale-tour="editor"
       >
-        <div className="sqlwhale-query-mode-label">
-          <span className="sqlwhale-query-mode-number">02</span>
-          <div>
-            <strong>Write SQL</strong>
-            <span>Write and practice the query yourself.</span>
-          </div>
-        </div>
         <SQLEditor
           initialQuery={query}
           loading={loading}
