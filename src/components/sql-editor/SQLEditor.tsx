@@ -71,7 +71,8 @@ export default function SQLEditor({
 
   useEffect(() => {
     setQuery(initialQuery);
-  }, [initialQuery]);
+    onQueryTableChange?.(extractQueryTables(initialQuery));
+  }, [initialQuery, onQueryTableChange]);
 
   const handleRun = () => {
     if (!query.trim() || loading) return;
