@@ -10,6 +10,7 @@ import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
 import TaskSection from "@/components/tasks/TaskSection";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import DatabaseCanvasSkeleton from "@/components/database/DatabaseCanvasSkeleton";
+import AppleEmoji from "@/components/AppleEmoji";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
 import EditTableCanvas from "@/components/database/EditTableCanvas";
 
@@ -323,7 +324,7 @@ export default function RunQueryPage() {
           aria-labelledby="sqlwhale-desktop-notice-title"
         >
           <div className="sqlwhale-desktop-notice-card">
-            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true">🖥️</div>
+            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true"><AppleEmoji name="desktop_computer" size={30} /></div>
             <h2 id="sqlwhale-desktop-notice-title">Turn on Desktop Mode</h2>
             <p>
               SQLWhale works better on desktop. On your mobile browser, open the browser menu and turn on <strong>Desktop site</strong> or <strong>Desktop mode</strong>, then refresh SQLWhale.
