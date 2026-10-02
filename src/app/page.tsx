@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api, authApi } from "@/services/api";
+import AppleEmoji from "@/components/AppleEmoji";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -231,7 +232,7 @@ export default function Home() {
                 <Link href="/signup" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>07</span>Sign Up</Link>
               </>
             ) : null}
-            <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="mobile-coffee-button" onClick={() => setMobileMenuOpen(false)}>☕ Support SQLWhale</a>
+            <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="mobile-coffee-button" onClick={() => setMobileMenuOpen(false)}><AppleEmoji name="coffee" size={17} /> Support SQLWhale</a>
           </nav>
         </div>
       </header>
@@ -319,7 +320,7 @@ export default function Home() {
 
       <section id="contact" className="contact-section">
         <Reveal><div className="section-label">SQLWHALE</div><h2>Built to make SQL<br />easier to understand.</h2><p>Have feedback, suggestions or ideas for SQLWhale? We would love to hear from you.</p></Reveal>
-        <Reveal className="support-box-wrap"><div id="support" className="support-box"><span>Support the project</span><h3>☕ Support SQLWhale</h3><p>Help us continue building better tools for learning SQL.</p><a className="support-button" href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer">Support SQLWhale</a></div></Reveal>
+        <Reveal className="support-box-wrap"><div id="support" className="support-box"><span>Support the project</span><h3><AppleEmoji name="coffee" size={24} /> Support SQLWhale</h3><p>Help us continue building better tools for learning SQL.</p><a className="support-button" href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer">Support SQLWhale</a></div></Reveal>
       </section>
 
       <footer className="sqlwhale-footer">
