@@ -823,6 +823,8 @@ export default function RunQueryPage() {
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [showDesktopNotice, setShowDesktopNotice] = useState(false);
 
   const tourSteps = [
     { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
@@ -833,6 +835,28 @@ export default function RunQueryPage() {
 
   useEffect(() => {
     if (localStorage.getItem("sqlwhale-product-tour-seen") !== "true") setShowProductTour(true);
+  }, []);
+
+  useEffect(() => {
+    const detectMobileDevice = () => {
+      const userAgent = navigator.userAgent || "";
+      const mobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent);
+      const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+      const smallViewport = window.matchMedia("(max-width: 768px)").matches;
+
+      const mobile = mobileUserAgent || (touchDevice && smallViewport);
+      setIsMobileDevice(mobile);
+      setShowDesktopNotice(mobile);
+    };
+
+    detectMobileDevice();
+    window.addEventListener("resize", detectMobileDevice);
+    window.addEventListener("orientationchange", detectMobileDevice);
+
+    return () => {
+      window.removeEventListener("resize", detectMobileDevice);
+      window.removeEventListener("orientationchange", detectMobileDevice);
+    };
   }, []);
 
   useEffect(() => {
@@ -1048,6 +1072,31 @@ export default function RunQueryPage() {
   return (
     <>
       <style>{RUN_QUERY_LAYOUT_CSS}</style>
+
+      {isMobileDevice && showDesktopNotice && (
+        <div
+          className="sqlwhale-desktop-notice"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="sqlwhale-desktop-notice-title"
+        >
+          <div className="sqlwhale-desktop-notice-card">
+            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true">🖥️</div>
+            <h2 id="sqlwhale-desktop-notice-title">Turn on Desktop Mode</h2>
+            <p>
+              SQLWhale works better on desktop. On your mobile browser, open the browser menu and turn on <strong>Desktop site</strong> or <strong>Desktop mode</strong>, then refresh SQLWhale.
+            </p>
+            <button
+              type="button"
+              className="sqlwhale-desktop-notice-close"
+              onClick={() => setShowDesktopNotice(false)}
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="sqlwhale-run-page">
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
