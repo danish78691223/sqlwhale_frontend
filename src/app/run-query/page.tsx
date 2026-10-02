@@ -473,95 +473,190 @@ const RUN_QUERY_LAYOUT_CSS = String.raw`
 }
 
 @media (max-width: 900px) {
+  /* Mobile workspace: everything stays inside one viewport.
+     No page scrolling; only individual panels may scroll internally. */
   .sqlwhale-run-page {
-    display: block !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    padding: 0 12px 16px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1.12fr) minmax(0, 0.78fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      "nav nav"
+      "output output"
+      "schema builder"
+      "editor editor";
+    width: 100%;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding: 0 8px 8px;
+    gap: 8px;
+    overflow: hidden !important;
+    box-sizing: border-box;
   }
 
   .sqlwhale-run-page > .sqlwhale-run-navbar {
-    width: calc(100% + 24px);
-    margin-left: -12px;
+    grid-area: nav;
+    width: calc(100% + 16px);
+    margin-left: -8px;
+    min-height: 52px;
   }
 
+  /* Turn the wrapper into a transparent layout container so its two
+     panels can occupy separate cells of the mobile grid. */
   .sqlwhale-run-page > .sqlwhale-main-workspace {
-    display: grid !important;
-    grid-template-columns: 1fr;
-    grid-template-rows: 440px 440px;
-    gap: 12px;
-    height: auto !important;
-    margin: 12px 0 0 !important;
-    overflow: visible;
-  }
-
-  .sqlwhale-run-page .sqlwhale-schema-workspace,
-  .sqlwhale-run-page > .sqlwhale-main-workspace > .sqlwhale-center-output {
-    grid-column: 1;
+    display: contents !important;
   }
 
   .sqlwhale-run-page .sqlwhale-schema-workspace {
-    grid-row: 1;
-    height: 440px;
+    grid-area: schema;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
   }
 
   .sqlwhale-run-page > .sqlwhale-main-workspace > .sqlwhale-center-output {
-    grid-row: 2;
-    height: 440px !important;
+    grid-area: output;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
   }
 
   .sqlwhale-run-page > .sqlwhale-builder-shell {
+    grid-area: builder;
     width: 100% !important;
-    height: auto !important;
-    min-height: 440px;
-    margin: 12px 0 0 !important;
-  }
-
-  .sqlwhale-run-page > .sqlwhale-query-editor {
-    height: 360px !important;
-    margin: 12px 0 0 !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
   }
 
   .sqlwhale-run-page .sqlwhale-builder-toggle-button:not(.is-open) {
-    min-height: 440px;
+    min-height: 100% !important;
+    height: 100% !important;
+    padding: 10px !important;
+  }
+
+  .sqlwhale-run-page .sqlwhale-builder-toggle-button.is-open {
+    min-height: 44px;
+    padding: 8px 10px;
+  }
+
+  .sqlwhale-run-page > .sqlwhale-builder-shell > .sqlwhale-query-builder {
+    min-height: 0 !important;
+    max-height: calc(100% - 44px) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .sqlwhale-run-page > .sqlwhale-query-editor {
+    grid-area: editor;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .sqlwhale-run-page .sqlwhale-query-editor .sql-editor-section,
+  .sqlwhale-run-page .sqlwhale-query-editor .sql-editor-card {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+  }
+
+  .sqlwhale-run-page .sqlwhale-query-editor .sql-editor-container {
+    min-height: 0 !important;
+    overflow: auto;
+  }
+
+  .sqlwhale-run-page .sqlwhale-center-output .output-box-header {
+    min-height: 42px;
+    flex-basis: 42px;
+    padding: 0 10px;
+  }
+
+  .sqlwhale-run-page .sqlwhale-center-output .output-box-content {
+    height: calc(100% - 42px);
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .sqlwhale-run-page .sqlwhale-schema-workspace::before {
+    top: 8px;
+    left: 8px;
+    padding: 4px 6px;
+    font-size: 8px;
+  }
+
+  .sqlwhale-run-page .sqlwhale-builder-button-main {
+    gap: 7px;
+    min-width: 0;
+  }
+
+  .sqlwhale-run-page .sqlwhale-builder-button-main > span:last-child {
+    min-width: 0;
+  }
+
+  .sqlwhale-run-page .sqlwhale-builder-button-main strong {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .sqlwhale-run-page .sqlwhale-builder-button-main small {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 8px;
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 480px) {
   .sqlwhale-run-page {
-    padding: 0 10px 12px;
+    grid-template-rows: auto minmax(0, 1.05fr) minmax(0, 0.72fr) minmax(0, 1.23fr);
+    gap: 6px;
+    padding: 0 6px 6px;
   }
 
   .sqlwhale-run-page > .sqlwhale-run-navbar {
-    width: calc(100% + 20px);
-    margin-left: -10px;
+    width: calc(100% + 12px);
+    margin-left: -6px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-main-workspace {
-    grid-template-rows: 380px 420px;
+  .sqlwhale-run-page .sqlwhale-center-output .output-box-header {
+    min-height: 38px;
+    flex-basis: 38px;
   }
 
-  .sqlwhale-run-page .sqlwhale-schema-workspace {
-    height: 380px;
+  .sqlwhale-run-page .sqlwhale-center-output .output-box-content {
+    height: calc(100% - 38px);
   }
 
-  .sqlwhale-run-page > .sqlwhale-main-workspace > .sqlwhale-center-output {
-    height: 420px !important;
+  .sqlwhale-run-page .sqlwhale-builder-button-main strong {
+    font-size: 9px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell {
-    min-height: 380px;
-  }
-
-  .sqlwhale-run-page .sqlwhale-builder-toggle-button:not(.is-open) {
-    min-height: 380px;
-    padding: 18px;
-  }
-
-  .sqlwhale-run-page > .sqlwhale-query-editor {
-    height: 380px !important;
+  .sqlwhale-run-page .sqlwhale-builder-button-main small {
+    display: none;
   }
 }
 `;
@@ -587,8 +682,6 @@ export default function RunQueryPage() {
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-  const [showDesktopNotice, setShowDesktopNotice] = useState(false);
 
   const tourSteps = [
     { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
@@ -599,21 +692,6 @@ export default function RunQueryPage() {
 
   useEffect(() => {
     if (localStorage.getItem("sqlwhale-product-tour-seen") !== "true") setShowProductTour(true);
-  }, []);
-
-  useEffect(() => {
-    const detectMobileDevice = () => {
-      const userAgent = navigator.userAgent || "";
-      const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent);
-      const isSmallTouchDevice = window.matchMedia("(max-width: 768px) and (pointer: coarse)").matches;
-      const mobile = isMobileUserAgent || isSmallTouchDevice;
-      setIsMobileDevice(mobile);
-      setShowDesktopNotice(mobile);
-    };
-
-    detectMobileDevice();
-    window.addEventListener("resize", detectMobileDevice);
-    return () => window.removeEventListener("resize", detectMobileDevice);
   }, []);
 
   useEffect(() => {
@@ -635,7 +713,8 @@ export default function RunQueryPage() {
       isCanvasStep
     );
 
-    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    // The mobile workspace is intentionally viewport-locked, so do not
+    // scroll the page while the guided tour moves between panels.
     const updateRect = () => setTourRect(target.getBoundingClientRect());
     updateRect();
     window.addEventListener("resize", updateRect);
@@ -807,24 +886,6 @@ export default function RunQueryPage() {
   return (
     <>
       <style>{RUN_QUERY_LAYOUT_CSS}</style>
-      {isMobileDevice && showDesktopNotice && (
-        <div className="sqlwhale-desktop-notice" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-desktop-notice-title">
-          <div className="sqlwhale-desktop-notice-card">
-            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true">🖥️</div>
-            <h2 id="sqlwhale-desktop-notice-title">SQLWhale works better on desktop</h2>
-            <p>
-              For the best experience with the SQL editor, database canvas, and query visualization, we recommend using SQLWhale on a laptop or desktop.
-            </p>
-            <button
-              type="button"
-              className="sqlwhale-desktop-notice-close"
-              onClick={() => setShowDesktopNotice(false)}
-            >
-              Continue on mobile
-            </button>
-          </div>
-        </div>
-      )}
       <main className="sqlwhale-run-page">
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
