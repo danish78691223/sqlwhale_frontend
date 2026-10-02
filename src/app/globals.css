@@ -14011,3 +14011,98 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
 }
 
 .sqlwhale-task-completed{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px 12px;border-radius:8px;background:#ecfdf3;border:1px solid #a7f3d0;color:#047857;font-size:11px;font-weight:700;box-sizing:border-box}.sqlwhale-task-completed svg{stroke-width:2.5}
+
+
+
+/* Mobile desktop-mode notice */
+.sqlwhale-desktop-notice{
+  position:fixed;
+  inset:0;
+  z-index:20000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(15,23,42,.52);
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+}
+.sqlwhale-desktop-notice-card{
+  width:min(390px,100%);
+  box-sizing:border-box;
+  padding:28px 26px 24px;
+  border:1px solid rgba(37,99,235,.12);
+  border-radius:20px;
+  background:#fff;
+  color:#0f172a;
+  box-shadow:0 24px 70px rgba(15,23,42,.24),0 4px 18px rgba(15,23,42,.08);
+  text-align:left;
+  animation:sqlwhale-desktop-notice-in .22s ease-out;
+}
+.sqlwhale-desktop-notice-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  margin-bottom:16px;
+  border:1px solid rgba(37,99,235,.12);
+  border-radius:14px;
+  background:#eff6ff;
+  font-size:23px;
+}
+.sqlwhale-desktop-notice-card h2{
+  margin:0;
+  color:#0f172a;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:24px;
+  line-height:1.15;
+  letter-spacing:-.025em;
+}
+.sqlwhale-desktop-notice-card p{
+  margin:12px 0 20px;
+  color:#475569;
+  font-size:13px;
+  line-height:1.65;
+}
+.sqlwhale-desktop-notice-card p strong{
+  color:#1d4ed8;
+  font-weight:800;
+}
+.sqlwhale-desktop-notice-close{
+  min-height:38px;
+  padding:0 17px;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  background:#fff;
+  color:#0f172a;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease;
+}
+.sqlwhale-desktop-notice-close:hover{
+  background:#f8fafc;
+  border-color:#94a3b8;
+  transform:translateY(-1px);
+}
+.sqlwhale-desktop-notice-close:active{transform:translateY(0)}
+.dark .sqlwhale-desktop-notice-card{
+  border-color:rgba(114,217,231,.18);
+  background:#fff;
+  color:#0f172a;
+}
+@keyframes sqlwhale-desktop-notice-in{
+  from{opacity:0;transform:translateY(8px) scale(.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(max-width:480px){
+  .sqlwhale-desktop-notice{padding:16px}
+  .sqlwhale-desktop-notice-card{
+    padding:23px 20px 20px;
+    border-radius:17px;
+  }
+  .sqlwhale-desktop-notice-icon{width:44px;height:44px;margin-bottom:14px;font-size:21px}
+  .sqlwhale-desktop-notice-card h2{font-size:21px}
+  .sqlwhale-desktop-notice-card p{font-size:12px;line-height:1.6;margin:10px 0 17px}
+  .sqlwhale-desktop-notice-close{min-height:36px;padding:0 15px}
+}
