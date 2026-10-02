@@ -13966,3 +13966,24 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
 @media (max-width:800px) {
   .sqlwhale-run-page { min-height:100vh; height:auto; overflow:visible; }
 }
+
+/* Run Query: give Write SQL enough vertical space for visible SQL lines */
+@media (min-width: 801px) {
+  .sqlwhale-main-workspace {
+    height: calc(100vh - 76px - 262px) !important;
+  }
+
+  .sqlwhale-query-editor {
+    height: 220px !important;
+    min-height: 220px !important;
+    margin: 14px 42px 14px !important;
+  }
+
+  .sql-editor-card {
+    min-height: 220px !important;
+  }
+
+  .sql-editor-container {
+    min-height: 80px !important;
+  }
+}
