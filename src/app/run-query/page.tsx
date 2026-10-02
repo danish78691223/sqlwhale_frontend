@@ -288,8 +288,6 @@ export default function RunQueryPage() {
 
   return (
     <>
-      <style>{RUN_QUERY_LAYOUT_CSS}</style>
-
       {isMobileDevice && showDesktopNotice && (
         <div
           className="sqlwhale-desktop-notice"
@@ -668,5 +666,6 @@ export default function RunQueryPage() {
         />
       )}
     </main>
+    </>
   );
 }
