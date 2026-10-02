@@ -37,6 +37,25 @@ export type SQLExecution = {
   steps: ExecutionStep[];
 
   explanation?: string;
+
+  queryAnalysis?: QueryAnalysis;
+};
+
+export type QueryJoin = {
+  type: string;
+  table: string;
+  alias?: string;
+  condition: string;
+  leftTable?: string;
+  leftColumn?: string;
+  rightTable?: string;
+  rightColumn?: string;
+};
+
+export type QueryAnalysis = {
+  tables: string[];
+  aliases: Record<string, string>;
+  joins: QueryJoin[];
 };
 
 export type SQLResponse = {
