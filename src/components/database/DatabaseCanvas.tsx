@@ -343,7 +343,7 @@ export default function DatabaseCanvas({
         },
       }))
     );
-  }, [queryTableTarget, setNodes]);
+  }, [queryTableTarget, queryAnalysis, queryTableTargets, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
