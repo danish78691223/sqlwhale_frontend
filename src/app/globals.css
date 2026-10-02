@@ -14372,14 +14372,16 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor {
   position: relative !important;
   inset: auto !important;
   width: auto !important;
-  height: 23vh !important;
-  min-height: 145px !important;
-  max-height: 185px !important;
-  margin: 8px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  flex: 1 1 auto !important;
+  margin: 6px 8px 8px !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   z-index: 10 !important;
   box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 
 html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
@@ -14400,9 +14402,10 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   }
 
   html.sqlwhale-force-mobile .sqlwhale-query-editor {
-    height: 23vh !important;
-    min-height: 140px !important;
-    max-height: 180px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: 1 1 auto !important;
     margin: 5px !important;
   }
 }
