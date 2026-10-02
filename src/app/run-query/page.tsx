@@ -698,7 +698,9 @@ export default function RunQueryPage() {
         {taskOpen && (
           <TaskSection
             onStartTask={(task) => {
-              setQuery("");
+              setActiveTaskId(task.id);
+              setTaskCheck(null);
+              setQuery(`-- Task: ${task.title}\n-- Write your SQL below.\n`);
               setExecutedQuery(null);
               setAnimationComplete(false);
             }}
