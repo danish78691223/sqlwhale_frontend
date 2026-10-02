@@ -8,6 +8,7 @@ import axios from "axios";
 import SQLEditor from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
+import DatabaseCanvasSkeleton from "@/components/database/DatabaseCanvasSkeleton";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
 import EditTableCanvas from "@/components/database/EditTableCanvas";
 
@@ -1282,11 +1283,7 @@ export default function RunQueryPage() {
           }}
         >
           {tablesLoading ? (
-            <div className="output-empty">
-              <div className="output-empty-icon">◌</div>
-              <h3>Loading database schema...</h3>
-              <p>SQLWhale is loading the table relationships.</p>
-            </div>
+            <DatabaseCanvasSkeleton />
           ) : tablesError ? (
             <div className="output-error-state">
               <div className="output-error-icon">!</div>
