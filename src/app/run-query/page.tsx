@@ -172,8 +172,11 @@ export default function RunQueryPage() {
     const updateMobileLayout = () => {
       const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
       const screenW = Math.min(window.screen.width, window.screen.height);
+      // Android browsers can report a desktop-sized CSS viewport when
+      // "Desktop site" is enabled. Detect the physical/touch device as well
+      // so the mobile composition still applies in that mode.
       const mobileLayout =
-        touchDevice && (screenW <= 768 || window.innerWidth <= 900);
+        touchDevice && (screenW <= 1400 || window.innerWidth <= 900);
 
       document.documentElement.classList.toggle("sqlwhale-force-mobile", mobileLayout);
     };
