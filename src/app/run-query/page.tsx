@@ -680,7 +680,7 @@ export default function RunQueryPage() {
         {taskOpen && (
           <TaskSection
             onStartTask={(task) => {
-              setQuery(`-- Task: ${task.title}\n-- Write your SQL below.\n`);
+              setQuery("");
               setExecutedQuery(null);
               setAnimationComplete(false);
             }}
