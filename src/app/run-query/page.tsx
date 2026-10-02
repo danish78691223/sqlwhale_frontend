@@ -697,6 +697,8 @@ export default function RunQueryPage() {
 
         {taskOpen && (
           <TaskSection
+            activeTaskId={activeTaskId}
+            taskCheck={taskCheck}
             onStartTask={(task) => {
               setActiveTaskId(task.id);
               setTaskCheck(null);
