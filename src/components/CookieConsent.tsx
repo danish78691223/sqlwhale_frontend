@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AppleEmoji from "./AppleEmoji";
 
 const COOKIE_CONSENT_KEY = "sqlwhale-cookie-consent";
 
@@ -29,7 +30,7 @@ export default function CookieConsent() {
     >
       <div className="sqlwhale-cookie-consent-content">
         <div className="sqlwhale-cookie-consent-icon" aria-hidden="true">
-          🍪
+          <AppleEmoji name="cookie" size={28} />
         </div>
 
         <div className="sqlwhale-cookie-consent-copy">
