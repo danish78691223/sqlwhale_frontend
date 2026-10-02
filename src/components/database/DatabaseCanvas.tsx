@@ -38,6 +38,7 @@ interface DatabaseCanvasProps {
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
   queryTableTarget?: string | null;
+  queryTableTargets?: string[];
   queryAnalysis?: QueryAnalysis | null;
   onEditTable?: (table: DatabaseTableType) => void;
 }
@@ -311,19 +312,22 @@ export default function DatabaseCanvas({
   executedQuery = null,
   queryAnimationStage = null,
   queryTableTarget = null,
+  queryTableTargets = [],
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const queryTableTargets = useMemo(
+  const analyzedTableTargets = useMemo(
     () => queryAnalysis?.tables ?? [],
     [queryAnalysis?.tables]
   );
+  const activeTableTargets =
+    analyzedTableTargets.length > 0 ? analyzedTableTargets : queryTableTargets;
   const initialNodes = createNodes(
     tables,
     onEditTable,
     initialTableName,
     queryTableTarget,
-    queryTableTargets
+    activeTableTargets
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [flowInstance, setFlowInstance] = useState<ReactFlowInstance | null>(null);
@@ -338,15 +342,15 @@ export default function DatabaseCanvas({
         data: {
           ...node.data,
           queryTarget:
-            queryTableTargets.length > 0
-              ? queryTableTargets.some(
+            activeTableTargets.length > 0
+              ? activeTableTargets.some(
                   (target) => target.toLowerCase() === String(node.id).toLowerCase()
                 )
               : String(node.id).toLowerCase() === queryTableTarget?.toLowerCase(),
         },
       }))
     );
-  }, [queryTableTarget, queryTableTargets, setNodes]);
+  }, [queryTableTarget, activeTableTargets, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
