@@ -51,9 +51,18 @@ function extractQueryTables(sql: string): string[] {
     }
   }
 
+  // Resolve both complete and partially typed table names so the canvas
+  // reacts while the user is still typing (e.g. FROM e -> employees).
   return [...new Set(
     tables
-      .map((name) => KNOWN_TABLES.find((known) => known.toLowerCase() === name.toLowerCase()))
+      .map((name) => {
+        const normalized = name.toLowerCase();
+        return KNOWN_TABLES.find(
+          (known) =>
+            known.toLowerCase() === normalized ||
+            known.toLowerCase().startsWith(normalized)
+        );
+      })
       .filter((name): name is string => Boolean(name))
   )];
 }
