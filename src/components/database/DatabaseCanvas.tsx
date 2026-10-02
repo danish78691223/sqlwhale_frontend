@@ -314,7 +314,10 @@ export default function DatabaseCanvas({
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const queryTableTargets = useMemo(\n    () => queryAnalysis?.tables ?? [],\n    [queryAnalysis?.tables]\n  );
+  const queryTableTargets = useMemo(
+    () => queryAnalysis?.tables ?? [],
+    [queryAnalysis?.tables]
+  );
   const initialNodes = createNodes(
     tables,
     onEditTable,
