@@ -21,6 +21,87 @@ const DEFAULT_QUERY = "SELECT * FROM employees;";
 const RUN_QUERY_LAYOUT_CSS = String.raw`
 /* Run Query workspace layout — UI only.
    Keeps the existing query/database/editor functionality untouched. */
+.sqlwhale-desktop-notice {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.sqlwhale-desktop-notice-card {
+  width: min(440px, 100%);
+  padding: 32px;
+  border: 1px solid #dbe3ee;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.22);
+  text-align: center;
+}
+
+.sqlwhale-desktop-notice-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #f1f5f9;
+  font-size: 25px;
+}
+
+.sqlwhale-desktop-notice-card h2 {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.sqlwhale-desktop-notice-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.sqlwhale-desktop-notice-close {
+  width: 100%;
+  margin-top: 22px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dark .sqlwhale-desktop-notice-card {
+  border-color: #1e293b;
+  background: #0f1720;
+}
+
+.dark .sqlwhale-desktop-notice-card h2 {
+  color: #f8fafc;
+}
+
+.dark .sqlwhale-desktop-notice-card p {
+  color: #94a3b8;
+}
+
+.dark .sqlwhale-desktop-notice-icon {
+  background: #1e293b;
+}
+
+.dark .sqlwhale-desktop-notice-close {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
 .sqlwhale-run-page {
   display: grid !important;
   grid-template-columns:
@@ -506,6 +587,8 @@ export default function RunQueryPage() {
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  const [showDesktopNotice, setShowDesktopNotice] = useState(false);
 
   const tourSteps = [
     { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
@@ -516,6 +599,21 @@ export default function RunQueryPage() {
 
   useEffect(() => {
     if (localStorage.getItem("sqlwhale-product-tour-seen") !== "true") setShowProductTour(true);
+  }, []);
+
+  useEffect(() => {
+    const detectMobileDevice = () => {
+      const userAgent = navigator.userAgent || "";
+      const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent);
+      const isSmallTouchDevice = window.matchMedia("(max-width: 768px) and (pointer: coarse)").matches;
+      const mobile = isMobileUserAgent || isSmallTouchDevice;
+      setIsMobileDevice(mobile);
+      setShowDesktopNotice(mobile);
+    };
+
+    detectMobileDevice();
+    window.addEventListener("resize", detectMobileDevice);
+    return () => window.removeEventListener("resize", detectMobileDevice);
   }, []);
 
   useEffect(() => {
@@ -709,6 +807,24 @@ export default function RunQueryPage() {
   return (
     <>
       <style>{RUN_QUERY_LAYOUT_CSS}</style>
+      {isMobileDevice && showDesktopNotice && (
+        <div className="sqlwhale-desktop-notice" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-desktop-notice-title">
+          <div className="sqlwhale-desktop-notice-card">
+            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true">🖥️</div>
+            <h2 id="sqlwhale-desktop-notice-title">SQLWhale works better on desktop</h2>
+            <p>
+              For the best experience with the SQL editor, database canvas, and query visualization, we recommend using SQLWhale on a laptop or desktop.
+            </p>
+            <button
+              type="button"
+              className="sqlwhale-desktop-notice-close"
+              onClick={() => setShowDesktopNotice(false)}
+            >
+              Continue on mobile
+            </button>
+          </div>
+        </div>
+      )}
       <main className="sqlwhale-run-page">
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
