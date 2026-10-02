@@ -97,9 +97,10 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 type="button"
                 className="sqlwhale-task-start"
                 onClick={() => onStartTask(task)}
+                disabled={activeTaskId === task.id}
               >
                 <CheckCircle2 size={15} />
-                Start Task
+                {activeTaskId === task.id ? "Task Started" : "Start Task"}
               </button>
               {activeTaskId === task.id && taskCheck && (
                 <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
