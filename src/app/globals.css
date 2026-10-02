@@ -14269,22 +14269,25 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
    CSS viewport, so use the JS-added force-mobile class as an explicit
    responsive breakpoint. */
 html.sqlwhale-force-mobile .sqlwhale-run-page {
-  min-height: 100vh !important;
-  height: auto !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 html.sqlwhale-force-mobile .sqlwhale-main-workspace {
   position: relative !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-  grid-template-rows: minmax(330px, 46vh) minmax(260px, 34vh) !important;
-  gap: 8px !important;
+  /* Smaller output area so the complete workspace + editor fits in one screen. */
+  grid-template-rows: 38vh 26vh !important;
+  gap: 6px !important;
   width: auto !important;
-  height: auto !important;
+  height: 64vh !important;
   min-height: 0 !important;
-  margin: 8px !important;
+  flex: 0 0 64vh !important;
+  margin: 6px !important;
   padding: 0 !important;
   box-sizing: border-box !important;
 }
@@ -14369,8 +14372,9 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor {
   position: relative !important;
   inset: auto !important;
   width: auto !important;
-  height: 190px !important;
-  min-height: 190px !important;
+  height: 23vh !important;
+  min-height: 145px !important;
+  max-height: 185px !important;
   margin: 8px !important;
   opacity: 1 !important;
   pointer-events: auto !important;
@@ -14388,8 +14392,17 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 
 @media (max-width: 480px) {
   html.sqlwhale-force-mobile .sqlwhale-main-workspace {
-    grid-template-rows: 360px 300px !important;
+    grid-template-rows: 38vh 26vh !important;
+    height: 64vh !important;
+    flex-basis: 64vh !important;
     gap: 6px !important;
-    margin: 6px !important;
+    margin: 5px !important;
+  }
+
+  html.sqlwhale-force-mobile .sqlwhale-query-editor {
+    height: 23vh !important;
+    min-height: 140px !important;
+    max-height: 180px !important;
+    margin: 5px !important;
   }
 }
