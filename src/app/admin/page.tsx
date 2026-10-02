@@ -72,14 +72,25 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const [userResponse, overviewResponse, taskResponse] = await Promise.all([
+      const [userResponse, overviewResponse] = await Promise.all([
         api.get("/admin/users"),
         api.get("/admin/overview"),
-        api.get("/admin/tasks"),
       ]);
       setUsers(userResponse.data.users || []);
       setMaintenance(overviewResponse.data.maintenance || emptyMaintenance);
-      setTasks(taskResponse.data.tasks || []);
+
+      // Tasks are an independent admin module. Do not let a task API
+      // deployment/version mismatch break the entire control center.
+      try {
+        const taskResponse = await api.get("/admin/tasks");
+        setTasks(taskResponse.data.tasks || []);
+      } catch (taskError: any) {
+        console.error("Admin task list unavailable:", taskError);
+        setTasks([]);
+        if (taskError?.response?.status !== 404) {
+          setError(taskError?.response?.data?.error || "Unable to load tasks.");
+        }
+      }
     } catch (err: any) {
       const status = err?.response?.status;
       setError(status === 401 ? "Please log in to SQLWhale first." : status === 403 ? "This account is not an admin." : (err?.response?.data?.error || "Unable to load admin data."));
