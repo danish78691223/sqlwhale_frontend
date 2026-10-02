@@ -13367,6 +13367,37 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
   margin: 0 auto;
 }
 
+.sqlwhale-query-mode-switch {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.sqlwhale-query-mode-switch .sqlwhale-builder-toggle-button {
+  min-width: 180px;
+}
+
+.sqlwhale-query-mode-switch .sqlwhale-builder-toggle-button.is-open {
+  position: relative;
+  z-index: 2;
+}
+
+.sqlwhale-query-mode-switch .sqlwhale-builder-toggle-button:not(.is-open) {
+  background: #f8fafc;
+}
+
+@media (max-width: 800px) {
+  .sqlwhale-query-mode-switch {
+    width: 100%;
+    gap: 5px;
+  }
+
+  .sqlwhale-query-mode-switch .sqlwhale-builder-toggle-button {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .sqlwhale-task-section {
   margin-top: 0;
   padding: 16px;
