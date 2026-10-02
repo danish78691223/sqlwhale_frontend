@@ -35,6 +35,7 @@ interface DatabaseCanvasProps {
   activeSqlTarget?: SQLCursorTarget | null;
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
+  queryTableTarget?: string | null;
   onEditTable?: (table: DatabaseTableType) => void;
 }
 
@@ -53,10 +54,10 @@ const relationshipEdgeTypes = {
 };
 
 const positions: Record<string, { x: number; y: number }> = {
-  departments: { x: 40, y: 70 },
-  employees: { x: 40, y: 430 },
-  projects: { x: 980, y: 70 },
-  salary: { x: 980, y: 430 },
+  departments: { x: 80, y: 40 },
+  employees: { x: 80, y: 300 },
+  projects: { x: 80, y: 560 },
+  salary: { x: 80, y: 820 },
 };
 
 const visibleTableNames = new Set([
@@ -83,6 +84,7 @@ function RelationshipWiringEdge({
     locked?: boolean;
     active?: boolean;
     queryActive?: boolean;
+    queryTableTarget?: boolean;
   } | undefined;
   const routeOffset = Number(edgeData?.routeOffset ?? 0);
   const edgeColor = edgeData?.color ?? "#2563eb";
@@ -211,7 +213,8 @@ function RelationshipWiringEdge({
 function createNodes(
   tables: DatabaseTableType[],
   onEditTable?: (table: DatabaseTableType) => void,
-  initialTableName = "employees"
+  initialTableName = "employees",
+  queryTableTarget?: string | null
 ): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
@@ -228,6 +231,7 @@ function createNodes(
         accentIndex: index,
         locked: false,
         initialFocus: table.name === initialTableName,
+        queryTarget: table.name.toLowerCase() === queryTableTarget?.toLowerCase(),
         onEditTable,
       },
     }));
@@ -297,13 +301,26 @@ export default function DatabaseCanvas({
   activeSqlTarget = null,
   executedQuery = null,
   queryAnimationStage = null,
+  queryTableTarget = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const initialNodes = createNodes(tables, onEditTable, initialTableName);
+  const initialNodes = createNodes(tables, onEditTable, initialTableName, queryTableTarget);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    setNodes((current) =>
+      current.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          queryTarget: String(node.id).toLowerCase() === queryTableTarget?.toLowerCase(),
+        },
+      }))
+    );
+  }, [queryTableTarget, setNodes]);
 
   useEffect(() => {
     if (!executedQuery) {
@@ -416,6 +433,27 @@ export default function DatabaseCanvas({
       );
     };
   }, [activeSqlTarget, tables]);
+
+  useEffect(() => {
+    if (!queryTableTarget) return;
+
+    const targetNode = nodes.find(
+      (node) => String(node.id).toLowerCase() === queryTableTarget.toLowerCase()
+    );
+
+    if (!targetNode) return;
+
+    const nodeElement = document.querySelector(
+      `[data-id="${targetNode.id}"]`
+    ) as HTMLElement | null;
+
+    if (nodeElement) {
+      nodeElement.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [queryTableTarget, nodes]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
