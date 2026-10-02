@@ -520,8 +520,7 @@ export default function RunQueryPage() {
               onEditTable={setEditTable}
             />
           )}
-  
-      </section>
+        </section>
 
         <section
           className="sqlwhale-center-output"
@@ -615,9 +614,7 @@ export default function RunQueryPage() {
             )}
           </div>
         </section>
-      </section>
-
-      <section className="sqlwhale-builder-shell" data-sqlwhale-tour="builder">
+      <aside className="sqlwhale-builder-shell sqlwhale-query-side-panel" data-sqlwhale-tour="builder">
         <div className="sqlwhale-query-mode-switch">
           <button
             type="button"
@@ -678,6 +675,8 @@ export default function RunQueryPage() {
             }}
           />
         )}
+      </aside>
+
       </section>
 
       <section
