@@ -21,6 +21,7 @@ interface DatabaseTableNodeData {
   accentIndex?: number;
   locked?: boolean;
   initialFocus?: boolean;
+  queryTarget?: boolean;
   onEditTable?: (table: DatabaseTableType) => void;
 }
 
@@ -37,6 +38,7 @@ export default function DatabaseTable({
 
   const locked = Boolean(nodeData.locked);
   const initialFocus = Boolean(nodeData.initialFocus);
+  const queryTarget = Boolean(nodeData.queryTarget);
   const onEditTable = nodeData.onEditTable;
 
   const accentClasses = [
@@ -60,7 +62,7 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}`} data-sql-table={table.name}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}`} data-sql-table={table.name}>
       <div
         className={`sql-table-header ${accent}`}
       >
