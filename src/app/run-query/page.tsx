@@ -39,6 +39,8 @@ export default function RunQueryPage() {
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
@@ -249,6 +251,21 @@ export default function RunQueryPage() {
     setAnimationRunId((current) => current + 1);
 
     await runQuery(cleanSQL);
+
+    if (activeTaskId) {
+      try {
+        const check = await axios.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
+        setTaskCheck({
+          taskId: activeTaskId,
+          correct: Boolean(check.data?.correct),
+          status: check.data?.status || "incorrect",
+          message: check.data?.message || "Unable to determine the answer.",
+        });
+      } catch (checkError) {
+        console.error("Task check failed:", checkError);
+        setTaskCheck(null);
+      }
+    }
   };
 
   useEffect(() => {
