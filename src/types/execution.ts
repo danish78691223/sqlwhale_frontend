@@ -37,8 +37,6 @@ export type SQLExecution = {
   steps: ExecutionStep[];
 
   explanation?: string;
-
-  queryAnalysis?: QueryAnalysis;
 };
 
 export type QueryJoin = {
@@ -72,4 +70,6 @@ export type SQLResponse = {
   execution?: SQLExecution;
 
   explanation?: string;
+
+  queryAnalysis?: QueryAnalysis;
 };
