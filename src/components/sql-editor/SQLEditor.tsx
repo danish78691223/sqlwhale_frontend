@@ -11,6 +11,7 @@ interface SQLEditorProps {
   onRun: (query: string) => void;
   onClear: () => void;
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
+  onQueryTableChange?: (table: string | null) => void;
 }
 
 const DEFAULT_QUERY =
@@ -23,6 +24,7 @@ export default function SQLEditor({
   onRun,
   onClear,
   onCursorTargetChange,
+  onQueryTableChange,
 }: SQLEditorProps) {
   const [query, setQuery] =
     useState(initialQuery);
@@ -45,6 +47,19 @@ export default function SQLEditor({
   };
 
   const handleEditorMount: OnMount = (editor) => {
+    const updateQueryTableTarget = () => {
+      const sql = editor.getValue();
+      const tablesInQuery = [...sql.matchAll(/\\b(?:FROM|JOIN|UPDATE|INTO|DELETE\\s+FROM)\\s+([A-Za-z_][\\w$]*)/gi)]
+        .map((match) => match[1].toLowerCase());
+
+      const knownTable =
+        ["departments", "employees", "projects", "salary"].find((table) =>
+          tablesInQuery.includes(table)
+        ) ?? null;
+
+      onQueryTableChange?.(knownTable);
+    };
+
     const updateCursorTarget = () => {
       const model = editor.getModel();
       const position = editor.getPosition();
@@ -87,7 +102,11 @@ export default function SQLEditor({
     };
 
     editor.onDidChangeCursorPosition(updateCursorTarget);
-    editor.onDidChangeModelContent(updateCursorTarget);
+    editor.onDidChangeModelContent(() => {
+      updateQueryTableTarget();
+      updateCursorTarget();
+    });
+    updateQueryTableTarget();
     updateCursorTarget();
 
     editor.onKeyDown((event) => {
