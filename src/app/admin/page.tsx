@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList } from "lucide-react";
 
 type User = {
   id: string;
@@ -14,6 +14,18 @@ type User = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+type Task = {
+  id: string;
+  title: string;
+  description: string;
+  expectedQuery: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  isActive: boolean;
+  createdAt?: string;
+};
+
+type NewTask = Omit<Task, "id" | "createdAt">;
 
 type Maintenance = {
   enabled: boolean;
@@ -32,6 +44,15 @@ const emptyMaintenance: Maintenance = {
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [maintenance, setMaintenance] = useState<Maintenance>(emptyMaintenance);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTask, setNewTask] = useState<NewTask>({
+    title: "",
+    description: "",
+    expectedQuery: "",
+    difficulty: "Easy",
+    isActive: true,
+  });
+  const [savingTask, setSavingTask] = useState(false);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [savingUser, setSavingUser] = useState<string | null>(null);
@@ -54,9 +75,11 @@ export default function AdminPage() {
       const [userResponse, overviewResponse] = await Promise.all([
         api.get("/admin/users"),
         api.get("/admin/overview"),
+        api.get("/admin/tasks"),
       ]);
       setUsers(userResponse.data.users || []);
       setMaintenance(overviewResponse.data.maintenance || emptyMaintenance);
+      setTasks(overviewResponse.data.tasks || (await api.get("/admin/tasks")).data.tasks || []);
     } catch (err: any) {
       const status = err?.response?.status;
       setError(status === 401 ? "Please log in to SQLWhale first." : status === 403 ? "This account is not an admin." : (err?.response?.data?.error || "Unable to load admin data."));
@@ -103,6 +126,44 @@ export default function AdminPage() {
       setMessage(user.name + " deleted.");
     } catch (err: any) {
       setError(err?.response?.data?.error || "Unable to delete user.");
+    }
+  }
+
+  async function createTask() {
+    setSavingTask(true);
+    setError("");
+    setMessage("");
+    try {
+      const response = await api.post("/admin/tasks", newTask);
+      setTasks((current) => [response.data.task, ...current]);
+      setNewTask({ title: "", description: "", expectedQuery: "", difficulty: "Easy", isActive: true });
+      setMessage("Task added successfully.");
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to add task.");
+    } finally {
+      setSavingTask(false);
+    }
+  }
+
+  async function toggleTask(task: Task) {
+    try {
+      const response = await api.patch("/admin/tasks/" + encodeURIComponent(task.id), {
+        isActive: !task.isActive,
+      });
+      setTasks((current) => current.map((item) => item.id === task.id ? response.data.task : item));
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to update task.");
+    }
+  }
+
+  async function deleteTask(task: Task) {
+    if (!window.confirm("Delete task " + task.title + "?")) return;
+    try {
+      await api.delete("/admin/tasks/" + encodeURIComponent(task.id));
+      setTasks((current) => current.filter((item) => item.id !== task.id));
+      setMessage(task.title + " deleted.");
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to delete task.");
     }
   }
 
@@ -176,6 +237,52 @@ export default function AdminPage() {
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search name, email or user ID..." />
           </div>
         </article>
+      </section>
+
+      <section className="sqlwhale-admin-card sqlwhale-admin-task-card">
+        <div className="sqlwhale-admin-card-title">
+          <div><ClipboardList size={18} /><span>Manage Tasks</span></div>
+          <strong>{tasks.length}</strong>
+        </div>
+        <p className="sqlwhale-admin-muted">Add SQL challenges that appear in the Run Query → Task section.</p>
+
+        <div className="sqlwhale-admin-task-form">
+          <input className="sqlwhale-admin-input" value={newTask.title} onChange={(e) => setNewTask((c) => ({ ...c, title: e.target.value }))} placeholder="Task title" />
+          <textarea className="sqlwhale-admin-textarea" value={newTask.description} onChange={(e) => setNewTask((c) => ({ ...c, description: e.target.value }))} placeholder="Task description / instructions" rows={3} />
+          <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={newTask.expectedQuery} onChange={(e) => setNewTask((c) => ({ ...c, expectedQuery: e.target.value }))} placeholder="Expected SQL answer" rows={4} />
+          <div className="sqlwhale-admin-task-form-row">
+            <select className="sqlwhale-admin-select" value={newTask.difficulty} onChange={(e) => setNewTask((c) => ({ ...c, difficulty: e.target.value as NewTask["difficulty"] }))}>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+            <label className="sqlwhale-admin-switch-row">
+              <span>Active</span>
+              <input type="checkbox" checked={newTask.isActive} onChange={(e) => setNewTask((c) => ({ ...c, isActive: e.target.checked }))} />
+            </label>
+            <button className="sqlwhale-admin-primary" onClick={() => void createTask()} disabled={savingTask || !newTask.title.trim() || !newTask.description.trim() || !newTask.expectedQuery.trim()}>
+              <Save size={16} /> {savingTask ? "Adding..." : "Add task"}
+            </button>
+          </div>
+        </div>
+
+        <div className="sqlwhale-admin-task-list">
+          {tasks.length === 0 ? (
+            <div className="sqlwhale-admin-empty">No tasks added yet.</div>
+          ) : tasks.map((task) => (
+            <div className="sqlwhale-admin-task-row" key={task.id}>
+              <div>
+                <strong>{task.title}</strong>
+                <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
+                <small>{task.description}</small>
+              </div>
+              <div className="sqlwhale-admin-actions">
+                <button className="sqlwhale-admin-save" onClick={() => void toggleTask(task)}>{task.isActive ? "Hide" : "Publish"}</button>
+                <button className="sqlwhale-admin-delete" onClick={() => void deleteTask(task)}><Trash2 size={14} /> Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="sqlwhale-admin-card sqlwhale-admin-users-card">
