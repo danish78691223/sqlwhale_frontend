@@ -14106,3 +14106,160 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
   .sqlwhale-desktop-notice-card p{font-size:12px;line-height:1.6;margin:10px 0 17px}
   .sqlwhale-desktop-notice-close{min-height:36px;padding:0 15px}
 }
+
+
+/* =========================================================
+   RUN QUERY — MOBILE RESPONSIVE COMPOSITION
+   Output full-width on top, schema + Build/Task side-by-side,
+   SQL editor full-width underneath.
+========================================================= */
+@media (max-width: 800px) {
+  .sqlwhale-run-page {
+    min-height: 100vh !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .sqlwhale-main-workspace {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-rows: minmax(330px, 46vh) minmax(260px, 34vh) !important;
+    gap: 8px !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 8px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-center-output {
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-schema-workspace {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid #d9e2ef !important;
+    border-radius: 10px !important;
+    background: rgba(255,255,255,.5) !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    z-index: 8 !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-mode-switch {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 4px !important;
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-builder-toggle-button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+    padding: 7px !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-builder-button-main {
+    gap: 6px !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-mode-number {
+    width: 21px !important;
+    height: 21px !important;
+    flex-basis: 21px !important;
+    font-size: 7px !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-builder-button-main strong {
+    font-size: 9px !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-builder-button-main small {
+    font-size: 7px !important;
+    line-height: 1.2 !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-side-placeholder,
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-task-section,
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-builder {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-side-placeholder {
+    margin: 0 !important;
+    border: 1px solid #dbe4ef !important;
+    border-top: 0 !important;
+    border-radius: 0 0 10px 10px !important;
+    background: rgba(255,255,255,.98) !important;
+  }
+
+  .sqlwhale-query-editor {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    height: 190px !important;
+    min-height: 190px !important;
+    margin: 8px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-query-editor .sql-editor-card {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+}
