@@ -49,7 +49,7 @@ export default function SQLEditor({
   const handleEditorMount: OnMount = (editor) => {
     const updateQueryTableTarget = () => {
       const sql = editor.getValue();
-      const tableMatch = sql.match(/(?:FROM|JOIN|UPDATE|INTO|DELETE\\s+FROM)\\s+([A-Za-z_][\\w$]*)/i);
+      const tableMatch = sql.match(/(?:FROM|JOIN|UPDATE|INTO|DELETE\s+FROM)\s+([A-Za-z_][\w$]*)/i);
       const typedTable = tableMatch?.[1]?.toLowerCase() ?? "";
       const knownTable =
         ["departments", "employees", "projects", "salary"].find((table) =>
