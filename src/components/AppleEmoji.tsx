@@ -1,6 +1,7 @@
 "use client";
 
-import { Emoji, init } from "emoji-mart";
+import { createElement } from "react";
+import { init } from "emoji-mart";
 import data from "@emoji-mart/data";
 
 let initialized = false;
@@ -25,13 +26,17 @@ export default function AppleEmoji({
 }) {
   ensureEmojiMartInitialized();
 
-  return (
-    <span
-      className={className}
-      aria-hidden="true"
-      style={{ display: "inline-flex", width: size, height: size, verticalAlign: "middle" }}
-    >
-      <Emoji emoji={name} set="apple" size={size} />
-    </span>
-  );
+  return createElement("em-emoji", {
+    id: name,
+    set: "apple",
+    size: `${size}px`,
+    class: className,
+    "aria-hidden": "true",
+    style: {
+      display: "inline-flex",
+      width: size,
+      height: size,
+      verticalAlign: "middle",
+    },
+  });
 }
