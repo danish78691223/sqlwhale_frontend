@@ -12,11 +12,15 @@ type Task = {
   createdAt?: string;
 };
 
+type TaskCheck = { taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string };
+
 interface TaskSectionProps {
   onStartTask: (task: Task) => void;
+  activeTaskId?: string | null;
+  taskCheck?: TaskCheck | null;
 }
 
-export default function TaskSection({ onStartTask }: TaskSectionProps) {
+export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: TaskSectionProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -97,6 +101,12 @@ export default function TaskSection({ onStartTask }: TaskSectionProps) {
                 <CheckCircle2 size={15} />
                 Start Task
               </button>
+              {activeTaskId === task.id && taskCheck && (
+                <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
+                  <strong>{taskCheck.correct ? "✓ Correct Answer" : "✕ Incorrect Answer"}</strong>
+                  <span>{taskCheck.message}</span>
+                </div>
+              )}
             </article>
           ))}
         </div>
