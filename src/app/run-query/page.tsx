@@ -620,7 +620,10 @@ export default function RunQueryPage() {
         <button
           type="button"
           className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
-          onClick={() => setBuilderOpen((current) => !current)}
+          onClick={() => {
+            setBuilderOpen((current) => !current);
+            setTaskOpen(false);
+          }}
           aria-expanded={builderOpen}
         >
           <span className="sqlwhale-builder-button-main">
@@ -638,6 +641,36 @@ export default function RunQueryPage() {
             initialTableName="employees"
             onGenerate={(generatedSQL) => {
               setQuery(generatedSQL);
+              setExecutedQuery(null);
+              setAnimationComplete(false);
+            }}
+          />
+        )}
+      </section>
+
+      <section className="sqlwhale-task-shell" data-sqlwhale-tour="task">
+        <button
+          type="button"
+          className={`sqlwhale-builder-toggle-button ${taskOpen ? "is-open" : ""}`}
+          onClick={() => {
+            setTaskOpen((current) => !current);
+            setBuilderOpen(false);
+          }}
+          aria-expanded={taskOpen}
+        >
+          <span className="sqlwhale-builder-button-main">
+            <span className="sqlwhale-query-mode-number">02</span>
+            <span>
+              <strong>Task</strong>
+              <small>{taskOpen ? "SQL practice tasks" : "Solve an admin-created task"}</small>
+            </span>
+          </span>
+        </button>
+
+        {taskOpen && (
+          <TaskSection
+            onStartTask={(task) => {
+              setQuery(`-- Task: ${task.title}\n-- Write your SQL below.\n`);
               setExecutedQuery(null);
               setAnimationComplete(false);
             }}
