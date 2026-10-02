@@ -14418,115 +14418,115 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
    ========================================================= */
 
 @media (min-width: 901px) {
-  .sqlwhale-run-page > .sqlwhale-builder-shell {
+  .sqlwhale-run-page .sqlwhale-builder-shell {
     container-type: inline-size;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-query-builder {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-query-builder {
     overflow-y: auto;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-header {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-header {
     padding: 16px 16px 13px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-kicker {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-kicker {
     font-size: 9px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-header h2 {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-header h2 {
     font-size: 17px;
     line-height: 1.2;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-header p {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-header p {
     max-width: 310px;
     font-size: 10px;
     line-height: 1.45;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-flow {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-flow {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 9px;
     padding: 14px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-arrow {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-arrow {
     display: none;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-block {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-block {
     min-width: 0;
     padding: 11px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-label {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-label {
     margin-bottom: 7px;
     font-size: 9px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-block select,
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-condition input,
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-condition select,
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-join-grid > select,
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-join-condition select {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-block select,
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-condition input,
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-condition select,
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-join-grid > select,
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-join-condition select {
     min-width: 0;
     height: 34px;
     font-size: 11px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-block small {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-block small {
     font-size: 9px;
     line-height: 1.45;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-toggle {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-toggle {
     padding: 5px 8px;
     font-size: 9px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-condition {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-condition {
     grid-template-columns: minmax(0, 1fr) 55px;
     gap: 6px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-condition input {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-condition input {
     grid-column: 1 / -1;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-join-grid {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-join-grid {
     gap: 7px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-join-condition {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-join-condition {
     gap: 5px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-relationship-note {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-relationship-note {
     font-size: 9px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-generate {
     padding: 0 14px 14px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate button {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-generate button {
     height: 36px;
     padding: 0 13px;
     font-size: 10px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-generate > span {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-generate > span {
     font-size: 9px;
   }
 }
 
 @container (max-width: 390px) {
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-query-builder {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-query-builder {
     padding-bottom: 4px;
   }
 
-  .sqlwhale-run-page > .sqlwhale-builder-shell .sqlwhale-builder-flow {
+  .sqlwhale-run-page .sqlwhale-builder-shell .sqlwhale-builder-flow {
     grid-template-columns: 1fr;
   }
 }
