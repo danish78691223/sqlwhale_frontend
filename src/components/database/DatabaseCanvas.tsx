@@ -18,6 +18,7 @@ import {
   type Edge,
   type Node,
   type EdgeProps,
+  type ReactFlowInstance,
 } from "@xyflow/react";
 
 import "@xyflow/react/dist/style.css";
@@ -115,10 +116,10 @@ function RelationshipWiringEdge({
     [path] = getBezierPath({
       sourceX,
       sourceY,
-      sourcePosition: Position.Right,
+      sourcePosition: Position.Bottom,
       targetX,
       targetY,
-      targetPosition: Position.Left,
+      targetPosition: Position.Top,
       curvature: 0.35,
     });
   }
@@ -306,6 +307,7 @@ export default function DatabaseCanvas({
 }: DatabaseCanvasProps) {
   const initialNodes = createNodes(tables, onEditTable, initialTableName, queryTableTarget);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [flowInstance, setFlowInstance] = useState<ReactFlowInstance | null>(null);
   const [tablesLocked, setTablesLocked] = useState(false);
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -435,7 +437,7 @@ export default function DatabaseCanvas({
   }, [activeSqlTarget, tables]);
 
   useEffect(() => {
-    if (!queryTableTarget) return;
+    if (!queryTableTarget || !flowInstance) return;
 
     const targetNode = nodes.find(
       (node) => String(node.id).toLowerCase() === queryTableTarget.toLowerCase()
@@ -443,17 +445,15 @@ export default function DatabaseCanvas({
 
     if (!targetNode) return;
 
-    const nodeElement = document.querySelector(
-      `[data-id="${targetNode.id}"]`
-    ) as HTMLElement | null;
-
-    if (nodeElement) {
-      nodeElement.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, [queryTableTarget, nodes]);
+    flowInstance.setCenter(
+      targetNode.position.x + 110,
+      targetNode.position.y + 90,
+      {
+        zoom: 1,
+        duration: 450,
+      }
+    );
+  }, [queryTableTarget, nodes, flowInstance]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
@@ -493,6 +493,7 @@ export default function DatabaseCanvas({
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         edges={edges}
+        onInit={setFlowInstance}
         nodeTypes={nodeTypes}
         edgeTypes={relationshipEdgeTypes}
         fitView
