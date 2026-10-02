@@ -13987,3 +13987,25 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
     min-height: 80px !important;
   }
 }
+
+.sqlwhale-task-check {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.sqlwhale-task-check strong { font-size: 11px; }
+.sqlwhale-task-check.is-correct {
+  background: #ecfdf3;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+}
+.sqlwhale-task-check.is-incorrect {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #c2410c;
+}
