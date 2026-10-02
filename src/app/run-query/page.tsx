@@ -552,7 +552,7 @@ export default function RunQueryPage() {
     table?: string;
     column: string;
   } | null>(null);
-  const [queryTableTarget, setQueryTableTarget] = useState<string | null>(null);
+  const [queryTableTargets, setQueryTableTargets] = useState<string[]>([]);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   useEffect(() => {
@@ -912,7 +912,7 @@ export default function RunQueryPage() {
               activeSqlTarget={activeSqlTarget}
               executedQuery={executedQuery}
               queryAnimationStage={queryAnimationStage}
-              queryTableTarget={queryTableTarget}
+              queryTableTargets={queryTableTargets}
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
             />
@@ -1054,7 +1054,7 @@ export default function RunQueryPage() {
           onRun={handleRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
-          onQueryTableChange={setQueryTableTarget}
+          onQueryTableChange={setQueryTableTargets}
         />
       </section>
 
