@@ -104,7 +104,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
               </button>
               {activeTaskId === task.id && taskCheck && (
                 <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
-                  <strong>{taskCheck.correct ? "✓ Correct Answer" : "✕ Incorrect Answer"}</strong>
+                  <strong>{taskCheck.correct ? "✓ Task Completed" : "✕ Incorrect Query"}</strong>
                   <span>{taskCheck.message}</span>
                 </div>
               )}
