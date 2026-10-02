@@ -216,7 +216,7 @@ function createNodes(
   tables: DatabaseTableType[],
   onEditTable?: (table: DatabaseTableType) => void,
   initialTableName = "employees",
-  queryTableTargets: string[]
+  queryTableTargets: string[] = []
 ): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
@@ -305,7 +305,7 @@ export default function DatabaseCanvas({
   activeSqlTarget = null,
   executedQuery = null,
   queryAnimationStage = null,
-  queryTableTargets,
+  queryTableTargets = [],
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
