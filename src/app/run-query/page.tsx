@@ -657,6 +657,14 @@ export default function RunQueryPage() {
           </button>
         </div>
 
+        {!builderOpen && !taskOpen && (
+          <div className="sqlwhale-query-side-placeholder">
+            <div className="sqlwhale-query-side-placeholder-icon">01</div>
+            <h3>Build Query</h3>
+            <p>Build your SQL visually, or select a task to practice.</p>
+          </div>
+        )}
+
         {builderOpen && (
           <SQLQueryBuilder
             tables={tables}
