@@ -617,23 +617,44 @@ export default function RunQueryPage() {
       </section>
 
       <section className="sqlwhale-builder-shell" data-sqlwhale-tour="builder">
-        <button
-          type="button"
-          className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
-          onClick={() => {
-            setBuilderOpen((current) => !current);
-            setTaskOpen(false);
-          }}
-          aria-expanded={builderOpen}
-        >
-          <span className="sqlwhale-builder-button-main">
-            <span className="sqlwhale-query-mode-number">01</span>
-            <span>
-              <strong>Build the Query</strong>
-              <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
+        <div className="sqlwhale-query-mode-switch">
+          <button
+            type="button"
+            className={`sqlwhale-builder-toggle-button ${builderOpen ? "is-open" : ""}`}
+            onClick={() => {
+              setBuilderOpen((current) => !current);
+              setTaskOpen(false);
+            }}
+            aria-expanded={builderOpen}
+          >
+            <span className="sqlwhale-builder-button-main">
+              <span className="sqlwhale-query-mode-number">01</span>
+              <span>
+                <strong>Build the Query</strong>
+                <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
+              </span>
             </span>
-          </span>
-        </button>
+          </button>
+
+          <button
+            type="button"
+            className={`sqlwhale-builder-toggle-button ${taskOpen ? "is-open" : ""}`}
+            data-sqlwhale-task-toggle
+            onClick={() => {
+              setTaskOpen((current) => !current);
+              setBuilderOpen(false);
+            }}
+            aria-expanded={taskOpen}
+          >
+            <span className="sqlwhale-builder-button-main">
+              <span className="sqlwhale-query-mode-number">02</span>
+              <span>
+                <strong>Task</strong>
+                <small>{taskOpen ? "SQL practice tasks" : "Solve an admin-created task"}</small>
+              </span>
+            </span>
+          </button>
+        </div>
 
         {builderOpen && (
           <SQLQueryBuilder
@@ -646,26 +667,6 @@ export default function RunQueryPage() {
             }}
           />
         )}
-      </section>
-
-      <section className="sqlwhale-task-shell" data-sqlwhale-tour="task">
-        <button
-          type="button"
-          className={`sqlwhale-builder-toggle-button ${taskOpen ? "is-open" : ""}`}
-          onClick={() => {
-            setTaskOpen((current) => !current);
-            setBuilderOpen(false);
-          }}
-          aria-expanded={taskOpen}
-        >
-          <span className="sqlwhale-builder-button-main">
-            <span className="sqlwhale-query-mode-number">02</span>
-            <span>
-              <strong>Task</strong>
-              <small>{taskOpen ? "SQL practice tasks" : "Solve an admin-created task"}</small>
-            </span>
-          </span>
-        </button>
 
         {taskOpen && (
           <TaskSection
