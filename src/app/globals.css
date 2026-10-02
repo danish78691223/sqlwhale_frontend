@@ -13872,3 +13872,97 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
     line-height: 1.5;
   }
 }
+
+/* =========================================================
+   RUN QUERY — EXACT 3-COLUMN / 1-ROW COMPOSITION
+========================================================= */
+@media (min-width: 801px) {
+  .sqlwhale-run-page { height:100vh; min-height:0; overflow:hidden; }
+
+  .sqlwhale-main-workspace {
+    position:relative !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(280px,.95fr) !important;
+    grid-template-rows:minmax(0,1fr) !important;
+    gap:18px !important;
+    height:calc(100vh - 76px - 205px) !important;
+    min-height:0 !important;
+    margin:14px 42px 0 !important;
+    padding:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-schema-workspace {
+    position:relative !important; inset:auto !important;
+    grid-column:1 !important; grid-row:1 !important;
+    width:100% !important; height:100% !important;
+    min-width:0 !important; min-height:0 !important;
+    overflow:hidden !important;
+    border:1px solid #d9e2ef !important;
+    border-radius:12px !important;
+    background:rgba(255,255,255,.35) !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-center-output {
+    position:relative !important; left:auto !important; top:auto !important;
+    transform:none !important;
+    grid-column:2 !important; grid-row:1 !important;
+    width:100% !important; height:100% !important;
+    min-width:0 !important; min-height:0 !important;
+    max-width:none !important; margin:0 !important;
+    box-sizing:border-box !important; overflow:hidden !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel {
+    position:relative !important;
+    top:auto !important; right:auto !important; left:auto !important; bottom:auto !important;
+    grid-column:3 !important; grid-row:1 !important;
+    width:100% !important; max-width:none !important;
+    min-width:0 !important; height:100% !important;
+    margin:0 !important; z-index:8 !important;
+    box-sizing:border-box !important;
+    display:flex !important; flex-direction:column !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-mode-switch {
+    flex:0 0 auto !important;
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:6px !important; width:100% !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-builder-toggle-button {
+    width:100% !important; min-width:0 !important; min-height:58px !important;
+    box-sizing:border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-side-placeholder,
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-task-section,
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-builder {
+    flex:1 1 auto !important; width:100% !important; max-width:none !important;
+    min-width:0 !important; min-height:0 !important; max-height:none !important;
+    overflow:auto !important; box-sizing:border-box !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-side-placeholder {
+    margin:0 !important; border:1px solid #dbe4ef !important;
+    border-top:0 !important; border-radius:0 0 12px 12px !important;
+    background:rgba(255,255,255,.98) !important;
+  }
+
+  .sqlwhale-query-editor {
+    position:relative !important; left:auto !important; right:auto !important; bottom:auto !important;
+    width:auto !important; height:175px !important; min-height:175px !important;
+    margin:14px 42px 14px !important; opacity:1 !important; pointer-events:auto !important;
+    z-index:10 !important; box-sizing:border-box !important;
+  }
+
+  .sqlwhale-query-editor .sql-editor-card {
+    width:100% !important; height:100% !important; margin:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media (max-width:800px) {
+  .sqlwhale-run-page { min-height:100vh; height:auto; overflow:visible; }
+}
