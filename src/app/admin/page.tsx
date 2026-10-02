@@ -72,14 +72,14 @@ export default function AdminPage() {
     setLoading(true);
     setError("");
     try {
-      const [userResponse, overviewResponse] = await Promise.all([
+      const [userResponse, overviewResponse, taskResponse] = await Promise.all([
         api.get("/admin/users"),
         api.get("/admin/overview"),
         api.get("/admin/tasks"),
       ]);
       setUsers(userResponse.data.users || []);
       setMaintenance(overviewResponse.data.maintenance || emptyMaintenance);
-      setTasks(overviewResponse.data.tasks || (await api.get("/admin/tasks")).data.tasks || []);
+      setTasks(taskResponse.data.tasks || []);
     } catch (err: any) {
       const status = err?.response?.status;
       setError(status === 401 ? "Please log in to SQLWhale first." : status === 403 ? "This account is not an admin." : (err?.response?.data?.error || "Unable to load admin data."));
