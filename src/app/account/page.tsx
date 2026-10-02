@@ -70,7 +70,7 @@ export default function AccountPage() {
         setUser(response.data.user);
 
         try {
-          const [historyResponse, dashboardResponse] = await Promise.all([
+          const [historyResponse, dashboardResponse, completedTasksResponse] = await Promise.all([
             authApi.get("/auth/query-history?limit=50"),
             authApi.get("/auth/learning-dashboard"),
             authApi.get("/auth/task-completions"),
