@@ -47,6 +47,8 @@ export default function AccountPage() {
     learningStreak: number;
   } | null>(null);
   const [dashboardLoading, setDashboardLoading] = useState(true);
+  const [completedTasks, setCompletedTasks] = useState<Array<{id:string;title:string;difficulty:string;completedAt:string}>>([]);
+  const [completedTasksLoading, setCompletedTasksLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
@@ -71,10 +73,12 @@ export default function AccountPage() {
           const [historyResponse, dashboardResponse] = await Promise.all([
             authApi.get("/auth/query-history?limit=50"),
             authApi.get("/auth/learning-dashboard"),
+            authApi.get("/auth/task-completions"),
           ]);
           if (mounted) {
             setHistory(historyResponse.data?.history || []);
             setDashboard(dashboardResponse.data?.stats || null);
+            setCompletedTasks(completedTasksResponse.data?.completions || []);
           }
         } catch (historyError) {
           console.error("Unable to load account activity:", historyError);
@@ -82,6 +86,7 @@ export default function AccountPage() {
           if (mounted) {
             setHistoryLoading(false);
             setDashboardLoading(false);
+            setCompletedTasksLoading(false);
           }
         }
       } catch {
@@ -255,6 +260,36 @@ export default function AccountPage() {
               </div>
             </>
           ) : null}
+        </section>
+
+        <section className="account-dashboard-section account-completed-tasks-section">
+          <div className="account-history-header">
+            <div>
+              <span className="account-card-label">TASK PROGRESS</span>
+              <h2>Completed SQL Tasks</h2>
+            </div>
+            <span className="account-history-count">{completedTasks.length} completed</span>
+          </div>
+          {completedTasksLoading ? (
+            <div className="account-history-empty">Loading completed tasks...</div>
+          ) : completedTasks.length === 0 ? (
+            <div className="account-history-empty">No tasks completed yet. Start a SQL task from Run Query.</div>
+          ) : (
+            <div className="account-history-list">
+              {completedTasks.map((task) => (
+                <div className="account-history-item" key={task.id}>
+                  <div className="account-history-main">
+                    <strong>{task.title}</strong>
+                    <span>Completed {formatDate(task.completedAt)}</span>
+                  </div>
+                  <div className="account-history-meta">
+                    <span className="history-success">Completed</span>
+                    <span>{task.difficulty}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="account-history-card">
