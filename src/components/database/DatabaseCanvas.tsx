@@ -37,7 +37,6 @@ interface DatabaseCanvasProps {
   activeSqlTarget?: SQLCursorTarget | null;
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
-  queryTableTarget?: string | null;
   queryTableTargets?: string[];
   queryAnalysis?: QueryAnalysis | null;
   onEditTable?: (table: DatabaseTableType) => void;
@@ -88,7 +87,6 @@ function RelationshipWiringEdge({
     locked?: boolean;
     active?: boolean;
     queryActive?: boolean;
-    queryTableTarget?: boolean;
   } | undefined;
   const routeOffset = Number(edgeData?.routeOffset ?? 0);
   const edgeColor = edgeData?.color ?? "#2563eb";
@@ -218,8 +216,7 @@ function createNodes(
   tables: DatabaseTableType[],
   onEditTable?: (table: DatabaseTableType) => void,
   initialTableName = "employees",
-  queryTableTarget?: string | null,
-  queryTableTargets: string[] = []
+  queryTableTargets: string[]
 ): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
@@ -236,12 +233,9 @@ function createNodes(
         accentIndex: index,
         locked: false,
         initialFocus: table.name === initialTableName,
-        queryTarget:
-          queryTableTargets.length > 0
-            ? queryTableTargets.some(
-                (target) => target.toLowerCase() === table.name.toLowerCase()
-              )
-            : table.name.toLowerCase() === queryTableTarget?.toLowerCase(),
+        queryTarget: queryTableTargets.some(
+          (target) => target.toLowerCase() === table.name.toLowerCase()
+        ),
         onEditTable,
       },
     }));
@@ -311,8 +305,7 @@ export default function DatabaseCanvas({
   activeSqlTarget = null,
   executedQuery = null,
   queryAnimationStage = null,
-  queryTableTarget = null,
-  queryTableTargets = [],
+  queryTableTargets,
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
@@ -326,7 +319,6 @@ export default function DatabaseCanvas({
     tables,
     onEditTable,
     initialTableName,
-    queryTableTarget,
     activeTableTargets
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -341,16 +333,13 @@ export default function DatabaseCanvas({
         ...node,
         data: {
           ...node.data,
-          queryTarget:
-            activeTableTargets.length > 0
-              ? activeTableTargets.some(
-                  (target) => target.toLowerCase() === String(node.id).toLowerCase()
-                )
-              : String(node.id).toLowerCase() === queryTableTarget?.toLowerCase(),
+          queryTarget: activeTableTargets.some(
+            (target) => target.toLowerCase() === String(node.id).toLowerCase()
+          ),
         },
       }))
     );
-  }, [queryTableTarget, activeTableTargets, setNodes]);
+  }, [activeTableTargets, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
@@ -464,10 +453,12 @@ export default function DatabaseCanvas({
   }, [activeSqlTarget, tables]);
 
   useEffect(() => {
-    if (!queryTableTarget || !flowInstance) return;
+    if (activeTableTargets.length === 0 || !flowInstance) return;
 
     const targetNode = nodes.find(
-      (node) => String(node.id).toLowerCase() === queryTableTarget.toLowerCase()
+      (node) =>
+        String(node.id).toLowerCase() ===
+        activeTableTargets[0].toLowerCase()
     );
 
     if (!targetNode) return;
@@ -480,7 +471,7 @@ export default function DatabaseCanvas({
         duration: 450,
       }
     );
-  }, [queryTableTarget, queryAnalysis, nodes, flowInstance]);
+  }, [activeTableTargets, nodes, flowInstance]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
