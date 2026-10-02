@@ -11,11 +11,52 @@ interface SQLEditorProps {
   onRun: (query: string) => void;
   onClear: () => void;
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
-  onQueryTableChange?: (table: string | null) => void;
+  onQueryTableChange?: (tables: string[]) => void;
 }
 
-const DEFAULT_QUERY =
-  "SELECT * FROM employees;";
+const DEFAULT_QUERY = "SELECT * FROM employees;";
+
+const KNOWN_TABLES = ["departments", "employees", "projects", "salary"];
+
+function extractQueryTables(sql: string): string[] {
+  const tables: string[] = [];
+  const aliases = new Map<string, string>();
+  const stopWords = /^(ON|WHERE|JOIN|INNER|LEFT|RIGHT|FULL|CROSS|GROUP|ORDER|LIMIT|HAVING|UNION)$/i;
+
+  for (const match of sql.matchAll(
+    /\b(?:FROM|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/gi
+  )) {
+    const table = match[1];
+    const possibleAlias = match[2];
+    if (stopWords.test(possibleAlias || "")) {
+      tables.push(table);
+      aliases.set(table.toLowerCase(), table);
+      continue;
+    }
+
+    tables.push(table);
+    aliases.set(table.toLowerCase(), table);
+    if (possibleAlias) aliases.set(possibleAlias.toLowerCase(), table);
+  }
+
+  // Also handle comma-separated tables in FROM clauses.
+  const fromMatch = sql.match(
+    /\bFROM\s+([\s\S]*?)(?=\bWHERE\b|\bGROUP\s+BY\b|\bORDER\s+BY\b|\bHAVING\b|\bLIMIT\b|\bUNION\b|$)/i
+  );
+
+  if (fromMatch) {
+    for (const part of fromMatch[1].split(/,(?![^()]*\))/)) {
+      const table = part.trim().match(/^([A-Za-z_][\w$]*)/)?.[1];
+      if (table) tables.push(table);
+    }
+  }
+
+  return [...new Set(
+    tables
+      .map((name) => KNOWN_TABLES.find((known) => known.toLowerCase() === name.toLowerCase()))
+      .filter((name): name is string => Boolean(name))
+  )];
+}
 
 export default function SQLEditor({
   initialQuery = DEFAULT_QUERY,
@@ -26,37 +67,27 @@ export default function SQLEditor({
   onCursorTargetChange,
   onQueryTableChange,
 }: SQLEditorProps) {
-  const [query, setQuery] =
-    useState(initialQuery);
+  const [query, setQuery] = useState(initialQuery);
 
   useEffect(() => {
     setQuery(initialQuery);
   }, [initialQuery]);
 
   const handleRun = () => {
-    if (!query.trim() || loading) {
-      return;
-    }
-
+    if (!query.trim() || loading) return;
     onRun(query);
   };
 
   const handleClear = () => {
     setQuery("");
+    onQueryTableChange?.([]);
     onClear();
   };
 
   const handleEditorMount: OnMount = (editor) => {
-    const updateQueryTableTarget = () => {
+    const updateQueryTableTargets = () => {
       const sql = editor.getValue();
-      const tableMatch = sql.match(/(?:FROM|JOIN|UPDATE|INTO|DELETE\s+FROM)\s+([A-Za-z_][\w$]*)/i);
-      const typedTable = tableMatch?.[1]?.toLowerCase() ?? "";
-      const knownTable =
-        ["departments", "employees", "projects", "salary"].find((table) =>
-          typedTable.length > 0 && table.startsWith(typedTable)
-        ) ?? null;
-
-      onQueryTableChange?.(knownTable);
+      onQueryTableChange?.(extractQueryTables(sql));
     };
 
     const updateCursorTarget = () => {
@@ -102,10 +133,11 @@ export default function SQLEditor({
 
     editor.onDidChangeCursorPosition(updateCursorTarget);
     editor.onDidChangeModelContent(() => {
-      updateQueryTableTarget();
+      updateQueryTableTargets();
       updateCursorTarget();
     });
-    updateQueryTableTarget();
+
+    updateQueryTableTargets();
     updateCursorTarget();
 
     editor.onKeyDown((event) => {
@@ -133,34 +165,23 @@ export default function SQLEditor({
   };
 
   return (
-    // added "sql-editor" so .sqlwhale-query-editor .sql-editor overrides in
-    // globals.css actually apply (height:100%, no border/shadow duplication)
     <section className="sql-editor-section sql-editor">
       <div className="sql-editor-card">
-
-        {/* added "editor-header" so the compact 54px header override applies */}
         <div className="sql-editor-header editor-header">
           <div className="sql-editor-heading">
-
-            <div className="sql-editor-code-icon">
-              {"</>"}
-            </div>
-
+            <div className="sql-editor-code-icon">{"</>"}</div>
             <div>
               <h2>
                 <span className="sqlwhale-query-mode-number">02</span>
                 Write SQL
               </h2>
-
               <p>
                 Edit the example, then run it to see what the database does.
               </p>
             </div>
-
           </div>
 
           <div className="sql-editor-actions">
-
             <button
               type="button"
               onClick={handleClear}
@@ -168,29 +189,18 @@ export default function SQLEditor({
               className="sql-clear-button"
             >
               <RotateCcw size={15} />
-
               Clear
             </button>
 
             <button
               type="button"
               onClick={handleRun}
-              disabled={
-                loading ||
-                !query.trim()
-              }
+              disabled={loading || !query.trim()}
               className="sql-run-button"
             >
-              <Play
-                size={15}
-                fill="currentColor"
-              />
-
-              {loading
-                ? "Running..."
-                : "Run"}
+              <Play size={15} fill="currentColor" />
+              {loading ? "Running..." : "Run"}
             </button>
-
           </div>
         </div>
 
@@ -200,69 +210,37 @@ export default function SQLEditor({
         </div>
 
         <div className="sql-editor-container">
-
           <Editor
-            // fills whatever height is left in the parent instead of
-            // forcing 280px and overflowing its box
             height="100%"
             language="sql"
             theme={darkMode ? "vs-dark" : "vs-light"}
             onMount={handleEditorMount}
             value={query}
-            onChange={(value) =>
-              setQuery(value || "")
-            }
+            onChange={(value) => setQuery(value || "")}
             options={{
-              minimap: {
-                enabled: false,
-              },
-
+              minimap: { enabled: false },
               fontSize: 14,
-
               lineNumbers: "on",
-
-              padding: {
-                top: 16,
-                bottom: 16,
-              },
-
+              padding: { top: 16, bottom: 16 },
               scrollBeyondLastLine: false,
-
               automaticLayout: true,
-
               wordWrap: "on",
-
-              // Keep normal SQL typing behavior: a space after a comma
-              // must be inserted immediately instead of being consumed by
-              // autocomplete/commit-character handling.
               acceptSuggestionOnCommitCharacter: false,
               acceptSuggestionOnEnter: "off",
               suggestOnTriggerCharacters: false,
               quickSuggestions: false,
-              inlineSuggest: {
-                enabled: false,
-              },
-
+              inlineSuggest: { enabled: false },
               tabSize: 2,
-
               folding: true,
-
               renderLineHighlight: "line",
             }}
           />
-
         </div>
 
         <div className="sql-editor-footer">
-          <span>
-            SQL editor
-          </span>
-
-          <span>
-            Click Run to execute
-          </span>
+          <span>SQL editor</span>
+          <span>Click Run to execute</span>
         </div>
-
       </div>
     </section>
   );
