@@ -88,10 +88,12 @@ export default function RunQueryPage() {
     // explains a specific area of the workspace.
     const isCanvasStep = tourSteps[tourStep].target === "schema";
     const isBuilderStep = tourSteps[tourStep].target === "builder";
+    const isTaskStep = tourSteps[tourStep].target === "task";
 
-    // The builder stays collapsed during normal use. The tour is the only
-    // automatic moment when it opens without the user clicking it.
+    // The builder/task panel stays collapsed during normal use. The tour is
+    // the only automatic moment when one opens without the user clicking it.
     setBuilderOpen(isBuilderStep);
+    setTaskOpen(isTaskStep);
 
     document.body.classList.toggle(
       "sqlwhale-tour-active",
@@ -637,6 +639,7 @@ export default function RunQueryPage() {
           <button
             type="button"
             className={`sqlwhale-builder-toggle-button ${taskOpen ? "is-open" : ""}`}
+            data-sqlwhale-tour="task"
             data-sqlwhale-task-toggle
             onClick={() => {
               setTaskOpen((current) => !current);
