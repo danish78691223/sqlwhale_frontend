@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   Background,
@@ -314,7 +314,7 @@ export default function DatabaseCanvas({
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const queryTableTargets = queryAnalysis?.tables ?? [];
+  const queryTableTargets = useMemo(\n    () => queryAnalysis?.tables ?? [],\n    [queryAnalysis?.tables]\n  );
   const initialNodes = createNodes(
     tables,
     onEditTable,
@@ -343,7 +343,7 @@ export default function DatabaseCanvas({
         },
       }))
     );
-  }, [queryTableTarget, queryAnalysis, queryTableTargets, setNodes]);
+  }, [queryTableTarget, queryTableTargets, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
