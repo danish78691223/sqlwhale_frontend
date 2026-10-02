@@ -10,6 +10,7 @@ type Task = {
   description: string;
   difficulty: "Easy" | "Medium" | "Hard";
   createdAt?: string;
+  completed?: boolean;
 };
 
 type TaskCheck = { taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string };
@@ -93,15 +94,22 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
               </div>
               <h3>{task.title}</h3>
               <p>{task.description}</p>
-              <button
-                type="button"
-                className="sqlwhale-task-start"
-                onClick={() => onStartTask(task)}
-                disabled={activeTaskId === task.id}
-              >
-                <CheckCircle2 size={15} />
-                {activeTaskId === task.id ? "Task Started" : "Start Task"}
-              </button>
+              {task.completed ? (
+                <div className="sqlwhale-task-completed">
+                  <CheckCircle2 size={15} />
+                  Task Completed
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="sqlwhale-task-start"
+                  onClick={() => onStartTask(task)}
+                  disabled={activeTaskId === task.id}
+                >
+                  <CheckCircle2 size={15} />
+                  {activeTaskId === task.id ? "Task Started" : "Start Task"}
+                </button>
+              )}
               {activeTaskId === task.id && taskCheck && (
                 <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
                   <strong>{taskCheck.correct ? "✓ Task Completed" : "✕ Incorrect Query"}</strong>
