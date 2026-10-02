@@ -913,6 +913,7 @@ export default function RunQueryPage() {
               executedQuery={executedQuery}
               queryAnimationStage={queryAnimationStage}
               queryTableTarget={queryTableTarget}
+              queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
             />
           )}
