@@ -29,6 +29,7 @@ import { Lock, Unlock } from "lucide-react";
 import type {
   DatabaseTable as DatabaseTableType,
 } from "@/types/table";
+import type { QueryAnalysis } from "@/types/execution";
 
 interface DatabaseCanvasProps {
   tables: DatabaseTableType[];
@@ -37,6 +38,7 @@ interface DatabaseCanvasProps {
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
   queryTableTarget?: string | null;
+  queryAnalysis?: QueryAnalysis | null;
   onEditTable?: (table: DatabaseTableType) => void;
 }
 
@@ -215,7 +217,8 @@ function createNodes(
   tables: DatabaseTableType[],
   onEditTable?: (table: DatabaseTableType) => void,
   initialTableName = "employees",
-  queryTableTarget?: string | null
+  queryTableTarget?: string | null,
+  queryTableTargets: string[] = []
 ): Node[] {
   return tables
     .filter((table) => visibleTableNames.has(table.name))
@@ -232,7 +235,12 @@ function createNodes(
         accentIndex: index,
         locked: false,
         initialFocus: table.name === initialTableName,
-        queryTarget: table.name.toLowerCase() === queryTableTarget?.toLowerCase(),
+        queryTarget:
+          queryTableTargets.length > 0
+            ? queryTableTargets.some(
+                (target) => target.toLowerCase() === table.name.toLowerCase()
+              )
+            : table.name.toLowerCase() === queryTableTarget?.toLowerCase(),
         onEditTable,
       },
     }));
@@ -303,9 +311,17 @@ export default function DatabaseCanvas({
   executedQuery = null,
   queryAnimationStage = null,
   queryTableTarget = null,
+  queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const initialNodes = createNodes(tables, onEditTable, initialTableName, queryTableTarget);
+  const queryTableTargets = queryAnalysis?.tables ?? [];
+  const initialNodes = createNodes(
+    tables,
+    onEditTable,
+    initialTableName,
+    queryTableTarget,
+    queryTableTargets
+  );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [flowInstance, setFlowInstance] = useState<ReactFlowInstance | null>(null);
   const [tablesLocked, setTablesLocked] = useState(false);
@@ -318,14 +334,19 @@ export default function DatabaseCanvas({
         ...node,
         data: {
           ...node.data,
-          queryTarget: String(node.id).toLowerCase() === queryTableTarget?.toLowerCase(),
+          queryTarget:
+            queryTableTargets.length > 0
+              ? queryTableTargets.some(
+                  (target) => target.toLowerCase() === String(node.id).toLowerCase()
+                )
+              : String(node.id).toLowerCase() === queryTableTarget?.toLowerCase(),
         },
       }))
     );
   }, [queryTableTarget, setNodes]);
 
   useEffect(() => {
-    if (!executedQuery) {
+    if (!queryAnalysis) {
       setEdges((current) =>
         current.map((edge) => ({
           ...edge,
@@ -335,27 +356,7 @@ export default function DatabaseCanvas({
       return;
     }
 
-    const aliases = new Map<string, string>();
-    const tablePattern = /\b(?:FROM|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/gi;
-    let tableMatch: RegExpExecArray | null;
-
-    while ((tableMatch = tablePattern.exec(executedQuery)) !== null) {
-      const tableName = tableMatch[1];
-      const alias = tableMatch[2];
-      aliases.set(tableName.toLowerCase(), tableName);
-      if (alias) aliases.set(alias.toLowerCase(), tableName);
-    }
-
-    const joinPattern = /\bJOIN\s+[A-Za-z_][\w$]*(?:\s+(?:AS\s+)?[A-Za-z_][\w$]*)?\s+ON\s+([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)\s*=\s*([A-Za-z_][\w$]*)\.([A-Za-z_][\w$]*)/gi;
-    const usedColumns = new Set<string>();
-    let joinMatch: RegExpExecArray | null;
-
-    while ((joinMatch = joinPattern.exec(executedQuery)) !== null) {
-      const leftTable = aliases.get(joinMatch[1].toLowerCase()) ?? joinMatch[1];
-      const rightTable = aliases.get(joinMatch[3].toLowerCase()) ?? joinMatch[3];
-      usedColumns.add(leftTable.toLowerCase() + "." + joinMatch[2].toLowerCase());
-      usedColumns.add(rightTable.toLowerCase() + "." + joinMatch[4].toLowerCase());
-    }
+    const activeJoins = queryAnalysis.joins;
 
     setEdges((current) =>
       current.map((edge) => {
@@ -363,14 +364,33 @@ export default function DatabaseCanvas({
         const sourceColumn = String(edge.data?.sourceColumn ?? "");
         const targetTable = String(edge.data?.targetTable ?? "");
         const targetColumn = String(edge.data?.targetColumn ?? "");
-        const sourceKey = sourceTable.toLowerCase() + "." + sourceColumn.toLowerCase();
-        const targetKey = targetTable.toLowerCase() + "." + targetColumn.toLowerCase();
-        const joinStageActive =
-        queryAnimationStage === "join" || queryAnimationStage === "result";
-      const queryActive =
-        joinStageActive &&
-        usedColumns.has(sourceKey) &&
-        usedColumns.has(targetKey);
+
+        const queryActive =
+          (queryAnimationStage === "join" || queryAnimationStage === "result") &&
+          activeJoins.some((join) => {
+            if (
+              !join.leftTable ||
+              !join.leftColumn ||
+              !join.rightTable ||
+              !join.rightColumn
+            ) {
+              return false;
+            }
+
+            const direct =
+              join.leftTable.toLowerCase() === sourceTable.toLowerCase() &&
+              join.leftColumn.toLowerCase() === sourceColumn.toLowerCase() &&
+              join.rightTable.toLowerCase() === targetTable.toLowerCase() &&
+              join.rightColumn.toLowerCase() === targetColumn.toLowerCase();
+
+            const reverse =
+              join.rightTable.toLowerCase() === sourceTable.toLowerCase() &&
+              join.rightColumn.toLowerCase() === sourceColumn.toLowerCase() &&
+              join.leftTable.toLowerCase() === targetTable.toLowerCase() &&
+              join.leftColumn.toLowerCase() === targetColumn.toLowerCase();
+
+            return direct || reverse;
+          });
 
         return {
           ...edge,
@@ -378,7 +398,7 @@ export default function DatabaseCanvas({
         };
       })
     );
-  }, [executedQuery, queryAnimationStage, setEdges]);
+  }, [queryAnalysis, queryAnimationStage, setEdges]);
 
   useEffect(() => {
     setEdges((current) =>
@@ -453,7 +473,7 @@ export default function DatabaseCanvas({
         duration: 450,
       }
     );
-  }, [queryTableTarget, nodes, flowInstance]);
+  }, [queryTableTarget, queryAnalysis, nodes, flowInstance]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
