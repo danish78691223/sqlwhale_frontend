@@ -499,7 +499,16 @@ export default function RunQueryPage() {
       {showProductTour && tourRect && (
         <div className="sqlwhale-product-tour" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-tour-title">
           <div className="sqlwhale-tour-spotlight" style={{ top: Math.max(8, tourRect.top - 8), left: Math.max(8, tourRect.left - 8), width: tourRect.width + 16, height: tourRect.height + 16 }} />
-          <div className="sqlwhale-tour-card" style={{ top: tourRect.bottom + 18, left: Math.min(Math.max(16, tourRect.left), window.innerWidth - 336) }}>
+          <div
+            className="sqlwhale-tour-card"
+            style={{
+              top:
+                tourRect.bottom + 18 + 180 <= window.innerHeight
+                  ? tourRect.bottom + 18
+                  : Math.max(16, tourRect.top - 180),
+              left: Math.min(Math.max(16, tourRect.left), Math.max(16, window.innerWidth - 336)),
+            }}
+          >
             <span className="sqlwhale-tour-step">STEP {tourStep + 1} OF {tourSteps.length}</span>
             <h2 id="sqlwhale-tour-title">{tourSteps[tourStep].title}</h2>
             <p>{tourSteps[tourStep].text}</p>
