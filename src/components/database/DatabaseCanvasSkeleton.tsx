@@ -1,20 +1,23 @@
 "use client";
 
 const skeletonTables = [
-  { name: "departments", rows: 4 },
-  { name: "employees", rows: 5 },
-  { name: "projects", rows: 4 },
-  { name: "salary", rows: 4 },
+  { name: "departments", rows: 4, x: 80, y: 40 },
+  { name: "employees", rows: 5, x: 80, y: 300 },
+  { name: "projects", rows: 4, x: 80, y: 560 },
+  { name: "salary", rows: 4, x: 80, y: 820 },
 ];
 
 export default function DatabaseCanvasSkeleton() {
   return (
     <div className="database-canvas-skeleton" aria-label="Loading database schema" role="status">
       <div className="database-canvas-skeleton-grid" />
-      <div className="database-canvas-skeleton-label">DATABASES</div>
 
       {skeletonTables.map((table) => (
-        <div key={table.name} className="database-table-skeleton">
+        <div
+          key={table.name}
+          className="database-table-skeleton"
+          style={{ left: table.x, top: table.y }}
+        >
           <div className="database-table-skeleton-header">
             <span className="database-table-skeleton-icon" />
             <span className="database-table-skeleton-title" />
@@ -53,35 +56,15 @@ export default function DatabaseCanvasSkeleton() {
           background-size: 24px 24px;
         }
 
-        .database-canvas-skeleton-label {
-          position: absolute;
-          top: 12px;
-          left: 14px;
-          z-index: 2;
-          padding: 5px 8px;
-          border: 1px solid #dbe3ee;
-          border-radius: 7px;
-          background: rgba(255, 255, 255, 0.9);
-          color: #94a3b8;
-          font: 800 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-          letter-spacing: 0.12em;
-        }
-
         .database-table-skeleton {
           position: absolute;
-          left: 7%;
-          width: min(260px, 34%);
+          width: 260px;
           overflow: hidden;
           border: 1px solid #e2e8f0;
           border-radius: 10px;
           background: #fff;
           box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
         }
-
-        .database-table-skeleton:nth-of-type(3) { top: 8%; }
-        .database-table-skeleton:nth-of-type(4) { top: 32%; }
-        .database-table-skeleton:nth-of-type(5) { top: 56%; }
-        .database-table-skeleton:nth-of-type(6) { top: 80%; }
 
         .database-table-skeleton-header {
           display: flex;
@@ -155,13 +138,6 @@ export default function DatabaseCanvasSkeleton() {
         @keyframes databaseSkeletonPulse {
           0%, 100% { opacity: 0.55; }
           50% { opacity: 1; }
-        }
-
-        @media (max-width: 600px) {
-          .database-table-skeleton {
-            left: 5%;
-            width: 44%;
-          }
         }
 
         @media (prefers-reduced-motion: reduce) {
