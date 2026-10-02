@@ -17,6 +17,7 @@ import { getAllTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
 import { useSQLQuery } from "@/hooks/useSQLQuery";
 import { executeSQL } from "@/services/sql.service";
+import { api } from "@/services/api";
 
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
@@ -254,7 +255,7 @@ export default function RunQueryPage() {
 
     if (activeTaskId) {
       try {
-        const check = await axios.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
+        const check = await api.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
         setTaskCheck({
           taskId: activeTaskId,
           correct: Boolean(check.data?.correct),
