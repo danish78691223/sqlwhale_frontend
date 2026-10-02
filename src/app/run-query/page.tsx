@@ -7,6 +7,7 @@ import axios from "axios";
 
 import SQLEditor from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
+import TaskSection from "@/components/tasks/TaskSection";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
 import DatabaseCanvasSkeleton from "@/components/database/DatabaseCanvasSkeleton";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
@@ -37,6 +38,7 @@ export default function RunQueryPage() {
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(false);
+  const [taskOpen, setTaskOpen] = useState(false);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
@@ -47,6 +49,7 @@ export default function RunQueryPage() {
     { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
     { target: "output", title: "Query Output", text: "After you run SQL, the result appears here along with the visual execution flow." },
     { target: "builder", title: "Visual Query Builder", text: "Build a query visually when you don't want to write all the SQL yourself." },
+    { target: "task", title: "SQL Tasks", text: "Practice with admin-created SQL challenges and use the editor to solve them." },
     { target: "editor", title: "SQL Editor", text: "Write and edit your SQL here. This is where you practice the actual query." },
   ];
 
@@ -230,6 +233,7 @@ export default function RunQueryPage() {
   const finishProductTour = () => {
     setShowProductTour(false);
     setBuilderOpen(false);
+    setTaskOpen(false);
     localStorage.setItem("sqlwhale-product-tour-seen", "true");
     setTourRect(null);
   };
