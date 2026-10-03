@@ -25,7 +25,7 @@ interface DatabaseTableNodeData {
   queryRevealIndex?: number | null;
   queryRevealActive?: boolean;
   queryOrderIndex?: number;
-  onEditTable?: (table: DatabaseTableType) => void;
+  onEditTable?: (table: DatabaseTableType) => void;\n  onTableDoubleClick?: (tableName: string) => void;
 }
 
 export default function DatabaseTable({
@@ -46,7 +46,7 @@ export default function DatabaseTable({
   const queryRevealActive = Boolean(nodeData.queryRevealActive);
   const queryOrderIndex = nodeData.queryOrderIndex ?? -1;
   const queryRevealed = !queryRevealActive || queryOrderIndex < 0 || (queryRevealIndex !== null && queryOrderIndex <= queryRevealIndex);
-  const onEditTable = nodeData.onEditTable;
+  const onEditTable = nodeData.onEditTable;\n  const onTableDoubleClick = nodeData.onTableDoubleClick;
 
   const accentClasses = [
     "table-accent-blue",
@@ -69,7 +69,7 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name} onDoubleClick={() => onTableDoubleClick?.(table.name)}>
       <div
         className={`sql-table-header ${accent}`}
       >
