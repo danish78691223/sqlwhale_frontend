@@ -15268,12 +15268,13 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-home {
   position: relative;
   isolation: isolate;
+  background: transparent;
 }
 
 .sqlwhale-home .agency-particle-background {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   overflow: hidden;
   background: var(--agency-paper);
 }
@@ -15297,9 +15298,11 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   background: rgba(233, 231, 223, 0.9);
 }
 
+.sqlwhale-home .sqlwhale-navbar,
 .sqlwhale-home .agency-hero,
 .sqlwhale-home .agency-final-section,
-.sqlwhale-home .sqlwhale-footer {
+.sqlwhale-home .sqlwhale-footer,
+.sqlwhale-home .home-section {
   position: relative;
   z-index: 1;
 }
