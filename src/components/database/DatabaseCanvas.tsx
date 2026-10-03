@@ -491,9 +491,9 @@ export default function DatabaseCanvas({
   useEffect(() => {
     if (activeTableTargets.length === 0 || !flowInstance) return;
 
-    // Keep the entire query group centered in the existing canvas.
-    // Query tables are arranged vertically, so center the midpoint rather
-    // than zooming/focusing only the last table.
+    // Frame the tables referenced by the current SQL query. This is important
+    // because changing a node's canvas position does not guarantee that the
+    // node is inside the user's current viewport.
     const queryNodes = nodes.filter((node) =>
       activeTableTargets.some(
         (target) =>
@@ -503,13 +503,12 @@ export default function DatabaseCanvas({
 
     if (queryNodes.length === 0) return;
 
-    const firstY = Math.min(...queryNodes.map((node) => node.position.y));
-    const lastY = Math.max(...queryNodes.map((node) => node.position.y));
-    const centerY = (firstY + lastY) / 2 + 90;
-
-    flowInstance.setCenter(250, centerY, {
-      zoom: 0.85,
+    flowInstance.fitView({
+      nodes: queryNodes,
+      padding: 0.28,
       duration: 450,
+      minZoom: 0.55,
+      maxZoom: 1.1,
     });
   }, [activeTableTargets, nodes, flowInstance]);
 
