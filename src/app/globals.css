@@ -13273,6 +13273,43 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
 }
 
 
+/* Query-order table reveal */
+.sql-table-node.is-query-pending {
+  opacity: 0;
+  transform: translateY(18px) scale(0.94);
+  pointer-events: none;
+}
+
+.sql-table-node.is-query-revealed {
+  animation: sqlwhale-table-reveal 560ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes sqlwhale-table-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-table-node.is-query-pending {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sql-table-node.is-query-revealed {
+    animation: none;
+  }
+}
+
 /* Active SQL table target */
 .sql-table-node.is-query-target{
   border-color:#facc15 !important;
