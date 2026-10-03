@@ -302,4 +302,4 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
       </div>
     </section>
   );
-}
+});
