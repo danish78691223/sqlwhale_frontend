@@ -17,7 +17,7 @@ interface SQLEditorProps {
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
   availableTables?: string[];
-});
+}
 
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
