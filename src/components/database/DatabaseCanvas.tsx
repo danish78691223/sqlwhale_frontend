@@ -361,7 +361,7 @@ export default function DatabaseCanvas({
 
     if (!targetNode) return;
 
-    const position = targetNode.positionAbsolute ?? targetNode.position;
+    const position = targetNode.position;
     const width = targetNode.measured?.width ?? targetNode.width ?? 0;
     const height = targetNode.measured?.height ?? targetNode.height ?? 0;
 
@@ -553,7 +553,7 @@ export default function DatabaseCanvas({
 
     if (!targetNode) return;
 
-    const position = targetNode.positionAbsolute ?? targetNode.position;
+    const position = targetNode.position;
     const width = targetNode.measured?.width ?? targetNode.width ?? 0;
     const height = targetNode.measured?.height ?? targetNode.height ?? 0;
 
