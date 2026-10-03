@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api, authApi } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
+import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -164,6 +165,16 @@ export default function Home() {
 
   return (
     <main className="sqlwhale-home">
+      <div className="agency-particle-background" aria-hidden="true">
+        <Floating3DParticles
+          quantity={260}
+          color="#0a0b0d"
+          size={2.4}
+          opacity={0.22}
+          drift={0.18}
+          depth={0.7}
+        />
+      </div>
       <header className="sqlwhale-navbar">
         <div className="navbar-inner">
           <Link href="/" className="sqlwhale-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
