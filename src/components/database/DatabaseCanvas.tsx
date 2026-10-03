@@ -441,10 +441,16 @@ export default function DatabaseCanvas({
   useEffect(() => {
     if (activeTableTargets.length === 0 || !flowInstance) return;
 
+    // Focus the most recently detected table reference. This keeps the
+    // viewport following the table name currently being typed/edited,
+    // instead of getting stuck on an earlier FROM/JOIN target.
+    const focusTarget =
+      activeTableTargets[activeTableTargets.length - 1];
+
     const targetNode = nodes.find(
       (node) =>
         String(node.id).toLowerCase() ===
-        activeTableTargets[0].toLowerCase()
+        focusTarget.toLowerCase()
     );
 
     if (!targetNode) return;
