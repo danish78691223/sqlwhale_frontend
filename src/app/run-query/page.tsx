@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 
-import SQLEditor from "@/components/sql-editor/SQLEditor";
+import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
 import TaskSection from "@/components/tasks/TaskSection";
 import DatabaseCanvas from "@/components/database/DatabaseCanvas";
@@ -31,7 +31,7 @@ export default function RunQueryPage() {
     clearResult,
   } = useSQLQuery();
 
-  const [query, setQuery] = useState(DEFAULT_QUERY);
+  const [query, setQuery] = useState(DEFAULT_QUERY);\n  const sqlEditorRef = useRef<SQLEditorHandle>(null);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
   const [tablesError, setTablesError] = useState<string | null>(null);
@@ -567,7 +567,7 @@ export default function RunQueryPage() {
           }}
         >
           {tablesLoading ? (
-            <DatabaseCanvasSkeleton />
+            <DatabaseCanvasSkeleton   onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}\n/>
           ) : tablesError ? (
             <div className="output-error-state">
               <div className="output-error-icon">!</div>
@@ -766,13 +766,13 @@ export default function RunQueryPage() {
         data-sqlwhale-tour="editor"
       >
         <SQLEditor
-          initialQuery={query}
+          ref={sqlEditorRef}\n          initialQuery={query}
           loading={loading}
           darkMode={darkMode}
           onRun={handleRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
-          onQueryTableChange={setQueryTableTargets}
+          onQueryTableChange={setQueryTableTargets}\n          
           availableTables={tables.map((table) => table.name)}
         />
       </section>
