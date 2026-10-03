@@ -56,19 +56,19 @@ function extractQueryTables(sql: string, availableTables: string[] = []): string
 
   // FROM / JOIN targets. This intentionally accepts partial names while typing.
   for (const match of sql.matchAll(
-    /\b(?:FROM|JOIN)\s+(["\`]?[A-Za-z_][\\w$]*["\`]?)?/gi
+    /\b(?:FROM|JOIN)\s+(["\`]?[A-Za-z_][A-Za-z0-9_$]*["\`]?)?/gi
   )) {
     addMatch(match[1] || "");
   }
 
   // Comma-separated FROM targets.
   const fromMatch = sql.match(
-    /\bFROM\s+([\\s\\S]*?)(?=\bWHERE\b|\bGROUP\s+BY\b|\bORDER\s+BY\b|\bHAVING\b|\bLIMIT\b|\bUNION\b|;|$)/i
+    /\bFROM\s+([\s\S]*?)(?=\bWHERE\b|\bGROUP\s+BY\b|\bORDER\s+BY\b|\bHAVING\b|\bLIMIT\b|\bUNION\b|;|$)/i
   );
 
   if (fromMatch) {
     for (const part of fromMatch[1].split(/,(?![^()]*\))/)) {
-      const name = part.trim().match(/^["\`]?([A-Za-z_][\\w$]*)["\`]?/)?.[1];
+      const name = part.trim().match(/^["\`]?([A-Za-z_][A-Za-z0-9_$]*)["\`]?/)?.[1];
       if (name) addMatch(name);
     }
   }
