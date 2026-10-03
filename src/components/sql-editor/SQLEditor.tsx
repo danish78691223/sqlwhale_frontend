@@ -18,52 +18,57 @@ interface SQLEditorProps {
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
 function extractQueryTables(sql: string, availableTables: string[] = []): string[] {
-  const tables: string[] = [];
-  const aliases = new Map<string, string>();
-  const stopWords = /^(ON|WHERE|JOIN|INNER|LEFT|RIGHT|FULL|CROSS|GROUP|ORDER|LIMIT|HAVING|UNION)$/i;
+  const normalizedTables = availableTables
+    .filter(Boolean)
+    .map((name) => name.trim())
+    .filter(Boolean);
 
-  for (const match of sql.matchAll(
-    /\b(?:FROM|JOIN)\s+([A-Za-z_][\w$]*)(?:\s+(?:AS\s+)?([A-Za-z_][\w$]*))?/gi
-  )) {
-    const table = match[1];
-    const possibleAlias = match[2];
-    if (stopWords.test(possibleAlias || "")) {
-      tables.push(table);
-      aliases.set(table.toLowerCase(), table);
-      continue;
+  const targets: string[] = [];
+
+  const addMatch = (rawName: string) => {
+    const name = rawName.trim().replace(/^["\`]/, "").replace(/["\`]$/, "");
+    if (!name) return;
+
+    const normalized = name.toLowerCase();
+    const exact = normalizedTables.find(
+      (table) => table.toLowerCase() === normalized
+    );
+
+    if (exact) {
+      targets.push(exact);
+      return;
     }
 
-    tables.push(table);
-    aliases.set(table.toLowerCase(), table);
-    if (possibleAlias) aliases.set(possibleAlias.toLowerCase(), table);
+    // While typing, resolve a partial table name to the matching database table.
+    const partial = normalizedTables.find(
+      (table) =>
+        table.toLowerCase().startsWith(normalized) ||
+        normalized.startsWith(table.toLowerCase())
+    );
+
+    if (partial) targets.push(partial);
+  };
+
+  // FROM / JOIN targets. This intentionally accepts partial names while typing.
+  for (const match of sql.matchAll(
+    /\b(?:FROM|JOIN)\s+(["\`]?[A-Za-z_][\\w$]*["\`]?)?/gi
+  )) {
+    addMatch(match[1] || "");
   }
 
-  // Also handle comma-separated tables in FROM clauses.
+  // Comma-separated FROM targets.
   const fromMatch = sql.match(
-    /\bFROM\s+([\s\S]*?)(?=\bWHERE\b|\bGROUP\s+BY\b|\bORDER\s+BY\b|\bHAVING\b|\bLIMIT\b|\bUNION\b|$)/i
+    /\bFROM\s+([\\s\\S]*?)(?=\bWHERE\b|\bGROUP\s+BY\b|\bORDER\s+BY\b|\bHAVING\b|\bLIMIT\b|\bUNION\b|;|$)/i
   );
 
   if (fromMatch) {
     for (const part of fromMatch[1].split(/,(?![^()]*\))/)) {
-      const table = part.trim().match(/^([A-Za-z_][\w$]*)/)?.[1];
-      if (table) tables.push(table);
+      const name = part.trim().match(/^["\`]?([A-Za-z_][\\w$]*)["\`]?/)?.[1];
+      if (name) addMatch(name);
     }
   }
 
-  // Resolve both complete and partially typed table names so the canvas
-  // reacts while the user is still typing (e.g. FROM e -> employees).
-  return [...new Set(
-    tables
-      .map((name) => {
-        const normalized = name.toLowerCase();
-        return availableTables.find(
-          (known) =>
-            known.toLowerCase() === normalized ||
-            known.toLowerCase().startsWith(normalized)
-        );
-      })
-      .filter((name): name is string => Boolean(name))
-  )];
+  return [...new Set(targets)];
 }
 
 export default function SQLEditor({
@@ -226,7 +231,13 @@ export default function SQLEditor({
             theme={darkMode ? "vs-dark" : "vs-light"}
             onMount={handleEditorMount}
             value={query}
-            onChange={(value) => setQuery(value || "")}
+            onChange={(value) => {
+              const nextQuery = value || "";
+              setQuery(nextQuery);
+              onQueryTableChange?.(
+                extractQueryTables(nextQuery, availableTables)
+              );
+            }}
             options={{
               minimap: { enabled: false },
               fontSize: 14,
