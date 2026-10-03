@@ -296,14 +296,11 @@ export default function DatabaseCanvas({
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
-  const analyzedTableTargets = useMemo(
-    () => queryAnalysis?.tables ?? [],
-    [queryAnalysis?.tables]
-  );
-  // While the user is typing, prefer the tables detected from the
-  // current SQL. After execution, fall back to the analyzed query tables.
-  const activeTableTargets =
-    queryTableTargets.length > 0 ? queryTableTargets : analyzedTableTargets;
+  // The SQL editor is the single source of truth for the table currently
+  // referenced by the query. Do not fall back to the previous executed
+  // query here: while the user replaces a table name, an intermediate
+  // empty/partial target must clear the old focus immediately.
+  const activeTableTargets = queryTableTargets;
   const initialNodes = createNodes(
     tables,
     onEditTable,
