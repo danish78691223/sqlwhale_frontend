@@ -582,6 +582,8 @@ export default function RunQueryPage() {
               executedQuery={executedQuery}
               queryAnimationStage={queryAnimationStage}
               queryTableTargets={queryTableTargets}
+              queryRevealIndex={queryRevealIndex}
+              queryRevealActive={queryRevealActive}
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
             />
