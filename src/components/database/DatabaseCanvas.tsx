@@ -300,8 +300,10 @@ export default function DatabaseCanvas({
     () => queryAnalysis?.tables ?? [],
     [queryAnalysis?.tables]
   );
+  // While the user is typing, prefer the tables detected from the
+  // current SQL. After execution, fall back to the analyzed query tables.
   const activeTableTargets =
-    analyzedTableTargets.length > 0 ? analyzedTableTargets : queryTableTargets;
+    queryTableTargets.length > 0 ? queryTableTargets : analyzedTableTargets;
   const initialNodes = createNodes(
     tables,
     onEditTable,
