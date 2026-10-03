@@ -65,6 +65,14 @@ const getTablePosition = (index: number) => ({
   y: 40 + Math.floor(index / 2) * 360,
 });
 
+// When a query references multiple tables, keep those tables together so the
+// visual execution reads naturally from left to right: first table -> second
+// table -> relationship. Non-query tables keep the normal canvas grid.
+const getQueryTablePosition = (queryIndex: number) => ({
+  x: 180 + queryIndex * 340,
+  y: 150,
+});
+
 function RelationshipWiringEdge({
   id,
   sourceX,
@@ -215,10 +223,18 @@ function createNodes(
   queryRevealIndex: number | null = null,
   queryRevealActive = false
 ): Node[] {
-  return tables.map((table, index) => ({
+  return tables.map((table, index) => {
+    const queryOrderIndex = queryTableTargets.findIndex(
+      (target) => target.toLowerCase() === table.name.toLowerCase()
+    );
+
+    return {
       id: table.name,
       type: "databaseTable",
-      position: getTablePosition(index),
+      position:
+        queryOrderIndex >= 0
+          ? getQueryTablePosition(queryOrderIndex)
+          : getTablePosition(index),
       data: {
         table,
         accentIndex: index,
@@ -229,12 +245,11 @@ function createNodes(
         ),
         queryRevealIndex,
         queryRevealActive,
-        queryOrderIndex: queryTableTargets.findIndex(
-          (target) => target.toLowerCase() === table.name.toLowerCase()
-        ),
+        queryOrderIndex,
         onEditTable,
       },
-    }));
+    };
+  });
 }
 
 function createEdges(tables: DatabaseTableType[]): Edge[] {
@@ -340,6 +355,17 @@ export default function DatabaseCanvas({
           queryOrderIndex: activeTableTargets.findIndex(
             (target) => target.toLowerCase() === String(node.id).toLowerCase()
           ),
+        },
+        position:
+          activeTableTargets.findIndex(
+            (target) => target.toLowerCase() === String(node.id).toLowerCase()
+          ) >= 0
+            ? getQueryTablePosition(
+                activeTableTargets.findIndex(
+                  (target) => target.toLowerCase() === String(node.id).toLowerCase()
+                )
+              )
+            : node.position,
         },
       }))
     );
