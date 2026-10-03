@@ -15258,3 +15258,54 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     width: calc(100% - 30px);
   }
 }
+
+
+/* =========================================================
+   AGENCY HOMEPAGE — FLOATING 3D PARTICLE FIELD
+   The particle canvas replaces the flat paper background on
+   the light sections while remaining behind all content.
+   ========================================================= */
+.sqlwhale-home {
+  position: relative;
+  isolation: isolate;
+}
+
+.sqlwhale-home .agency-particle-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--agency-paper);
+}
+
+.sqlwhale-home .agency-particle-background canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sqlwhale-home .agency-intro-section,
+.sqlwhale-home .agency-system-section,
+.sqlwhale-home .agency-visual-section,
+.sqlwhale-home .agency-method-section {
+  position: relative;
+  background: transparent;
+}
+
+.sqlwhale-home .agency-database-art {
+  background: rgba(233, 231, 223, 0.9);
+}
+
+.sqlwhale-home .agency-hero,
+.sqlwhale-home .agency-final-section,
+.sqlwhale-home .sqlwhale-footer {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-home .agency-particle-background canvas {
+    opacity: 0.75;
+  }
+}
