@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { Play, RotateCcw } from "lucide-react";
 
-interface SQLEditorProps {
+export interface SQLEditorHandle {\n  focusTable: (tableName: string) => void;\n});\n\ninterface SQLEditorProps {
   initialQuery?: string;
   loading?: boolean;
   darkMode?: boolean;
@@ -76,7 +76,7 @@ function extractQueryTables(sql: string, availableTables: string[] = []): string
   return [...new Set(targets)];
 }
 
-export default function SQLEditor({
+const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor({
   initialQuery = DEFAULT_QUERY,
   loading = false,
   darkMode = false,
@@ -103,6 +103,26 @@ export default function SQLEditor({
     onQueryTableChange?.([]);
     onClear();
   };
+
+  const [editorInstance, setEditorInstance] = useState<Parameters<OnMount>[0] | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    focusTable: (tableName: string) => {
+      if (!editorInstance || !tableName.trim()) return;
+
+      const model = editorInstance.getModel();
+      if (!model) return;
+
+      const escaped = tableName.trim().replace(/[.*+?^$\\{\\}()|[\\]\\\\]/g, "\\\\  const handleEditorMount: OnMount = (editor) => {");
+      const matches = model.findMatches("\\\\b" + escaped + "\\\\b", false, true, false, null, true);
+      if (matches.length === 0) return;
+
+      const match = matches[0];
+      editorInstance.setSelection(match.range);
+      editorInstance.revealRangeInCenter(match.range);
+      editorInstance.focus();
+    },
+  }), [editorInstance]);
 
   const handleEditorMount: OnMount = (editor) => {
     const updateQueryTableTargets = () => {
