@@ -63,13 +63,6 @@ const positions: Record<string, { x: number; y: number }> = {
   salary: { x: 80, y: 820 },
 };
 
-const visibleTableNames = new Set([
-  "departments",
-  "employees",
-  "projects",
-  "salary",
-]);
-
 function RelationshipWiringEdge({
   id,
   sourceX,
@@ -218,9 +211,7 @@ function createNodes(
   initialTableName = "employees",
   queryTableTargets: string[] = []
 ): Node[] {
-  return tables
-    .filter((table) => visibleTableNames.has(table.name))
-    .map((table, index) => ({
+  return tables.map((table, index) => ({
       id: table.name,
       type: "databaseTable",
       position:
@@ -252,7 +243,7 @@ function createEdges(tables: DatabaseTableType[]): Edge[] {
     "#ef4444",
   ];
 
-  for (const table of tables.filter((table) => visibleTableNames.has(table.name))) {
+  for (const table of tables) {
     for (const column of table.columns) {
       if (
         !column.foreignKey ||
