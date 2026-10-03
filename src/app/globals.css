@@ -15966,3 +15966,102 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   }
 }
 
+/* Final mobile overflow guard: buttons and editorial copy must never escape the viewport. */
+@media (max-width: 560px) {
+  .sqlwhale-home,
+  .sqlwhale-home .home-section,
+  .sqlwhale-home .agency-hero,
+  .sqlwhale-home .agency-hero-inner,
+  .sqlwhale-home .agency-hero-copy,
+  .sqlwhale-home .agency-intro-section,
+  .sqlwhale-home .agency-system-section,
+  .sqlwhale-home .agency-visual-section,
+  .sqlwhale-home .agency-method-section,
+  .sqlwhale-home .agency-final-section {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .sqlwhale-home .agency-hero-copy h1,
+  .sqlwhale-home .agency-intro-grid h2,
+  .sqlwhale-home .agency-section-head h2,
+  .sqlwhale-home .agency-visual-copy h2,
+  .sqlwhale-home .agency-method-heading h2,
+  .sqlwhale-home .agency-final-section h2,
+  .sqlwhale-home .agency-hero-lede,
+  .sqlwhale-home .agency-intro-grid p,
+  .sqlwhale-home .agency-visual-copy p,
+  .sqlwhale-home .agency-final-section p {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
+  .sqlwhale-home .agency-hero .hero-actions {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .sqlwhale-home .agency-hero .primary-button,
+  .sqlwhale-home .agency-hero .secondary-button,
+  .sqlwhale-home .agency-final-section .primary-button,
+  .sqlwhale-home .agency-final-section .secondary-button,
+  .sqlwhale-home .agency-final-section a[class*="button"] {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .sqlwhale-home .agency-hero .primary-button span,
+  .sqlwhale-home .agency-hero .secondary-button span,
+  .sqlwhale-home .agency-final-section a[class*="button"] span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sqlwhale-home .agency-method-row,
+  .sqlwhale-home .agency-system-item {
+    min-width: 0;
+  }
+
+  .sqlwhale-home .agency-method-row h3,
+  .sqlwhale-home .agency-method-row p,
+  .sqlwhale-home .agency-system-item h3,
+  .sqlwhale-home .agency-system-item p {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .sqlwhale-home .agency-method-row h3,
+  .sqlwhale-home .agency-system-item h3 {
+    line-height: 1.05;
+  }
+
+  .sqlwhale-home .agency-final-section {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 380px) {
+  .sqlwhale-home .agency-hero .primary-button,
+  .sqlwhale-home .agency-hero .secondary-button,
+  .sqlwhale-home .agency-final-section a[class*="button"] {
+    padding-left: 13px;
+    padding-right: 13px;
+    font-size: 11px;
+  }
+
+  .sqlwhale-home .agency-intro-grid h2,
+  .sqlwhale-home .agency-section-head h2,
+  .sqlwhale-home .agency-visual-copy h2,
+  .sqlwhale-home .agency-method-heading h2,
+  .sqlwhale-home .agency-final-section h2 {
+    font-size: clamp(38px, 12.5vw, 52px);
+  }
+}
+
