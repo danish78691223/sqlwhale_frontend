@@ -12,13 +12,12 @@ interface SQLEditorProps {
   onClear: () => void;
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
+  availableTables?: string[];
 }
 
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
-const KNOWN_TABLES = ["departments", "employees", "projects", "salary"];
-
-function extractQueryTables(sql: string): string[] {
+function extractQueryTables(sql: string, availableTables: string[] = []): string[] {
   const tables: string[] = [];
   const aliases = new Map<string, string>();
   const stopWords = /^(ON|WHERE|JOIN|INNER|LEFT|RIGHT|FULL|CROSS|GROUP|ORDER|LIMIT|HAVING|UNION)$/i;
@@ -57,7 +56,7 @@ function extractQueryTables(sql: string): string[] {
     tables
       .map((name) => {
         const normalized = name.toLowerCase();
-        return KNOWN_TABLES.find(
+        return availableTables.find(
           (known) =>
             known.toLowerCase() === normalized ||
             known.toLowerCase().startsWith(normalized)
@@ -75,12 +74,13 @@ export default function SQLEditor({
   onClear,
   onCursorTargetChange,
   onQueryTableChange,
+  availableTables = [],
 }: SQLEditorProps) {
   const [query, setQuery] = useState(initialQuery);
 
   useEffect(() => {
     setQuery(initialQuery);
-    onQueryTableChange?.(extractQueryTables(initialQuery));
+    onQueryTableChange?.(extractQueryTables(initialQuery, availableTables));
   }, [initialQuery, onQueryTableChange]);
 
   const handleRun = () => {
@@ -97,7 +97,7 @@ export default function SQLEditor({
   const handleEditorMount: OnMount = (editor) => {
     const updateQueryTableTargets = () => {
       const sql = editor.getValue();
-      onQueryTableChange?.(extractQueryTables(sql));
+      onQueryTableChange?.(extractQueryTables(sql, availableTables));
     };
 
     const updateCursorTarget = () => {
