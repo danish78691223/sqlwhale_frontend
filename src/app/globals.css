@@ -15236,3 +15236,25 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-home .mobile-nav-link{color:#f4f2eb;border-color:rgba(255,255,255,.1)}
 .sqlwhale-home .mobile-nav-link.active{color:#b9ff3d}
 .sqlwhale-home .mobile-menu-button span{background:#f4f2eb}
+
+
+/* =========================================================
+   AGENCY HOMEPAGE — FULL-BLEED CINEMATIC HERO
+   ========================================================= */
+.sqlwhale-home .home-hero.agency-hero {
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  border-radius: 0;
+}
+
+.sqlwhale-home .agency-hero-inner {
+  width: min(1380px, calc(100% - 48px));
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-home .agency-hero-inner {
+    width: calc(100% - 30px);
+  }
+}
