@@ -348,7 +348,13 @@ export default function DatabaseCanvas({
 
   useEffect(() => {
     setNodes((current) =>
-      current.map((node) => ({
+      current.map((node) => {
+        const nodeQueryIndex = activeTableTargets.findIndex(
+          (target) => target.toLowerCase() === String(node.id).toLowerCase()
+        );
+        const baseIndex = Number(node.data?.accentIndex ?? 0);
+
+        return {
         ...node,
         data: {
           ...node.data,
@@ -358,21 +364,14 @@ export default function DatabaseCanvas({
           queryRevealIndex,
           queryRevealActive,
           onTableDoubleClick,
-          queryOrderIndex: activeTableTargets.findIndex(
-            (target) => target.toLowerCase() === String(node.id).toLowerCase()
-          ),
+          queryOrderIndex: nodeQueryIndex,
         },
         position:
-          activeTableTargets.findIndex(
-            (target) => target.toLowerCase() === String(node.id).toLowerCase()
-          ) >= 0
-            ? getQueryTablePosition(
-                activeTableTargets.findIndex(
-                  (target) => target.toLowerCase() === String(node.id).toLowerCase()
-                )
-              )
-            : node.position,
-      }))
+          nodeQueryIndex >= 0
+            ? getQueryTablePosition(nodeQueryIndex)
+            : getTablePosition(baseIndex),
+      };
+      })
     );
   }, [activeTableTargets, queryRevealIndex, queryRevealActive, onTableDoubleClick, setNodes]);
 
@@ -511,6 +510,26 @@ export default function DatabaseCanvas({
       maxZoom: 1.1,
     });
   }, [activeTableTargets, nodes, flowInstance]);
+
+  const handleTableDoubleClick = (tableName: string) => {
+    onTableDoubleClick?.(tableName);
+
+    if (!flowInstance) return;
+
+    const targetNode = nodes.find(
+      (node) => String(node.id).toLowerCase() === tableName.toLowerCase()
+    );
+
+    if (!targetNode) return;
+
+    flowInstance.fitView({
+      nodes: [targetNode],
+      padding: 0.3,
+      duration: 450,
+      minZoom: 0.65,
+      maxZoom: 1.15,
+    });
+  };
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
