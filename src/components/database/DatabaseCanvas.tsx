@@ -518,7 +518,7 @@ export default function DatabaseCanvas({
   }, [activeSqlTarget, tables]);
 
   useEffect(() => {
-    if (activeTableTargets.length === 0 || !flowInstance) return;
+    if (focusedTableName || activeTableTargets.length === 0 || !flowInstance) return;
 
     // Frame the tables referenced by the current SQL query. This is important
     // because changing a node's canvas position does not guarantee that the
