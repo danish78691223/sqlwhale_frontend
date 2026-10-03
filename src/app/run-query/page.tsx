@@ -738,6 +738,7 @@ export default function RunQueryPage() {
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
           onQueryTableChange={setQueryTableTargets}
+          availableTables={tables.map((table) => table.name)}
         />
       </section>
 
