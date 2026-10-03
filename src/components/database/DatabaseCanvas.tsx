@@ -69,8 +69,8 @@ const getTablePosition = (index: number) => ({
 // visual execution reads naturally from left to right: first table -> second
 // table -> relationship. Non-query tables keep the normal canvas grid.
 const getQueryTablePosition = (queryIndex: number) => ({
-  x: 180 + queryIndex * 340,
-  y: 150,
+  x: 140,
+  y: 70 + queryIndex * 190,
 });
 
 function RelationshipWiringEdge({
