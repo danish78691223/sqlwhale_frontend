@@ -15210,3 +15210,29 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .query-scene .scene-table-filter{animation:none}
   .sqlwhale-home .scroll-reveal{transition:none !important}
 }
+
+
+/* Homepage chrome lock: keep the existing navigation behavior, change only its visual language. */
+.sqlwhale-home .sqlwhale-navbar{
+  background:rgba(10,11,13,.94);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  color:#f4f2eb;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.sqlwhale-home .navbar-inner{max-width:1440px}
+.sqlwhale-home .nav-link,
+.sqlwhale-home .sqlwhale-logo,
+.sqlwhale-home .navbar-profile-btn{color:#f4f2eb}
+.sqlwhale-home .nav-link{opacity:.62}
+.sqlwhale-home .nav-link:hover,
+.sqlwhale-home .nav-link.active{opacity:1;color:#b9ff3d}
+.sqlwhale-home .navbar-profile-btn{
+  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.05);
+}
+.sqlwhale-home .navbar-profile-btn:hover{border-color:rgba(185,255,61,.5);background:rgba(185,255,61,.08)}
+.sqlwhale-home .mobile-menu{background:#0a0b0d;border-color:rgba(255,255,255,.1)}
+.sqlwhale-home .mobile-nav-link{color:#f4f2eb;border-color:rgba(255,255,255,.1)}
+.sqlwhale-home .mobile-nav-link.active{color:#b9ff3d}
+.sqlwhale-home .mobile-menu-button span{background:#f4f2eb}
