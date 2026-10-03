@@ -101,13 +101,13 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
 }
 
 function RotatingHeroWord() {
-  const words = ["visible", "easy", "clear", "simple", "intuitive", "practical", "understandable"];
+  const words = ["clear", "easy", "simple", "visual", "real"];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setIndex((current) => (current + 1) % words.length);
-    }, 1000);
+    }, 2200);
 
     return () => window.clearInterval(interval);
   }, []);
@@ -119,11 +119,11 @@ function RotatingHeroWord() {
       tag="em"
       className="agency-hero-shuffle"
       shuffleDirection="right"
-      duration={0.35}
+      duration={0.7}
       animationMode="evenodd"
       shuffleTimes={1}
       ease="power3.out"
-      stagger={0.03}
+      stagger={0.05}
       threshold={0.1}
       triggerOnce={true}
       triggerOnHover={true}
