@@ -121,6 +121,8 @@ export default function RunQueryPage() {
     column: string;
   } | null>(null);
   const [queryTableTargets, setQueryTableTargets] = useState<string[]>([]);
+  const [queryRevealIndex, setQueryRevealIndex] = useState<number | null>(null);
+  const [queryRevealActive, setQueryRevealActive] = useState(false);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   useEffect(() => {
@@ -274,7 +276,38 @@ export default function RunQueryPage() {
   };
 
   useEffect(() => {
-    if (data?.success) setExecutedQuery(query);
+    if (!data?.success) return;
+
+    setExecutedQuery(query);
+
+    const orderedTables = data.queryAnalysis?.tables ?? [];
+    if (orderedTables.length === 0) {
+      setQueryRevealActive(false);
+      setQueryRevealIndex(null);
+      return;
+    }
+
+    setQueryRevealActive(true);
+    setQueryRevealIndex(-1);
+
+    let currentIndex = 0;
+    const revealNext = () => {
+      setQueryRevealIndex(currentIndex);
+      currentIndex += 1;
+
+      if (currentIndex >= orderedTables.length) {
+        window.setTimeout(() => {
+          setQueryRevealActive(false);
+          setQueryRevealIndex(null);
+        }, 700);
+        return;
+      }
+
+      window.setTimeout(revealNext, 650);
+    };
+
+    const timer = window.setTimeout(revealNext, 120);
+    return () => window.clearTimeout(timer);
   }, [data, query]);
 
   const handleClear = () => {
