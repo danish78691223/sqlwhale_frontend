@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { api, authApi } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
@@ -97,6 +99,48 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
       </div>
     </div>
   );
+}
+
+function RotatingHeroWord() {
+  const wordRef = useRef<HTMLElement>(null);
+  const words = ["visible", "easy", "clear", "simple", "intuitive", "practical", "understandable"];
+  const indexRef = useRef(0);
+
+  useGSAP(() => {
+    const element = wordRef.current;
+    if (!element) return;
+
+    const changeWord = () => {
+      const nextIndex = (indexRef.current + 1) % words.length;
+
+      gsap.timeline({
+        defaults: { ease: "power2.inOut" },
+        onComplete: () => {
+          indexRef.current = nextIndex;
+          element.textContent = words[nextIndex];
+        },
+      })
+        .to(element, {
+          opacity: 0,
+          y: -12,
+          duration: 0.22,
+        })
+        .set(element, {
+          textContent: words[nextIndex],
+          y: 12,
+        })
+        .to(element, {
+          opacity: 1,
+          y: 0,
+          duration: 0.28,
+        });
+    };
+
+    const interval = window.setInterval(changeWord, 1000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return <em ref={wordRef}>visible</em>;
 }
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -259,7 +303,7 @@ export default function Home() {
         <div className="agency-hero-inner">
           <Reveal className="agency-hero-copy">
             <p className="agency-eyebrow">See the query. Understand the query.</p>
-            <h1>SQL becomes<br /><em>visible.</em></h1>
+            <h1>SQL becomes<br /><RotatingHeroWord />.</h1>
             <p className="agency-hero-lede">
               Stop memorizing what SQL does. Write a query, run it, and follow the data through the database.
             </p>
