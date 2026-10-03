@@ -122,6 +122,7 @@ export default function RunQueryPage() {
     column: string;
   } | null>(null);
   const [queryTableTargets, setQueryTableTargets] = useState<string[]>([]);
+  const [focusedTableName, setFocusedTableName] = useState<string | null>(null);
   const [queryRevealIndex, setQueryRevealIndex] = useState<number | null>(null);
   const [queryRevealActive, setQueryRevealActive] = useState(false);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
@@ -587,7 +588,11 @@ export default function RunQueryPage() {
               queryRevealActive={queryRevealActive}
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
-              onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}
+              focusedTableName={focusedTableName}
+              onTableDoubleClick={(tableName) => {
+                setFocusedTableName(tableName);
+                sqlEditorRef.current?.focusTable(tableName);
+              }}
             />
           )}
         </section>
@@ -778,6 +783,7 @@ export default function RunQueryPage() {
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
           onQueryTableChange={setQueryTableTargets}
+          onTableDoubleClick={setFocusedTableName}
           
           availableTables={tables.map((table) => table.name)}
         />
