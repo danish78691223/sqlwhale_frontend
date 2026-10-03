@@ -366,6 +366,7 @@ export default function DatabaseCanvas({
         const targetColumn = String(edge.data?.targetColumn ?? "");
 
         const queryActive =
+          !queryRevealActive &&
           (queryAnimationStage === "join" || queryAnimationStage === "result") &&
           activeJoins.some((join) => {
             if (
