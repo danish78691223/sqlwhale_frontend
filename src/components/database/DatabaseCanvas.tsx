@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   Background,
@@ -511,14 +511,16 @@ export default function DatabaseCanvas({
     });
   }, [activeTableTargets, nodes, flowInstance]);
 
-  const handleTableDoubleClick = (tableName: string) => {
+  const handleTableDoubleClick = useCallback((tableName: string) => {
     onTableDoubleClick?.(tableName);
 
     if (!flowInstance) return;
 
-    const targetNode = nodes.find(
-      (node) => String(node.id).toLowerCase() === tableName.toLowerCase()
-    );
+    const targetNode =
+      flowInstance.getNode(tableName) ??
+      flowInstance.getNodes().find(
+        (node) => String(node.id).toLowerCase() === tableName.toLowerCase()
+      );
 
     if (!targetNode) return;
 
@@ -529,7 +531,7 @@ export default function DatabaseCanvas({
       minZoom: 0.65,
       maxZoom: 1.15,
     });
-  };
+  }, [flowInstance, onTableDoubleClick]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
