@@ -363,7 +363,7 @@ export default function DatabaseCanvas({
           ),
           queryRevealIndex,
           queryRevealActive,
-          onTableDoubleClick,
+          onTableDoubleClick: handleTableDoubleClick,
           queryOrderIndex: nodeQueryIndex,
         },
         position:
@@ -373,7 +373,7 @@ export default function DatabaseCanvas({
       };
       })
     );
-  }, [activeTableTargets, queryRevealIndex, queryRevealActive, onTableDoubleClick, setNodes]);
+  }, [activeTableTargets, queryRevealIndex, queryRevealActive, handleTableDoubleClick, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
