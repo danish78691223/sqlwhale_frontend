@@ -237,90 +237,188 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="home-hero hero-revamp">
-        <div className="ww-hero-grid" aria-hidden="true" />
-        <div className="ww-hero-orb ww-hero-orb-one" aria-hidden="true" />
-        <div className="ww-hero-orb ww-hero-orb-two" aria-hidden="true" />
-
-        <Reveal className="hero-content">
-          <div className="hero-kicker">Built for learning what's next</div>
-          <h1>
-            Learn SQL by seeing.
-            <br />
-            <em>What actually happens.</em>
-          </h1>
-          <p>
-            Write a query, run it, and watch the data move. SQLWhale turns SQL
-            execution into something you can see, follow, and understand.
-          </p>
-
-          <div className="hero-actions">
-            <Link href="/run-query" className="primary-button">
-              Run Your First Query <span>↗</span>
-            </Link>
-            <a href="#how-it-works" className="secondary-button">
-              See how it works <span>↓</span>
-            </a>
-          </div>
-        </Reveal>
-
-        <Reveal className="hero-visual">
-          <div className="hero-orbit hero-orbit-one" />
-          <div className="hero-orbit hero-orbit-two" />
-
-          <div className="sql-window">
-            <div className="sql-window-header">
-              <div className="window-dots"><span /><span /><span /></div>
-              <span>SQLWhale Editor</span>
-              <span className="window-status">LIVE</span>
-            </div>
-            <div className="sql-code">
-              <div><span className="line-number">01</span><span className="keyword">SELECT</span>{" "}<span className="field">name</span>,{" "}<span className="field">salary</span></div>
-              <div><span className="line-number">02</span><span className="keyword">FROM</span>{" "}<span className="table-name">employees</span></div>
-              <div><span className="line-number">03</span><span className="keyword">WHERE</span>{" "}<span className="field">salary</span>{" "}<span className="operator">&gt;</span>{" "}<span className="number">50000</span>;</div>
-            </div>
-            <div className="sql-flow-strip"><span>TABLE</span><b>→</b><span>FILTER</span><b>→</b><span>RESULT</span></div>
-            <div className="sql-result-preview">
-              <div className="result-title">Query Result <span>✓ Executed</span></div>
-              <div className="result-row result-heading"><span>Name</span><span>Salary</span></div>
-              <div className="result-row"><span>Rahul</span><span>₹75,000</span></div>
-              <div className="result-row highlighted"><span>Priya</span><span>₹62,000</span></div>
-              <div className="result-row"><span>Arjun</span><span>₹58,000</span></div>
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="ww-hero-stats" aria-label="SQLWhale platform facts">
-          <div><strong>01</strong><span>place to learn,<br />build &amp; understand</span></div>
-          <div><strong>SQL</strong><span>learn by doing,<br />not memorizing</span></div>
+      <section className="home-hero agency-hero">
+        <div className="agency-hero-noise" aria-hidden="true" />
+        <div className="agency-hero-grid" aria-hidden="true" />
+        <div className="agency-hero-meta">
+          <span>SQLWHALE / 01</span>
+          <span>INTERACTIVE SQL LEARNING</span>
         </div>
 
-        <div className="ww-hero-sticker">
-          <span>SQL</span>
-          <span>IN MOTION</span>
-          <i>↗</i>
+        <div className="agency-hero-inner">
+          <Reveal className="agency-hero-copy">
+            <p className="agency-eyebrow">See the query. Understand the query.</p>
+            <h1>SQL becomes<br /><em>visible.</em></h1>
+            <p className="agency-hero-lede">
+              Stop memorizing what SQL does. Write a query, run it, and follow the data through the database.
+            </p>
+            <div className="hero-actions">
+              <Link href="/run-query" className="primary-button agency-primary-button">
+                Run your first query <span>↗</span>
+              </Link>
+              <a href="#how-it-works" className="secondary-button agency-secondary-button">
+                Explore the method <span>↓</span>
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal className="agency-hero-stage">
+            <div className="agency-stage-caption">
+              <span>LIVE QUERY MAP</span>
+              <span>01 / 03</span>
+            </div>
+            <div className="query-scene" aria-label="Animated SQL query relationship preview">
+              <div className="query-scene-glow" />
+              <div className="scene-table scene-table-source">
+                <span className="scene-table-type">TABLE</span>
+                <strong>employees</strong>
+                <i /><i /><i />
+              </div>
+              <div className="scene-table scene-table-filter">
+                <span className="scene-table-type">FILTER</span>
+                <strong>salary &gt; 50000</strong>
+                <i /><i />
+              </div>
+              <div className="scene-table scene-table-result">
+                <span className="scene-table-type">RESULT</span>
+                <strong>3 rows</strong>
+                <i /><i /><i />
+              </div>
+              <div className="scene-line scene-line-one"><span /></div>
+              <div className="scene-line scene-line-two"><span /></div>
+              <div className="scene-query">
+                <span className="scene-query-number">01</span>
+                <div><b>SELECT</b> name, salary</div>
+                <div><b>FROM</b> employees</div>
+                <div><b>WHERE</b> salary &gt; 50000;</div>
+              </div>
+              <div className="scene-status"><span /> QUERY EXECUTED</div>
+            </div>
+            <div className="agency-stage-footer">
+              <span>WRITE</span><b>→</b><span>EXECUTE</span><b>→</b><span>UNDERSTAND</span>
+            </div>
+          </Reveal>
+        </div>
+
+        <div className="agency-hero-bottom">
+          <span>Built for people learning SQL from the ground up.</span>
+          <span>Scroll to discover the system.</span>
         </div>
       </section>
 
-      <section id="about" className="home-section about-section">
-        <Reveal><div className="section-label">ABOUT SQLWHALE</div><div className="about-grid"><div className="section-heading"><h2>SQL should be<br /><span>understood, not memorized.</span></h2></div><div className="section-description"><p>SQLWhale is an interactive platform designed to help beginners understand how SQL queries work internally.</p><p>Instead of showing only the final result, SQLWhale focuses on the journey of your query — from source table to filtering, sorting, joining, grouping and finally producing the result.</p></div></div></Reveal>
-        <div className="about-cards">{[["01","Write","Write a real SQL query using our interactive SQL editor."],["02","Execute","Execute the query against the available database tables."],["03","Understand","See the operations performed by SQL and understand the final result."]].map(([num,title,copy]) => <Reveal key={num} className="info-card-wrap"><div className="info-card"><div className="card-number">{num}</div><h3>{title}</h3><p>{copy}</p></div></Reveal>)}</div>
+      <section id="about" className="home-section agency-intro-section">
+        <Reveal>
+          <div className="agency-section-index">02 / THE PROBLEM</div>
+          <div className="agency-intro-grid">
+            <h2>You can read<br />a query without<br /><em>understanding it.</em></h2>
+            <div>
+              <p className="agency-big-copy">
+                Most SQL tools show you what came out. SQLWhale focuses on what happened before it.
+              </p>
+              <p>
+                Tables. Relationships. Filters. Operations. Results. We turn the invisible execution path into something you can follow.
+              </p>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
-      <section className="home-section purpose-section">
-        <Reveal className="purpose-content"><div className="section-label">WHY SQLWHALE</div><h2>Turn SQL queries into<br /><span>something you can see.</span></h2><p>SQL can become difficult when you only see a query and its final output. SQLWhale bridges that gap by making the execution process visible.</p><Link href="/run-query" className="primary-button">Explore SQLWhale <span>→</span></Link></Reveal>
-        <div className="purpose-features">{[["01","Interactive SQL Editor","Write and execute SQL queries in a simple, beginner-friendly environment."],["02","Execution Visualization","Understand how SQL operations affect rows and tables."],["03","Step-by-Step Explanation","Follow the execution process instead of jumping directly to the answer."]].map(([num,title,copy]) => <Reveal key={num}><div className="purpose-feature"><div className="feature-icon">{num}</div><div><h3>{title}</h3><p>{copy}</p></div></div></Reveal>)}</div>
+      <section className="home-section agency-system-section">
+        <Reveal>
+          <div className="agency-section-head">
+            <div className="agency-section-index">03 / THE SYSTEM</div>
+            <h2>From syntax<br /><em>to understanding.</em></h2>
+          </div>
+        </Reveal>
+        <div className="agency-system-rail">
+          {[
+            ["01", "WRITE", "Start with real SQL. Edit the query instead of copying an answer."],
+            ["02", "TRACE", "See which tables and relationships your query touches."],
+            ["03", "EXECUTE", "Watch the operations turn your SQL into a result."],
+            ["04", "UNDERSTAND", "Connect the syntax to what the database actually did."]
+          ].map(([num, title, copy]) => (
+            <Reveal key={num} className="agency-system-item">
+              <span className="agency-system-number">{num}</span>
+              <div className="agency-system-rule" />
+              <h3>{title}</h3>
+              <p>{copy}</p>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
-      <section id="how-it-works" className="home-section how-section">
-        <Reveal><div className="section-label">HOW TO USE SQLWHALE</div><div className="how-header"><h2>Four simple steps.<br /><span>One better way to learn SQL.</span></h2><p>Start with a query and follow the execution process visually.</p></div></Reveal>
-        <div className="steps-container">{[["01","Write","Write your SQL query in the SQLWhale editor."],["02","Run","Execute your query against the available tables."],["03","Visualize","Watch the query execution and see what changes."],["04","Understand","Read the explanation and understand the result."]].map(([num,title,copy]) => <Reveal key={num} className="learning-step-wrap"><div className="learning-step"><div className="step-top"><span>{num}</span><div className={`step-line ${num === "04" ? "last" : ""}`} /></div><h3>{title}</h3><p>{copy}</p></div></Reveal>)}</div>
-        <Reveal className="how-cta"><h3>Ready to understand SQL differently?</h3><Link href="/run-query" className="primary-button">Start Running Queries <span>→</span></Link></Reveal>
+      <section className="home-section agency-visual-section">
+        <Reveal>
+          <div className="agency-section-index">04 / SEE IT HAPPEN</div>
+          <div className="agency-visual-layout">
+            <div className="agency-visual-copy">
+              <h2>The database<br /><em>stops being abstract.</em></h2>
+              <p>
+                SQLWhale puts your editor, database structure and result into one visual learning loop.
+              </p>
+              <Link href="/run-query" className="primary-button">Open the SQL workspace <span>↗</span></Link>
+            </div>
+            <div className="agency-database-art" aria-hidden="true">
+              <div className="db-art-label">DATABASE CANVAS</div>
+              <div className="db-art-table db-art-a"><b>departments</b><span>id · name</span></div>
+              <div className="db-art-table db-art-b"><b>employees</b><span>id · dept_id · salary</span></div>
+              <div className="db-art-table db-art-c"><b>projects</b><span>id · employee_id</span></div>
+              <div className="db-art-table db-art-d"><b>salary</b><span>employee_id · amount</span></div>
+              <svg className="db-art-lines" viewBox="0 0 620 430" preserveAspectRatio="none">
+                <path d="M145 118 C240 118 235 205 310 205" />
+                <path d="M465 118 C380 118 385 205 310 205" />
+                <path d="M310 255 C310 300 195 300 195 345" />
+                <path d="M310 255 C310 300 440 300 440 345" />
+              </svg>
+              <div className="db-art-key">PK</div>
+              <div className="db-art-key db-art-key-fk">FK</div>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
-      <section id="contact" className="contact-section">
-        <Reveal><div className="section-label">SQLWHALE</div><h2>Built to make SQL<br />easier to understand.</h2><p>Have feedback, suggestions or ideas for SQLWhale? We would love to hear from you.</p></Reveal>
-        <Reveal className="support-box-wrap"><div id="support" className="support-box"><span>Support the project</span><h3><AppleEmoji name="coffee" size={24} /> Support SQLWhale</h3><p>Help us continue building better tools for learning SQL.</p><a className="support-button" href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer">Support SQLWhale</a></div></Reveal>
+      <section id="how-it-works" className="home-section agency-method-section">
+        <Reveal>
+          <div className="agency-section-index">05 / THE METHOD</div>
+          <div className="agency-method-heading">
+            <h2>Learning SQL should feel<br /><em>like solving something.</em></h2>
+            <p>One workspace. One query. One visible execution path.</p>
+          </div>
+        </Reveal>
+        <div className="agency-method-list">
+          {[
+            ["01", "Choose a table", "Start from the database canvas and understand the structure you're querying."],
+            ["02", "Write the SQL", "Use the editor to build the query yourself and practice the syntax."],
+            ["03", "Run it", "Execute the query and watch the output change instead of guessing."],
+            ["04", "Connect the dots", "Use the visual flow to understand why the result looks the way it does."]
+          ].map(([num, title, copy]) => (
+            <Reveal key={num}>
+              <div className="agency-method-row">
+                <span>{num}</span>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+                <Link href="/run-query" aria-label={title + " in SQLWhale"}>↗</Link>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <section className="contact-section agency-final-section">
+        <Reveal>
+          <div className="agency-section-index">06 / START HERE</div>
+          <h2>See what your<br /><em>SQL actually does.</em></h2>
+          <p>Open the workspace and run a query. The first one is already waiting.</p>
+          <Link href="/run-query" className="primary-button agency-final-button">Enter SQLWhale <span>↗</span></Link>
+        </Reveal>
+        <Reveal className="support-box-wrap">
+          <div id="support" className="support-box agency-support-box">
+            <span>BUILDING IN PUBLIC</span>
+            <h3><AppleEmoji name="coffee" size={22} /> Support SQLWhale</h3>
+            <p>Help us keep building better tools for learning SQL.</p>
+            <a className="support-button" href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer">Support the project</a>
+          </div>
+        </Reveal>
       </section>
 
       <footer className="sqlwhale-footer">
