@@ -38,6 +38,8 @@ interface DatabaseCanvasProps {
   executedQuery?: string | null;
   queryAnimationStage?: string | null;
   queryTableTargets?: string[];
+  queryRevealIndex?: number | null;
+  queryRevealActive?: boolean;
   queryAnalysis?: QueryAnalysis | null;
   onEditTable?: (table: DatabaseTableType) => void;
 }
@@ -209,7 +211,9 @@ function createNodes(
   tables: DatabaseTableType[],
   onEditTable?: (table: DatabaseTableType) => void,
   initialTableName = "employees",
-  queryTableTargets: string[] = []
+  queryTableTargets: string[] = [],
+  queryRevealIndex: number | null = null,
+  queryRevealActive = false
 ): Node[] {
   return tables.map((table, index) => ({
       id: table.name,
@@ -221,6 +225,11 @@ function createNodes(
         locked: false,
         initialFocus: table.name === initialTableName,
         queryTarget: queryTableTargets.some(
+          (target) => target.toLowerCase() === table.name.toLowerCase()
+        ),
+        queryRevealIndex,
+        queryRevealActive,
+        queryOrderIndex: queryTableTargets.findIndex(
           (target) => target.toLowerCase() === table.name.toLowerCase()
         ),
         onEditTable,
@@ -293,6 +302,8 @@ export default function DatabaseCanvas({
   executedQuery = null,
   queryAnimationStage = null,
   queryTableTargets = [],
+  queryRevealIndex = null,
+  queryRevealActive = false,
   queryAnalysis = null,
   onEditTable,
 }: DatabaseCanvasProps) {
@@ -305,7 +316,9 @@ export default function DatabaseCanvas({
     tables,
     onEditTable,
     initialTableName,
-    activeTableTargets
+    activeTableTargets,
+    queryRevealIndex,
+    queryRevealActive
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [flowInstance, setFlowInstance] = useState<ReactFlowInstance | null>(null);
