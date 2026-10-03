@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
@@ -123,6 +123,11 @@ export default function RunQueryPage() {
   } | null>(null);
   const [queryTableTargets, setQueryTableTargets] = useState<string[]>([]);
   const [focusedTableName, setFocusedTableName] = useState<string | null>(null);
+
+  const handleQueryTableChange = useCallback((nextTables: string[]) => {
+    setQueryTableTargets(nextTables);
+    setFocusedTableName(null);
+  }, []);
   const [queryRevealIndex, setQueryRevealIndex] = useState<number | null>(null);
   const [queryRevealActive, setQueryRevealActive] = useState(false);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
@@ -782,10 +787,7 @@ export default function RunQueryPage() {
           onRun={handleRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
-          onQueryTableChange={(nextTables) => {
-            setQueryTableTargets(nextTables);
-            setFocusedTableName(null);
-          }}
+          onQueryTableChange={handleQueryTableChange}
           onTableDoubleClick={setFocusedTableName}
           
           availableTables={tables.map((table) => table.name)}
