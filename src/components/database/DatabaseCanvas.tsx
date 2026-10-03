@@ -335,6 +335,11 @@ export default function DatabaseCanvas({
           queryTarget: activeTableTargets.some(
             (target) => target.toLowerCase() === String(node.id).toLowerCase()
           ),
+          queryRevealIndex,
+          queryRevealActive,
+          queryOrderIndex: activeTableTargets.findIndex(
+            (target) => target.toLowerCase() === String(node.id).toLowerCase()
+          ),
         },
       }))
     );
