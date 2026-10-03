@@ -15312,3 +15312,9 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     opacity: 0.75;
   }
 }
+
+
+/* Selected homepage statements use the SQLWhale purple accent. */
+.sqlwhale-home .agency-purple-accent {
+  color: #8b5cf6;
+}
