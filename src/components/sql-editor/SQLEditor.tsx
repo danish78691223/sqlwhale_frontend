@@ -13,7 +13,7 @@ export interface SQLEditorHandle {\n  focusTable: (tableName: string) => void;\n
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
   availableTables?: string[];
-}
+});
 
 const DEFAULT_QUERY = "SELECT * FROM employees;";
 
@@ -104,7 +104,34 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
     onClear();
   };
 
-  const [editorInstance, setEditorInstance] = useState<Parameters<OnMount>[0] | null>(null);\n\n  useImperativeHandle(ref, () => ({\n    focusTable: (tableName: string) => {\n      if (!editorInstance || !tableName.trim()) return;\n      const model = editorInstance.getModel();\n      if (!model) return;\n      const escaped = tableName.trim().replace(/[.*+?^${}()|[\\]\\\\]/g, "\\  const handleEditorMount: OnMount = (editor) => {");\n      const matches = model.findMatches("\\b" + escaped + "\\b", false, true, false, null, true);\n      if (matches.length === 0) return;\n      const match = matches[0];\n      editorInstance.setSelection(match.range);\n      editorInstance.revealRangeInCenter(match.range);\n      editorInstance.focus();\n    },\n  }), [editorInstance]);\n\n  const handleEditorMount: OnMount = (editor) => {\n    setEditorInstance(editor);
+  const [editorInstance, setEditorInstance] = useState<Parameters<OnMount>[0] | null>(null);
+
+  useImperativeHandle(ref, () => ({
+    focusTable: (tableName: string) => {
+      if (!editorInstance || !tableName.trim()) return;
+
+      const model = editorInstance.getModel();
+      if (!model) return;
+
+      const matches = model.findMatches(
+        tableName.trim(),
+        false,
+        false,
+        false,
+        null,
+        true
+      );
+
+      if (matches.length === 0) return;
+
+      const match = matches[0];
+      editorInstance.setSelection(match.range);
+      editorInstance.revealRangeInCenter(match.range);
+      editorInstance.focus();
+    },
+  }), [editorInstance]);
+
+  const handleEditorMount: OnMount = (editor) => {\n    setEditorInstance(editor);
     const updateQueryTableTargets = () => {
       const sql = editor.getValue();
       onQueryTableChange?.(extractQueryTables(sql, availableTables));
