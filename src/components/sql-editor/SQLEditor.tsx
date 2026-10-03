@@ -16,6 +16,7 @@ interface SQLEditorProps {
   onClear: () => void;
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
+  onTableDoubleClick?: (tableName: string) => void;
   availableTables?: string[];
 }
 
@@ -88,6 +89,7 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
   onClear,
   onCursorTargetChange,
   onQueryTableChange,
+  onTableDoubleClick,
   availableTables = [],
 }: SQLEditorProps, ref) {
   const [query, setQuery] = useState(initialQuery);
@@ -182,6 +184,26 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
         column: word.word,
       });
     };
+
+    editor.onMouseDown((event) => {
+      if (event.event.detail !== 2) return;
+
+      const model = editor.getModel();
+      const position = event.target.position;
+      if (!model || !position) return;
+
+      const word = model.getWordAtPosition(position);
+      if (!word) return;
+
+      const normalizedWord = word.word.toLowerCase();
+      const exactTable = availableTables.find(
+        (table) => table.toLowerCase() === normalizedWord
+      );
+
+      if (exactTable) {
+        onTableDoubleClick?.(exactTable);
+      }
+    });
 
     editor.onDidChangeCursorPosition(updateCursorTarget);
     editor.onDidChangeModelContent(() => {
