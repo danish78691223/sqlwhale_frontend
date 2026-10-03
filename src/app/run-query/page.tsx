@@ -31,7 +31,8 @@ export default function RunQueryPage() {
     clearResult,
   } = useSQLQuery();
 
-  const [query, setQuery] = useState(DEFAULT_QUERY);\n  const sqlEditorRef = useRef<SQLEditorHandle>(null);
+  const [query, setQuery] = useState(DEFAULT_QUERY);
+  const sqlEditorRef = useRef<SQLEditorHandle>(null);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
   const [tablesError, setTablesError] = useState<string | null>(null);
@@ -567,7 +568,8 @@ export default function RunQueryPage() {
           }}
         >
           {tablesLoading ? (
-            <DatabaseCanvasSkeleton   onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}\n/>
+            <DatabaseCanvasSkeleton   onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}
+/>
           ) : tablesError ? (
             <div className="output-error-state">
               <div className="output-error-icon">!</div>
@@ -750,7 +752,9 @@ export default function RunQueryPage() {
             onStartTask={(task) => {
               setActiveTaskId(task.id);
               setTaskCheck(null);
-              setQuery(`-- Task: ${task.title}\n-- Write your SQL below.\n`);
+              setQuery(`-- Task: ${task.title}
+-- Write your SQL below.
+`);
               setExecutedQuery(null);
               setAnimationComplete(false);
             }}
@@ -766,13 +770,15 @@ export default function RunQueryPage() {
         data-sqlwhale-tour="editor"
       >
         <SQLEditor
-          ref={sqlEditorRef}\n          initialQuery={query}
+          ref={sqlEditorRef}
+          initialQuery={query}
           loading={loading}
           darkMode={darkMode}
           onRun={handleRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
-          onQueryTableChange={setQueryTableTargets}\n          
+          onQueryTableChange={setQueryTableTargets}
+          
           availableTables={tables.map((table) => table.name)}
         />
       </section>
