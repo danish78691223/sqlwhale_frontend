@@ -366,7 +366,6 @@ export default function DatabaseCanvas({
                 )
               )
             : node.position,
-        },
       }))
     );
   }, [activeTableTargets, queryRevealIndex, queryRevealActive, setNodes]);
@@ -425,7 +424,7 @@ export default function DatabaseCanvas({
         };
       })
     );
-  }, [queryAnalysis, queryAnimationStage, setEdges]);
+  }, [queryAnalysis, queryAnimationStage, queryRevealActive, setEdges]);
 
   useEffect(() => {
     setEdges((current) =>
