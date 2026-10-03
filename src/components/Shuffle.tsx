@@ -207,7 +207,8 @@ const Shuffle = ({
           };
         };
 
-        chars.forEach((ch: HTMLElement) => {
+        chars.forEach((ch) => {
+          if (!(ch instanceof HTMLElement)) return;
           const parent = ch.parentElement;
           if (!parent) return;
 
