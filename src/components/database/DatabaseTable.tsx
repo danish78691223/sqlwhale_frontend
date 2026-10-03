@@ -22,6 +22,9 @@ interface DatabaseTableNodeData {
   locked?: boolean;
   initialFocus?: boolean;
   queryTarget?: boolean;
+  queryRevealIndex?: number | null;
+  queryRevealActive?: boolean;
+  queryOrderIndex?: number;
   onEditTable?: (table: DatabaseTableType) => void;
 }
 
@@ -39,6 +42,10 @@ export default function DatabaseTable({
   const locked = Boolean(nodeData.locked);
   const initialFocus = Boolean(nodeData.initialFocus);
   const queryTarget = Boolean(nodeData.queryTarget);
+  const queryRevealIndex = nodeData.queryRevealIndex ?? null;
+  const queryRevealActive = Boolean(nodeData.queryRevealActive);
+  const queryOrderIndex = nodeData.queryOrderIndex ?? -1;
+  const queryRevealed = !queryRevealActive || queryOrderIndex < 0 || (queryRevealIndex !== null && queryOrderIndex <= queryRevealIndex);
   const onEditTable = nodeData.onEditTable;
 
   const accentClasses = [
@@ -62,7 +69,7 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}`} data-sql-table={table.name}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name}>
       <div
         className={`sql-table-header ${accent}`}
       >
