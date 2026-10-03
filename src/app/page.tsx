@@ -2,12 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useState } from "react";
 import { api, authApi } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
+import Shuffle from "@/components/Shuffle";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -102,45 +101,37 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
 }
 
 function RotatingHeroWord() {
-  const wordRef = useRef<HTMLElement>(null);
   const words = ["visible", "easy", "clear", "simple", "intuitive", "practical", "understandable"];
-  const indexRef = useRef(0);
+  const [index, setIndex] = useState(0);
 
-  useGSAP(() => {
-    const element = wordRef.current;
-    if (!element) return;
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setIndex((current) => (current + 1) % words.length);
+    }, 1000);
 
-    const changeWord = () => {
-      const nextIndex = (indexRef.current + 1) % words.length;
-
-      gsap.timeline({
-        defaults: { ease: "power2.inOut" },
-        onComplete: () => {
-          indexRef.current = nextIndex;
-          element.textContent = words[nextIndex];
-        },
-      })
-        .to(element, {
-          opacity: 0,
-          y: -12,
-          duration: 0.22,
-        })
-        .set(element, {
-          textContent: words[nextIndex],
-          y: 12,
-        })
-        .to(element, {
-          opacity: 1,
-          y: 0,
-          duration: 0.28,
-        });
-    };
-
-    const interval = window.setInterval(changeWord, 1000);
     return () => window.clearInterval(interval);
   }, []);
 
-  return <em ref={wordRef}>visible</em>;
+  return (
+    <Shuffle
+      key={words[index]}
+      text={words[index]}
+      tag="em"
+      className="agency-hero-shuffle"
+      shuffleDirection="right"
+      duration={0.35}
+      animationMode="evenodd"
+      shuffleTimes={1}
+      ease="power3.out"
+      stagger={0.03}
+      threshold={0.1}
+      triggerOnce={true}
+      triggerOnHover={true}
+      respectReducedMotion={true}
+      loop={false}
+      loopDelay={0}
+    />
+  );
 }
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
