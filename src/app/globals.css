@@ -15318,3 +15318,27 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-home .agency-purple-accent {
   color: #8b5cf6;
 }
+
+
+/* SQLWhale hero word shuffle */
+.sqlwhale-home .agency-hero-copy .shuffle-parent {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  color: inherit;
+  vertical-align: baseline;
+}
+
+.sqlwhale-home .agency-hero-copy .shuffle-parent .shuffle-char {
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+}
