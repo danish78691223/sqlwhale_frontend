@@ -56,12 +56,12 @@ const relationshipEdgeTypes = {
   wiring: RelationshipWiringEdge,
 };
 
-const positions: Record<string, { x: number; y: number }> = {
-  departments: { x: 80, y: 40 },
-  employees: { x: 80, y: 300 },
-  projects: { x: 80, y: 560 },
-  salary: { x: 80, y: 820 },
-};
+// Keep table sizes unchanged and arrange all tables in a
+// predictable two-column grid so dynamically created tables do not overlap.
+const getTablePosition = (index: number) => ({
+  x: 40 + (index % 2) * 320,
+  y: 40 + Math.floor(index / 2) * 360,
+});
 
 function RelationshipWiringEdge({
   id,
@@ -214,11 +214,7 @@ function createNodes(
   return tables.map((table, index) => ({
       id: table.name,
       type: "databaseTable",
-      position:
-        positions[table.name] ?? {
-          x: 80 + (index % 3) * 420,
-          y: 100 + Math.floor(index / 3) * 360,
-        },
+      position: getTablePosition(index),
       data: {
         table,
         accentIndex: index,
