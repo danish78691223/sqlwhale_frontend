@@ -485,28 +485,26 @@ export default function DatabaseCanvas({
   useEffect(() => {
     if (activeTableTargets.length === 0 || !flowInstance) return;
 
-    // Focus the most recently detected table reference. This keeps the
-    // viewport following the table name currently being typed/edited,
-    // instead of getting stuck on an earlier FROM/JOIN target.
-    const focusTarget =
-      activeTableTargets[activeTableTargets.length - 1];
-
-    const targetNode = nodes.find(
-      (node) =>
-        String(node.id).toLowerCase() ===
-        focusTarget.toLowerCase()
+    // Keep the entire query group centered in the existing canvas.
+    // Query tables are arranged vertically, so center the midpoint rather
+    // than zooming/focusing only the last table.
+    const queryNodes = nodes.filter((node) =>
+      activeTableTargets.some(
+        (target) =>
+          target.toLowerCase() === String(node.id).toLowerCase()
+      )
     );
 
-    if (!targetNode) return;
+    if (queryNodes.length === 0) return;
 
-    flowInstance.setCenter(
-      targetNode.position.x + 110,
-      targetNode.position.y + 90,
-      {
-        zoom: 1,
-        duration: 450,
-      }
-    );
+    const firstY = Math.min(...queryNodes.map((node) => node.position.y));
+    const lastY = Math.max(...queryNodes.map((node) => node.position.y));
+    const centerY = (firstY + lastY) / 2 + 90;
+
+    flowInstance.setCenter(250, centerY, {
+      zoom: 0.85,
+      duration: 450,
+    });
   }, [activeTableTargets, nodes, flowInstance]);
 
   const toggleTablesLock = () => {
