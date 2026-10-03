@@ -4,7 +4,11 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { Play, RotateCcw } from "lucide-react";
 
-export interface SQLEditorHandle {\n  focusTable: (tableName: string) => void;\n}\n\ninterface SQLEditorProps {
+export interface SQLEditorHandle {
+  focusTable: (tableName: string) => void;
+}
+
+interface SQLEditorProps {
   initialQuery?: string;
   loading?: boolean;
   darkMode?: boolean;
@@ -131,7 +135,8 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
     },
   }), [editorInstance]);
 
-  const handleEditorMount: OnMount = (editor) => {\n    setEditorInstance(editor);
+  const handleEditorMount: OnMount = (editor) => {
+    setEditorInstance(editor);
     const updateQueryTableTargets = () => {
       const sql = editor.getValue();
       onQueryTableChange?.(extractQueryTables(sql, availableTables));
