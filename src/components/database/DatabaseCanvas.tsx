@@ -41,7 +41,7 @@ interface DatabaseCanvasProps {
   queryRevealIndex?: number | null;
   queryRevealActive?: boolean;
   queryAnalysis?: QueryAnalysis | null;
-  onEditTable?: (table: DatabaseTableType) => void;
+  onEditTable?: (table: DatabaseTableType) => void;\n  onTableDoubleClick?: (tableName: string) => void;
 }
 
 interface SQLCursorTarget {
@@ -352,7 +352,7 @@ export default function DatabaseCanvas({
           ),
           queryRevealIndex,
           queryRevealActive,
-          queryOrderIndex: activeTableTargets.findIndex(
+          onTableDoubleClick,\n          queryOrderIndex: activeTableTargets.findIndex(
             (target) => target.toLowerCase() === String(node.id).toLowerCase()
           ),
         },
@@ -368,7 +368,7 @@ export default function DatabaseCanvas({
             : node.position,
       }))
     );
-  }, [activeTableTargets, queryRevealIndex, queryRevealActive, setNodes]);
+  }, [activeTableTargets, queryRevealIndex, queryRevealActive, onTableDoubleClick, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
