@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { Play, RotateCcw } from "lucide-react";
 
@@ -93,6 +93,13 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
   availableTables = [],
 }: SQLEditorProps, ref) {
   const [query, setQuery] = useState(initialQuery);
+  const availableTablesRef = useRef(availableTables);
+  const onTableDoubleClickRef = useRef(onTableDoubleClick);
+
+  useEffect(() => {
+    availableTablesRef.current = availableTables;
+    onTableDoubleClickRef.current = onTableDoubleClick;
+  }, [availableTables, onTableDoubleClick]);
 
   useEffect(() => {
     setQuery(initialQuery);
@@ -186,22 +193,25 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
     };
 
     editor.onMouseDown((event) => {
-      if (event.event.detail !== 2) return;
+      const clickDetail =
+        event.event.detail ?? event.event.browserEvent?.detail ?? 0;
+
+      if (clickDetail !== 2) return;
 
       const model = editor.getModel();
-      const position = event.target.position;
+      const position = event.target.position ?? editor.getPosition();
       if (!model || !position) return;
 
       const word = model.getWordAtPosition(position);
       if (!word) return;
 
       const normalizedWord = word.word.toLowerCase();
-      const exactTable = availableTables.find(
+      const exactTable = availableTablesRef.current.find(
         (table) => table.toLowerCase() === normalizedWord
       );
 
       if (exactTable) {
-        onTableDoubleClick?.(exactTable);
+        onTableDoubleClickRef.current?.(exactTable);
       }
     });
 
