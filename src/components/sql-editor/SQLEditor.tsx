@@ -303,3 +303,5 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
     </section>
   );
 });
+
+export default SQLEditor;
