@@ -222,7 +222,8 @@ function createNodes(
   initialTableName = "employees",
   queryTableTargets: string[] = [],
   queryRevealIndex: number | null = null,
-  queryRevealActive = false
+  queryRevealActive = false,
+  onTableDoubleClick?: (tableName: string) => void
 ): Node[] {
   return tables.map((table, index) => {
     const queryOrderIndex = queryTableTargets.findIndex(
@@ -248,6 +249,7 @@ function createNodes(
         queryRevealActive,
         queryOrderIndex,
         onEditTable,
+        onTableDoubleClick,
       },
     };
   });
@@ -322,6 +324,7 @@ export default function DatabaseCanvas({
   queryRevealActive = false,
   queryAnalysis = null,
   onEditTable,
+  onTableDoubleClick,
 }: DatabaseCanvasProps) {
   // The SQL editor is the single source of truth for the table currently
   // referenced by the query. Do not fall back to the previous executed
@@ -334,7 +337,8 @@ export default function DatabaseCanvas({
     initialTableName,
     activeTableTargets,
     queryRevealIndex,
-    queryRevealActive
+    queryRevealActive,
+    onTableDoubleClick
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [flowInstance, setFlowInstance] = useState<ReactFlowInstance | null>(null);
