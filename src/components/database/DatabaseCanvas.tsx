@@ -359,13 +359,18 @@ export default function DatabaseCanvas({
 
     if (!targetNode) return;
 
-    flowInstance.fitView({
-      nodes: [targetNode],
-      padding: 0.3,
-      duration: 450,
-      minZoom: 0.65,
-      maxZoom: 1.15,
-    });
+    const position = targetNode.positionAbsolute ?? targetNode.position;
+    const width = targetNode.measured?.width ?? targetNode.width ?? 0;
+    const height = targetNode.measured?.height ?? targetNode.height ?? 0;
+
+    flowInstance.setCenter(
+      position.x + width / 2,
+      position.y + height / 2,
+      {
+        zoom: 0.9,
+        duration: 450,
+      }
+    );
   }, [flowInstance, onTableDoubleClick]);
 
   useEffect(() => {
