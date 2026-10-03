@@ -782,7 +782,10 @@ export default function RunQueryPage() {
           onRun={handleRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
-          onQueryTableChange={setQueryTableTargets}
+          onQueryTableChange={(nextTables) => {
+            setQueryTableTargets(nextTables);
+            setFocusedTableName(null);
+          }}
           onTableDoubleClick={setFocusedTableName}
           
           availableTables={tables.map((table) => table.name)}
