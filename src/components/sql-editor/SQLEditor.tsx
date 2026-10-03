@@ -39,14 +39,19 @@ function extractQueryTables(sql: string, availableTables: string[] = []): string
       return;
     }
 
-    // While typing, resolve a partial table name to the matching database table.
-    const partial = normalizedTables.find(
+    // Only resolve a partial name when it identifies exactly one table.
+    // For example, if both local_learning_activity and
+    // local_learning_progress exist, typing "local" must NOT arbitrarily
+    // redirect to the first table.
+    const partialMatches = normalizedTables.filter(
       (table) =>
         table.toLowerCase().startsWith(normalized) ||
         normalized.startsWith(table.toLowerCase())
     );
 
-    if (partial) targets.push(partial);
+    if (partialMatches.length === 1) {
+      targets.push(partialMatches[0]);
+    }
   };
 
   // FROM / JOIN targets. This intentionally accepts partial names while typing.
