@@ -346,6 +346,28 @@ export default function DatabaseCanvas({
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  const handleTableDoubleClick = useCallback((tableName: string) => {
+    onTableDoubleClick?.(tableName);
+
+    if (!flowInstance) return;
+
+    const targetNode =
+      flowInstance.getNode(tableName) ??
+      flowInstance.getNodes().find(
+        (node) => String(node.id).toLowerCase() === tableName.toLowerCase()
+      );
+
+    if (!targetNode) return;
+
+    flowInstance.fitView({
+      nodes: [targetNode],
+      padding: 0.3,
+      duration: 450,
+      minZoom: 0.65,
+      maxZoom: 1.15,
+    });
+  }, [flowInstance, onTableDoubleClick]);
+
   useEffect(() => {
     setNodes((current) =>
       current.map((node) => {
@@ -510,28 +532,6 @@ export default function DatabaseCanvas({
       maxZoom: 1.1,
     });
   }, [activeTableTargets, nodes, flowInstance]);
-
-  const handleTableDoubleClick = useCallback((tableName: string) => {
-    onTableDoubleClick?.(tableName);
-
-    if (!flowInstance) return;
-
-    const targetNode =
-      flowInstance.getNode(tableName) ??
-      flowInstance.getNodes().find(
-        (node) => String(node.id).toLowerCase() === tableName.toLowerCase()
-      );
-
-    if (!targetNode) return;
-
-    flowInstance.fitView({
-      nodes: [targetNode],
-      padding: 0.3,
-      duration: 450,
-      minZoom: 0.65,
-      maxZoom: 1.15,
-    });
-  }, [flowInstance, onTableDoubleClick]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
