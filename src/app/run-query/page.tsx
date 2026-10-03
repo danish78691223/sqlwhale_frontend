@@ -568,8 +568,7 @@ export default function RunQueryPage() {
           }}
         >
           {tablesLoading ? (
-            <DatabaseCanvasSkeleton   onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}
-/>
+            <DatabaseCanvasSkeleton />
           ) : tablesError ? (
             <div className="output-error-state">
               <div className="output-error-icon">!</div>
@@ -588,6 +587,7 @@ export default function RunQueryPage() {
               queryRevealActive={queryRevealActive}
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
+              onTableDoubleClick={(tableName) => sqlEditorRef.current?.focusTable(tableName)}
             />
           )}
         </section>
