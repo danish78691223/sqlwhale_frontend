@@ -43,6 +43,7 @@ interface DatabaseCanvasProps {
   queryAnalysis?: QueryAnalysis | null;
   onEditTable?: (table: DatabaseTableType) => void;
   onTableDoubleClick?: (tableName: string) => void;
+  focusedTableName?: string | null;
 }
 
 interface SQLCursorTarget {
@@ -325,6 +326,7 @@ export default function DatabaseCanvas({
   queryAnalysis = null,
   onEditTable,
   onTableDoubleClick,
+  focusedTableName = null,
 }: DatabaseCanvasProps) {
   // The SQL editor is the single source of truth for the table currently
   // referenced by the query. Do not fall back to the previous executed
@@ -392,6 +394,7 @@ export default function DatabaseCanvas({
           queryRevealActive,
           onTableDoubleClick: handleTableDoubleClick,
           queryOrderIndex: nodeQueryIndex,
+          focused: focusedTableName?.toLowerCase() === String(node.id).toLowerCase(),
         },
         position:
           nodeQueryIndex >= 0
@@ -400,7 +403,7 @@ export default function DatabaseCanvas({
       };
       })
     );
-  }, [activeTableTargets, queryRevealIndex, queryRevealActive, handleTableDoubleClick, setNodes]);
+  }, [activeTableTargets, queryRevealIndex, queryRevealActive, focusedTableName, handleTableDoubleClick, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
@@ -537,6 +540,29 @@ export default function DatabaseCanvas({
       maxZoom: 1.1,
     });
   }, [activeTableTargets, nodes, flowInstance]);
+
+
+  useEffect(() => {
+    if (!focusedTableName || !flowInstance) return;
+
+    const targetNode =
+      flowInstance.getNode(focusedTableName) ??
+      flowInstance.getNodes().find(
+        (node) => String(node.id).toLowerCase() === focusedTableName.toLowerCase()
+      );
+
+    if (!targetNode) return;
+
+    const position = targetNode.positionAbsolute ?? targetNode.position;
+    const width = targetNode.measured?.width ?? targetNode.width ?? 0;
+    const height = targetNode.measured?.height ?? targetNode.height ?? 0;
+
+    flowInstance.setCenter(
+      position.x + width / 2,
+      position.y + height / 2,
+      { zoom: 0.9, duration: 450 }
+    );
+  }, [focusedTableName, flowInstance]);
 
   const toggleTablesLock = () => {
     setTablesLocked((locked) => {
