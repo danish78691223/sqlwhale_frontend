@@ -16166,3 +16166,356 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   top: 0 !important;
   z-index: 10000 !important;
 }
+
+
+/* =========================================================
+   SQLWHALE — GLOBAL RESPONSIVE / NAVBAR FINAL PASS
+   ========================================================= */
+
+/* Shared navbar alignment on all SQLWhale pages */
+.sqlwhale-home .sqlwhale-navbar,
+.sqlwhale-contact-page .sqlwhale-navbar,
+.sqlwhale-admin-page .sqlwhale-admin-navbar {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sqlwhale-home .navbar-inner,
+.sqlwhale-contact-page .navbar-inner,
+.sqlwhale-admin-navbar-inner {
+  width: min(1500px, 100%);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Contact navbar must remain above its hero */
+.sqlwhale-contact-page .sqlwhale-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10000 !important;
+}
+
+/* Admin dashboard navbar */
+.sqlwhale-admin-page {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  padding: 0 38px 38px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.sqlwhale-admin-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  width: calc(100% + 76px);
+  margin-left: -38px;
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 8px 24px rgba(15,23,42,.05);
+}
+
+.sqlwhale-admin-navbar-inner {
+  min-height: 72px;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.sqlwhale-admin-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.sqlwhale-admin-logo img {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+}
+
+.sqlwhale-admin-logo strong { color: #2563eb; }
+
+.sqlwhale-admin-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 28px);
+  min-width: 0;
+}
+
+.sqlwhale-admin-nav a {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.sqlwhale-admin-nav a:hover { color: #2563eb; }
+
+.sqlwhale-admin-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.sqlwhale-admin-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sqlwhale-admin-menu-button {
+  display: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sqlwhale-admin-menu-button span {
+  width: 17px;
+  height: 2px;
+  background: #334155;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.sqlwhale-admin-mobile-menu {
+  display: none;
+}
+
+/* Prevent desktop hero controls from forcing horizontal overflow */
+.sqlwhale-home .agency-hero-inner,
+.sqlwhale-home .agency-hero-copy,
+.sqlwhale-home .agency-hero-stage,
+.sqlwhale-home .hero-actions,
+.sqlwhale-home .query-scene {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .sqlwhale-admin-page {
+    padding: 0 18px 24px;
+  }
+
+  .sqlwhale-admin-navbar {
+    width: calc(100% + 36px);
+    margin-left: -18px;
+  }
+
+  .sqlwhale-admin-navbar-inner {
+    min-height: 64px;
+    padding: 0 14px;
+  }
+
+  .sqlwhale-admin-nav,
+  .sqlwhale-admin-nav-badge {
+    display: none;
+  }
+
+  .sqlwhale-admin-menu-button {
+    display: flex;
+  }
+
+  .sqlwhale-admin-mobile-menu {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 64px;
+    z-index: 10001;
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 0 14px;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 14px 30px rgba(15,23,42,.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height .25s ease, opacity .2s ease, padding .25s ease;
+  }
+
+  .sqlwhale-admin-mobile-menu.is-open {
+    max-height: 70vh;
+    padding: 8px 14px 16px;
+    opacity: 1;
+    pointer-events: auto;
+    overflow-y: auto;
+  }
+
+  .sqlwhale-admin-mobile-menu a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eef2f7;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .sqlwhale-admin-header {
+    margin-top: 24px;
+    gap: 16px;
+  }
+
+  .sqlwhale-admin-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sqlwhale-admin-card {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-admin-page {
+    padding-inline: 12px;
+  }
+
+  .sqlwhale-admin-navbar {
+    width: calc(100% + 24px);
+    margin-left: -12px;
+  }
+
+  .sqlwhale-admin-navbar-inner {
+    padding-inline: 12px;
+  }
+
+  .sqlwhale-admin-header {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 20px;
+  }
+
+  .sqlwhale-admin-header h1 {
+    font-size: 27px;
+  }
+
+  .sqlwhale-admin-refresh {
+    width: 100%;
+  }
+
+  .sqlwhale-admin-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .sqlwhale-admin-table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Homepage: keep CTA buttons inside the viewport on narrow screens. */
+@media (max-width: 900px) {
+  .sqlwhale-home .agency-hero .hero-actions {
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .sqlwhale-home .agency-hero .primary-button,
+  .sqlwhale-home .agency-hero .secondary-button {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-home .agency-hero .hero-actions {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .sqlwhale-home .agency-hero .primary-button,
+  .sqlwhale-home .agency-hero .secondary-button {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .sqlwhale-home .query-scene {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .sqlwhale-home .agency-stage-caption,
+  .sqlwhale-home .agency-stage-footer {
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+
+/* Contact page: never let form/card controls exceed viewport width. */
+@media (max-width: 620px) {
+  .sqlwhale-contact-page {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .sqlwhale-contact-page .sqlwhale-navbar .navbar-inner {
+    padding-inline: 14px;
+  }
+
+  .sqlwhale-contact-hero,
+  .sqlwhale-contact-content,
+  .sqlwhale-contact-bottom {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .sqlwhale-contact-card,
+  .sqlwhale-contact-form,
+  .sqlwhale-contact-form-row,
+  .sqlwhale-contact-form-foot {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .sqlwhale-contact-card {
+    box-sizing: border-box;
+    padding: 18px;
+  }
+
+  .sqlwhale-contact-form input,
+  .sqlwhale-contact-form select,
+  .sqlwhale-contact-form textarea,
+  .sqlwhale-contact-submit {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+}
