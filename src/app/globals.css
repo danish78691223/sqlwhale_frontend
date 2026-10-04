@@ -16519,3 +16519,198 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     box-sizing: border-box;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE HOMEPAGE — 360px MOBILE ALIGNMENT FINAL
+   Force the hero copy, CTA buttons and query scene to use the
+   exact available content width. This prevents the scene's
+   absolutely-positioned cards from creating visual overflow.
+   ========================================================= */
+@media (max-width: 560px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .sqlwhale-home {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .sqlwhale-home .agency-hero {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .agency-hero-inner {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .sqlwhale-home .agency-hero-copy,
+  .sqlwhale-home .agency-hero-stage {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .agency-hero-lede {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 22px 0 0 !important;
+    padding: 0 !important;
+    gap: 9px !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .hero-actions .primary-button,
+  .sqlwhale-home .hero-actions .secondary-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 13px 14px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  .sqlwhale-home .hero-actions .primary-button span,
+  .sqlwhale-home .hero-actions .secondary-button span {
+    flex: 0 0 auto;
+  }
+
+  .sqlwhale-home .agency-hero-stage {
+    overflow: hidden !important;
+  }
+
+  .sqlwhale-home .agency-stage-caption {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .query-scene {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 340px !important;
+    min-height: 340px !important;
+    margin: 10px 0 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .scene-table {
+    box-sizing: border-box !important;
+    max-width: 38% !important;
+  }
+
+  .sqlwhale-home .scene-table-source {
+    left: 3% !important;
+  }
+
+  .sqlwhale-home .scene-table-filter {
+    right: 3% !important;
+  }
+
+  .sqlwhale-home .scene-table-result {
+    left: 5% !important;
+  }
+
+  .sqlwhale-home .scene-query {
+    left: 50% !important;
+    width: min(188px, 58%) !important;
+    max-width: 58% !important;
+    box-sizing: border-box !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .sqlwhale-home .scene-line-one,
+  .sqlwhale-home .scene-line-two {
+    max-width: 60% !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .scene-status {
+    right: 8px !important;
+    max-width: calc(100% - 16px) !important;
+    box-sizing: border-box !important;
+  }
+
+  .sqlwhale-home .agency-stage-footer {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .sqlwhale-home .agency-hero-inner {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .sqlwhale-home .agency-hero-copy h1 {
+    font-size: clamp(44px, 14.5vw, 58px) !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  .sqlwhale-home .query-scene {
+    height: 320px !important;
+    min-height: 320px !important;
+  }
+
+  .sqlwhale-home .scene-table {
+    width: 108px !important;
+    max-width: 108px !important;
+    padding: 9px !important;
+  }
+
+  .sqlwhale-home .scene-query {
+    width: 174px !important;
+    max-width: 174px !important;
+    padding: 11px !important;
+    font-size: 8px !important;
+  }
+
+  .sqlwhale-home .scene-line-one {
+    width: 135px !important;
+  }
+
+  .sqlwhale-home .scene-line-two {
+    width: 150px !important;
+  }
+}
