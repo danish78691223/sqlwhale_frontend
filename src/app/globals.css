@@ -16156,3 +16156,13 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     height: calc(100dvh - 62px) !important;
   }
 }
+
+
+/* Final homepage navbar stacking fix
+   The particle-layer section below was assigning z-index: 1 to the navbar,
+   which let the later agency hero paint over it at desktop widths. */
+.sqlwhale-home .sqlwhale-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 10000 !important;
+}
