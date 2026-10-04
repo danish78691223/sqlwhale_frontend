@@ -16114,3 +16114,45 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     top: 62px;
   }
 }
+
+
+/* Final mobile menu viewport fix
+   The navbar uses backdrop-filter, which creates a containing block for fixed
+   descendants. That makes the menu follow the navbar instead of the viewport.
+   Disable that effect on mobile so the drawer stays fixed over the hero. */
+@media (max-width: 900px) {
+  .sqlwhale-home .sqlwhale-navbar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    overflow: visible !important;
+  }
+
+  .sqlwhale-home .mobile-menu {
+    position: fixed !important;
+    top: 68px !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    height: calc(100dvh - 68px) !important;
+    max-height: none !important;
+    z-index: 10001 !important;
+    transform: translateX(-100%) !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    opacity: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  .sqlwhale-home .mobile-menu.mobile-menu-open {
+    transform: translateX(0) !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-home .mobile-menu {
+    top: 62px !important;
+    height: calc(100dvh - 62px) !important;
+  }
+}
