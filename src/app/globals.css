@@ -16065,3 +16065,52 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   }
 }
 
+
+
+/* Mobile navigation layering fix
+   Keep the side menu above the cinematic hero/particle layers while open. */
+@media (max-width: 900px) {
+  .sqlwhale-home .sqlwhale-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    isolation: isolate;
+  }
+
+  .sqlwhale-home .mobile-menu {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    bottom: 0;
+    z-index: 10001;
+    isolation: isolate;
+    transform: translateX(-100%);
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .sqlwhale-home .mobile-menu.mobile-menu-open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .sqlwhale-home .mobile-menu::after {
+    z-index: -1;
+  }
+
+  .sqlwhale-home .agency-hero,
+  .sqlwhale-home .agency-particle-background,
+  .sqlwhale-home .home-section {
+    z-index: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-home .mobile-menu {
+    top: 62px;
+  }
+}
