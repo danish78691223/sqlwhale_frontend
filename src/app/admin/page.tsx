@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { api } from "../../services/api";
 import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList } from "lucide-react";
 
@@ -59,6 +61,7 @@ export default function AdminPage() {
   const [savingMaintenance, setSavingMaintenance] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const filteredUsers = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -195,6 +198,43 @@ export default function AdminPage() {
 
   return (
     <main className="sqlwhale-admin-page">
+      <header className="sqlwhale-admin-navbar">
+        <div className="sqlwhale-admin-navbar-inner">
+          <Link href="/" className="sqlwhale-admin-logo" onClick={() => setMobileMenuOpen(false)}>
+            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={42} height={42} priority />
+            <span><strong>SQL</strong>Whale</span>
+          </Link>
+          <nav className="sqlwhale-admin-nav" aria-label="Admin navigation">
+            <Link href="/">Home</Link>
+            <Link href="/run-query">Run Query</Link>
+            <Link href="/learn">Learn</Link>
+            <Link href="/understand">Understand</Link>
+            <Link href="/contact">Contact</Link>
+            <Link href="/account">Profile</Link>
+          </nav>
+          <div className="sqlwhale-admin-nav-actions">
+            <span className="sqlwhale-admin-nav-badge"><ShieldCheck size={14} /> Admin</span>
+            <button
+              type="button"
+              className={"sqlwhale-admin-menu-button " + (mobileMenuOpen ? "is-open" : "")}
+              onClick={() => setMobileMenuOpen((current) => !current)}
+              aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
+        </div>
+        <div className={"sqlwhale-admin-mobile-menu " + (mobileMenuOpen ? "is-open" : "")}>
+          <Link href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link href="/run-query" onClick={() => setMobileMenuOpen(false)}>Run Query</Link>
+          <Link href="/learn" onClick={() => setMobileMenuOpen(false)}>Learn</Link>
+          <Link href="/understand" onClick={() => setMobileMenuOpen(false)}>Understand</Link>
+          <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+          <Link href="/account" onClick={() => setMobileMenuOpen(false)}>Profile</Link>
+        </div>
+      </header>
+
       <header className="sqlwhale-admin-header">
         <div>
           <div className="sqlwhale-admin-brand"><ShieldCheck size={19} /> SQLWhale Admin</div>
