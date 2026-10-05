@@ -2,7 +2,7 @@
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import Editor, { type OnMount } from "@monaco-editor/react";
-import { Play, RotateCcw } from "lucide-react";
+import { Eye, Play, RotateCcw } from "lucide-react";
 
 export interface SQLEditorHandle {
   focusTable: (tableName: string) => void;
@@ -12,7 +12,7 @@ interface SQLEditorProps {
   initialQuery?: string;
   loading?: boolean;
   darkMode?: boolean;
-  onRun: (query: string) => void;
+  onRun: (query: string, showWhatHappened?: boolean) => void;
   onClear: () => void;
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
@@ -284,6 +284,17 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
             >
               <Play size={15} fill="currentColor" />
               {loading ? "Running..." : "Run"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onRun(query, true)}
+              disabled={loading || !query.trim()}
+              className="sql-show-happened-button"
+              title="Slow down the query and show each step"
+            >
+              <Eye size={15} />
+              Show what happened
             </button>
           </div>
         </div>
