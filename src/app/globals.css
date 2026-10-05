@@ -511,6 +511,32 @@
   color: rgb(71 85 105);
 }
 
+.sql-show-happened-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid #000;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+.sql-show-happened-button:hover {
+  opacity: 0.86;
+}
+
+.sql-show-happened-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .sql-clear-button:hover {
   border-color: rgb(148 163 184);
 }
@@ -3395,6 +3421,18 @@
     color 0.2s ease,
     background 0.2s ease,
     transform 0.2s ease;
+}
+
+@media (max-width: 700px) {
+  .sql-editor-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .sql-show-happened-button {
+    flex: 1 1 100%;
+    min-height: 36px;
+  }
 }
 
 .run-feedback-button {
