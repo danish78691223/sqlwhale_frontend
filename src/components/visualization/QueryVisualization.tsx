@@ -10,12 +10,14 @@ interface QueryVisualizationProps {
   result?: SQLResult;
   execution?: SQLExecution;
   runId: number;
+  slowExecution?: boolean;
   onComplete?: () => void;
   onStageChange?: (stage: VisualStage) => void;
 }
 
 type VisualStage = "scan" | "filter" | "join" | "select" | "result";
-const STAGE_DURATION = 1700;
+const FAST_STAGE_DURATION = 350;
+const SLOW_STAGE_DURATION = 1500;
 
 function normalizeQuery(query: string) {
   return query.replace(/--.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s+/g, " ").trim().replace(/;$/, "");
@@ -213,6 +215,7 @@ export default function QueryVisualization({
   result,
   execution,
   runId,
+  slowExecution = false,
   onComplete,
   onStageChange,
 }: QueryVisualizationProps) {
@@ -262,10 +265,10 @@ export default function QueryVisualization({
         }
         return current + 1;
       });
-    }, STAGE_DURATION);
+    }, slowExecution ? SLOW_STAGE_DURATION : FAST_STAGE_DURATION);
 
     return () => window.clearInterval(timer);
-  }, [runId, stages.length]);
+  }, [runId, stages.length, slowExecution]);
 
   useEffect(() => {
     if (!runId || !executed || !stages.length || stageIndex !== stages.length - 1 || completedRun === runId) return;
