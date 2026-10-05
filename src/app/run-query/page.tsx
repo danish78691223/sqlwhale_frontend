@@ -39,6 +39,7 @@ export default function RunQueryPage() {
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
+  const [slowExecution, setSlowExecution] = useState(false);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
@@ -256,13 +257,14 @@ export default function RunQueryPage() {
     setTourRect(null);
   };
 
-  const handleRun = async (sql: string) => {
+  const handleRun = async (sql: string, showWhatHappened = false) => {
     const cleanSQL = sql.trim();
 
     setQuery(cleanSQL);
     setExecutedQuery(null);
     setAnimationComplete(false);
     setAnimationRunId((current) => current + 1);
+    setSlowExecution(showWhatHappened);
 
     await runQuery(cleanSQL);
 
@@ -627,6 +629,7 @@ export default function RunQueryPage() {
               result={result}
               execution={data?.execution}
               runId={animationRunId}
+              slowExecution={slowExecution}
               onComplete={() => setAnimationComplete(true)}
               onStageChange={setQueryAnimationStage}
             />
