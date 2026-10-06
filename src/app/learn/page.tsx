@@ -1,7 +1,18 @@
  "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const sqlEssentials = [
+  ["01", "What is SQL?", "SQL (Structured Query Language) is used to define, query, manipulate and control data in relational database systems.", "SELECT name FROM employees;"],
+  ["02", "Statement vs query", "A SQL statement is an instruction sent to the database. A query usually describes a request for data, most commonly a SELECT statement.", "SELECT name, salary FROM employees WHERE salary > 50000;"],
+  ["03", "Logical query order", "A SELECT query is commonly reasoned about as FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT.", "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"],
+  ["04", "NULL is not zero", "NULL means an unknown or missing value. Use IS NULL or IS NOT NULL instead of = NULL.", "SELECT * FROM employees WHERE manager_id IS NULL;"],
+  ["05", "Aliases", "Aliases make long table and column references easier to read, especially in JOINs and calculated expressions.", "SELECT e.name AS employee_name FROM employees AS e;"],
+  ["06", "Comparison operators", "Use =, <>, >, <, >=, <= and logical operators such as AND, OR and NOT to express conditions.", "SELECT * FROM shop WHERE price > 1000 AND stock >= 10;"],
+  ["07", "Common data types", "Relational databases commonly use numeric, character, date/time and boolean-like types. Exact names vary by database engine.", "CREATE TABLE users (id INT, name VARCHAR(100), joined_at DATE);"],
+  ["08", "Aggregation", "Aggregate functions reduce multiple rows into summaries. GROUP BY defines which rows belong to each group.", "SELECT department_id, AVG(salary) FROM employees GROUP BY department_id;"],
+];
 
 const concepts = [
   ["01", "Database", "A structured collection of data managed by a database system."],
@@ -773,10 +784,35 @@ export default function LearnPage() {
         <div className="learn-nav-links">
           <a href="#history">History</a>
           <a href="#concepts">Concepts</a>
+          <a href="#essentials">SQL Basics</a>
           <a href="#queries">Queries</a>
           <a href="#joins">Joins</a>
           <a href="#advanced">Advanced</a>
           <a href="#applications">Applications</a>
+        </div>
+
+        <button
+          type="button"
+          className={"learn-mobile-menu-button " + (mobileLearnMenu ? "is-open" : "")}
+          onClick={() => setMobileLearnMenu((current) => !current)}
+          aria-label={mobileLearnMenu ? "Close Learn navigation" : "Open Learn navigation"}
+          aria-expanded={mobileLearnMenu}
+        >
+          <span /><span /><span />
+        </button>
+
+        <div className={"learn-mobile-menu " + (mobileLearnMenu ? "is-open" : "")}>
+          {[
+            ["#history", "History"],
+            ["#concepts", "Concepts"],
+            ["#essentials", "SQL Basics"],
+            ["#queries", "Queries"],
+            ["#joins", "Joins"],
+            ["#advanced", "Advanced"],
+            ["#applications", "Applications"],
+          ].map(([href, label]) => (
+            <a key={href} href={href} onClick={() => setMobileLearnMenu(false)}>{label}</a>
+          ))}
         </div>
       </nav>
 
@@ -872,6 +908,31 @@ export default function LearnPage() {
         </div>
       </section>
 
+      <section id="essentials" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">03 / SQL ESSENTIALS</div>
+            <h2>The pieces that make SQL click.</h2>
+          </div>
+          <p>
+            Build a mental model before memorizing syntax. These fundamentals
+            explain how SQL statements are structured and how a relational
+            database interprets them.
+          </p>
+        </div>
+
+        <div className="grid sql-essentials-grid">
+          {sqlEssentials.map(([number, title, text, example]) => (
+            <article className="card reveal" key={title}>
+              <div className="number">{number}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <pre style={{ marginTop: 18 }}>{example}</pre>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="queries" className="section query-section">
         <div className="section-head reveal">
           <div>
@@ -903,6 +964,7 @@ export default function LearnPage() {
                 </article>
               ))}
             </div>
+            <TryItButton />
           </div>
         ))}
 
@@ -917,6 +979,7 @@ export default function LearnPage() {
               </article>
             ))}
           </div>
+          <TryItButton />
         </div>
 
         <div className="code-strip reveal">
@@ -955,6 +1018,7 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section className="section query-section">
@@ -979,6 +1043,7 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section id="advanced" className="section">
@@ -1002,6 +1067,7 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section className="section query-section">
