@@ -275,12 +275,18 @@ export default function RunQueryPage() {
       try {
         const check = await api.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
 
+        const correct = Boolean(check.data?.correct);
+
         setTaskCheck({
           taskId: activeTaskId,
-          correct: Boolean(check.data?.correct),
+          correct,
           status: check.data?.status || "incorrect",
           message: check.data?.message || "Unable to determine the answer.",
         });
+
+        if (correct) {
+          setActiveTaskId(null);
+        }
 
         if (check.data?.sqlResponse) {
           applyResult(check.data.sqlResponse);
