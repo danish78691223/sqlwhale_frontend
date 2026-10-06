@@ -9497,7 +9497,7 @@ body.sql-loader-lock { overflow: hidden; }
 .loader-keyword-console {
   position: absolute;
   left: 50%;
-  top: 24%;
+  top: 14%;
   width: min(270px, 31vw);
   min-height: 190px;
   transform: translateX(-50%);
