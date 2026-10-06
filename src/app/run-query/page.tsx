@@ -28,6 +28,7 @@ export default function RunQueryPage() {
     loading,
     error,
     runQuery,
+    applyResult,
     clearResult,
   } = useSQLQuery();
 
@@ -45,6 +46,7 @@ export default function RunQueryPage() {
   const [taskOpen, setTaskOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
+  const [taskSubmitting, setTaskSubmitting] = useState(false);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
@@ -260,28 +262,56 @@ export default function RunQueryPage() {
   const handleRun = async (sql: string, showWhatHappened = false) => {
     const cleanSQL = sql.trim();
 
+    if (!cleanSQL) return;
+
     setQuery(cleanSQL);
     setExecutedQuery(null);
     setAnimationComplete(false);
     setAnimationRunId((current) => current + 1);
     setSlowExecution(showWhatHappened);
 
-    await runQuery(cleanSQL);
-
     if (activeTaskId) {
+      setTaskSubmitting(true);
       try {
         const check = await api.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
+
         setTaskCheck({
           taskId: activeTaskId,
           correct: Boolean(check.data?.correct),
           status: check.data?.status || "incorrect",
           message: check.data?.message || "Unable to determine the answer.",
         });
+
+        if (check.data?.sqlResponse) {
+          applyResult(check.data.sqlResponse);
+        } else {
+          applyResult({
+            success: false,
+            error:
+              check.data?.executionError ||
+              check.data?.message ||
+              "Unable to execute the task query.",
+          });
+        }
       } catch (checkError) {
         console.error("Task check failed:", checkError);
-        setTaskCheck(null);
+        setTaskCheck({
+          taskId: activeTaskId,
+          correct: false,
+          status: "invalid",
+          message: "Unable to check the task right now. Please try again.",
+        });
+        applyResult({
+          success: false,
+          error: "Unable to check the task right now. Please try again.",
+        });
+      } finally {
+        setTaskSubmitting(false);
       }
+      return;
     }
+
+    await runQuery(cleanSQL);
   };
 
   useEffect(() => {
@@ -624,7 +654,7 @@ export default function RunQueryPage() {
           <div className="output-box-content">
             <QueryVisualization
               query={query}
-              running={loading}
+              running={loading || taskSubmitting}
               executed={Boolean(data)}
               result={result}
               execution={data?.execution}
@@ -785,7 +815,7 @@ export default function RunQueryPage() {
         <SQLEditor
           ref={sqlEditorRef}
           initialQuery={query}
-          loading={loading}
+          loading={loading || taskSubmitting}
           darkMode={darkMode}
           onRun={handleRun}
           onClear={handleClear}
