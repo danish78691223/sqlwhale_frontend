@@ -360,6 +360,7 @@ export default function RunQueryPage() {
     setExecutedQuery(null);
     setQueryAnimationStage(null);
     setAnimationComplete(false);
+    setTaskCheck(null);
     clearResult();
   };
 
@@ -670,7 +671,7 @@ export default function RunQueryPage() {
               onStageChange={setQueryAnimationStage}
             />
 
-            {loading ? (
+            {loading || taskSubmitting ? (
               <div className="output-empty">
                 <div className="output-empty-icon">◌</div>
                 <h3>Executing query...</h3>
