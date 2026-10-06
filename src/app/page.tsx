@@ -7,6 +7,7 @@ import { api, authApi } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
+import { LeaderboardSection } from "@/components/Leaderboard";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -352,9 +353,11 @@ export default function Home() {
         </div>
       </section>
 
+      <LeaderboardSection />
+
       <section id="about" className="home-section agency-intro-section">
         <Reveal>
-          <div className="agency-section-index">02 / THE PROBLEM</div>
+          <div className="agency-section-index">03 / THE PROBLEM</div>
           <div className="agency-intro-grid">
             <h2>You can read<br />a query without<br /><em className="agency-purple-accent">understanding it.</em></h2>
             <div>
@@ -372,7 +375,7 @@ export default function Home() {
       <section className="home-section agency-system-section">
         <Reveal>
           <div className="agency-section-head">
-            <div className="agency-section-index">03 / THE SYSTEM</div>
+            <div className="agency-section-index">04 / THE SYSTEM</div>
             <h2>From syntax<br /><em>to understanding.</em></h2>
           </div>
         </Reveal>
@@ -395,7 +398,7 @@ export default function Home() {
 
       <section className="home-section agency-visual-section">
         <Reveal>
-          <div className="agency-section-index">04 / SEE IT HAPPEN</div>
+          <div className="agency-section-index">05 / SEE IT HAPPEN</div>
           <div className="agency-visual-layout">
             <div className="agency-visual-copy">
               <h2>The database<br /><em className="agency-purple-accent">stops being abstract.</em></h2>
@@ -425,7 +428,7 @@ export default function Home() {
 
       <section id="how-it-works" className="home-section agency-method-section">
         <Reveal>
-          <div className="agency-section-index">05 / THE METHOD</div>
+          <div className="agency-section-index">06 / THE METHOD</div>
           <div className="agency-method-heading">
             <h2>Learning SQL should feel<br /><em className="agency-purple-accent">like solving something.</em></h2>
             <p>One workspace. One query. One visible execution path.</p>
@@ -452,7 +455,7 @@ export default function Home() {
 
       <section className="contact-section agency-final-section">
         <Reveal>
-          <div className="agency-section-index">06 / START HERE</div>
+          <div className="agency-section-index">07 / START HERE</div>
           <h2>See what your<br /><em>SQL actually does.</em></h2>
           <p>Open the workspace and run a query. The first one is already waiting.</p>
           <Link href="/run-query" className="primary-button agency-final-button">Enter SQLWhale <span>↗</span></Link>
