@@ -7,6 +7,7 @@ import { api, authApi } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
+import { LeaderboardSection } from "@/components/Leaderboard";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -351,6 +352,8 @@ export default function Home() {
           <span>Scroll to discover the system.</span>
         </div>
       </section>
+
+      <LeaderboardSection />
 
       <section id="about" className="home-section agency-intro-section">
         <Reveal>
