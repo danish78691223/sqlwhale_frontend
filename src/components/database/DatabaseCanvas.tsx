@@ -348,6 +348,75 @@ export default function DatabaseCanvas({
   const initialEdges = createEdges(tables);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
+  // Keep React Flow's local node/edge state synchronized with the database
+  // schema supplied by the parent. This is important after CREATE/DROP TABLE:
+  // the parent can receive the fresh schema while React Flow would otherwise
+  // keep rendering the old node list until a full page reload.
+  useEffect(() => {
+    setNodes((current) => {
+      const nextNodes = createNodes(
+        tables,
+        onEditTable,
+        initialTableName,
+        activeTableTargets,
+        queryRevealIndex,
+        queryRevealActive,
+        onTableDoubleClick
+      );
+
+      return nextNodes.map((nextNode) => {
+        const existing = current.find((node) => node.id === nextNode.id);
+
+        if (!existing) {
+          return nextNode;
+        }
+
+        return {
+          ...nextNode,
+          position: existing.position,
+          positionAbsolute: existing.positionAbsolute,
+          selected: existing.selected,
+          dragging: existing.dragging,
+          data: {
+            ...nextNode.data,
+            locked: existing.data?.locked ?? false,
+          },
+        };
+      });
+    });
+
+    setEdges((current) => {
+      const nextEdges = createEdges(tables);
+
+      return nextEdges.map((nextEdge) => {
+        const existing = current.find((edge) => edge.id === nextEdge.id);
+
+        if (!existing) {
+          return nextEdge;
+        }
+
+        return {
+          ...nextEdge,
+          data: {
+            ...nextEdge.data,
+            ...existing.data,
+            locked: existing.data?.locked ?? false,
+          },
+        };
+      });
+    });
+  }, [
+    tables,
+    onEditTable,
+    initialTableName,
+    activeTableTargets,
+    queryRevealIndex,
+    queryRevealActive,
+    onTableDoubleClick,
+    setNodes,
+    setEdges,
+  ]);
+
   const handleTableDoubleClick = useCallback((tableName: string) => {
     onTableDoubleClick?.(tableName);
 
