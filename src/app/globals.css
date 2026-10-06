@@ -16752,3 +16752,203 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     width: 150px !important;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE ADMIN — TASK EDITOR / EXPECTED OUTPUT PREVIEW
+   ========================================================= */
+.sqlwhale-admin-task-edit {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: #f8fbff;
+}
+
+.sqlwhale-admin-task-edit-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sqlwhale-admin-task-edit-header > div {
+  display: grid;
+  gap: 4px;
+}
+
+.sqlwhale-admin-task-edit-header strong {
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.sqlwhale-admin-task-edit-header span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.sqlwhale-admin-icon-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #dbe3ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #475569;
+  cursor: pointer;
+}
+
+.sqlwhale-admin-icon-button:hover {
+  border-color: #93c5fd;
+  color: #2563eb;
+}
+
+.sqlwhale-admin-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  background: #fff;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sqlwhale-admin-secondary:hover {
+  border-color: #94a3b8;
+}
+
+.sqlwhale-admin-secondary:disabled,
+.sqlwhale-admin-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.sqlwhale-admin-task-output {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sqlwhale-admin-task-output > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sqlwhale-admin-task-output > div:first-child strong {
+  color: #334155;
+  font-size: 11px;
+}
+
+.sqlwhale-admin-task-output > div:first-child span {
+  color: #64748b;
+  font-size: 10px;
+}
+
+.sqlwhale-admin-task-output details {
+  color: #475569;
+  font-size: 11px;
+}
+
+.sqlwhale-admin-task-output summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.sqlwhale-admin-task-output-table-wrap {
+  width: 100%;
+  margin-top: 8px;
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.sqlwhale-admin-task-output-table {
+  width: 100%;
+  min-width: 420px;
+  border-collapse: collapse;
+  font-size: 10px;
+}
+
+.sqlwhale-admin-task-output-table th,
+.sqlwhale-admin-task-output-table td {
+  padding: 7px 9px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sqlwhale-admin-task-output-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 800;
+}
+
+.sqlwhale-admin-task-output-table td {
+  color: #334155;
+}
+
+.sqlwhale-admin-task-output small {
+  color: #94a3b8;
+}
+
+.sqlwhale-admin-task-row > div:first-child {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.sqlwhale-admin-task-row > div:first-child em {
+  color: #64748b;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.sqlwhale-admin-task-row > .sqlwhale-admin-actions {
+  align-self: center;
+}
+
+@media (max-width: 700px) {
+  .sqlwhale-admin-task-form-row,
+  .sqlwhale-admin-task-edit .sqlwhale-admin-task-form-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .sqlwhale-admin-task-form-row > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .sqlwhale-admin-task-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sqlwhale-admin-task-row > .sqlwhale-admin-actions {
+    align-self: stretch;
+    flex-wrap: wrap;
+  }
+
+  .sqlwhale-admin-task-row > .sqlwhale-admin-actions > button {
+    flex: 1 1 120px;
+  }
+
+  .sqlwhale-admin-task-output > div:first-child {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
