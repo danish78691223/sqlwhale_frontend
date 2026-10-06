@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight } from "lucide-react";
 
 type User = {
   id: string;
@@ -67,6 +67,8 @@ export default function AdminPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<"overview" | "tasks" | "users" | "maintenance">("overview");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filteredUsers = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -256,6 +258,30 @@ export default function AdminPage() {
     }
   }
 
+  function selectSection(section: "overview" | "tasks" | "users" | "maintenance") {
+    setActiveSection(section);
+    setSidebarOpen(false);
+    setError("");
+    setMessage("");
+  }
+
+  const pageTitle = {
+    overview: "Overview",
+    tasks: "Manage Tasks",
+    users: "Users",
+    maintenance: "Maintenance Mode",
+  }[activeSection];
+
+  const pageDescription = {
+    overview: "Monitor SQLWhale and jump into the area you want to manage.",
+    tasks: "Create, edit, publish and delete SQL practice tasks.",
+    users: "Manage SQLWhale accounts, roles and plans.",
+    maintenance: "Control the public SQLWhale maintenance experience.",
+  }[activeSection];
+
+  const dashboardCardClass = (section: typeof activeSection) =>
+    "sqlwhale-admin-sidebar-link " + (activeSection === section ? "is-active" : "");
+
   return (
     <main className="sqlwhale-admin-page">
       <header className="sqlwhale-admin-navbar">
@@ -295,277 +321,323 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <header className="sqlwhale-admin-header">
-        <div>
-          <div className="sqlwhale-admin-brand"><ShieldCheck size={19} /> SQLWhale Admin</div>
-          <h1>Control center</h1>
-          <p>Manage users and control the public SQLWhale experience.</p>
-        </div>
-        <button className="sqlwhale-admin-refresh" onClick={() => void load()} disabled={loading}>
-          <RefreshCw size={16} className={loading ? "sqlwhale-spin" : ""} /> Refresh
-        </button>
-      </header>
-
-      {(error || message) && (
-        <div className={"sqlwhale-admin-notice " + (error ? "is-error" : "is-success")}>
-          {error || message}
-        </div>
-      )}
-
-      <section className="sqlwhale-admin-grid">
-        <article className="sqlwhale-admin-card sqlwhale-maintenance-card">
-          <div className="sqlwhale-admin-card-title">
-            <div><Wrench size={18} /><span>Maintenance mode</span></div>
-            <span className={"sqlwhale-status-pill " + (maintenance.enabled ? "is-on" : "is-off")}>
-              {maintenance.enabled ? "LIVE" : "OFF"}
-            </span>
-          </div>
-          <p className="sqlwhale-admin-muted">Temporarily replace the public app with a custom maintenance page.</p>
-          <label className="sqlwhale-admin-switch-row">
-            <span>Enable maintenance</span>
-            <input
-              type="checkbox"
-              checked={maintenance.enabled}
-              onChange={(event) => setMaintenance((current) => ({ ...current, enabled: event.target.checked }))}
-            />
-          </label>
-          <input className="sqlwhale-admin-input" value={maintenance.title} onChange={(e) => setMaintenance((c) => ({ ...c, title: e.target.value }))} placeholder="Maintenance title" />
-          <textarea className="sqlwhale-admin-textarea" value={maintenance.message} onChange={(e) => setMaintenance((c) => ({ ...c, message: e.target.value }))} placeholder="Message shown to users" rows={3} />
-          <input className="sqlwhale-admin-input" value={maintenance.estimatedReturn} onChange={(e) => setMaintenance((c) => ({ ...c, estimatedReturn: e.target.value }))} placeholder="Expected return, e.g. Back in 30 minutes" />
-          <button className="sqlwhale-admin-primary" onClick={() => void saveMaintenance()} disabled={savingMaintenance}>
-            <Save size={16} /> {savingMaintenance ? "Saving..." : "Save maintenance settings"}
-          </button>
-        </article>
-
-        <article className="sqlwhale-admin-card">
-          <div className="sqlwhale-admin-card-title">
-            <div><Users size={18} /><span>Users</span></div>
-            <strong>{users.length}</strong>
-          </div>
-          <p className="sqlwhale-admin-muted">Edit account details, plans and admin access.</p>
-          <div className="sqlwhale-admin-search">
-            <Search size={16} />
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search name, email or user ID..." />
-          </div>
-        </article>
-      </section>
-
-      <section className="sqlwhale-admin-card sqlwhale-admin-task-card">
-        <div className="sqlwhale-admin-card-title">
-          <div><ClipboardList size={18} /><span>Manage Tasks</span></div>
-          <strong>{tasks.length}</strong>
-        </div>
-        <p className="sqlwhale-admin-muted">Add SQL challenges that appear in the Run Query → Task section.</p>
-
-        <div className="sqlwhale-admin-task-form">
-          <input className="sqlwhale-admin-input" value={newTask.title} onChange={(e) => setNewTask((c) => ({ ...c, title: e.target.value }))} placeholder="Task title" />
-          <textarea className="sqlwhale-admin-textarea" value={newTask.description} onChange={(e) => setNewTask((c) => ({ ...c, description: e.target.value }))} placeholder="Task description / instructions" rows={3} />
-          <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={newTask.expectedQuery} onChange={(e) => setNewTask((c) => ({ ...c, expectedQuery: e.target.value }))} placeholder="Expected SQL answer" rows={4} />
-          <div className="sqlwhale-admin-task-form-row">
-            <select className="sqlwhale-admin-select" value={newTask.difficulty} onChange={(e) => setNewTask((c) => ({ ...c, difficulty: e.target.value as NewTask["difficulty"] }))}>
-              <option value="Easy">Easy</option>
-              <option value="Medium">Medium</option>
-              <option value="Hard">Hard</option>
-            </select>
-            <label className="sqlwhale-admin-switch-row">
-              <span>Active</span>
-              <input type="checkbox" checked={newTask.isActive} onChange={(e) => setNewTask((c) => ({ ...c, isActive: e.target.checked }))} />
-            </label>
-            <button className="sqlwhale-admin-primary" onClick={() => void createTask()} disabled={savingTask || !newTask.title.trim() || !newTask.description.trim() || !newTask.expectedQuery.trim()}>
-              <Save size={16} /> {savingTask ? "Adding..." : "Add task"}
+      <div className="sqlwhale-admin-dashboard-shell">
+        <aside className={"sqlwhale-admin-sidebar " + (sidebarOpen ? "is-open" : "")}>
+          <div className="sqlwhale-admin-sidebar-head">
+            <div>
+              <span className="sqlwhale-admin-sidebar-eyebrow">CONTROL CENTER</span>
+              <strong>SQLWhale Admin</strong>
+            </div>
+            <button
+              type="button"
+              className="sqlwhale-admin-sidebar-close"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close admin sidebar"
+            >
+              <X size={16} />
             </button>
           </div>
-        </div>
 
-        <div className="sqlwhale-admin-task-list">
-          {tasks.length === 0 ? (
-            <div className="sqlwhale-admin-empty">No tasks added yet.</div>
-          ) : tasks.map((task) => (
-            editingTaskId === task.id && editingTask ? (
-              <div className="sqlwhale-admin-task-edit" key={task.id}>
-                <div className="sqlwhale-admin-task-edit-header">
-                  <div>
-                    <strong>Edit task</strong>
-                    <span>Update the challenge and its expected output.</span>
-                  </div>
-                  <button
-                    type="button"
-                    className="sqlwhale-admin-icon-button"
-                    onClick={cancelEditTask}
-                    aria-label="Cancel task editing"
-                  >
-                    <X size={16} />
-                  </button>
+          <div className="sqlwhale-admin-sidebar-status">
+            <span className="sqlwhale-admin-live-dot" />
+            <div>
+              <strong>System online</strong>
+              <span>Admin access active</span>
+            </div>
+          </div>
+
+          <nav className="sqlwhale-admin-sidebar-nav" aria-label="Admin sections">
+            <button type="button" className={dashboardCardClass("overview")} onClick={() => selectSection("overview")}>
+              <LayoutDashboard size={17} />
+              <span>Overview</span>
+              <ChevronRight size={14} />
+            </button>
+            <button type="button" className={dashboardCardClass("tasks")} onClick={() => selectSection("tasks")}>
+              <ClipboardList size={17} />
+              <span>Manage Tasks</span>
+              <b>{tasks.length}</b>
+            </button>
+            <button type="button" className={dashboardCardClass("users")} onClick={() => selectSection("users")}>
+              <Users size={17} />
+              <span>Users</span>
+              <b>{users.length}</b>
+            </button>
+            <button type="button" className={dashboardCardClass("maintenance")} onClick={() => selectSection("maintenance")}>
+              <Wrench size={17} />
+              <span>Maintenance Mode</span>
+              <i className={maintenance.enabled ? "is-enabled" : ""} />
+            </button>
+          </nav>
+
+          <div className="sqlwhale-admin-sidebar-foot">
+            <Link href="/run-query">Open SQL Workspace <ChevronRight size={14} /></Link>
+            <Link href="/account">View Profile <ChevronRight size={14} /></Link>
+          </div>
+        </aside>
+
+        {sidebarOpen && (
+          <button
+            type="button"
+            className="sqlwhale-admin-sidebar-overlay"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close sidebar"
+          />
+        )}
+
+        <section className="sqlwhale-admin-content">
+          <header className="sqlwhale-admin-page-header">
+            <div>
+              <div className="sqlwhale-admin-page-header-top">
+                <button
+                  type="button"
+                  className="sqlwhale-admin-mobile-sidebar-button"
+                  onClick={() => setSidebarOpen(true)}
+                  aria-label="Open admin sidebar"
+                >
+                  <Menu size={16} /> Menu
+                </button>
+                <div className="sqlwhale-admin-brand"><ShieldCheck size={18} /> SQLWHALE ADMIN</div>
+              </div>
+              <h1>{pageTitle}</h1>
+              <p>{pageDescription}</p>
+            </div>
+            <button className="sqlwhale-admin-refresh" onClick={() => void load()} disabled={loading}>
+              <RefreshCw size={16} className={loading ? "sqlwhale-spin" : ""} /> Refresh
+            </button>
+          </header>
+
+          {(error || message) && (
+            <div className={"sqlwhale-admin-notice " + (error ? "is-error" : "is-success")}>
+              {error || message}
+            </div>
+          )}
+
+          {activeSection === "overview" && (
+            <>
+              <div className="sqlwhale-admin-overview-grid">
+                <button type="button" className="sqlwhale-admin-overview-card" onClick={() => selectSection("tasks")}>
+                  <span className="sqlwhale-admin-overview-icon"><ClipboardList size={18} /></span>
+                  <div><span>MANAGE TASKS</span><strong>{tasks.length}</strong><small>Create, edit and publish SQL challenges</small></div>
+                  <ChevronRight size={17} />
+                </button>
+                <button type="button" className="sqlwhale-admin-overview-card" onClick={() => selectSection("users")}>
+                  <span className="sqlwhale-admin-overview-icon"><Users size={18} /></span>
+                  <div><span>USERS</span><strong>{users.length}</strong><small>Accounts available in SQLWhale</small></div>
+                  <ChevronRight size={17} />
+                </button>
+                <button type="button" className="sqlwhale-admin-overview-card" onClick={() => selectSection("maintenance")}>
+                  <span className={"sqlwhale-admin-overview-icon " + (maintenance.enabled ? "is-warning" : "")}><Wrench size={18} /></span>
+                  <div><span>MAINTENANCE</span><strong>{maintenance.enabled ? "LIVE" : "OFF"}</strong><small>{maintenance.enabled ? "Public app is currently restricted" : "Public app is available"}</small></div>
+                  <ChevronRight size={17} />
+                </button>
+              </div>
+
+              <section className="sqlwhale-admin-card sqlwhale-admin-quick-card">
+                <div className="sqlwhale-admin-card-title">
+                  <div><LayoutDashboard size={18} /><span>Quick overview</span></div>
+                  <span className="sqlwhale-admin-muted">Use the sidebar to manage SQLWhale</span>
                 </div>
+                <div className="sqlwhale-admin-quick-grid">
+                  <div><span>Published tasks</span><strong>{tasks.filter((task) => task.isActive).length}</strong></div>
+                  <div><span>Hidden tasks</span><strong>{tasks.filter((task) => !task.isActive).length}</strong></div>
+                  <div><span>Total users</span><strong>{users.length}</strong></div>
+                  <div><span>Maintenance</span><strong>{maintenance.enabled ? "Enabled" : "Disabled"}</strong></div>
+                </div>
+              </section>
+            </>
+          )}
 
+          {activeSection === "maintenance" && (
+            <section className="sqlwhale-admin-card sqlwhale-maintenance-card">
+              <div className="sqlwhale-admin-card-title">
+                <div><Wrench size={18} /><span>Maintenance mode</span></div>
+                <span className={"sqlwhale-status-pill " + (maintenance.enabled ? "is-on" : "is-off")}>
+                  {maintenance.enabled ? "LIVE" : "OFF"}
+                </span>
+              </div>
+              <p className="sqlwhale-admin-muted">Temporarily replace the public app with a custom maintenance page.</p>
+              <label className="sqlwhale-admin-switch-row">
+                <span>Enable maintenance</span>
                 <input
-                  className="sqlwhale-admin-input"
-                  value={editingTask.title}
-                  onChange={(e) => setEditingTask((current) => current ? { ...current, title: e.target.value } : current)}
-                  placeholder="Task title"
+                  type="checkbox"
+                  checked={maintenance.enabled}
+                  onChange={(event) => setMaintenance((current) => ({ ...current, enabled: event.target.checked }))}
                 />
-                <textarea
-                  className="sqlwhale-admin-textarea"
-                  value={editingTask.description}
-                  onChange={(e) => setEditingTask((current) => current ? { ...current, description: e.target.value } : current)}
-                  placeholder="Task description / instructions"
-                  rows={4}
-                />
-                <textarea
-                  className="sqlwhale-admin-textarea sqlwhale-admin-code-input"
-                  value={editingTask.expectedQuery}
-                  onChange={(e) => setEditingTask((current) => current ? { ...current, expectedQuery: e.target.value } : current)}
-                  placeholder="Expected SQL answer — must return the required output"
-                  rows={6}
-                />
+              </label>
+              <input className="sqlwhale-admin-input" value={maintenance.title} onChange={(e) => setMaintenance((c) => ({ ...c, title: e.target.value }))} placeholder="Maintenance title" />
+              <textarea className="sqlwhale-admin-textarea" value={maintenance.message} onChange={(e) => setMaintenance((c) => ({ ...c, message: e.target.value }))} placeholder="Message shown to users" rows={3} />
+              <input className="sqlwhale-admin-input" value={maintenance.estimatedReturn} onChange={(e) => setMaintenance((c) => ({ ...c, estimatedReturn: e.target.value }))} placeholder="Expected return, e.g. Back in 30 minutes" />
+              <button className="sqlwhale-admin-primary" onClick={() => void saveMaintenance()} disabled={savingMaintenance}>
+                <Save size={16} /> {savingMaintenance ? "Saving..." : "Save maintenance settings"}
+              </button>
+            </section>
+          )}
 
+          {activeSection === "tasks" && (
+            <section className="sqlwhale-admin-card sqlwhale-admin-task-card">
+              <div className="sqlwhale-admin-card-title">
+                <div><ClipboardList size={18} /><span>Manage Tasks</span></div>
+                <strong>{tasks.length}</strong>
+              </div>
+              <p className="sqlwhale-admin-muted">Add SQL challenges that appear in the Run Query → Task section.</p>
+
+              <div className="sqlwhale-admin-task-form">
+                <input className="sqlwhale-admin-input" value={newTask.title} onChange={(e) => setNewTask((c) => ({ ...c, title: e.target.value }))} placeholder="Task title" />
+                <textarea className="sqlwhale-admin-textarea" value={newTask.description} onChange={(e) => setNewTask((c) => ({ ...c, description: e.target.value }))} placeholder="Task description / instructions" rows={3} />
+                <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={newTask.expectedQuery} onChange={(e) => setNewTask((c) => ({ ...c, expectedQuery: e.target.value }))} placeholder="Expected SQL answer" rows={4} />
                 <div className="sqlwhale-admin-task-form-row">
-                  <select
-                    className="sqlwhale-admin-select"
-                    value={editingTask.difficulty}
-                    onChange={(e) => setEditingTask((current) => current ? { ...current, difficulty: e.target.value as NewTask["difficulty"] } : current)}
-                  >
+                  <select className="sqlwhale-admin-select" value={newTask.difficulty} onChange={(e) => setNewTask((c) => ({ ...c, difficulty: e.target.value as NewTask["difficulty"] }))}>
                     <option value="Easy">Easy</option>
                     <option value="Medium">Medium</option>
                     <option value="Hard">Hard</option>
                   </select>
-
                   <label className="sqlwhale-admin-switch-row">
                     <span>Active</span>
-                    <input
-                      type="checkbox"
-                      checked={editingTask.isActive}
-                      onChange={(e) => setEditingTask((current) => current ? { ...current, isActive: e.target.checked } : current)}
-                    />
+                    <input type="checkbox" checked={newTask.isActive} onChange={(e) => setNewTask((c) => ({ ...c, isActive: e.target.checked }))} />
                   </label>
-
-                  <button
-                    type="button"
-                    className="sqlwhale-admin-primary"
-                    onClick={() => void saveEditedTask()}
-                    disabled={savingEditedTask}
-                  >
-                    <Save size={16} /> {savingEditedTask ? "Saving..." : "Save task"}
-                  </button>
-
-                  <button
-                    type="button"
-                    className="sqlwhale-admin-secondary"
-                    onClick={cancelEditTask}
-                    disabled={savingEditedTask}
-                  >
-                    Cancel
+                  <button className="sqlwhale-admin-primary" onClick={() => void createTask()} disabled={savingTask || !newTask.title.trim() || !newTask.description.trim() || !newTask.expectedQuery.trim()}>
+                    <Save size={16} /> {savingTask ? "Adding..." : "Add task"}
                   </button>
                 </div>
+              </div>
 
-                {task.expectedColumns && task.expectedRows ? (
-                  <div className="sqlwhale-admin-task-output">
-                    <div>
-                      <strong>Stored expected output</strong>
-                      <span>{task.expectedRows.length} row{task.expectedRows.length === 1 ? "" : "s"} · {task.expectedColumns.length} column{task.expectedColumns.length === 1 ? "" : "s"}</span>
+              <div className="sqlwhale-admin-task-list">
+                {tasks.length === 0 ? (
+                  <div className="sqlwhale-admin-empty">No tasks added yet.</div>
+                ) : tasks.map((task) => (
+                  editingTaskId === task.id && editingTask ? (
+                    <div className="sqlwhale-admin-task-edit" key={task.id}>
+                      <div className="sqlwhale-admin-task-edit-header">
+                        <div>
+                          <strong>Edit task</strong>
+                          <span>Update the challenge and its expected output.</span>
+                        </div>
+                        <button
+                          type="button"
+                          className="sqlwhale-admin-icon-button"
+                          onClick={cancelEditTask}
+                          aria-label="Cancel task editing"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                      <input className="sqlwhale-admin-input" value={editingTask.title} onChange={(e) => setEditingTask((current) => current ? { ...current, title: e.target.value } : current)} placeholder="Task title" />
+                      <textarea className="sqlwhale-admin-textarea" value={editingTask.description} onChange={(e) => setEditingTask((current) => current ? { ...current, description: e.target.value } : current)} placeholder="Task description / instructions" rows={4} />
+                      <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={editingTask.expectedQuery} onChange={(e) => setEditingTask((current) => current ? { ...current, expectedQuery: e.target.value } : current)} placeholder="Expected SQL answer — must return the required output" rows={6} />
+                      <div className="sqlwhale-admin-task-form-row">
+                        <select className="sqlwhale-admin-select" value={editingTask.difficulty} onChange={(e) => setEditingTask((current) => current ? { ...current, difficulty: e.target.value as NewTask["difficulty"] } : current)}>
+                          <option value="Easy">Easy</option>
+                          <option value="Medium">Medium</option>
+                          <option value="Hard">Hard</option>
+                        </select>
+                        <label className="sqlwhale-admin-switch-row">
+                          <span>Active</span>
+                          <input type="checkbox" checked={editingTask.isActive} onChange={(e) => setEditingTask((current) => current ? { ...current, isActive: e.target.checked } : current)} />
+                        </label>
+                        <button type="button" className="sqlwhale-admin-primary" onClick={() => void saveEditedTask()} disabled={savingEditedTask}>
+                          <Save size={16} /> {savingEditedTask ? "Saving..." : "Save task"}
+                        </button>
+                        <button type="button" className="sqlwhale-admin-secondary" onClick={cancelEditTask} disabled={savingEditedTask}>Cancel</button>
+                      </div>
+                      {task.expectedColumns && task.expectedRows ? (
+                        <div className="sqlwhale-admin-task-output">
+                          <div>
+                            <strong>Stored expected output</strong>
+                            <span>{task.expectedRows.length} row{task.expectedRows.length === 1 ? "" : "s"} · {task.expectedColumns.length} column{task.expectedColumns.length === 1 ? "" : "s"}</span>
+                          </div>
+                          <details>
+                            <summary>Preview output</summary>
+                            <div className="sqlwhale-admin-task-output-table-wrap">
+                              <table className="sqlwhale-admin-task-output-table">
+                                <thead><tr>{task.expectedColumns.map((column) => <th key={column}>{column}</th>)}</tr></thead>
+                                <tbody>
+                                  {task.expectedRows.slice(0, 5).map((row, rowIndex) => (
+                                    <tr key={rowIndex}>
+                                      {task.expectedColumns!.map((column, columnIndex) => <td key={column}>{String(row[columnIndex] ?? "")}</td>)}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                            {task.expectedRows.length > 5 && <small>Showing the first 5 rows only.</small>}
+                          </details>
+                        </div>
+                      ) : null}
                     </div>
-                    <details>
-                      <summary>Preview output</summary>
-                      <div className="sqlwhale-admin-task-output-table-wrap">
-                        <table className="sqlwhale-admin-task-output-table">
-                          <thead>
-                            <tr>
-                              {task.expectedColumns.map((column) => <th key={column}>{column}</th>)}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {task.expectedRows.slice(0, 5).map((row, rowIndex) => (
-                              <tr key={rowIndex}>
-                                {task.expectedColumns!.map((column, columnIndex) => (
-                                  <td key={column}>{String(row[columnIndex] ?? "")}</td>
-                                ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      {task.expectedRows.length > 5 && (
-                        <small>Showing the first 5 rows only.</small>
-                      )}
-                    </details>
-                  </div>
-                ) : null}
-              </div>
-            ) : (
-              <div className="sqlwhale-admin-task-row" key={task.id}>
-                <div>
-                  <strong>{task.title}</strong>
-                  <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
-                  <small>{task.description}</small>
-                  {task.expectedRows && task.expectedColumns ? (
-                    <em>{task.expectedRows.length} expected result row{task.expectedRows.length === 1 ? "" : "s"} · output-based grading</em>
                   ) : (
-                    <em>Expected output will be generated when this task is edited and saved.</em>
-                  )}
-                </div>
-                <div className="sqlwhale-admin-actions">
-                  <button className="sqlwhale-admin-save" onClick={() => startEditTask(task)}>
-                    <Pencil size={14} /> Edit
-                  </button>
-                  <button className="sqlwhale-admin-save" onClick={() => void toggleTask(task)}>{task.isActive ? "Hide" : "Publish"}</button>
-                  <button className="sqlwhale-admin-delete" onClick={() => void deleteTask(task)}><Trash2 size={14} /> Delete</button>
-                </div>
-              </div>
-            )
-          ))}
-        </div>
-      </section>
-
-      <section className="sqlwhale-admin-card sqlwhale-admin-users-card">
-        <div className="sqlwhale-admin-card-title">
-          <div><Users size={18} /><span>All users</span></div>
-          <span className="sqlwhale-admin-muted">{filteredUsers.length} shown</span>
-        </div>
-        {loading ? (
-          <div className="sqlwhale-admin-empty">Loading users...</div>
-        ) : filteredUsers.length === 0 ? (
-          <div className="sqlwhale-admin-empty">No users found.</div>
-        ) : (
-          <div className="sqlwhale-admin-table-wrap">
-            <table className="sqlwhale-admin-table">
-              <thead>
-                <tr><th>User</th><th>Role</th><th>Plan</th><th>Created</th><th>Actions</th></tr>
-              </thead>
-              <tbody>
-                {filteredUsers.map((user) => (
-                  <tr key={user.id}>
-                    <td>
-                      <input className="sqlwhale-admin-cell-input" value={user.name} onChange={(e) => updateLocalUser(user.id, "name", e.target.value)} />
-                      <input className="sqlwhale-admin-cell-input is-secondary" value={user.email} onChange={(e) => updateLocalUser(user.id, "email", e.target.value)} />
-                      <code>{user.localUserId}</code>
-                    </td>
-                    <td>
-                      <select className="sqlwhale-admin-select" value={user.role} onChange={(e) => updateLocalUser(user.id, "role", e.target.value)}>
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
-                      </select>
-                    </td>
-                    <td>
-                      <input className="sqlwhale-admin-cell-input" value={user.currentPlan} onChange={(e) => updateLocalUser(user.id, "currentPlan", e.target.value)} />
-                    </td>
-                    <td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}</td>
-                    <td>
-                      <div className="sqlwhale-admin-actions">
-                        <button className="sqlwhale-admin-save" onClick={() => void saveUser(user)} disabled={savingUser === user.id}>
-                          <Save size={14} /> {savingUser === user.id ? "Saving" : "Save"}
-                        </button>
-                        <button className="sqlwhale-admin-delete" onClick={() => void deleteUser(user)} aria-label={"Delete " + user.name}>
-                          <Trash2 size={14} /> Delete
-                        </button>
+                    <div className="sqlwhale-admin-task-row" key={task.id}>
+                      <div>
+                        <strong>{task.title}</strong>
+                        <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
+                        <small>{task.description}</small>
+                        {task.expectedRows && task.expectedColumns ? (
+                          <em>{task.expectedRows.length} expected result row{task.expectedRows.length === 1 ? "" : "s"} · output-based grading</em>
+                        ) : (
+                          <em>Expected output will be generated when this task is edited and saved.</em>
+                        )}
                       </div>
-                    </td>
-                  </tr>
+                      <div className="sqlwhale-admin-actions">
+                        <button className="sqlwhale-admin-save" onClick={() => startEditTask(task)}><Pencil size={14} /> Edit</button>
+                        <button className="sqlwhale-admin-save" onClick={() => void toggleTask(task)}>{task.isActive ? "Hide" : "Publish"}</button>
+                        <button className="sqlwhale-admin-delete" onClick={() => void deleteTask(task)}><Trash2 size={14} /> Delete</button>
+                      </div>
+                    </div>
+                  )
                 ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+              </div>
+            </section>
+          )}
+
+          {activeSection === "users" && (
+            <section className="sqlwhale-admin-card sqlwhale-admin-users-card">
+              <div className="sqlwhale-admin-card-title">
+                <div><Users size={18} /><span>All users</span></div>
+                <span className="sqlwhale-admin-muted">{filteredUsers.length} shown</span>
+              </div>
+              <div className="sqlwhale-admin-search">
+                <Search size={16} />
+                <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search name, email or user ID..." />
+              </div>
+              {loading ? (
+                <div className="sqlwhale-admin-empty">Loading users...</div>
+              ) : filteredUsers.length === 0 ? (
+                <div className="sqlwhale-admin-empty">No users found.</div>
+              ) : (
+                <div className="sqlwhale-admin-table-wrap">
+                  <table className="sqlwhale-admin-table">
+                    <thead><tr><th>User</th><th>Role</th><th>Plan</th><th>Created</th><th>Actions</th></tr></thead>
+                    <tbody>
+                      {filteredUsers.map((user) => (
+                        <tr key={user.id}>
+                          <td>
+                            <input className="sqlwhale-admin-cell-input" value={user.name} onChange={(e) => updateLocalUser(user.id, "name", e.target.value)} />
+                            <input className="sqlwhale-admin-cell-input is-secondary" value={user.email} onChange={(e) => updateLocalUser(user.id, "email", e.target.value)} />
+                            <code>{user.localUserId}</code>
+                          </td>
+                          <td>
+                            <select className="sqlwhale-admin-select" value={user.role} onChange={(e) => updateLocalUser(user.id, "role", e.target.value)}>
+                              <option value="user">user</option>
+                              <option value="admin">admin</option>
+                            </select>
+                          </td>
+                          <td><input className="sqlwhale-admin-cell-input" value={user.currentPlan} onChange={(e) => updateLocalUser(user.id, "currentPlan", e.target.value)} /></td>
+                          <td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}</td>
+                          <td>
+                            <div className="sqlwhale-admin-actions">
+                              <button className="sqlwhale-admin-save" onClick={() => void saveUser(user)} disabled={savingUser === user.id}><Save size={14} /> {savingUser === user.id ? "Saving" : "Save"}</button>
+                              <button className="sqlwhale-admin-delete" onClick={() => void deleteUser(user)} aria-label={"Delete " + user.name}><Trash2 size={14} /> Delete</button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          )}
+        </section>
+      </div>
     </main>
   );
 }
