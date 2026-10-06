@@ -157,6 +157,17 @@ const roadmap = [
   "Production SQL",
 ];
 
+function TryItButton({ label = "Try it in SQLWhale" }: { label?: string }) {
+  return (
+    <div className="try-it-wrap">
+      <Link href="/run-query" className="try-it-button">
+        <span>{label}</span>
+        <strong>↗</strong>
+      </Link>
+    </div>
+  );
+}
+
 export default function LearnPage() {
   const pageRef = useRef<HTMLElement | null>(null);
   const [mobileLearnMenu, setMobileLearnMenu] = useState(false);
