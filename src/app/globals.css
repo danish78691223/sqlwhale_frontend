@@ -17234,3 +17234,454 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     font-size: 40px;
   }
 }
+
+
+/* =========================================================
+   ADMIN DASHBOARD SIDEBAR
+   ========================================================= */
+.sqlwhale-admin-page {
+  max-width: none;
+  padding: 0;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.sqlwhale-admin-dashboard-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  min-height: calc(100vh - 76px);
+}
+
+.sqlwhale-admin-sidebar {
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 76px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 14px;
+  border-right: 1px solid #e2e8f0;
+  background: #ffffff;
+  z-index: 30;
+}
+
+.sqlwhale-admin-sidebar-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 8px 2px;
+}
+
+.sqlwhale-admin-sidebar-head > div {
+  display: grid;
+  gap: 5px;
+}
+
+.sqlwhale-admin-sidebar-eyebrow {
+  color: #2563eb;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.sqlwhale-admin-sidebar-head strong {
+  color: #0f172a;
+  font-size: 15px;
+  letter-spacing: -.02em;
+}
+
+.sqlwhale-admin-sidebar-close {
+  display: none;
+}
+
+.sqlwhale-admin-sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 4px;
+  padding: 11px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.sqlwhale-admin-live-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 4px rgba(16,185,129,.1);
+}
+
+.sqlwhale-admin-sidebar-status div {
+  display: grid;
+  gap: 3px;
+}
+
+.sqlwhale-admin-sidebar-status strong {
+  color: #334155;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sqlwhale-admin-sidebar-status span:last-child {
+  color: #94a3b8;
+  font-size: 9px;
+}
+
+.sqlwhale-admin-sidebar-nav {
+  display: grid;
+  gap: 6px;
+}
+
+.sqlwhale-admin-sidebar-link {
+  display: grid;
+  grid-template-columns: 19px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: #64748b;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.sqlwhale-admin-sidebar-link:hover {
+  background: #f8fafc;
+  color: #334155;
+}
+
+.sqlwhale-admin-sidebar-link.is-active {
+  border-color: #dbeafe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.sqlwhale-admin-sidebar-link span {
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.sqlwhale-admin-sidebar-link b {
+  min-width: 23px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 8px;
+  text-align: center;
+}
+
+.sqlwhale-admin-sidebar-link.is-active b {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.sqlwhale-admin-sidebar-link i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.sqlwhale-admin-sidebar-link i.is-enabled {
+  background: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245,158,11,.1);
+}
+
+.sqlwhale-admin-sidebar-foot {
+  display: grid;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #eef2f7;
+}
+
+.sqlwhale-admin-sidebar-foot a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.sqlwhale-admin-sidebar-foot a:hover {
+  background: #f8fafc;
+  color: #2563eb;
+}
+
+.sqlwhale-admin-content {
+  min-width: 0;
+  padding: 34px clamp(22px, 4vw, 52px) 52px;
+}
+
+.sqlwhale-admin-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.sqlwhale-admin-page-header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sqlwhale-admin-page-header h1 {
+  margin: 9px 0 4px;
+  color: #0f172a;
+  font-size: clamp(28px, 3.2vw, 38px);
+  letter-spacing: -.045em;
+}
+
+.sqlwhale-admin-page-header p {
+  margin: 0;
+  max-width: 680px;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.sqlwhale-admin-mobile-sidebar-button {
+  display: none;
+}
+
+.sqlwhale-admin-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sqlwhale-admin-overview-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0,1fr) 16px;
+  align-items: center;
+  gap: 11px;
+  min-height: 104px;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 7px 24px rgba(15,23,42,.035);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.sqlwhale-admin-overview-card:hover {
+  transform: translateY(-1px);
+  border-color: #bfdbfe;
+  box-shadow: 0 12px 28px rgba(15,23,42,.06);
+}
+
+.sqlwhale-admin-overview-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 11px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.sqlwhale-admin-overview-icon.is-warning {
+  background: #fff7ed;
+  color: #ea580c;
+}
+
+.sqlwhale-admin-overview-card > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.sqlwhale-admin-overview-card > div > span {
+  color: #94a3b8;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.sqlwhale-admin-overview-card strong {
+  color: #0f172a;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.sqlwhale-admin-overview-card small {
+  color: #64748b;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.sqlwhale-admin-quick-card {
+  margin-top: 14px;
+}
+
+.sqlwhale-admin-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+}
+
+.sqlwhale-admin-quick-grid > div {
+  padding: 12px;
+  border: 1px solid #eef2f7;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.sqlwhale-admin-quick-grid span {
+  display: block;
+  margin-bottom: 5px;
+  color: #94a3b8;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+.sqlwhale-admin-quick-grid strong {
+  color: #334155;
+  font-size: 15px;
+}
+
+.sqlwhale-admin-sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 1050px) {
+  .sqlwhale-admin-dashboard-shell {
+    grid-template-columns: 220px minmax(0,1fr);
+  }
+
+  .sqlwhale-admin-content {
+    padding-inline: 20px;
+  }
+
+  .sqlwhale-admin-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sqlwhale-admin-quick-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .sqlwhale-admin-dashboard-shell {
+    display: block;
+    min-height: 0;
+  }
+
+  .sqlwhale-admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(290px, 88vw);
+    height: 100vh;
+    transform: translateX(-104%);
+    box-shadow: 16px 0 40px rgba(15,23,42,.12);
+    transition: transform .24s cubic-bezier(.22,1,.36,1);
+  }
+
+  .sqlwhale-admin-sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .sqlwhale-admin-sidebar-close {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    color: #64748b;
+    cursor: pointer;
+  }
+
+  .sqlwhale-admin-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 25;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(15,23,42,.28);
+    backdrop-filter: blur(2px);
+    cursor: pointer;
+  }
+
+  .sqlwhale-admin-content {
+    padding: 24px 14px 36px;
+  }
+
+  .sqlwhale-admin-page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sqlwhale-admin-page-header .sqlwhale-admin-refresh {
+    align-self: flex-start;
+  }
+
+  .sqlwhale-admin-mobile-sidebar-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 9px;
+    border: 1px solid #dbe3ee;
+    border-radius: 8px;
+    background: #fff;
+    color: #475569;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .sqlwhale-admin-page-header .sqlwhale-admin-brand {
+    font-size: 10px;
+  }
+
+  .sqlwhale-admin-quick-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .sqlwhale-admin-quick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sqlwhale-admin-overview-card {
+    min-height: 90px;
+  }
+
+  .sqlwhale-admin-page-header h1 {
+    font-size: 28px;
+  }
+
+  .sqlwhale-admin-card {
+    padding: 15px;
+  }
+}
