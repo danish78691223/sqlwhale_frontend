@@ -43,6 +43,16 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
     void loadTasks();
   }, []);
 
+  useEffect(() => {
+    if (!taskCheck?.correct) return;
+
+    setTasks((current) =>
+      current.map((task) =>
+        task.id === taskCheck.taskId ? { ...task, completed: true } : task
+      )
+    );
+  }, [taskCheck]);
+
   return (
     <section className="sqlwhale-task-section" aria-label="SQL tasks">
       <div className="sqlwhale-task-header">
