@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authApi } from "@/services/api";
+import { ProfileRankCard } from "@/components/Leaderboard";
 
 type User = {
   id: number;
@@ -203,6 +204,8 @@ export default function AccountPage() {
             <div className="central-identity-mark sqlwhale-account-mark">SQL</div><h2>Independent SQLWhale Account</h2><p>Your SQLWhale login, session, learning progress and query history are stored independently from WEBXWHALE.</p><div className="identity-status sqlwhale-account-status"><span className="identity-status-dot" /><div><strong>SQLWhale account active</strong><span>Standalone authentication is active</span></div></div>
           </section>
         </div>
+
+        <ProfileRankCard />
 
         <section className="account-dashboard-section">
           <div className="account-history-header">
