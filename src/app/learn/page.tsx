@@ -1,7 +1,18 @@
  "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const sqlEssentials = [
+  ["01", "What is SQL?", "SQL (Structured Query Language) is used to define, query, manipulate and control data in relational database systems.", "SELECT name FROM employees;"],
+  ["02", "Statement vs query", "A SQL statement is an instruction sent to the database. A query usually describes a request for data, most commonly a SELECT statement.", "SELECT name, salary FROM employees WHERE salary > 50000;"],
+  ["03", "Logical query order", "A SELECT query is commonly reasoned about as FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT.", "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"],
+  ["04", "NULL is not zero", "NULL means an unknown or missing value. Use IS NULL or IS NOT NULL instead of = NULL.", "SELECT * FROM employees WHERE manager_id IS NULL;"],
+  ["05", "Aliases", "Aliases make long table and column references easier to read, especially in JOINs and calculated expressions.", "SELECT e.name AS employee_name FROM employees AS e;"],
+  ["06", "Comparison operators", "Use =, <>, >, <, >=, <= and logical operators such as AND, OR and NOT to express conditions.", "SELECT * FROM shop WHERE price > 1000 AND stock >= 10;"],
+  ["07", "Common data types", "Relational databases commonly use numeric, character, date/time and boolean-like types. Exact names vary by database engine.", "CREATE TABLE users (id INT, name VARCHAR(100), joined_at DATE);"],
+  ["08", "Aggregation", "Aggregate functions reduce multiple rows into summaries. GROUP BY defines which rows belong to each group.", "SELECT department_id, AVG(salary) FROM employees GROUP BY department_id;"],
+];
 
 const concepts = [
   ["01", "Database", "A structured collection of data managed by a database system."],
@@ -146,8 +157,20 @@ const roadmap = [
   "Production SQL",
 ];
 
+function TryItButton({ label = "Try it in SQLWhale" }: { label?: string }) {
+  return (
+    <div className="try-it-wrap">
+      <Link href="/run-query" className="try-it-button">
+        <span>{label}</span>
+        <strong>↗</strong>
+      </Link>
+    </div>
+  );
+}
+
 export default function LearnPage() {
   const pageRef = useRef<HTMLElement | null>(null);
+  const [mobileLearnMenu, setMobileLearnMenu] = useState(false);
 
   useEffect(() => {
     const root = pageRef.current;
@@ -735,15 +758,65 @@ export default function LearnPage() {
         }
 
         @media (max-width: 720px) {
-          .learn-nav { padding: 0 20px; }
+          .learn-nav { padding: 0 16px; }
           .learn-nav-links { display: none; }
-          .hero, .section { padding-left: 22px; padding-right: 22px; }
+          .learn-mobile-menu-button { display: flex; }
+          .learn-mobile-menu {
+            position: absolute;
+            top: 72px;
+            left: 12px;
+            right: 12px;
+            display: grid;
+            gap: 4px;
+            padding: 10px;
+            border: 1px solid var(--lw-line);
+            border-radius: 12px;
+            background: rgba(9,12,15,.98);
+            box-shadow: 0 18px 40px rgba(0,0,0,.34);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: opacity .2s ease, transform .2s ease;
+          }
+          .learn-mobile-menu.is-open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+          }
+          .learn-mobile-menu a {
+            padding: 12px 11px;
+            border: 1px solid transparent;
+            color: var(--lw-muted);
+            font: 10px/1 monospace;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+          }
+          .learn-mobile-menu a:hover {
+            color: #fff;
+            border-color: var(--lw-line);
+            background: rgba(255,255,255,.025);
+          }
+          .hero, .section { padding-left: 18px; padding-right: 18px; }
+          .hero { min-height: auto; gap: 30px; padding-top: 60px; }
+          .hero h1 { font-size: clamp(52px, 16vw, 88px); }
+          .hero-copy { font-size: 16px; }
+          .hero-visual { min-height: 320px; }
+          .orb { width: min(78vw, 320px); }
+          .section { padding-top: 72px; padding-bottom: 72px; }
+          .section-head h2 { font-size: clamp(38px, 13vw, 66px); }
+          .query-card, .join-item, .advanced-item, .clause, .card, .application { overflow-wrap: anywhere; }
+          pre { font-size: 11px; white-space: pre-wrap; word-break: break-word; }
+
           .hero { padding-top: 80px; }
           .section-head { display: block; margin-bottom: 45px; }
           .grid, .query-grid, .join-list, .advanced-list,
           .application-grid, .clauses { grid-template-columns: 1fr; }
           .card { min-height: 190px; }
-          .query-card { grid-template-columns: 1fr; gap: 12px; }
+          .query-card { grid-template-columns: 1fr; gap: 12px; padding: 20px 0; }
+          .group-head { align-items: flex-start; gap: 12px; }
+          .group-head h3 { font-size: 22px; }
+          .try-it-wrap { justify-content: stretch; }
+          .try-it-button { width: 100%; justify-content: space-between; }
           .timeline::before { display: none; }
           .time-row { grid-template-columns: 1fr; gap: 10px; }
           .time-content h3 { font-size: 23px; }
@@ -773,10 +846,35 @@ export default function LearnPage() {
         <div className="learn-nav-links">
           <a href="#history">History</a>
           <a href="#concepts">Concepts</a>
+          <a href="#essentials">SQL Basics</a>
           <a href="#queries">Queries</a>
           <a href="#joins">Joins</a>
           <a href="#advanced">Advanced</a>
           <a href="#applications">Applications</a>
+        </div>
+
+        <button
+          type="button"
+          className={"learn-mobile-menu-button " + (mobileLearnMenu ? "is-open" : "")}
+          onClick={() => setMobileLearnMenu((current) => !current)}
+          aria-label={mobileLearnMenu ? "Close Learn navigation" : "Open Learn navigation"}
+          aria-expanded={mobileLearnMenu}
+        >
+          <span /><span /><span />
+        </button>
+
+        <div className={"learn-mobile-menu " + (mobileLearnMenu ? "is-open" : "")}>
+          {[
+            ["#history", "History"],
+            ["#concepts", "Concepts"],
+            ["#essentials", "SQL Basics"],
+            ["#queries", "Queries"],
+            ["#joins", "Joins"],
+            ["#advanced", "Advanced"],
+            ["#applications", "Applications"],
+          ].map(([href, label]) => (
+            <a key={href} href={href} onClick={() => setMobileLearnMenu(false)}>{label}</a>
+          ))}
         </div>
       </nav>
 
@@ -872,10 +970,35 @@ export default function LearnPage() {
         </div>
       </section>
 
+      <section id="essentials" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">03 / SQL ESSENTIALS</div>
+            <h2>The pieces that make SQL click.</h2>
+          </div>
+          <p>
+            Build a mental model before memorizing syntax. These fundamentals
+            explain how SQL statements are structured and how a relational
+            database interprets them.
+          </p>
+        </div>
+
+        <div className="grid sql-essentials-grid">
+          {sqlEssentials.map(([number, title, text, example]) => (
+            <article className="card reveal" key={title}>
+              <div className="number">{number}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <pre style={{ marginTop: 18 }}>{example}</pre>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="queries" className="section query-section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">03 / QUERY LANGUAGE</div>
+            <div className="eyebrow">04 / QUERY LANGUAGE</div>
             <h2>The SQL command map.</h2>
           </div>
           <p>
@@ -903,6 +1026,7 @@ export default function LearnPage() {
                 </article>
               ))}
             </div>
+            <TryItButton />
           </div>
         ))}
 
@@ -917,6 +1041,7 @@ export default function LearnPage() {
               </article>
             ))}
           </div>
+          <TryItButton />
         </div>
 
         <div className="code-strip reveal">
@@ -937,7 +1062,7 @@ ORDER BY avg_salary DESC;`}</pre>
       <section id="joins" className="section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">04 / RELATIONSHIPS</div>
+            <div className="eyebrow">05 / RELATIONSHIPS</div>
             <h2>JOINs: where tables become a data model.</h2>
           </div>
           <p>
@@ -955,12 +1080,13 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section className="section query-section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">05 / EXPRESSIONS</div>
+            <div className="eyebrow">06 / EXPRESSIONS</div>
             <h2>Functions, NULLs and conditional logic.</h2>
           </div>
           <p>
@@ -979,12 +1105,13 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section id="advanced" className="section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">06 / ADVANCED SQL</div>
+            <div className="eyebrow">07 / ADVANCED SQL</div>
             <h2>When simple queries stop being enough.</h2>
           </div>
           <p>
@@ -1002,12 +1129,13 @@ ORDER BY avg_salary DESC;`}</pre>
             </article>
           ))}
         </div>
+        <TryItButton />
       </section>
 
       <section className="section query-section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">07 / DESIGN</div>
+            <div className="eyebrow">08 / DESIGN</div>
             <h2>Good SQL starts before the first SELECT.</h2>
           </div>
           <p>
@@ -1040,7 +1168,7 @@ ORDER BY avg_salary DESC;`}</pre>
       <section id="applications" className="section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">08 / REAL WORLD</div>
+            <div className="eyebrow">09 / REAL WORLD</div>
             <h2>SQL is the data layer behind many systems.</h2>
           </div>
           <p>
@@ -1064,7 +1192,474 @@ ORDER BY avg_salary DESC;`}</pre>
       <section className="section query-section">
         <div className="section-head reveal">
           <div>
-            <div className="eyebrow">09 / LEARNING PATH</div>
+            <div className="eyebrow">10 / LEARNING PATH</div>
+            <h2>Build from rows to real systems.</h2>
+          </div>
+          <p>
+            Use this sequence as a practical route from basic retrieval to
+            production database thinking.
+          </p>
+        </div>
+
+        <div className="roadmap reveal">
+          {roadmap.map((item, index) => (
+            <span key={item}>
+              {String(index + 1).padStart(2, "0")} / {item}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="final">
+        <div className="reveal">
+          <div className="eyebrow">NEXT / EXPERIENCE SQL</div>
+          <h2>
+            Don't just read SQL.
+            <br />
+            <span>Watch it execute.</span>
+          </h2>
+          <p>
+            SQLWhale turns query execution into a visual learning process.
+            Write a query, run it and follow what happens to the data.
+          </p>
+          <Link href="/run-query" className="cta">
+            Open SQLWhale Query Lab →
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+        .try-it-wrap {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 18px;
+        }
+
+        .try-it-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
+          padding: 11px 15px;
+          border: 1px solid rgba(143,231,189,.34);
+          background: rgba(143,231,189,.035);
+          color: var(--lw-accent);
+          font: 700 10px/1 monospace;
+          text-transform: uppercase;
+          letter-spacing: .1em;
+          transition: transform .25s ease, background .25s ease, border-color .25s ease;
+        }
+
+        .try-it-button strong {
+          font-size: 14px;
+        }
+
+        .try-it-button:hover {
+          transform: translateY(-3px);
+          background: rgba(143,231,189,.10);
+          border-color: rgba(143,231,189,.65);
+        }
+
+        .learn-mobile-menu-button {
+          display: none;
+          width: 38px;
+          height: 38px;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 4px;
+          border: 1px solid var(--lw-line);
+          border-radius: 9px;
+          background: #0b1111;
+          color: var(--lw-text);
+          cursor: pointer;
+        }
+
+        .learn-mobile-menu-button span {
+          width: 14px;
+          height: 1px;
+          background: currentColor;
+          transition: transform .2s ease, opacity .2s ease;
+        }
+
+        .learn-mobile-menu-button.is-open span:nth-child(1) {
+          transform: translateY(5px) rotate(45deg);
+        }
+
+        .learn-mobile-menu-button.is-open span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .learn-mobile-menu-button.is-open span:nth-child(3) {
+          transform: translateY(-5px) rotate(-45deg);
+        }
+
+        .learn-mobile-menu {
+          display: none;
+        }
+
+        .sql-essentials-grid pre {
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+`}</style>
+
+      <nav className="learn-nav">
+        <Link href="/" className="learn-brand">
+          <span className="learn-mark">SQL</span>
+          <span>SQLWhale / Learn</span>
+        </Link>
+
+        <div className="learn-nav-links">
+          <a href="#history">History</a>
+          <a href="#concepts">Concepts</a>
+          <a href="#essentials">SQL Basics</a>
+          <a href="#queries">Queries</a>
+          <a href="#joins">Joins</a>
+          <a href="#advanced">Advanced</a>
+          <a href="#applications">Applications</a>
+        </div>
+
+        <button
+          type="button"
+          className={"learn-mobile-menu-button " + (mobileLearnMenu ? "is-open" : "")}
+          onClick={() => setMobileLearnMenu((current) => !current)}
+          aria-label={mobileLearnMenu ? "Close Learn navigation" : "Open Learn navigation"}
+          aria-expanded={mobileLearnMenu}
+        >
+          <span /><span /><span />
+        </button>
+
+        <div className={"learn-mobile-menu " + (mobileLearnMenu ? "is-open" : "")}>
+          {[
+            ["#history", "History"],
+            ["#concepts", "Concepts"],
+            ["#essentials", "SQL Basics"],
+            ["#queries", "Queries"],
+            ["#joins", "Joins"],
+            ["#advanced", "Advanced"],
+            ["#applications", "Applications"],
+          ].map(([href, label]) => (
+            <a key={href} href={href} onClick={() => setMobileLearnMenu(false)}>{label}</a>
+          ))}
+        </div>
+      </nav>
+
+      <section className="hero">
+        <div className="reveal">
+          <div className="eyebrow">SQL / KNOWLEDGE SYSTEM</div>
+          <h1>
+            Learn SQL.
+            <br />
+            <span>See the system.</span>
+          </h1>
+          <p className="hero-copy">
+            One interactive reference for SQL fundamentals, commands, clauses,
+            joins, functions, subqueries, CTEs, windows, transactions,
+            database design, applications and the history of the language.
+          </p>
+
+          <div className="hero-meta">
+            <span className="pill">Beginner → Advanced</span>
+            <span className="pill">Query Reference</span>
+            <span className="pill">Database Thinking</span>
+          </div>
+        </div>
+
+        <div className="hero-visual reveal reveal-delay-2">
+          <div className="orb">
+            <div className="orb-code">
+              SELECT<br />
+              FROM<br />
+              WHERE<br />
+              JOIN<br />
+              GROUP BY<br />
+              ORDER BY
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="marquee">
+        <div className="marquee-track">
+          SQL • DATA • TABLES • QUERIES • RELATIONS • JOINS • AGGREGATION •
+          TRANSACTIONS • INDEXES • SQL • DATA • TABLES • QUERIES • RELATIONS •
+          JOINS • AGGREGATION • TRANSACTIONS • INDEXES •
+        </div>
+      </div>
+
+      <section id="history" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">01 / ORIGIN</div>
+            <h2>From relational theory to modern SQL.</h2>
+          </div>
+          <p>
+            SQL grew from the relational model and IBM research in the 1970s,
+            then became standardized and widely implemented across relational
+            database systems.
+          </p>
+        </div>
+
+        <div className="timeline">
+          {timeline.map(([year, title, text], index) => (
+            <article className={`time-row reveal reveal-delay-${(index % 3) + 1}`} key={year}>
+              <div className="time-year">{year}</div>
+              <div className="time-content">
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="concepts" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">02 / FOUNDATIONS</div>
+            <h2>Understand the objects before the queries.</h2>
+          </div>
+          <p>
+            SQL becomes easier when tables, keys, relationships, schemas and
+            constraints are treated as a system rather than isolated syntax.
+          </p>
+        </div>
+
+        <div className="grid">
+          {concepts.map(([number, title, text]) => (
+            <article className="card reveal" key={title}>
+              <div className="number">{number}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="essentials" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">03 / SQL ESSENTIALS</div>
+            <h2>The pieces that make SQL click.</h2>
+          </div>
+          <p>
+            Build a mental model before memorizing syntax. These fundamentals
+            explain how SQL statements are structured and how a relational
+            database interprets them.
+          </p>
+        </div>
+
+        <div className="grid sql-essentials-grid">
+          {sqlEssentials.map(([number, title, text, example]) => (
+            <article className="card reveal" key={title}>
+              <div className="number">{number}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <pre style={{ marginTop: 18 }}>{example}</pre>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="queries" className="section query-section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">04 / QUERY LANGUAGE</div>
+            <h2>The SQL command map.</h2>
+          </div>
+          <p>
+            SQL statements are commonly discussed by the kind of work they
+            perform: reading data, changing rows, defining structure and
+            controlling access or transactions.
+          </p>
+        </div>
+
+        {commandGroups.map((group) => (
+          <div className="command-group reveal" key={group.title}>
+            <div className="group-head">
+              <h3>{group.title}</h3>
+              <span className="tag">{group.tag}</span>
+            </div>
+
+            <div className="query-grid">
+              {group.items.map(([name, description, example]) => (
+                <article className="query-card" key={name}>
+                  <strong>{name}</strong>
+                  <div>
+                    <p>{description}</p>
+                    <pre>{example}</pre>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <TryItButton />
+          </div>
+        ))}
+
+        <div className="reveal">
+          <div className="eyebrow">SELECT PIPELINE</div>
+          <div className="clauses" style={{ marginTop: 24 }}>
+            {clauses.map(([name, description, example]) => (
+              <article className="clause" key={name}>
+                <strong>{name}</strong>
+                <p>{description}</p>
+                <pre>{example}</pre>
+              </article>
+            ))}
+          </div>
+          <TryItButton />
+        </div>
+
+        <div className="code-strip reveal">
+          <pre>{`SELECT
+    d.name AS department,
+    COUNT(*) AS people,
+    AVG(e.salary) AS avg_salary
+FROM employees e
+JOIN departments d
+    ON e.department_id = d.id
+WHERE e.active = TRUE
+GROUP BY d.name
+HAVING AVG(e.salary) > 50000
+ORDER BY avg_salary DESC;`}</pre>
+        </div>
+      </section>
+
+      <section id="joins" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">05 / RELATIONSHIPS</div>
+            <h2>JOINs: where tables become a data model.</h2>
+          </div>
+          <p>
+            A JOIN combines rows from multiple table expressions according to
+            a matching condition or join rule.
+          </p>
+        </div>
+
+        <div className="join-list">
+          {joins.map(([name, description, example]) => (
+            <article className="join-item reveal" key={name}>
+              <h3>{name}</h3>
+              <p>{description}</p>
+              <pre>{example}</pre>
+            </article>
+          ))}
+        </div>
+        <TryItButton />
+      </section>
+
+      <section className="section query-section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">06 / EXPRESSIONS</div>
+            <h2>Functions, NULLs and conditional logic.</h2>
+          </div>
+          <p>
+            Expressions let a query calculate, transform and classify values
+            while returning or updating data.
+          </p>
+        </div>
+
+        <div className="grid">
+          {functions.map(([name, description, example]) => (
+            <article className="card reveal" key={name}>
+              <div className="number">FUNC</div>
+              <h3>{name}</h3>
+              <p>{description}</p>
+              <pre style={{ marginTop: 18 }}>{example}</pre>
+            </article>
+          ))}
+        </div>
+        <TryItButton />
+      </section>
+
+      <section id="advanced" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">07 / ADVANCED SQL</div>
+            <h2>When simple queries stop being enough.</h2>
+          </div>
+          <p>
+            Advanced SQL combines query composition, analytics, reusable
+            definitions, integrity and performance techniques.
+          </p>
+        </div>
+
+        <div className="advanced-list">
+          {advanced.map(([name, description, example]) => (
+            <article className="advanced-item reveal" key={name}>
+              <h3>{name}</h3>
+              <p>{description}</p>
+              <pre>{example}</pre>
+            </article>
+          ))}
+        </div>
+        <TryItButton />
+      </section>
+
+      <section className="section query-section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">08 / DESIGN</div>
+            <h2>Good SQL starts before the first SELECT.</h2>
+          </div>
+          <p>
+            Database design affects correctness, maintainability and query
+            performance. Learn normalization, keys, constraints and indexing
+            before optimizing syntax.
+          </p>
+        </div>
+
+        <div className="grid">
+          {[
+            ["Normalization", "Reduce inappropriate redundancy and update anomalies by structuring related data."],
+            ["1NF", "Atomic values and a tabular structure without repeating groups."],
+            ["2NF", "1NF plus removal of partial dependency on a composite key."],
+            ["3NF", "2NF plus removal of relevant transitive dependencies."],
+            ["Indexes", "Speed selected reads by maintaining additional access structures at storage cost."],
+            ["Transactions", "Use atomic units of work with COMMIT and ROLLBACK semantics."],
+            ["ACID", "Atomicity, consistency, isolation and durability are core transaction properties."],
+            ["Query Plans", "The database optimizer chooses an execution strategy based on statistics, indexes and other factors."],
+          ].map(([title, text], index) => (
+            <article className="card reveal" key={title}>
+              <div className="number">{String(index + 1).padStart(2, "0")}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="applications" className="section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">09 / REAL WORLD</div>
+            <h2>SQL is the data layer behind many systems.</h2>
+          </div>
+          <p>
+            Relational databases are used across application development,
+            finance, commerce, analytics, engineering and many operational
+            systems.
+          </p>
+        </div>
+
+        <div className="application-grid">
+          {applications.map(([title, text], index) => (
+            <article className="application reveal" key={title}>
+              <div className="number">{String(index + 1).padStart(2, "0")}</div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section query-section">
+        <div className="section-head reveal">
+          <div>
+            <div className="eyebrow">10 / LEARNING PATH</div>
             <h2>Build from rows to real systems.</h2>
           </div>
           <p>
