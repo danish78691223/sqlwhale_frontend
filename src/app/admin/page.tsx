@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X } from "lucide-react";
 
 type User = {
   id: string;
@@ -24,6 +24,8 @@ type Task = {
   expectedQuery: string;
   difficulty: "Easy" | "Medium" | "Hard";
   isActive: boolean;
+  expectedColumns?: string[] | null;
+  expectedRows?: unknown[][] | null;
   createdAt?: string;
 };
 
@@ -55,6 +57,9 @@ export default function AdminPage() {
     isActive: true,
   });
   const [savingTask, setSavingTask] = useState(false);
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<NewTask | null>(null);
+  const [savingEditedTask, setSavingEditedTask] = useState(false);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [savingUser, setSavingUser] = useState<string | null>(null);
@@ -156,6 +161,61 @@ export default function AdminPage() {
       setError(err?.response?.data?.error || "Unable to add task.");
     } finally {
       setSavingTask(false);
+    }
+  }
+
+  function startEditTask(task: Task) {
+    setEditingTaskId(task.id);
+    setEditingTask({
+      title: task.title,
+      description: task.description,
+      expectedQuery: task.expectedQuery,
+      difficulty: task.difficulty,
+      isActive: task.isActive,
+    });
+    setError("");
+    setMessage("");
+  }
+
+  function cancelEditTask() {
+    setEditingTaskId(null);
+    setEditingTask(null);
+  }
+
+  async function saveEditedTask() {
+    if (!editingTaskId || !editingTask) return;
+
+    if (
+      !editingTask.title.trim() ||
+      !editingTask.description.trim() ||
+      !editingTask.expectedQuery.trim()
+    ) {
+      setError("Task title, description and expected SQL query are required.");
+      return;
+    }
+
+    setSavingEditedTask(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const response = await api.patch(
+        "/admin/tasks/" + encodeURIComponent(editingTaskId),
+        editingTask
+      );
+
+      setTasks((current) =>
+        current.map((item) =>
+          item.id === editingTaskId ? response.data.task : item
+        )
+      );
+
+      setMessage("Task updated successfully. Existing completions were reset if the expected query changed.");
+      cancelEditTask();
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to update task.");
+    } finally {
+      setSavingEditedTask(false);
     }
   }
 
@@ -321,17 +381,137 @@ export default function AdminPage() {
           {tasks.length === 0 ? (
             <div className="sqlwhale-admin-empty">No tasks added yet.</div>
           ) : tasks.map((task) => (
-            <div className="sqlwhale-admin-task-row" key={task.id}>
-              <div>
-                <strong>{task.title}</strong>
-                <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
-                <small>{task.description}</small>
+            editingTaskId === task.id && editingTask ? (
+              <div className="sqlwhale-admin-task-edit" key={task.id}>
+                <div className="sqlwhale-admin-task-edit-header">
+                  <div>
+                    <strong>Edit task</strong>
+                    <span>Update the challenge and its expected output.</span>
+                  </div>
+                  <button
+                    type="button"
+                    className="sqlwhale-admin-icon-button"
+                    onClick={cancelEditTask}
+                    aria-label="Cancel task editing"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                <input
+                  className="sqlwhale-admin-input"
+                  value={editingTask.title}
+                  onChange={(e) => setEditingTask((current) => current ? { ...current, title: e.target.value } : current)}
+                  placeholder="Task title"
+                />
+                <textarea
+                  className="sqlwhale-admin-textarea"
+                  value={editingTask.description}
+                  onChange={(e) => setEditingTask((current) => current ? { ...current, description: e.target.value } : current)}
+                  placeholder="Task description / instructions"
+                  rows={4}
+                />
+                <textarea
+                  className="sqlwhale-admin-textarea sqlwhale-admin-code-input"
+                  value={editingTask.expectedQuery}
+                  onChange={(e) => setEditingTask((current) => current ? { ...current, expectedQuery: e.target.value } : current)}
+                  placeholder="Expected SQL answer — must return the required output"
+                  rows={6}
+                />
+
+                <div className="sqlwhale-admin-task-form-row">
+                  <select
+                    className="sqlwhale-admin-select"
+                    value={editingTask.difficulty}
+                    onChange={(e) => setEditingTask((current) => current ? { ...current, difficulty: e.target.value as NewTask["difficulty"] } : current)}
+                  >
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                  </select>
+
+                  <label className="sqlwhale-admin-switch-row">
+                    <span>Active</span>
+                    <input
+                      type="checkbox"
+                      checked={editingTask.isActive}
+                      onChange={(e) => setEditingTask((current) => current ? { ...current, isActive: e.target.checked } : current)}
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    className="sqlwhale-admin-primary"
+                    onClick={() => void saveEditedTask()}
+                    disabled={savingEditedTask}
+                  >
+                    <Save size={16} /> {savingEditedTask ? "Saving..." : "Save task"}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="sqlwhale-admin-secondary"
+                    onClick={cancelEditTask}
+                    disabled={savingEditedTask}
+                  >
+                    Cancel
+                  </button>
+                </div>
+
+                {task.expectedColumns && task.expectedRows ? (
+                  <div className="sqlwhale-admin-task-output">
+                    <div>
+                      <strong>Stored expected output</strong>
+                      <span>{task.expectedRows.length} row{task.expectedRows.length === 1 ? "" : "s"} · {task.expectedColumns.length} column{task.expectedColumns.length === 1 ? "" : "s"}</span>
+                    </div>
+                    <details>
+                      <summary>Preview output</summary>
+                      <div className="sqlwhale-admin-task-output-table-wrap">
+                        <table className="sqlwhale-admin-task-output-table">
+                          <thead>
+                            <tr>
+                              {task.expectedColumns.map((column) => <th key={column}>{column}</th>)}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {task.expectedRows.slice(0, 5).map((row, rowIndex) => (
+                              <tr key={rowIndex}>
+                                {task.expectedColumns!.map((column, columnIndex) => (
+                                  <td key={column}>{String(row[columnIndex] ?? "")}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      {task.expectedRows.length > 5 && (
+                        <small>Showing the first 5 rows only.</small>
+                      )}
+                    </details>
+                  </div>
+                ) : null}
               </div>
-              <div className="sqlwhale-admin-actions">
-                <button className="sqlwhale-admin-save" onClick={() => void toggleTask(task)}>{task.isActive ? "Hide" : "Publish"}</button>
-                <button className="sqlwhale-admin-delete" onClick={() => void deleteTask(task)}><Trash2 size={14} /> Delete</button>
+            ) : (
+              <div className="sqlwhale-admin-task-row" key={task.id}>
+                <div>
+                  <strong>{task.title}</strong>
+                  <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
+                  <small>{task.description}</small>
+                  {task.expectedRows && task.expectedColumns ? (
+                    <em>{task.expectedRows.length} expected result row{task.expectedRows.length === 1 ? "" : "s"} · output-based grading</em>
+                  ) : (
+                    <em>Expected output will be generated when this task is edited and saved.</em>
+                  )}
+                </div>
+                <div className="sqlwhale-admin-actions">
+                  <button className="sqlwhale-admin-save" onClick={() => startEditTask(task)}>
+                    <Pencil size={14} /> Edit
+                  </button>
+                  <button className="sqlwhale-admin-save" onClick={() => void toggleTask(task)}>{task.isActive ? "Hide" : "Publish"}</button>
+                  <button className="sqlwhale-admin-delete" onClick={() => void deleteTask(task)}><Trash2 size={14} /> Delete</button>
+                </div>
               </div>
-            </div>
+            )
           ))}
         </div>
       </section>

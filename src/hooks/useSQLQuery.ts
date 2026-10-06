@@ -12,6 +12,7 @@ interface UseSQLQueryResult {
   loading: boolean;
   error: string | null;
   runQuery: (query: string) => Promise<void>;
+  applyResult: (result: SQLResponse) => void;
   clearResult: () => void;
 }
 
@@ -79,9 +80,16 @@ export function useSQLQuery(): UseSQLQueryResult {
     []
   );
 
+  const applyResult = useCallback((result: SQLResponse) => {
+    setData(result);
+    setError(result.success === false ? (result.error || "SQL query could not be executed.") : null);
+    setLoading(false);
+  }, []);
+
   const clearResult = useCallback(() => {
     setData(null);
     setError(null);
+    setLoading(false);
   }, []);
 
   return {
@@ -89,6 +97,7 @@ export function useSQLQuery(): UseSQLQueryResult {
     loading,
     error,
     runQuery,
+    applyResult,
     clearResult,
   };
 }
