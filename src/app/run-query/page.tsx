@@ -135,6 +135,22 @@ export default function RunQueryPage() {
   const [queryRevealActive, setQueryRevealActive] = useState(false);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
+  const refreshDatabaseTables = useCallback(async () => {
+    try {
+      setTablesError(null);
+      const databaseTables = await getAllTableDetails();
+      setTables(databaseTables);
+      return true;
+    } catch (tableError) {
+      setTablesError(
+        tableError instanceof Error
+          ? tableError.message
+          : "Unable to refresh database schema."
+      );
+      return false;
+    }
+  }, []);
+
   useEffect(() => {
     let mounted = true;
 
@@ -318,6 +334,12 @@ export default function RunQueryPage() {
     }
 
     await runQuery(cleanSQL);
+
+    // CREATE/DROP changes the database schema. Refresh it immediately so the
+    // DatabaseCanvas can render the changed schema without a page reload.
+    if (/^\s*(CREATE\s+TABLE|DROP\s+TABLE)\b/i.test(cleanSQL)) {
+      await refreshDatabaseTables();
+    }
   };
 
   useEffect(() => {
