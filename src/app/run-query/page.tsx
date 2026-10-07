@@ -346,9 +346,11 @@ export default function RunQueryPage() {
 
     await runQuery(cleanSQL);
 
-    // CREATE/DROP changes the database schema. Refresh it immediately so the
-    // DatabaseCanvas can render the changed schema without a page reload.
-    if (/^\s*(CREATE\s+TABLE|DROP\s+TABLE)\b/i.test(cleanSQL)) {
+    // Keep a DROP TABLE visible during "Show what happened" so the canvas
+    // can animate its destruction before React Flow removes the node.
+    if (/^\s*CREATE\s+TABLE\b/i.test(cleanSQL)) {
+      await refreshDatabaseTables();
+    } else if (/^\s*DROP\s+TABLE\b/i.test(cleanSQL) && !showWhatHappened) {
       await refreshDatabaseTables();
     }
   };
@@ -701,7 +703,13 @@ export default function RunQueryPage() {
               execution={data?.execution}
               runId={animationRunId}
               slowExecution={slowExecution}
-              onComplete={() => setAnimationComplete(true)}
+              onComplete={async () => {
+                setAnimationComplete(true);
+                if (slowExecution && /^\s*DROP\s+TABLE\b/i.test(query)) {
+                  await refreshDatabaseTables();
+                  setFocusedTableName(null);
+                }
+              }}
               onStageChange={setQueryAnimationStage}
               onExecutionFocus={setFocusedTableName}
             />
