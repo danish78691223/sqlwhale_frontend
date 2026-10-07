@@ -226,8 +226,10 @@ export default function QueryVisualization({
   const normalizedCommand = command?.toUpperCase() ?? "";
   const isCreateTable = normalizedCommand === "CREATE_TABLE";
   const isInsert = normalizedCommand === "INSERT";
+  const isDropTable = normalizedCommand === "DROP_TABLE";
   const ddlStep = execution?.steps.find((step) => step.operation === "create_table");
   const insertStep = execution?.steps.find((step) => step.operation === "insert");
+  const dropStep = execution?.steps.find((step) => step.operation === "drop_table");
   const tableName = getTableName(query);
   const whereCondition = getWhereCondition(query);
   const selectedColumns = useMemo(() => getSelectedColumns(query, result), [query, result]);
@@ -317,8 +319,8 @@ export default function QueryVisualization({
     const currentStage = stages[Math.min(stageIndex, stages.length - 1)];
     let focusTable: string | null = null;
 
-    if (isCreateTable || isInsert) {
-      const changeStep = isCreateTable ? ddlStep : insertStep;
+    if (isCreateTable || isInsert || isDropTable) {
+      const changeStep = isCreateTable ? ddlStep : isInsert ? insertStep : dropStep;
       const metadata = changeStep?.metadata ?? {};
       focusTable = String(
         metadata.tableName ?? changeStep?.targetTable ?? ""
@@ -358,14 +360,19 @@ export default function QueryVisualization({
     // FROM → WHERE → JOIN → SELECT stage list. Still highlight the exact
     // columns involved so the canvas explains what the database changed.
     const activeTableName =
-      (isCreateTable || isInsert) ? changeTableName : tableName;
+      (isCreateTable || isInsert || isDropTable) ? changeTableName : tableName;
 
     if (!activeTableName) return;
 
     const source = Array.from(document.querySelectorAll<HTMLElement>("[data-sql-table]"))
       .find((el) => el.dataset.sqlTable?.toLowerCase() === activeTableName.toLowerCase());
 
-    if (source) source.classList.add("sqlwhale-query-source-active");
+    if (source) {
+      source.classList.add("sqlwhale-query-source-active");
+      if (isDropTable && slowExecution && changeStage >= 1 && changeStage < 2) {
+        source.classList.add("sqlwhale-drop-target");
+      }
+    }
 
     let targetedColumns: string[] = [];
 
@@ -399,7 +406,10 @@ export default function QueryVisualization({
     }
 
     return () => {
-      document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
+      document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => {
+        el.classList.remove("sqlwhale-query-source-active");
+        el.classList.remove("sqlwhale-drop-target");
+      });
       document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => el.classList.remove("sqlwhale-query-column-active"));
     };
   }, [
@@ -420,10 +430,10 @@ export default function QueryVisualization({
     if (executed && !stages.length) onComplete?.();
   }, [executed, stages.length, onComplete]);
 
-  if (isCreateTable || isInsert) {
+  if (isCreateTable || isInsert || isDropTable) {
     if ((!running && !executed) || !execution) return null;
 
-    const step = isCreateTable ? ddlStep : insertStep;
+    const step = isCreateTable ? ddlStep : isInsert ? insertStep : dropStep;
     if (!step) {
       return (
         <div className="sqlwhale-data-animation" aria-live="polite">
@@ -464,36 +474,38 @@ export default function QueryVisualization({
         <div className="sqlwhale-data-animation-top">
           <div>
             <span className="sqlwhale-data-kicker">
-              {isCreateTable ? "TABLE CREATED" : "DATA INSERTED"}
+              {isCreateTable ? "TABLE CREATED" : isInsert ? "DATA INSERTED" : "TABLE DROPPED"}
             </span>
             <div className="sqlwhale-data-action">
               {isCreateTable
                 ? "SQLWhale created the table and applied its structure."
-                : "SQLWhale inserted these rows into the existing table."}
+                : isInsert
+                  ? "SQLWhale inserted these rows into the existing table."
+                  : "SQLWhale destroyed the table and removed its schema from the database."}
             </div>
           </div>
           <span className="sqlwhale-data-counter">
-            {isCreateTable ? createdColumns.length + " columns" : "+" + insertedRows.length + " rows"}
+            {isCreateTable ? createdColumns.length + " columns" : isInsert ? "+" + insertedRows.length + " rows" : createdColumns.length + " columns"}
           </span>
         </div>
 
-        <div className="sqlwhale-change-flow" aria-label={isCreateTable ? "Create table flow" : "Insert data flow"}>
+        <div className="sqlwhale-change-flow" aria-label={isCreateTable ? "Create table flow" : isInsert ? "Insert data flow" : "Drop table flow"}>
           <div className={`sqlwhale-change-flow-step ${changeStage >= 0 ? "is-active" : ""} ${changeStage === 0 ? "is-current" : ""} ${changeStage > 0 ? "is-complete" : ""}`}>
             <span className="sqlwhale-change-flow-icon">{changeStage > 0 ? "✓" : "01"}</span>
-            <strong>{isCreateTable ? "DEFINE" : "INSERT"}</strong>
-            <small>{isCreateTable ? "Columns & constraints" : "Values provided"}</small>
+            <strong>{isCreateTable ? "DEFINE" : isInsert ? "INSERT" : "TARGET"}</strong>
+            <small>{isCreateTable ? "Columns & constraints" : isInsert ? "Values provided" : "Table selected"}</small>
           </div>
           <span className={`sqlwhale-change-flow-arrow ${changeStage >= 1 ? "is-flowing" : ""}`}>→</span>
           <div className={`sqlwhale-change-flow-step ${changeStage >= 1 ? "is-active" : ""} ${changeStage === 1 ? "is-current" : ""} ${changeStage > 1 ? "is-complete" : ""}`}>
             <span className="sqlwhale-change-flow-icon">{changeStage > 1 ? "✓" : "02"}</span>
             <strong>DATABASE</strong>
-            <small>{isCreateTable ? "Table created" : "Rows written"}</small>
+            <small>{isCreateTable ? "Table created" : isInsert ? "Rows written" : "Table destroyed"}</small>
           </div>
           <span className={`sqlwhale-change-flow-arrow ${changeStage >= 2 ? "is-flowing" : ""}`}>→</span>
           <div className={`sqlwhale-change-flow-step ${changeStage >= 2 ? "is-active is-current" : ""} ${changeStage >= 2 ? "is-complete" : ""}`}>
             <span className="sqlwhale-change-flow-icon">{changeStage >= 2 ? "✓" : "03"}</span>
             <strong>RESULT</strong>
-            <small>{isCreateTable ? "Structure ready" : "Table changed"}</small>
+            <small>{isCreateTable ? "Structure ready" : isInsert ? "Table changed" : "Table removed"}</small>
           </div>
         </div>
 
@@ -530,7 +542,7 @@ export default function QueryVisualization({
               <span>{changeStage >= 2 ? step.explanation : "Applying columns and constraints"}</span>
             </div>
           </div>
-        ) : (
+        ) : isInsert ? (
           <div className="sqlwhale-insert-card">
             <div className="sqlwhale-insert-header">
               <div>
