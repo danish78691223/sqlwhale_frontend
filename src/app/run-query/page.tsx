@@ -400,12 +400,9 @@ export default function RunQueryPage() {
   };
 
   const result = data?.result;
-  const destroyingTableName =
-    slowExecution &&
-    !animationComplete &&
-    /^\s*DROP\s+TABLE\b/i.test(query)
-      ? focusedTableName
-      : null;
+  const isDropReplay = slowExecution && /^\s*DROP\s+TABLE\b/i.test(query);
+  const destroyingTableName = isDropReplay && focusedTableName ? focusedTableName : null;
+  const destroyingStage = isDropReplay ? queryAnimationStage : 0;
 
   const runEditSQL = async (sql: string) => {
     try {
@@ -675,6 +672,7 @@ export default function RunQueryPage() {
               onEditTable={setEditTable}
               focusedTableName={focusedTableName}
               destroyingTableName={destroyingTableName}
+              destroyingStage={destroyingStage}
               onTableDoubleClick={(tableName) => {
                 setFocusedTableName(tableName);
                 sqlEditorRef.current?.focusTable(tableName);
