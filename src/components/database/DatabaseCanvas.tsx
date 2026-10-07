@@ -46,6 +46,7 @@ interface DatabaseCanvasProps {
   focusedTableName?: string | null;
   destroyingTableName?: string | null;
   destroyingStage?: number;
+  /** Keeps the schema visible while DROP TABLE replay is destroying one node. */
   destructiveReplay?: boolean;
 }
 
@@ -53,7 +54,6 @@ interface SQLCursorTarget {
   table?: string;
   column: string;
 }
-
 
 const nodeTypes = {
   databaseTable: DatabaseTable,
@@ -338,7 +338,13 @@ export default function DatabaseCanvas({
   // referenced by the query. Do not fall back to the previous executed
   // query here: while the user replaces a table name, an intermediate
   // empty/partial target must clear the old focus immediately.
-  const activeTableTargets = destructiveReplay ? [] : queryTableTargets;
+  // During destructive replay, normal query-target styling is intentionally
+  // disabled so the schema remains intact until the DROP animation completes.
+  const activeTableTargets = useMemo(
+    () => (destructiveReplay ? [] : queryTableTargets),
+    [destructiveReplay, queryTableTargets]
+  );
+
   const initialNodes = createNodes(
     tables,
     onEditTable,
@@ -459,28 +465,37 @@ export default function DatabaseCanvas({
         const baseIndex = Number(node.data?.accentIndex ?? 0);
 
         return {
-        ...node,
-        data: {
-          ...node.data,
-          queryTarget: activeTableTargets.some(
-            (target) => target.toLowerCase() === String(node.id).toLowerCase()
-          ),
-          queryRevealIndex,
-          queryRevealActive,
-          onTableDoubleClick: handleTableDoubleClick,
-          queryOrderIndex: nodeQueryIndex,
-          focused: focusedTableName?.toLowerCase() === String(node.id).toLowerCase(),
-          destroying: destroyingStage >= 2 && destroyingTableName?.toLowerCase() === String(node.id).toLowerCase(),
-          destroyingStage,
-        },
-        position:
-          nodeQueryIndex >= 0
-            ? getQueryTablePosition(nodeQueryIndex)
-            : getTablePosition(baseIndex),
-      };
+          ...node,
+          data: {
+            ...node.data,
+            queryTarget: activeTableTargets.some(
+              (target) => target.toLowerCase() === String(node.id).toLowerCase()
+            ),
+            queryRevealIndex,
+            queryRevealActive,
+            onTableDoubleClick: handleTableDoubleClick,
+            queryOrderIndex: nodeQueryIndex,
+            focused: focusedTableName?.toLowerCase() === String(node.id).toLowerCase(),
+            destroying: destroyingStage >= 2 && destroyingTableName?.toLowerCase() === String(node.id).toLowerCase(),
+            destroyingStage,
+          },
+          position:
+            nodeQueryIndex >= 0
+              ? getQueryTablePosition(nodeQueryIndex)
+              : getTablePosition(baseIndex),
+        };
       })
     );
-  }, [activeTableTargets, queryRevealIndex, queryRevealActive, focusedTableName, destroyingTableName, destroyingStage, handleTableDoubleClick, setNodes]);
+  }, [
+    activeTableTargets,
+    queryRevealIndex,
+    queryRevealActive,
+    focusedTableName,
+    destroyingTableName,
+    destroyingStage,
+    handleTableDoubleClick,
+    setNodes,
+  ]);
 
   useEffect(() => {
     if (!queryAnalysis) {
@@ -597,9 +612,6 @@ export default function DatabaseCanvas({
   useEffect(() => {
     if (focusedTableName || activeTableTargets.length === 0 || !flowInstance) return;
 
-    // Frame the tables referenced by the current SQL query. This is important
-    // because changing a node's canvas position does not guarantee that the
-    // node is inside the user's current viewport.
     const queryNodes = nodes.filter((node) =>
       activeTableTargets.some(
         (target) =>
@@ -616,8 +628,7 @@ export default function DatabaseCanvas({
       minZoom: 0.55,
       maxZoom: 1.1,
     });
-  }, [activeTableTargets, nodes, flowInstance]);
-
+  }, [activeTableTargets, nodes, flowInstance, focusedTableName]);
 
   useEffect(() => {
     if (!focusedTableName || !flowInstance) return;
@@ -644,9 +655,6 @@ export default function DatabaseCanvas({
       const width = targetNode.measured?.width ?? targetNode.width ?? 260;
       const height = targetNode.measured?.height ?? targetNode.height ?? 140;
 
-      // DROP TABLE replay needs a deliberate camera move before the table
-      // starts breaking apart. setCenter is used instead of fitView so other
-      // schema nodes do not influence the zoom level.
       flowInstance.setCenter(
         position.x + width / 2,
         position.y + height / 2,
@@ -657,9 +665,6 @@ export default function DatabaseCanvas({
       );
     };
 
-    // React Flow may have the node in its store one render before its
-    // measured dimensions are available, so give the canvas a frame and
-    // retry once if necessary.
     const frame = window.requestAnimationFrame(() => {
       focusAndZoom();
       retryTimer = window.setTimeout(focusAndZoom, 180);
