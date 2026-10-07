@@ -432,8 +432,16 @@ export default function QueryVisualization({
   ]);
 
   useEffect(() => {
-    if (executed && !stages.length) onComplete?.();
-  }, [executed, stages.length, onComplete]);
+    if (!executed || stages.length) return;
+
+    if (isDropTable) {
+      if (changeStage < 2) return;
+      const timer = window.setTimeout(() => onComplete?.(), 1450);
+      return () => window.clearTimeout(timer);
+    }
+
+    onComplete?.();
+  }, [executed, stages.length, isDropTable, changeStage, onComplete]);
 
   if (isCreateTable || isInsert || isDropTable) {
     if ((!running && !executed) || !execution) return null;
