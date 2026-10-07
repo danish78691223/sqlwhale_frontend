@@ -46,6 +46,7 @@ interface DatabaseCanvasProps {
   focusedTableName?: string | null;
   destroyingTableName?: string | null;
   destroyingStage?: number;
+  destructiveReplay?: boolean;
 }
 
 interface SQLCursorTarget {
@@ -331,12 +332,13 @@ export default function DatabaseCanvas({
   focusedTableName = null,
   destroyingTableName = null,
   destroyingStage = 0,
+  destructiveReplay = false,
 }: DatabaseCanvasProps) {
   // The SQL editor is the single source of truth for the table currently
   // referenced by the query. Do not fall back to the previous executed
   // query here: while the user replaces a table name, an intermediate
   // empty/partial target must clear the old focus immediately.
-  const activeTableTargets = queryTableTargets;
+  const activeTableTargets = destructiveReplay ? [] : queryTableTargets;
   const initialNodes = createNodes(
     tables,
     onEditTable,
@@ -416,6 +418,7 @@ export default function DatabaseCanvas({
     queryRevealIndex,
     queryRevealActive,
     onTableDoubleClick,
+    destructiveReplay,
     setNodes,
     setEdges,
   ]);
