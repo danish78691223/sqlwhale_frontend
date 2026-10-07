@@ -589,6 +589,24 @@ export default function QueryVisualization({
               <span>{changeStage >= 2 ? step.explanation : "Updating table state"}</span>
             </div>
           </div>
+        ) : (
+          <div className="sqlwhale-drop-card">
+            <div className="sqlwhale-drop-card-icon" aria-hidden="true">✕</div>
+            <div className="sqlwhale-drop-card-body">
+              <span className="sqlwhale-schema-kicker">DESTRUCTIVE DDL</span>
+              <strong>{String(metadata.tableName ?? step.targetTable ?? "table")}</strong>
+              <p>
+                {changeStage < 1
+                  ? "Target table identified. Preparing to remove its schema."
+                  : changeStage < 2
+                    ? "Dropping table structure, columns, and stored data..."
+                    : "Table removed from the database."}
+              </p>
+            </div>
+            <div className={"sqlwhale-drop-status " + (changeStage >= 1 ? "is-active " : "") + (changeStage >= 2 ? "is-complete" : "")}>
+              {changeStage >= 2 ? "✓ DROPPED" : changeStage >= 1 ? "DESTROYING" : "READY"}
+            </div>
+          </div>
         )}
       </div>
     );
