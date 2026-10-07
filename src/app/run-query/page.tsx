@@ -402,7 +402,15 @@ export default function RunQueryPage() {
 
   const result = data?.result;
   const isDropReplay = slowExecution && /^\s*DROP\s+TABLE\b/i.test(query);
-  const destroyingTableName = isDropReplay && focusedTableName ? focusedTableName : null;
+  const dropReplayStep = isDropReplay
+    ? data?.execution?.steps.find((step) => step.operation === "drop_table")
+    : undefined;
+  const dropReplayTableName =
+    String(dropReplayStep?.metadata?.tableName ?? dropReplayStep?.targetTable ?? "").trim() || null;
+  const destroyingTableName = isDropReplay ? dropReplayTableName : null;
+  const replayFocusedTableName = isDropReplay
+    ? dropReplayTableName
+    : focusedTableName;
   const destroyingStage = isDropReplay ? dropDestructionStage : 0;
 
   const runEditSQL = async (sql: string) => {
@@ -671,9 +679,10 @@ export default function RunQueryPage() {
               queryRevealActive={queryRevealActive}
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
-              focusedTableName={focusedTableName}
+              focusedTableName={replayFocusedTableName}
               destroyingTableName={destroyingTableName}
               destroyingStage={destroyingStage}
+              destructiveReplay={isDropReplay}
               onTableDoubleClick={(tableName) => {
                 setFocusedTableName(tableName);
                 sqlEditorRef.current?.focusTable(tableName);
