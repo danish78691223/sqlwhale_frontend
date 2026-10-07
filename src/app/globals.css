@@ -18030,3 +18030,184 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     flex-direction: column;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE REAL EXECUTION REPLAY
+   ========================================================= */
+
+.sqlwhale-data-animation.is-replay-mode {
+  position: relative;
+  overflow: hidden;
+}
+
+.sqlwhale-data-animation.is-replay-mode::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -35%;
+  width: 28%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(59,130,246,.08), transparent);
+  animation: sqlwhale-replay-sweep 2.4s ease-in-out infinite;
+}
+
+@keyframes sqlwhale-replay-sweep {
+  0% { transform: translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateX(520%); opacity: 0; }
+}
+
+.sqlwhale-change-flow-step {
+  position: relative;
+  overflow: hidden;
+  opacity: .42;
+  transform: translateY(5px) scale(.97);
+  transition: opacity .45s ease, transform .45s ease, border-color .45s ease, box-shadow .45s ease;
+}
+
+.sqlwhale-change-flow-step.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.sqlwhale-change-flow-step.is-current {
+  border-color: rgba(37,99,235,.55);
+  box-shadow: 0 0 0 4px rgba(37,99,235,.08), 0 12px 28px rgba(37,99,235,.10);
+}
+
+.sqlwhale-change-flow-step.is-current::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 25%, rgba(255,255,255,.55) 50%, transparent 75%);
+  transform: translateX(-130%);
+  animation: sqlwhale-step-shine 1.25s ease-in-out infinite;
+}
+
+@keyframes sqlwhale-step-shine {
+  to { transform: translateX(130%); }
+}
+
+.sqlwhale-change-flow-arrow {
+  opacity: .25;
+  transform: translateX(-5px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+
+.sqlwhale-change-flow-arrow.is-flowing {
+  opacity: 1;
+  transform: translateX(0);
+  animation: sqlwhale-arrow-nudge .8s ease-in-out infinite;
+}
+
+@keyframes sqlwhale-arrow-nudge {
+  50% { transform: translateX(4px); }
+}
+
+.sqlwhale-change-reveal {
+  animation: sqlwhale-reveal-row .55s cubic-bezier(.2,.75,.25,1) both;
+}
+
+@keyframes sqlwhale-reveal-row {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.985);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.sqlwhale-schema-column-row {
+  transition: background .25s ease, transform .25s ease;
+}
+
+.sqlwhale-schema-column-row:hover {
+  transform: translateX(4px);
+}
+
+.sqlwhale-schema-creation-footer {
+  opacity: .5;
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.sqlwhale-schema-creation-footer.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sqlwhale-insert-change {
+  opacity: .45;
+  transform: scale(.98);
+  transition: opacity .45s ease, transform .45s ease;
+}
+
+.sqlwhale-insert-change.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.is-inserted-row {
+  position: relative;
+  background: rgba(34,197,94,.055);
+  box-shadow: inset 3px 0 0 rgba(34,197,94,.55);
+}
+
+.is-inserted-row td {
+  animation: sqlwhale-cell-arrive .45s ease both;
+}
+
+.is-inserted-row:hover {
+  background: rgba(34,197,94,.10);
+}
+
+@keyframes sqlwhale-cell-arrive {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.sqlwhale-execution-row {
+  transition: opacity .5s ease, transform .5s ease, background .35s ease, filter .5s ease;
+}
+
+.sqlwhale-execution-row.is-matching-row {
+  animation: sqlwhale-match-pulse .8s ease;
+}
+
+.sqlwhale-execution-row.is-rejected-row {
+  opacity: .28;
+  filter: grayscale(.7);
+  transform: translateX(8px);
+}
+
+@keyframes sqlwhale-match-pulse {
+  0% { background: rgba(37,99,235,0); }
+  45% { background: rgba(37,99,235,.12); }
+  100% { background: rgba(37,99,235,0); }
+}
+
+.sqlwhale-data-animation.is-replay-mode .sqlwhale-visual-stage.is-active {
+  animation: sqlwhale-stage-pop .55s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes sqlwhale-stage-pop {
+  0% { transform: scale(.96); }
+  60% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-data-animation.is-replay-mode::after,
+  .sqlwhale-change-flow-step.is-current::after,
+  .sqlwhale-change-flow-arrow.is-flowing,
+  .sqlwhale-change-reveal,
+  .sqlwhale-execution-row.is-matching-row {
+    animation: none !important;
+  }
+}
