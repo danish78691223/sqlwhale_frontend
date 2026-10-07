@@ -400,6 +400,12 @@ export default function RunQueryPage() {
   };
 
   const result = data?.result;
+  const destroyingTableName =
+    slowExecution &&
+    !animationComplete &&
+    /^\s*DROP\s+TABLE\b/i.test(query)
+      ? focusedTableName
+      : null;
 
   const runEditSQL = async (sql: string) => {
     try {
@@ -668,6 +674,7 @@ export default function RunQueryPage() {
               queryAnalysis={data?.queryAnalysis ?? null}
               onEditTable={setEditTable}
               focusedTableName={focusedTableName}
+              destroyingTableName={destroyingTableName}
               onTableDoubleClick={(tableName) => {
                 setFocusedTableName(tableName);
                 sqlEditorRef.current?.focusTable(tableName);
