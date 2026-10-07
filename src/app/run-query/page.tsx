@@ -295,6 +295,7 @@ export default function RunQueryPage() {
     setQuery(cleanSQL);
     setExecutedQuery(null);
     setAnimationComplete(false);
+    setDropDestructionStage(0);
     setAnimationRunId((current) => current + 1);
     setSlowExecution(showWhatHappened);
 
