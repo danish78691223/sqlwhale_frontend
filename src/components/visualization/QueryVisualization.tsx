@@ -515,7 +515,7 @@ export default function QueryVisualization({
                   </thead>
                   <tbody>
                     {insertedRows.slice(0, changeStage >= 1 ? Math.min(8, insertedRows.length) : 0).map((row, rowIndex) => (
-                      <tr key={rowIndex} className="is-inserted-row sqlwhale-change-reveal" style={{ animationDelay: `${rowIndex * 180}ms` }}>
+                      <tr key={rowIndex} className={`is-inserted-row sqlwhale-change-reveal ${changeStage === 1 ? "is-inserted-row-active" : ""} ${changeStage >= 2 ? "is-inserted-row-complete" : ""}`} style={{ animationDelay: `${rowIndex * 180}ms` }}>
                         {insertedColumns.map((column, columnIndex) => (
                           <td key={column}>{valueOf(row[columnIndex])}</td>
                         ))}
