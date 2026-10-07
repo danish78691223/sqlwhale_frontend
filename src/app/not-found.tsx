@@ -11,6 +11,18 @@ export default function NotFound() {
 
   return (
     <main className="sqlwhale-not-found">
+      <video
+        className="sqlwhale-not-found-video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      >
+        <source src="/back-whale.mp4" type="video/mp4" />
+      </video>
+      <div className="sqlwhale-not-found-video-overlay" aria-hidden="true" />
       <div className="sqlwhale-not-found-grid" aria-hidden="true" />
 
       <section className="sqlwhale-not-found-card" aria-labelledby="not-found-title">
