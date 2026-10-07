@@ -42,6 +42,7 @@ export default function RunQueryPage() {
   const [executedQuery, setExecutedQuery] = useState<string | null>(null);
   const [slowExecution, setSlowExecution] = useState(false);
   const [queryAnimationStage, setQueryAnimationStage] = useState<string | null>(null);
+  const [dropDestructionStage, setDropDestructionStage] = useState(0);
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
@@ -402,7 +403,7 @@ export default function RunQueryPage() {
   const result = data?.result;
   const isDropReplay = slowExecution && /^\s*DROP\s+TABLE\b/i.test(query);
   const destroyingTableName = isDropReplay && focusedTableName ? focusedTableName : null;
-  const destroyingStage = isDropReplay ? queryAnimationStage : 0;
+  const destroyingStage = isDropReplay ? dropDestructionStage : 0;
 
   const runEditSQL = async (sql: string) => {
     try {
@@ -717,6 +718,7 @@ export default function RunQueryPage() {
               }}
               onStageChange={setQueryAnimationStage}
               onExecutionFocus={setFocusedTableName}
+              onDropStageChange={setDropDestructionStage}
             />
 
             {loading || taskSubmitting ? (
