@@ -348,35 +348,73 @@ export default function QueryVisualization({
     document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
     document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => el.classList.remove("sqlwhale-query-column-active"));
 
-    if (!tableName || !stages.length) return;
+    const changeStep = isCreateTable ? ddlStep : isInsert ? insertStep : undefined;
+    const changeMetadata = changeStep?.metadata ?? {};
+    const changeTableName = String(
+      changeMetadata.tableName ?? changeStep?.targetTable ?? ""
+    ).trim();
+
+    // DDL / INSERT use the dedicated change replay instead of the normal
+    // FROM → WHERE → JOIN → SELECT stage list. Still highlight the exact
+    // columns involved so the canvas explains what the database changed.
+    const activeTableName =
+      (isCreateTable || isInsert) ? changeTableName : tableName;
+
+    if (!activeTableName) return;
 
     const source = Array.from(document.querySelectorAll<HTMLElement>("[data-sql-table]"))
-      .find((el) => el.dataset.sqlTable?.toLowerCase() === tableName.toLowerCase());
+      .find((el) => el.dataset.sqlTable?.toLowerCase() === activeTableName.toLowerCase());
 
     if (source) source.classList.add("sqlwhale-query-source-active");
 
-    const targetedColumns =
-      stages[stageIndex] === "filter"
-        ? whereColumns
-        : stages[stageIndex] === "join" && joinTargets
-          ? [joinTargets.leftColumn, joinTargets.rightColumn]
-          : stages[stageIndex] === "select"
-            ? selectedColumns
-            : [];
+    let targetedColumns: string[] = [];
 
-    targetedColumns.forEach((column) => {
-      document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => {
-        if (el.dataset.sqlColumn?.toLowerCase() === column.toLowerCase()) {
+    if (isCreateTable && changeStage >= 1) {
+      const createdColumns = Array.isArray(changeMetadata.columns)
+        ? changeMetadata.columns as Array<{ name?: string }>
+        : [];
+      targetedColumns = createdColumns.map((column) => String(column.name ?? "")).filter(Boolean);
+    } else if (isInsert && changeStage >= 1) {
+      targetedColumns = Array.isArray(changeMetadata.insertedColumns)
+        ? changeMetadata.insertedColumns.map(String)
+        : (changeStep?.columns ?? []);
+    } else if (stages.length) {
+      targetedColumns =
+        stages[stageIndex] === "filter"
+          ? whereColumns
+          : stages[stageIndex] === "join" && joinTargets
+            ? [joinTargets.leftColumn, joinTargets.rightColumn]
+            : stages[stageIndex] === "select"
+              ? selectedColumns
+              : [];
+    }
+
+    if (source && targetedColumns.length > 0) {
+      const targetNames = new Set(targetedColumns.map((column) => column.toLowerCase()));
+      source.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => {
+        if (targetNames.has(el.dataset.sqlColumn?.toLowerCase() ?? "")) {
           el.classList.add("sqlwhale-query-column-active");
         }
       });
-    });
+    }
 
     return () => {
       document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
       document.querySelectorAll<HTMLElement>("[data-sql-column]").forEach((el) => el.classList.remove("sqlwhale-query-column-active"));
     };
-  }, [tableName, stageIndex, stages, selectedColumns, whereColumns]);
+  }, [
+    tableName,
+    stageIndex,
+    stages,
+    selectedColumns,
+    whereColumns,
+    joinTargets,
+    isCreateTable,
+    isInsert,
+    ddlStep,
+    insertStep,
+    changeStage,
+  ]);
 
   useEffect(() => {
     if (executed && !stages.length) onComplete?.();
