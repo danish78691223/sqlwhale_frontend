@@ -188,7 +188,7 @@ function DataTable({
             const matched = !filtering || matchedRows?.includes(rowIndex);
 
             return (
-              <tr key={rowIndex} className={filtering ? (matched ? "is-matching-row" : "is-rejected-row") : ""}>
+              <tr key={rowIndex} className={"sqlwhale-execution-row " + (filtering ? (matched ? "is-matching-row" : "is-rejected-row") : "")}>
                 {columns.map((column, columnIndex) => {
                   const selected = mode === "select" &&
                     selectedColumns.some((name) => name.toLowerCase() === column.toLowerCase());
@@ -433,8 +433,8 @@ export default function QueryVisualization({
             </div>
 
             <div className="sqlwhale-schema-column-list">
-              {createdColumns.map((column, index) => (
-                <div className="sqlwhale-schema-column-row" key={column.name} style={{ animationDelay: `${Math.min(index, 10) * 110}ms` }}>
+              {createdColumns.slice(0, changeStage >= 1 ? createdColumns.length : Math.min(1, createdColumns.length)).map((column, index) => (
+                <div className="sqlwhale-schema-column-row sqlwhale-change-reveal" key={column.name} style={{ animationDelay: `${Math.min(index, 10) * 110}ms` }}>
                   <span className="sqlwhale-schema-column-number">{index + 1}</span>
                   <strong>{column.name}</strong>
                   <span className="sqlwhale-schema-type">{column.type}</span>
@@ -450,9 +450,9 @@ export default function QueryVisualization({
               ))}
             </div>
 
-            <div className="sqlwhale-schema-creation-footer">
-              <span>✓ Table structure committed to the database</span>
-              <span>{step.explanation}</span>
+            <div className={"sqlwhale-schema-creation-footer " + (changeStage >= 2 ? "is-visible" : "")}>
+              <span>{changeStage >= 2 ? "✓ Table structure committed to the database" : "Building table structure..."}</span>
+              <span>{changeStage >= 2 ? step.explanation : "Applying columns and constraints"}</span>
             </div>
           </div>
         ) : (
@@ -477,8 +477,8 @@ export default function QueryVisualization({
                     </tr>
                   </thead>
                   <tbody>
-                    {insertedRows.slice(0, 8).map((row, rowIndex) => (
-                      <tr key={rowIndex} className="is-inserted-row" style={{ animationDelay: `${rowIndex * 180}ms` }}>
+                    {insertedRows.slice(0, changeStage >= 1 ? Math.min(8, insertedRows.length) : 0).map((row, rowIndex) => (
+                      <tr key={rowIndex} className="is-inserted-row sqlwhale-change-reveal" style={{ animationDelay: `${rowIndex * 180}ms` }}>
                         {insertedColumns.map((column, columnIndex) => (
                           <td key={column}>{valueOf(row[columnIndex])}</td>
                         ))}
@@ -488,18 +488,18 @@ export default function QueryVisualization({
                 </table>
               </div>
             ) : (
-              <div className="sqlwhale-visual-waiting">The inserted values were applied successfully.</div>
+              <div className="sqlwhale-visual-waiting">{changeStage >= 1 ? "The inserted values were applied successfully." : "Sending rows into the table..."}</div>
             )}
 
-            <div className="sqlwhale-insert-change">
+            <div className={"sqlwhale-insert-change " + (changeStage >= 1 ? "is-visible" : "")}>
               <div><span>BEFORE</span><strong>{beforeRowCount}</strong><small>rows</small></div>
               <span className="sqlwhale-insert-arrow">→</span>
               <div className="is-after"><span>AFTER</span><strong>{afterRowCount}</strong><small>rows</small></div>
             </div>
 
-            <div className="sqlwhale-schema-creation-footer">
-              <span>✓ Data written to the database</span>
-              <span>{step.explanation}</span>
+            <div className={"sqlwhale-schema-creation-footer " + (changeStage >= 2 ? "is-visible" : "")}>
+              <span>{changeStage >= 2 ? "✓ Data written to the database" : "Writing rows to the database..."}</span>
+              <span>{changeStage >= 2 ? step.explanation : "Updating table state"}</span>
             </div>
           </div>
         )}
@@ -531,7 +531,7 @@ export default function QueryVisualization({
     "The transformed data becomes your result.";
 
   return (
-    <div className="sqlwhale-data-animation" aria-live="polite" data-running={running}>
+    <div className={"sqlwhale-data-animation " + (slowExecution ? "is-replay-mode" : "")} aria-live="polite" data-running={running}>
       <div className="sqlwhale-data-animation-top">
         <div>
           <span className="sqlwhale-data-kicker">WATCH YOUR DATA</span>
