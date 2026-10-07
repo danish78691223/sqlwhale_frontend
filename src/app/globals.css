@@ -18468,8 +18468,8 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
    not just a scale/fade of the parent box. */
 .sql-table-destruction-fragments {
   position: absolute;
-  inset: 0;
-  z-index: 30;
+  inset: -20px;
+  z-index: 100;
   pointer-events: none;
   overflow: visible;
 }
@@ -18479,12 +18479,14 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   left: 50%;
   top: 50%;
   width: 14px;
-  height: 9px;
+  height: 10px;
   border-radius: 2px;
-  background: currentColor;
+  background: #ef4444;
   opacity: 0;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, .18);
-  animation: sqlwhale-schema-piece-fly 1.35s cubic-bezier(.12,.72,.2,1) both;
+  box-shadow:
+    0 0 8px rgba(239, 68, 68, .75),
+    0 1px 2px rgba(15, 23, 42, .2);
+  animation: sqlwhale-schema-piece-fly 1.7s cubic-bezier(.08,.7,.16,1) both;
 }
 
 .sql-table-fragment::after {
@@ -18492,51 +18494,52 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   position: absolute;
   inset: 2px 3px;
   border-radius: 1px;
-  background: rgba(255,255,255,.55);
+  background: rgba(255,255,255,.65);
 }
 
-.sql-table-fragment.fragment-1 { --fx: -115px; --fy: -72px; --fr: -28deg; width: 18px; }
-.sql-table-fragment.fragment-2 { --fx: 105px; --fy: -82px; --fr: 31deg; width: 12px; height: 13px; }
-.sql-table-fragment.fragment-3 { --fx: -145px; --fy: 5px; --fr: -55deg; width: 22px; }
-.sql-table-fragment.fragment-4 { --fx: 138px; --fy: 18px; --fr: 47deg; width: 17px; height: 11px; }
-.sql-table-fragment.fragment-5 { --fx: -92px; --fy: 86px; --fr: 68deg; width: 11px; height: 16px; }
-.sql-table-fragment.fragment-6 { --fx: 82px; --fy: 92px; --fr: -41deg; width: 20px; }
-.sql-table-fragment.fragment-7 { --fx: -54px; --fy: -112px; --fr: 18deg; width: 10px; }
-.sql-table-fragment.fragment-8 { --fx: 56px; --fy: -120px; --fr: -18deg; width: 15px; height: 12px; }
-.sql-table-fragment.fragment-9 { --fx: -118px; --fy: 52px; --fr: 92deg; width: 9px; height: 14px; }
-.sql-table-fragment.fragment-10 { --fx: 124px; --fy: -42px; --fr: 76deg; width: 13px; }
-.sql-table-fragment.fragment-11 { --fx: -34px; --fy: 118px; --fr: -72deg; width: 17px; height: 8px; }
-.sql-table-fragment.fragment-12 { --fx: 38px; --fy: 112px; --fr: 54deg; width: 9px; height: 15px; }
+.sql-table-fragment.fragment-1 { --fx: -125px; --fy: -75px; --fr: -28deg; width: 18px; }
+.sql-table-fragment.fragment-2 { --fx: 115px; --fy: -88px; --fr: 31deg; width: 12px; height: 13px; }
+.sql-table-fragment.fragment-3 { --fx: -155px; --fy: 8px; --fr: -55deg; width: 22px; }
+.sql-table-fragment.fragment-4 { --fx: 150px; --fy: 22px; --fr: 47deg; width: 17px; height: 11px; }
+.sql-table-fragment.fragment-5 { --fx: -100px; --fy: 92px; --fr: 68deg; width: 11px; height: 16px; }
+.sql-table-fragment.fragment-6 { --fx: 92px; --fy: 98px; --fr: -41deg; width: 20px; }
+.sql-table-fragment.fragment-7 { --fx: -65px; --fy: -125px; --fr: 18deg; width: 10px; }
+.sql-table-fragment.fragment-8 { --fx: 65px; --fy: -132px; --fr: -18deg; width: 15px; height: 12px; }
+.sql-table-fragment.fragment-9 { --fx: -128px; --fy: 58px; --fr: 92deg; width: 9px; height: 14px; }
+.sql-table-fragment.fragment-10 { --fx: 135px; --fy: -48px; --fr: 76deg; width: 13px; }
+.sql-table-fragment.fragment-11 { --fx: -40px; --fy: 130px; --fr: -72deg; width: 17px; height: 8px; }
+.sql-table-fragment.fragment-12 { --fx: 45px; --fy: 125px; --fr: 54deg; width: 9px; height: 15px; }
 
 .sql-table-fragment:nth-child(2n) { animation-delay: 45ms; }
 .sql-table-fragment:nth-child(3n) { animation-delay: 90ms; }
 
 @keyframes sqlwhale-schema-piece-fly {
   0% {
-    transform: translate(-50%, -50%) scale(1) rotate(0);
+    transform: translate(-50%, -50%) scale(.35) rotate(0deg);
     opacity: 0;
   }
-  12% {
+  14% {
+    transform: translate(-50%, -50%) scale(1.15) rotate(0deg);
     opacity: 1;
   }
-  45% {
+  35% {
     transform: translate(
-      calc(-50% + var(--fx) * .58),
-      calc(-50% + var(--fy) * .58)
-    ) scale(.78) rotate(var(--fr));
+      calc(-50% + var(--fx) * .32),
+      calc(-50% + var(--fy) * .32)
+    ) scale(1) rotate(var(--fr));
     opacity: 1;
   }
   100% {
     transform: translate(
       calc(-50% + var(--fx)),
       calc(-50% + var(--fy))
-    ) scale(.08) rotate(calc(var(--fr) * 2));
+    ) scale(.05) rotate(var(--fr));
     opacity: 0;
   }
 }
 
 .sql-table-node.is-exploding {
-  animation: sqlwhale-schema-core-collapse 1.35s cubic-bezier(.12,.78,.18,1) both;
+  animation: sqlwhale-schema-core-collapse 1.7s cubic-bezier(.08,.78,.16,1) both;
 }
 
 @keyframes sqlwhale-schema-core-collapse {
@@ -18545,30 +18548,35 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     opacity: 1;
     filter: brightness(1);
   }
-  22% {
+  16% {
     transform: scale(1.045) rotate(-1deg);
     opacity: 1;
-    filter: brightness(1.55);
+    filter: brightness(1.7);
+  }
+  30% {
+    transform: scale(1.02) rotate(1.2deg);
+    opacity: 1;
+    filter: brightness(2);
   }
   48% {
-    transform: scale(.94) rotate(1.5deg);
-    opacity: .86;
-    filter: brightness(1.3);
+    transform: scale(.9) rotate(-1.8deg);
+    opacity: .9;
   }
-  72% {
-    transform: scale(.58) rotate(-3deg);
-    opacity: .42;
+  70% {
+    transform: scale(.55) rotate(3deg);
+    opacity: .45;
+    filter: blur(.6px);
   }
   100% {
-    transform: scale(.16) rotate(5deg);
+    transform: scale(.08) rotate(-7deg);
     opacity: 0;
-    filter: blur(5px);
+    filter: blur(6px) brightness(1.5);
   }
 }
 
 .sql-table-node.is-exploding .sql-table-header,
 .sql-table-node.is-exploding .sql-table-column {
-  animation: sqlwhale-schema-piece-separate 1.15s cubic-bezier(.12,.78,.18,1) both;
+  animation: sqlwhale-schema-piece-separate 1.55s cubic-bezier(.08,.78,.16,1) both;
 }
 
 .sql-table-node.is-exploding .sql-table-column:nth-child(odd) {
@@ -18579,7 +18587,16 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 }
 
 @keyframes sqlwhale-schema-piece-separate {
-  0% { opacity: 1; transform: translate(0,0) scale(1); }
-  42% { opacity: .95; transform: translate(0,-4px) scale(1.02); }
-  100% { opacity: 0; transform: translate(0,0) scale(.25); }
+  0% {
+    opacity: 1;
+    transform: translate(0,0) scale(1);
+  }
+  24% {
+    opacity: 1;
+    transform: translate(0,0) scale(1.03);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0,-12px) scale(.2);
+  }
 }
