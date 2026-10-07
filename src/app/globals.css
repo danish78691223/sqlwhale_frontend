@@ -18228,3 +18228,36 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     animation: none !important;
   }
 }
+
+.sqlwhale-drop-target {
+  position: relative;
+  z-index: 20 !important;
+  animation: sqlwhale-table-explode 1.7s cubic-bezier(.2,.8,.2,1) both;
+  border-color: rgb(239 68 68) !important;
+  box-shadow: 0 0 0 3px rgba(239,68,68,.18), 0 0 28px rgba(239,68,68,.55), 0 18px 45px rgba(15,23,42,.18) !important;
+}
+.sqlwhale-drop-card {
+  display:flex; align-items:center; gap:18px; margin-top:16px; padding:22px;
+  border:1px solid rgba(239,68,68,.28); border-radius:18px;
+  background:linear-gradient(135deg,rgba(254,242,242,.98),rgba(255,255,255,.98));
+}
+.sqlwhale-drop-card-icon {
+  display:grid; width:54px; height:54px; flex:0 0 54px; place-items:center;
+  border-radius:16px; background:rgb(239,68,68); color:white; font-size:1.35rem;
+  font-weight:800; box-shadow:0 8px 24px rgba(239,68,68,.3);
+}
+.sqlwhale-drop-card-body { display:flex; min-width:0; flex:1; flex-direction:column; gap:4px; }
+.sqlwhale-drop-card-body strong { font-size:1.15rem; }
+.sqlwhale-drop-card-body p { margin:0; color:rgb(100 116 139); font-size:.78rem; }
+.sqlwhale-drop-status { padding:7px 10px; border-radius:999px; background:rgb(241 245 249); color:rgb(100 116 139); font-size:.66rem; font-weight:800; letter-spacing:.06em; }
+.sqlwhale-drop-status.is-active { background:rgb(254 226 226); color:rgb(185 28 28); }
+.sqlwhale-drop-status.is-complete { background:rgb(220 252 231); color:rgb(21 128 61); }
+@keyframes sqlwhale-table-explode {
+  0% { transform:scale(1) rotate(0); opacity:1; filter:brightness(1); }
+  25% { transform:scale(1.06) rotate(-1deg); filter:brightness(1.35); }
+  45% { transform:scale(.98) rotate(1deg); filter:brightness(1.65); }
+  65% { transform:scale(1.08) rotate(-2deg); opacity:.82; filter:brightness(1.2) saturate(1.7); }
+  100% { transform:scale(.78) rotate(2deg); opacity:.18; filter:blur(2px) brightness(1.4); }
+}
+.dark .sqlwhale-drop-card { border-color:rgba(248,113,113,.35); background:linear-gradient(135deg,rgba(69,10,10,.72),rgba(15,23,42,.96)); }
+@media (prefers-reduced-motion:reduce) { .sqlwhale-drop-target { animation:none; opacity:.45; } }
