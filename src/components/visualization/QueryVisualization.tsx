@@ -374,7 +374,7 @@ export default function QueryVisualization({
         ? changeMetadata.columns as Array<{ name?: string }>
         : [];
       targetedColumns = createdColumns.map((column) => String(column.name ?? "")).filter(Boolean);
-    } else if (isInsert && changeStage >= 1) {
+    } else if (isInsert && changeStage >= 0) {
       targetedColumns = Array.isArray(changeMetadata.insertedColumns)
         ? changeMetadata.insertedColumns.map(String)
         : (changeStep?.columns ?? []);
