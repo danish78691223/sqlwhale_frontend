@@ -683,6 +683,7 @@ export default function RunQueryPage() {
           <div className="output-box-content">
             <QueryVisualization
               query={query}
+              command={data?.command}
               running={loading || taskSubmitting}
               executed={Boolean(data)}
               result={result}
