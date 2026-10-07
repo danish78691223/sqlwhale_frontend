@@ -280,6 +280,17 @@ export default function RunQueryPage() {
 
     if (!cleanSQL) return;
 
+    // "Show what happened" is a replay, not a second execution. If this exact
+    // query already produced the current result, only restart the visual replay
+    // so INSERT/UPDATE/DELETE statements cannot write to the database again.
+    if (showWhatHappened && data?.success && executedQuery?.trim() === cleanSQL) {
+      setQuery(cleanSQL);
+      setAnimationComplete(false);
+      setSlowExecution(true);
+      setAnimationRunId((current) => current + 1);
+      return;
+    }
+
     setQuery(cleanSQL);
     setExecutedQuery(null);
     setAnimationComplete(false);
