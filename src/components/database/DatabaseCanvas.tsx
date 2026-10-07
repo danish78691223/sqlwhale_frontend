@@ -45,6 +45,7 @@ interface DatabaseCanvasProps {
   onTableDoubleClick?: (tableName: string) => void;
   focusedTableName?: string | null;
   destroyingTableName?: string | null;
+  destroyingStage?: number;
 }
 
 interface SQLCursorTarget {
@@ -329,6 +330,7 @@ export default function DatabaseCanvas({
   onTableDoubleClick,
   focusedTableName = null,
   destroyingTableName = null,
+  destroyingStage = 0,
 }: DatabaseCanvasProps) {
   // The SQL editor is the single source of truth for the table currently
   // referenced by the query. Do not fall back to the previous executed
@@ -466,6 +468,7 @@ export default function DatabaseCanvas({
           queryOrderIndex: nodeQueryIndex,
           focused: focusedTableName?.toLowerCase() === String(node.id).toLowerCase(),
           destroying: destroyingTableName?.toLowerCase() === String(node.id).toLowerCase(),
+          destroyingStage,
         },
         position:
           nodeQueryIndex >= 0
@@ -474,7 +477,7 @@ export default function DatabaseCanvas({
       };
       })
     );
-  }, [activeTableTargets, queryRevealIndex, queryRevealActive, focusedTableName, destroyingTableName, handleTableDoubleClick, setNodes]);
+  }, [activeTableTargets, queryRevealIndex, queryRevealActive, focusedTableName, destroyingTableName, destroyingStage, handleTableDoubleClick, setNodes]);
 
   useEffect(() => {
     if (!queryAnalysis) {
