@@ -692,6 +692,7 @@ export default function RunQueryPage() {
               slowExecution={slowExecution}
               onComplete={() => setAnimationComplete(true)}
               onStageChange={setQueryAnimationStage}
+              onExecutionFocus={setFocusedTableName}
             />
 
             {loading || taskSubmitting ? (
