@@ -59,6 +59,8 @@ export type QueryAnalysis = {
 export type SQLResponse = {
   success?: boolean;
 
+  command?: string;
+
   error?: string;
 
   message?: string;
