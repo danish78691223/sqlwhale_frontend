@@ -29,6 +29,7 @@ interface DatabaseTableNodeData {
   onTableDoubleClick?: (tableName: string) => void;
   focused?: boolean;
   destroying?: boolean;
+  destroyingStage?: number;
 }
 
 export default function DatabaseTable({
@@ -53,6 +54,7 @@ export default function DatabaseTable({
   const onTableDoubleClick = nodeData.onTableDoubleClick;
   const focused = Boolean(nodeData.focused);
   const destroying = Boolean(nodeData.destroying);
+  const destroyingStage = Number(nodeData.destroyingStage ?? 0);
 
   const accentClasses = [
     "table-accent-blue",
@@ -75,7 +77,15 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${focused ? " is-focused" : ""}${destroying ? " is-destroying" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name} style={focused ? { borderColor: "#facc15", boxShadow: "0 0 0 2px rgba(250, 204, 21, 0.2)" } : undefined} onDoubleClick={(event) => { event.preventDefault(); event.stopPropagation(); onTableDoubleClick?.(table.name); }}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${focused ? " is-focused" : ""}${destroying ? " is-destroying" : ""}${destroyingStage >= 2 ? " is-exploding" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name} style={focused ? { borderColor: "#facc15", boxShadow: "0 0 0 2px rgba(250, 204, 21, 0.2)" } : undefined} onDoubleClick={(event) => { event.preventDefault(); event.stopPropagation(); onTableDoubleClick?.(table.name); }}>
+      {destroying && destroyingStage >= 2 && (
+        <div className="sql-table-destruction-fragments" aria-hidden="true">
+          {Array.from({ length: 12 }, (_, index) => (
+            <span key={index} className={`sql-table-fragment fragment-${index + 1}`} />
+          ))}
+        </div>
+      )}
+
       <div
         className={`sql-table-header ${accent}`}
       >
