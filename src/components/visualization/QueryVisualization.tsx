@@ -19,7 +19,7 @@ interface QueryVisualizationProps {
 
 type VisualStage = "scan" | "filter" | "join" | "select" | "result";
 const FAST_STAGE_DURATION = 350;
-const SLOW_STAGE_DURATION = 1500;
+const SLOW_STAGE_DURATION = 1800;
 
 function normalizeQuery(query: string) {
   return query.replace(/--.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\s+/g, " ").trim().replace(/;$/, "");
@@ -250,7 +250,7 @@ export default function QueryVisualization({
         }
         return current + 1;
       });
-    }, slowExecution ? 1200 : 850);
+    }, slowExecution ? 2400 : 850);
     return () => window.clearInterval(timer);
   }, [runId, slowExecution]);
 
