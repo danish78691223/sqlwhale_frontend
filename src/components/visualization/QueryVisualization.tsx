@@ -234,6 +234,24 @@ export default function QueryVisualization({
   const whyClauses = useMemo(() => getWhyClauses(query), [query]);
   const [whyClause, setWhyClause] = useState<WhyClause | null>(null);
 
+  // Replay database-changing statements as a visible sequence, independent of query latency.
+  const [changeStage, setChangeStage] = useState(0);
+
+  useEffect(() => {
+    if (!runId) return;
+    setChangeStage(0);
+    const timer = window.setInterval(() => {
+      setChangeStage((current) => {
+        if (current >= 2) {
+          window.clearInterval(timer);
+          return current;
+        }
+        return current + 1;
+      });
+    }, slowExecution ? 1200 : 850);
+    return () => window.clearInterval(timer);
+  }, [runId, slowExecution]);
+
   useEffect(() => {
     if (whyClause && !whyClauses.includes(whyClause)) {
       setWhyClause(null);
@@ -385,20 +403,20 @@ export default function QueryVisualization({
         </div>
 
         <div className="sqlwhale-change-flow" aria-label={isCreateTable ? "Create table flow" : "Insert data flow"}>
-          <div className="sqlwhale-change-flow-step is-active">
-            <span className="sqlwhale-change-flow-icon">{isCreateTable ? "01" : "01"}</span>
+          <div className={`sqlwhale-change-flow-step ${changeStage >= 0 ? "is-active" : ""} ${changeStage === 0 ? "is-current" : ""} ${changeStage > 0 ? "is-complete" : ""}`}>
+            <span className="sqlwhale-change-flow-icon">{changeStage > 0 ? "✓" : "01"}</span>
             <strong>{isCreateTable ? "DEFINE" : "INSERT"}</strong>
             <small>{isCreateTable ? "Columns & constraints" : "Values provided"}</small>
           </div>
-          <span className="sqlwhale-change-flow-arrow">→</span>
-          <div className="sqlwhale-change-flow-step is-active">
-            <span className="sqlwhale-change-flow-icon">02</span>
+          <span className={`sqlwhale-change-flow-arrow ${changeStage >= 1 ? "is-flowing" : ""}}>→</span>
+          <div className={`sqlwhale-change-flow-step ${changeStage >= 1 ? "is-active" : ""} ${changeStage === 1 ? "is-current" : ""} ${changeStage > 1 ? "is-complete" : ""}`}>
+            <span className="sqlwhale-change-flow-icon">{changeStage > 1 ? "✓" : "02"}</span>
             <strong>DATABASE</strong>
             <small>{isCreateTable ? "Table created" : "Rows written"}</small>
           </div>
-          <span className="sqlwhale-change-flow-arrow">→</span>
-          <div className="sqlwhale-change-flow-step is-active">
-            <span className="sqlwhale-change-flow-icon">03</span>
+          <span className={`sqlwhale-change-flow-arrow ${changeStage >= 2 ? "is-flowing" : ""}`}>→</span>
+          <div className={`sqlwhale-change-flow-step ${changeStage >= 2 ? "is-active is-current" : ""} ${changeStage >= 2 ? "is-complete" : ""}`}>
+            <span className="sqlwhale-change-flow-icon">{changeStage >= 2 ? "✓" : "03"}</span>
             <strong>RESULT</strong>
             <small>{isCreateTable ? "Structure ready" : "Table changed"}</small>
           </div>
@@ -416,7 +434,7 @@ export default function QueryVisualization({
 
             <div className="sqlwhale-schema-column-list">
               {createdColumns.map((column, index) => (
-                <div className="sqlwhale-schema-column-row" key={column.name}>
+                <div className="sqlwhale-schema-column-row" key={column.name} style={{ animationDelay: `${Math.min(index, 10) * 110}ms` }}>
                   <span className="sqlwhale-schema-column-number">{index + 1}</span>
                   <strong>{column.name}</strong>
                   <span className="sqlwhale-schema-type">{column.type}</span>
@@ -460,7 +478,7 @@ export default function QueryVisualization({
                   </thead>
                   <tbody>
                     {insertedRows.slice(0, 8).map((row, rowIndex) => (
-                      <tr key={rowIndex} className="is-inserted-row">
+                      <tr key={rowIndex} className="is-inserted-row" style={{ animationDelay: `${rowIndex * 180}ms` }}>
                         {insertedColumns.map((column, columnIndex) => (
                           <td key={column}>{valueOf(row[columnIndex])}</td>
                         ))}
