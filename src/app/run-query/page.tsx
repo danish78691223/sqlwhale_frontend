@@ -132,6 +132,12 @@ export default function RunQueryPage() {
     setQueryTableTargets(nextTables);
     setFocusedTableName(null);
   }, []);
+
+  const handleCanvasTableDoubleClick = useCallback((tableName: string) => {
+    setFocusedTableName(tableName);
+    sqlEditorRef.current?.focusTable(tableName);
+  }, []);
+
   const [queryRevealIndex, setQueryRevealIndex] = useState<number | null>(null);
   const [queryRevealActive, setQueryRevealActive] = useState(false);
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
@@ -684,10 +690,7 @@ export default function RunQueryPage() {
               destroyingTableName={destroyingTableName}
               destroyingStage={destroyingStage}
               destructiveReplay={isDropReplay}
-              onTableDoubleClick={(tableName) => {
-                setFocusedTableName(tableName);
-                sqlEditorRef.current?.focusTable(tableName);
-              }}
+              onTableDoubleClick={handleCanvasTableDoubleClick}
             />
           )}
         </section>
