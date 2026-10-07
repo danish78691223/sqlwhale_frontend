@@ -374,7 +374,6 @@ export default function DatabaseCanvas({
         return {
           ...nextNode,
           position: existing.position,
-          positionAbsolute: existing.positionAbsolute,
           selected: existing.selected,
           dragging: existing.dragging,
           data: {
