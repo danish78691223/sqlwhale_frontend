@@ -22,7 +22,8 @@
     "emoji-mart": "^5.6.0",
     "@emoji-mart/data": "^1.2.1",
     "gsap": "^3.13.0",
-    "@gsap/react": "^2.1.2"
+    "@gsap/react": "^2.1.2",
+    "framer-motion": "^12.23.24"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
