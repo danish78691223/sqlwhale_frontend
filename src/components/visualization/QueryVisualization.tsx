@@ -14,6 +14,7 @@ interface QueryVisualizationProps {
   slowExecution?: boolean;
   onComplete?: () => void;
   onStageChange?: (stage: VisualStage) => void;
+  onExecutionFocus?: (tableName: string | null) => void;
 }
 
 type VisualStage = "scan" | "filter" | "join" | "select" | "result";
@@ -220,6 +221,7 @@ export default function QueryVisualization({
   slowExecution = false,
   onComplete,
   onStageChange,
+  onExecutionFocus,
 }: QueryVisualizationProps) {
   const normalizedCommand = command?.toUpperCase() ?? "";
   const isCreateTable = normalizedCommand === "CREATE_TABLE";
@@ -306,6 +308,41 @@ export default function QueryVisualization({
   useEffect(() => {
     onStageChange?.(stages[Math.min(stageIndex, stages.length - 1)]);
   }, [stageIndex, stages, onStageChange]);
+
+  // During "Show what happened", drive the Database Canvas itself so the
+  // table involved in the current replay stage is brought into focus.
+  useEffect(() => {
+    if (!slowExecution || !executed) return;
+
+    const currentStage = stages[Math.min(stageIndex, stages.length - 1)];
+    let focusTable: string | null = null;
+
+    if (isCreateTable || isInsert) {
+      const changeStep = isCreateTable ? ddlStep : insertStep;
+      const metadata = changeStep?.metadata ?? {};
+      focusTable = String(
+        metadata.tableName ?? changeStep?.targetTable ?? ""
+      ).trim() || null;
+    } else if (currentStage === "join" && joinTargets) {
+      focusTable = joinTargets.rightTable || joinTargets.leftTable || null;
+    } else {
+      focusTable = tableName || null;
+    }
+
+    onExecutionFocus?.(focusTable);
+  }, [
+    slowExecution,
+    executed,
+    stageIndex,
+    stages,
+    isCreateTable,
+    isInsert,
+    ddlStep,
+    insertStep,
+    joinTargets,
+    tableName,
+    onExecutionFocus,
+  ]);
 
   useEffect(() => {
     document.querySelectorAll<HTMLElement>("[data-sql-table]").forEach((el) => el.classList.remove("sqlwhale-query-source-active"));
