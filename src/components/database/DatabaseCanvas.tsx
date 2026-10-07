@@ -467,7 +467,7 @@ export default function DatabaseCanvas({
           onTableDoubleClick: handleTableDoubleClick,
           queryOrderIndex: nodeQueryIndex,
           focused: focusedTableName?.toLowerCase() === String(node.id).toLowerCase(),
-          destroying: destroyingTableName?.toLowerCase() === String(node.id).toLowerCase(),
+          destroying: destroyingStage >= 2 && destroyingTableName?.toLowerCase() === String(node.id).toLowerCase(),
           destroyingStage,
         },
         position:
