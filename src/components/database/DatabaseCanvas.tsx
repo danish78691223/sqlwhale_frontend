@@ -622,23 +622,56 @@ export default function DatabaseCanvas({
   useEffect(() => {
     if (!focusedTableName || !flowInstance) return;
 
-    const targetNode =
-      flowInstance.getNode(focusedTableName) ??
-      flowInstance.getNodes().find(
-        (node) => String(node.id).toLowerCase() === focusedTableName.toLowerCase()
+    let retryTimer: number | undefined;
+    let cancelled = false;
+
+    const focusAndZoom = () => {
+      if (cancelled) return;
+
+      const targetNode =
+        flowInstance.getNode(focusedTableName) ??
+        flowInstance.getNodes().find(
+          (node) =>
+            String(node.id).toLowerCase() === focusedTableName.toLowerCase()
+        );
+
+      if (!targetNode) {
+        retryTimer = window.setTimeout(focusAndZoom, 120);
+        return;
+      }
+
+      const position = targetNode.position;
+      const width = targetNode.measured?.width ?? targetNode.width ?? 260;
+      const height = targetNode.measured?.height ?? targetNode.height ?? 140;
+
+      // DROP TABLE replay needs a deliberate camera move before the table
+      // starts breaking apart. setCenter is used instead of fitView so other
+      // schema nodes do not influence the zoom level.
+      flowInstance.setCenter(
+        position.x + width / 2,
+        position.y + height / 2,
+        {
+          zoom: 1.25,
+          duration: 700,
+        }
       );
+    };
 
-    if (!targetNode) return;
+    // React Flow may have the node in its store one render before its
+    // measured dimensions are available, so give the canvas a frame and
+    // retry once if necessary.
+    const frame = window.requestAnimationFrame(() => {
+      focusAndZoom();
+      retryTimer = window.setTimeout(focusAndZoom, 180);
+    });
 
-    const position = targetNode.position;
-    const width = targetNode.measured?.width ?? targetNode.width ?? 0;
-    const height = targetNode.measured?.height ?? targetNode.height ?? 0;
-
-    flowInstance.setCenter(
-      position.x + width / 2,
-      position.y + height / 2,
-      { zoom: 0.9, duration: 450 }
-    );
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(frame);
+      if (retryTimer !== undefined) {
+        window.clearTimeout(retryTimer);
+      }
+    };
   }, [focusedTableName, flowInstance]);
 
   const toggleTablesLock = () => {
