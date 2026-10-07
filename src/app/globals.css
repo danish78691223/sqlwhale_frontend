@@ -18261,3 +18261,205 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 }
 .dark .sqlwhale-drop-card { border-color:rgba(248,113,113,.35); background:linear-gradient(135deg,rgba(69,10,10,.72),rgba(15,23,42,.96)); }
 @media (prefers-reduced-motion:reduce) { .sqlwhale-drop-target { animation:none; opacity:.45; } }
+
+
+/* =========================================================
+   DROP TABLE — DESTROY THE ACTUAL DATABASE SCHEMA BOX
+   ========================================================= */
+
+.sql-table-node.is-destroying {
+  position: relative;
+  z-index: 100 !important;
+  overflow: visible !important;
+  border-color: rgb(239 68 68) !important;
+  box-shadow:
+    0 0 0 3px rgba(239, 68, 68, 0.22),
+    0 0 34px rgba(239, 68, 68, 0.62),
+    0 18px 42px rgba(15, 23, 42, 0.22) !important;
+  animation: sqlwhale-schema-box-destroy 2.4s cubic-bezier(.18,.72,.2,1) both;
+}
+
+.sql-table-node.is-destroying::before,
+.sql-table-node.is-destroying::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border-radius: 4px;
+  opacity: 0;
+  background: rgb(239 68 68);
+  box-shadow:
+    42px -28px 0 -3px rgba(248, 113, 113, .9),
+    -48px 26px 0 -4px rgba(239, 68, 68, .8),
+    58px 34px 0 -5px rgba(254, 202, 202, .95),
+    -55px -35px 0 -5px rgba(248, 113, 113, .9);
+}
+
+.sql-table-node.is-destroying::before {
+  animation: sqlwhale-schema-fragments-a 1.75s cubic-bezier(.15,.8,.2,1) both;
+}
+
+.sql-table-node.is-destroying::after {
+  width: 10px;
+  height: 10px;
+  background: rgb(248 113 113);
+  animation: sqlwhale-schema-fragments-b 1.55s cubic-bezier(.15,.8,.2,1) .08s both;
+}
+
+.sql-table-node.is-destroying .sql-table-header {
+  animation: sqlwhale-schema-header-blast 1.7s cubic-bezier(.15,.8,.2,1) both;
+}
+
+.sql-table-node.is-destroying .sql-table-icon,
+.sql-table-node.is-destroying .sql-column-count,
+.sql-table-node.is-destroying .sql-table-header-actions {
+  animation: sqlwhale-schema-pieces-left 1.65s cubic-bezier(.15,.8,.2,1) both;
+}
+
+.sql-table-node.is-destroying .sql-table-column {
+  position: relative;
+  animation: sqlwhale-schema-column-blast 1.8s cubic-bezier(.12,.82,.18,1) both;
+}
+
+.sql-table-node.is-destroying .sql-table-column:nth-child(1) { animation-delay: 0ms; }
+.sql-table-node.is-destroying .sql-table-column:nth-child(2) { animation-delay: 55ms; }
+.sql-table-node.is-destroying .sql-table-column:nth-child(3) { animation-delay: 110ms; }
+.sql-table-node.is-destroying .sql-table-column:nth-child(4) { animation-delay: 165ms; }
+.sql-table-node.is-destroying .sql-table-column:nth-child(5) { animation-delay: 220ms; }
+.sql-table-node.is-destroying .sql-table-column:nth-child(6) { animation-delay: 275ms; }
+
+@keyframes sqlwhale-schema-box-destroy {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+    filter: brightness(1);
+  }
+  18% {
+    transform: translate(-3px, 1px) scale(1.025) rotate(-.5deg);
+    filter: brightness(1.45);
+  }
+  32% {
+    transform: translate(4px, -2px) scale(1.035) rotate(.7deg);
+    filter: brightness(1.8);
+  }
+  48% {
+    transform: translate(-5px, 3px) scale(1.01) rotate(-1deg);
+    opacity: .94;
+  }
+  70% {
+    transform: translate(7px, -4px) scale(.9) rotate(1.5deg);
+    opacity: .62;
+    filter: blur(.4px) brightness(1.25);
+  }
+  100% {
+    transform: translate(0, 0) scale(.58) rotate(-2deg);
+    opacity: 0;
+    filter: blur(4px) brightness(1.4);
+  }
+}
+
+@keyframes sqlwhale-schema-header-blast {
+  0%, 28% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  55% {
+    transform: translate(-18px, -12px) scale(.92) rotate(-3deg);
+    opacity: .82;
+  }
+  100% {
+    transform: translate(-46px, -34px) scale(.48) rotate(-9deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sqlwhale-schema-column-blast {
+  0%, 25% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  52% {
+    transform: translate(
+      calc((var(--sqlwhale-blast-x, 1) * 14px)),
+      calc((var(--sqlwhale-blast-y, 1) * 10px))
+    ) scale(.9);
+    opacity: .8;
+  }
+  100% {
+    transform: translate(
+      calc((var(--sqlwhale-blast-x, 1) * 48px)),
+      calc((var(--sqlwhale-blast-y, 1) * 34px))
+    ) scale(.3) rotate(5deg);
+    opacity: 0;
+  }
+}
+
+.sql-table-node.is-destroying .sql-table-column:nth-child(odd) {
+  --sqlwhale-blast-x: -1;
+  --sqlwhale-blast-y: -1;
+}
+
+.sql-table-node.is-destroying .sql-table-column:nth-child(even) {
+  --sqlwhale-blast-x: 1;
+  --sqlwhale-blast-y: 1;
+}
+
+@keyframes sqlwhale-schema-pieces-left {
+  0%, 25% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-34px, -20px) scale(.45) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sqlwhale-schema-fragments-a {
+  0%, 18% {
+    transform: translate(-50%, -50%) scale(.2) rotate(0);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-145%, -180%) scale(.12) rotate(125deg);
+    opacity: 0;
+  }
+}
+
+@keyframes sqlwhale-schema-fragments-b {
+  0%, 20% {
+    transform: translate(-50%, -50%) scale(.1) rotate(0);
+    opacity: 0;
+  }
+  38% {
+    opacity: .95;
+  }
+  100% {
+    transform: translate(330%, 210%) scale(.05) rotate(-150deg);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sql-table-node.is-destroying,
+  .sql-table-node.is-destroying::before,
+  .sql-table-node.is-destroying::after,
+  .sql-table-node.is-destroying .sql-table-header,
+  .sql-table-node.is-destroying .sql-table-column,
+  .sql-table-node.is-destroying .sql-table-icon,
+  .sql-table-node.is-destroying .sql-column-count,
+  .sql-table-node.is-destroying .sql-table-header-actions {
+    animation: none !important;
+  }
+
+  .sql-table-node.is-destroying {
+    opacity: .25;
+    transform: scale(.8);
+  }
+}
