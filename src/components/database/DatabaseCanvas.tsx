@@ -345,7 +345,7 @@ export default function DatabaseCanvas({
     initialTableName,
     activeTableTargets,
     queryRevealIndex,
-    queryRevealActive,
+    destructiveReplay ? false : queryRevealActive,
     onTableDoubleClick
   );
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -366,7 +366,7 @@ export default function DatabaseCanvas({
         initialTableName,
         activeTableTargets,
         queryRevealIndex,
-        queryRevealActive,
+        destructiveReplay ? false : queryRevealActive,
         onTableDoubleClick
       );
 
