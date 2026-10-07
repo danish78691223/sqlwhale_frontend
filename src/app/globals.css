@@ -18600,3 +18600,243 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     transform: translate(0,-12px) scale(.2);
   }
 }
+
+
+/* =========================================================
+   SQLWHALE CUSTOM 404
+   ========================================================= */
+
+.sqlwhale-not-found {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  place-items: center;
+  padding: 32px 20px;
+  background: rgb(3 18 32);
+  color: rgb(15 23 42);
+  isolation: isolate;
+}
+
+.sqlwhale-not-found-video {
+  position: absolute;
+  z-index: -3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+}
+
+.sqlwhale-not-found-video-overlay {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2,18,32,.42), rgba(2,18,32,.70));
+  pointer-events: none;
+}
+
+.sqlwhale-not-found-grid {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: .14;
+  background-image:
+    linear-gradient(rgba(186,230,253,.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(186,230,253,.18) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at center, black, transparent 72%);
+}
+
+.sqlwhale-not-found-card {
+  position: relative;
+  z-index: 1;
+  width: min(680px, 100%);
+  padding: 48px 42px;
+  border: 1px solid rgba(186,230,253,.28);
+  border-radius: 24px;
+  background: rgb(248 250 252);
+  box-shadow: 0 30px 80px rgba(0,0,0,.34);
+  text-align: center;
+  animation: sqlwhale-404-card-in .7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.sqlwhale-not-found-whale {
+  display: grid;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border: 1px solid rgb(186 230 253);
+  border-radius: 22px;
+  background: rgb(224 242 254);
+  font-size: 2.7rem;
+  animation: sqlwhale-404-float 3.5s ease-in-out infinite;
+}
+
+.sqlwhale-not-found-code {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 8px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(3.6rem, 10vw, 6.4rem);
+  font-weight: 800;
+  letter-spacing: -.08em;
+  line-height: .95;
+}
+
+.sqlwhale-not-found-code .sqlwhale-not-found-dot { color: rgb(14 116 144); }
+
+.sqlwhale-not-found-code > span:last-child {
+  color: rgb(71 85 105);
+  font-size: .34em;
+  letter-spacing: -.04em;
+}
+
+.sqlwhale-not-found-kicker {
+  margin: 20px 0 7px;
+  color: rgb(14 116 144);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.sqlwhale-not-found-card h1 {
+  margin: 0;
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+
+.sqlwhale-not-found-message {
+  max-width: 500px;
+  margin: 12px auto 24px;
+  color: rgb(71 85 105);
+  font-size: .92rem;
+  line-height: 1.65;
+}
+
+.sqlwhale-not-found-query {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto 26px;
+  padding: 13px 15px;
+  border: 1px solid rgb(30 41 59);
+  border-radius: 12px;
+  background: rgb(15 23 42);
+  color: rgb(203 213 225);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .7rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sqlwhale-not-found-prompt { color: rgb(103 232 249); font-weight: 800; }
+.sqlwhale-not-found-error { margin-left: auto; color: rgb(248 113 113); font-weight: 700; }
+
+.sqlwhale-not-found-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sqlwhale-not-found-primary,
+.sqlwhale-not-found-secondary {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 18px;
+  font-size: .78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.sqlwhale-not-found-primary {
+  background: rgb(14 116 144);
+  color: white;
+}
+
+.sqlwhale-not-found-secondary {
+  border: 1px solid rgb(186 230 253);
+  background: white;
+  color: rgb(15 23 42);
+}
+
+.sqlwhale-not-found-primary:hover,
+.sqlwhale-not-found-secondary:hover {
+  transform: translateY(-2px);
+}
+
+.sqlwhale-not-found-primary:hover { background: rgb(8 89 113); }
+.sqlwhale-not-found-secondary:hover { background: rgb(240 249 255); }
+
+@keyframes sqlwhale-404-card-in {
+  from { opacity: 0; transform: translateY(18px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sqlwhale-404-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-7px) rotate(2deg); }
+}
+
+.dark .sqlwhale-not-found { background: rgb(2 10 18); }
+
+.dark .sqlwhale-not-found-video-overlay {
+  background: linear-gradient(180deg, rgba(2,10,18,.56), rgba(2,10,18,.78));
+}
+
+.dark .sqlwhale-not-found-card {
+  border-color: rgb(51 65 85);
+  background: rgb(13 27 45);
+  color: rgb(241 245 249);
+}
+
+.dark .sqlwhale-not-found-whale {
+  border-color: rgb(51 65 85);
+  background: rgb(15 35 55);
+}
+
+.dark .sqlwhale-not-found-code > span:last-child,
+.dark .sqlwhale-not-found-message {
+  color: rgb(148 163 184);
+}
+
+.dark .sqlwhale-not-found-secondary {
+  border-color: rgb(51 65 85);
+  background: rgb(15 23 42);
+  color: rgb(226 232 240);
+}
+
+@media (max-width: 560px) {
+  .sqlwhale-not-found { padding: 20px 14px; }
+  .sqlwhale-not-found-card { padding: 34px 20px; border-radius: 20px; }
+  .sqlwhale-not-found-whale { width: 64px; height: 64px; border-radius: 18px; font-size: 2.25rem; }
+  .sqlwhale-not-found-query {
+    align-items: flex-start;
+    flex-direction: column;
+    white-space: normal;
+    line-height: 1.45;
+  }
+  .sqlwhale-not-found-error { margin-left: 0; }
+  .sqlwhale-not-found-actions { flex-direction: column; }
+  .sqlwhale-not-found-primary,
+  .sqlwhale-not-found-secondary { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-not-found-video { display: none; }
+  .sqlwhale-not-found-card,
+  .sqlwhale-not-found-whale { animation: none !important; }
+}
