@@ -5,6 +5,7 @@ import type { SQLExecution, SQLResult, ExecutionStep } from "@/types/execution";
 
 interface QueryVisualizationProps {
   query: string;
+  command?: string;
   running: boolean;
   executed: boolean;
   result?: SQLResult;
@@ -210,6 +211,7 @@ function DataTable({
 
 export default function QueryVisualization({
   query,
+  command,
   running,
   executed,
   result,
@@ -219,6 +221,11 @@ export default function QueryVisualization({
   onComplete,
   onStageChange,
 }: QueryVisualizationProps) {
+  const normalizedCommand = command?.toUpperCase() ?? "";
+  const isCreateTable = normalizedCommand === "CREATE_TABLE";
+  const isInsert = normalizedCommand === "INSERT";
+  const ddlStep = execution?.steps.find((step) => step.operation === "create_table");
+  const insertStep = execution?.steps.find((step) => step.operation === "insert");
   const tableName = getTableName(query);
   const whereCondition = getWhereCondition(query);
   const selectedColumns = useMemo(() => getSelectedColumns(query, result), [query, result]);
@@ -319,6 +326,168 @@ export default function QueryVisualization({
   useEffect(() => {
     if (executed && !stages.length) onComplete?.();
   }, [executed, stages.length, onComplete]);
+
+  if (isCreateTable || isInsert) {
+    if ((!running && !executed) || !execution) return null;
+
+    const step = isCreateTable ? ddlStep : insertStep;
+    if (!step) {
+      return (
+        <div className="sqlwhale-data-animation" aria-live="polite">
+          <div className="sqlwhale-data-animation-top">
+            <div>
+              <span className="sqlwhale-data-kicker">DATABASE CHANGE</span>
+              <div className="sqlwhale-data-action">
+                {isCreateTable ? "Building the new table structure..." : "Applying the inserted rows..."}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const metadata = step.metadata ?? {};
+    const createdColumns = Array.isArray(metadata.columns)
+      ? metadata.columns as Array<{
+          name: string;
+          type: string;
+          notNull?: boolean;
+          primaryKey?: boolean;
+          defaultValue?: unknown;
+          foreignKey?: boolean;
+          referencesTable?: string;
+          referencesColumn?: string;
+        }>
+      : [];
+    const insertedColumns = Array.isArray(metadata.insertedColumns)
+      ? metadata.insertedColumns.map(String)
+      : (step.columns ?? []);
+    const insertedRows = step.affectedRows ?? [];
+    const beforeRowCount = Number(metadata.beforeRowCount ?? 0);
+    const afterRowCount = Number(metadata.afterRowCount ?? beforeRowCount + insertedRows.length);
+
+    return (
+      <div className="sqlwhale-data-animation" aria-live="polite">
+        <div className="sqlwhale-data-animation-top">
+          <div>
+            <span className="sqlwhale-data-kicker">
+              {isCreateTable ? "TABLE CREATED" : "DATA INSERTED"}
+            </span>
+            <div className="sqlwhale-data-action">
+              {isCreateTable
+                ? "SQLWhale created the table and applied its structure."
+                : "SQLWhale inserted these rows into the existing table."}
+            </div>
+          </div>
+          <span className="sqlwhale-data-counter">
+            {isCreateTable ? createdColumns.length + " columns" : "+" + insertedRows.length + " rows"}
+          </span>
+        </div>
+
+        <div className="sqlwhale-change-flow" aria-label={isCreateTable ? "Create table flow" : "Insert data flow"}>
+          <div className="sqlwhale-change-flow-step is-active">
+            <span className="sqlwhale-change-flow-icon">{isCreateTable ? "01" : "01"}</span>
+            <strong>{isCreateTable ? "DEFINE" : "INSERT"}</strong>
+            <small>{isCreateTable ? "Columns & constraints" : "Values provided"}</small>
+          </div>
+          <span className="sqlwhale-change-flow-arrow">→</span>
+          <div className="sqlwhale-change-flow-step is-active">
+            <span className="sqlwhale-change-flow-icon">02</span>
+            <strong>DATABASE</strong>
+            <small>{isCreateTable ? "Table created" : "Rows written"}</small>
+          </div>
+          <span className="sqlwhale-change-flow-arrow">→</span>
+          <div className="sqlwhale-change-flow-step is-active">
+            <span className="sqlwhale-change-flow-icon">03</span>
+            <strong>RESULT</strong>
+            <small>{isCreateTable ? "Structure ready" : "Table changed"}</small>
+          </div>
+        </div>
+
+        {isCreateTable ? (
+          <div className="sqlwhale-schema-creation-card">
+            <div className="sqlwhale-schema-creation-header">
+              <div>
+                <span className="sqlwhale-schema-kicker">NEW TABLE</span>
+                <strong>{String(metadata.tableName ?? step.targetTable ?? "new_table")}</strong>
+              </div>
+              <span className="sqlwhale-schema-count">{createdColumns.length} columns</span>
+            </div>
+
+            <div className="sqlwhale-schema-column-list">
+              {createdColumns.map((column, index) => (
+                <div className="sqlwhale-schema-column-row" key={column.name}>
+                  <span className="sqlwhale-schema-column-number">{index + 1}</span>
+                  <strong>{column.name}</strong>
+                  <span className="sqlwhale-schema-type">{column.type}</span>
+                  {column.primaryKey && <span className="sqlwhale-schema-badge primary">PK</span>}
+                  {column.notNull && <span className="sqlwhale-schema-badge">NOT NULL</span>}
+                  {column.foreignKey && (
+                    <span className="sqlwhale-schema-badge">FK → {column.referencesTable}.{column.referencesColumn}</span>
+                  )}
+                  {column.defaultValue !== undefined && column.defaultValue !== null && (
+                    <span className="sqlwhale-schema-default">DEFAULT {String(column.defaultValue)}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="sqlwhale-schema-creation-footer">
+              <span>✓ Table structure committed to the database</span>
+              <span>{step.explanation}</span>
+            </div>
+          </div>
+        ) : (
+          <div className="sqlwhale-insert-card">
+            <div className="sqlwhale-insert-header">
+              <div>
+                <span className="sqlwhale-schema-kicker">ROWS ADDED TO</span>
+                <strong>{String(step.targetTable ?? metadata.tableName ?? "table")}</strong>
+              </div>
+              <div className="sqlwhale-row-change">
+                <strong>+{insertedRows.length}</strong>
+                <span>rows</span>
+              </div>
+            </div>
+
+            {insertedRows.length > 0 && insertedColumns.length > 0 ? (
+              <div className="sqlwhale-insert-table-wrap">
+                <table className="sqlwhale-visual-table sqlwhale-insert-table">
+                  <thead>
+                    <tr>
+                      {insertedColumns.map((column) => <th key={column}>{column}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {insertedRows.slice(0, 8).map((row, rowIndex) => (
+                      <tr key={rowIndex} className="is-inserted-row">
+                        {insertedColumns.map((column, columnIndex) => (
+                          <td key={column}>{valueOf(row[columnIndex])}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="sqlwhale-visual-waiting">The inserted values were applied successfully.</div>
+            )}
+
+            <div className="sqlwhale-insert-change">
+              <div><span>BEFORE</span><strong>{beforeRowCount}</strong><small>rows</small></div>
+              <span className="sqlwhale-insert-arrow">→</span>
+              <div className="is-after"><span>AFTER</span><strong>{afterRowCount}</strong><small>rows</small></div>
+            </div>
+
+            <div className="sqlwhale-schema-creation-footer">
+              <span>✓ Data written to the database</span>
+              <span>{step.explanation}</span>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if ((!running && !executed) || !stages.length) return null;
 
