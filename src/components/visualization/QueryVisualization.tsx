@@ -436,7 +436,7 @@ export default function QueryVisualization({
 
     if (isDropTable) {
       if (changeStage < 2) return;
-      const timer = window.setTimeout(() => onComplete?.(), 1450);
+      const timer = window.setTimeout(() => onComplete?.(), 1900);
       return () => window.clearTimeout(timer);
     }
 
