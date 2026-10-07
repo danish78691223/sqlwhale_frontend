@@ -15,6 +15,7 @@ interface QueryVisualizationProps {
   onComplete?: () => void;
   onStageChange?: (stage: VisualStage) => void;
   onExecutionFocus?: (tableName: string | null) => void;
+  onDropStageChange?: (stage: number) => void;
 }
 
 type VisualStage = "scan" | "filter" | "join" | "select" | "result";
@@ -222,6 +223,7 @@ export default function QueryVisualization({
   onComplete,
   onStageChange,
   onExecutionFocus,
+  onDropStageChange,
 }: QueryVisualizationProps) {
   const normalizedCommand = command?.toUpperCase() ?? "";
   const isCreateTable = normalizedCommand === "CREATE_TABLE";
@@ -244,17 +246,20 @@ export default function QueryVisualization({
   useEffect(() => {
     if (!runId) return;
     setChangeStage(0);
+    onDropStageChange?.(0);
     const timer = window.setInterval(() => {
       setChangeStage((current) => {
         if (current >= 2) {
           window.clearInterval(timer);
           return current;
         }
-        return current + 1;
+        const next = current + 1;
+        if (isDropTable) onDropStageChange?.(next);
+        return next;
       });
     }, slowExecution ? 2400 : 850);
     return () => window.clearInterval(timer);
-  }, [runId, slowExecution]);
+  }, [runId, slowExecution, isDropTable, onDropStageChange]);
 
   useEffect(() => {
     if (whyClause && !whyClauses.includes(whyClause)) {
