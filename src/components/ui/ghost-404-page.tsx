@@ -11,7 +11,7 @@ const containerVariants = {
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.43, 0.13, 0.23, 0.96],
+      ease: [0.43, 0.13, 0.23, 0.96] as const,
       delayChildren: 0.1,
       staggerChildren: 0.1,
     },
@@ -25,7 +25,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.43, 0.13, 0.23, 0.96],
+      ease: [0.43, 0.13, 0.23, 0.96] as const,
     },
   },
 };
@@ -44,7 +44,7 @@ const numberVariants = {
     rotate: 0,
     transition: {
       duration: 0.8,
-      ease: [0.43, 0.13, 0.23, 0.96],
+      ease: [0.43, 0.13, 0.23, 0.96] as const,
     },
   },
 };
@@ -58,7 +58,7 @@ const ghostVariants = {
     rotate: 0,
     transition: {
       duration: 0.6,
-      ease: [0.43, 0.13, 0.23, 0.96],
+      ease: [0.43, 0.13, 0.23, 0.96] as const,
     },
   },
   hover: {
@@ -155,7 +155,7 @@ export function NotFound() {
               scale: 1.05,
               transition: {
                 duration: 0.3,
-                ease: [0.43, 0.13, 0.23, 0.96],
+                ease: [0.43, 0.13, 0.23, 0.96] as const,
               },
             }}
           >
