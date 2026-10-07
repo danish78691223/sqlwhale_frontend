@@ -408,7 +408,7 @@ export default function QueryVisualization({
             <strong>{isCreateTable ? "DEFINE" : "INSERT"}</strong>
             <small>{isCreateTable ? "Columns & constraints" : "Values provided"}</small>
           </div>
-          <span className={`sqlwhale-change-flow-arrow ${changeStage >= 1 ? "is-flowing" : ""}}>→</span>
+          <span className={`sqlwhale-change-flow-arrow ${changeStage >= 1 ? "is-flowing" : ""}`}>→</span>
           <div className={`sqlwhale-change-flow-step ${changeStage >= 1 ? "is-active" : ""} ${changeStage === 1 ? "is-current" : ""} ${changeStage > 1 ? "is-complete" : ""}`}>
             <span className="sqlwhale-change-flow-icon">{changeStage > 1 ? "✓" : "02"}</span>
             <strong>DATABASE</strong>
