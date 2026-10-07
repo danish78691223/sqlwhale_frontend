@@ -8,6 +8,7 @@ export type ExecutionStep = {
   operation: string;
 
   sourceTable?: string;
+  targetTable?: string;
 
   condition?: string;
 
@@ -16,6 +17,7 @@ export type ExecutionStep = {
 
   outputColumns?: string[];
   outputRows?: ExecutionRow[];
+  affectedRows?: ExecutionRow[];
 
   matchedRows?: number[];
   filteredRows?: number[];
