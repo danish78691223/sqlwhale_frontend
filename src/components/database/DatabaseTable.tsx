@@ -28,6 +28,7 @@ interface DatabaseTableNodeData {
   onEditTable?: (table: DatabaseTableType) => void;
   onTableDoubleClick?: (tableName: string) => void;
   focused?: boolean;
+  destroying?: boolean;
 }
 
 export default function DatabaseTable({
@@ -51,6 +52,7 @@ export default function DatabaseTable({
   const onEditTable = nodeData.onEditTable;
   const onTableDoubleClick = nodeData.onTableDoubleClick;
   const focused = Boolean(nodeData.focused);
+  const destroying = Boolean(nodeData.destroying);
 
   const accentClasses = [
     "table-accent-blue",
@@ -73,7 +75,7 @@ export default function DatabaseTable({
         lineStyle={{ borderWidth: 1 }}
         handleStyle={{ width: 8, height: 8 }}
       />
-      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${focused ? " is-focused" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name} style={focused ? { borderColor: "#facc15", boxShadow: "0 0 0 2px rgba(250, 204, 21, 0.2)" } : undefined} onDoubleClick={(event) => { event.preventDefault(); event.stopPropagation(); onTableDoubleClick?.(table.name); }}>
+      <div className={`sql-table-node ${accent}${locked ? " is-locked" : ""}${initialFocus ? " is-initial-focus" : ""}${queryTarget ? " is-query-target" : ""}${focused ? " is-focused" : ""}${destroying ? " is-destroying" : ""}${queryRevealActive && queryOrderIndex >= 0 ? (queryRevealed ? " is-query-revealed" : " is-query-pending") : ""}`} data-sql-table={table.name} style={focused ? { borderColor: "#facc15", boxShadow: "0 0 0 2px rgba(250, 204, 21, 0.2)" } : undefined} onDoubleClick={(event) => { event.preventDefault(); event.stopPropagation(); onTableDoubleClick?.(table.name); }}>
       <div
         className={`sql-table-header ${accent}`}
       >
