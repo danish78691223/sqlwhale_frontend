@@ -12,6 +12,8 @@ export type ExecutionStep = {
 
   condition?: string;
 
+  columns?: string[];
+
   inputColumns?: string[];
   inputRows?: ExecutionRow[];
 
