@@ -17685,3 +17685,348 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     padding: 15px;
   }
 }
+
+
+/* =========================================================
+   DDL / INSERT EXECUTION VISUALIZATION
+   ========================================================= */
+
+.sqlwhale-change-flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.sqlwhale-change-flow-step {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 12px;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 12px;
+  background: rgb(248 250 252);
+  text-align: center;
+}
+
+.sqlwhale-change-flow-step.is-active {
+  border-color: rgb(203 213 225);
+}
+
+.sqlwhale-change-flow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 7px;
+  border-radius: 8px;
+  background: rgb(15 23 42);
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.sqlwhale-change-flow-step strong {
+  display: block;
+  color: rgb(15 23 42);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.sqlwhale-change-flow-step small {
+  display: block;
+  margin-top: 3px;
+  color: rgb(100 116 139);
+  font-size: 0.66rem;
+}
+
+.sqlwhale-change-flow-arrow {
+  display: flex;
+  align-items: center;
+  color: rgb(148 163 184);
+  font-size: 1.1rem;
+}
+
+.sqlwhale-schema-creation-card,
+.sqlwhale-insert-card {
+  overflow: hidden;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 16px;
+  background: white;
+}
+
+.sqlwhale-schema-creation-header,
+.sqlwhale-insert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 17px;
+  border-bottom: 1px solid rgb(226 232 240);
+}
+
+.sqlwhale-schema-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: rgb(100 116 139);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+
+.sqlwhale-schema-creation-header strong,
+.sqlwhale-insert-header strong {
+  color: rgb(15 23 42);
+  font-size: 1rem;
+}
+
+.sqlwhale-schema-count {
+  border-radius: 999px;
+  background: rgb(241 245 249);
+  padding: 5px 9px;
+  color: rgb(71 85 105);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.sqlwhale-schema-column-list {
+  padding: 5px 0;
+}
+
+.sqlwhale-schema-column-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgb(241 245 249);
+}
+
+.sqlwhale-schema-column-number {
+  display: inline-flex;
+  flex: 0 0 23px;
+  align-items: center;
+  justify-content: center;
+  height: 23px;
+  border-radius: 6px;
+  background: rgb(241 245 249);
+  color: rgb(100 116 139);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.sqlwhale-schema-column-row > strong {
+  min-width: 110px;
+  color: rgb(30 41 59);
+  font-size: 0.76rem;
+}
+
+.sqlwhale-schema-type {
+  color: rgb(37 99 235);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.sqlwhale-schema-badge {
+  border-radius: 5px;
+  background: rgb(241 245 249);
+  padding: 3px 6px;
+  color: rgb(71 85 105);
+  font-size: 0.58rem;
+  font-weight: 700;
+}
+
+.sqlwhale-schema-badge.primary {
+  background: rgb(254 249 195);
+  color: rgb(133 77 14);
+}
+
+.sqlwhale-schema-default {
+  margin-left: auto;
+  color: rgb(100 116 139);
+  font-size: 0.6rem;
+}
+
+.sqlwhale-schema-creation-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 15px;
+  border-top: 1px solid rgb(226 232 240);
+  color: rgb(100 116 139);
+  font-size: 0.62rem;
+}
+
+.sqlwhale-schema-creation-footer span:first-child {
+  color: rgb(22 101 52);
+  font-weight: 700;
+}
+
+.sqlwhale-row-change {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.sqlwhale-row-change strong {
+  color: rgb(22 101 52) !important;
+  font-size: 1.05rem !important;
+}
+
+.sqlwhale-row-change span {
+  color: rgb(100 116 139);
+  font-size: 0.64rem;
+}
+
+.sqlwhale-insert-table-wrap {
+  overflow-x: auto;
+}
+
+.sqlwhale-insert-table .is-inserted-row {
+  animation: sqlwhale-insert-row-in 450ms ease both;
+}
+
+.sqlwhale-insert-table .is-inserted-row td {
+  background: rgba(220, 252, 231, 0.72);
+}
+
+.sqlwhale-insert-change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  border-top: 1px solid rgb(226 232 240);
+}
+
+.sqlwhale-insert-change > div {
+  min-width: 85px;
+  text-align: center;
+}
+
+.sqlwhale-insert-change span {
+  display: block;
+  color: rgb(100 116 139);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.sqlwhale-insert-change strong {
+  display: inline-block;
+  margin-top: 2px;
+  color: rgb(30 41 59);
+  font-size: 1.2rem;
+}
+
+.sqlwhale-insert-change small {
+  margin-left: 4px;
+  color: rgb(100 116 139);
+  font-size: 0.62rem;
+}
+
+.sqlwhale-insert-change .is-after strong {
+  color: rgb(22 101 52);
+}
+
+.sqlwhale-insert-arrow {
+  color: rgb(148 163 184) !important;
+  font-size: 1rem !important;
+}
+
+@keyframes sqlwhale-insert-row-in {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dark .sqlwhale-change-flow-step,
+.dark .sqlwhale-schema-creation-card,
+.dark .sqlwhale-insert-card {
+  border-color: rgb(51 65 85);
+  background: rgb(13 27 45);
+}
+
+.dark .sqlwhale-change-flow-step strong,
+.dark .sqlwhale-schema-creation-header strong,
+.dark .sqlwhale-insert-header strong,
+.dark .sqlwhale-schema-column-row > strong,
+.dark .sqlwhale-insert-change strong {
+  color: rgb(226 232 240);
+}
+
+.dark .sqlwhale-change-flow-step small,
+.dark .sqlwhale-schema-kicker,
+.dark .sqlwhale-schema-count,
+.dark .sqlwhale-schema-default,
+.dark .sqlwhale-schema-creation-footer,
+.dark .sqlwhale-row-change span,
+.dark .sqlwhale-insert-change span,
+.dark .sqlwhale-insert-change small {
+  color: rgb(148 163 184);
+}
+
+.dark .sqlwhale-schema-creation-header,
+.dark .sqlwhale-insert-header,
+.dark .sqlwhale-schema-creation-footer,
+.dark .sqlwhale-insert-change {
+  border-color: rgb(51 65 85);
+}
+
+.dark .sqlwhale-schema-column-row {
+  border-color: rgb(30 41 59);
+}
+
+.dark .sqlwhale-schema-column-number,
+.dark .sqlwhale-schema-count,
+.dark .sqlwhale-schema-badge {
+  background: rgb(30 41 59);
+  color: rgb(203 213 225);
+}
+
+.dark .sqlwhale-schema-badge.primary {
+  background: rgb(66 32 6);
+  color: rgb(253 230 138);
+}
+
+.dark .sqlwhale-insert-table .is-inserted-row td {
+  background: rgba(20, 83, 45, 0.35);
+}
+
+@media (max-width: 680px) {
+  .sqlwhale-change-flow {
+    gap: 5px;
+  }
+
+  .sqlwhale-change-flow-arrow {
+    font-size: 0.85rem;
+  }
+
+  .sqlwhale-change-flow-step {
+    padding: 9px 5px;
+  }
+
+  .sqlwhale-change-flow-step small {
+    font-size: 0.57rem;
+  }
+
+  .sqlwhale-schema-column-row {
+    flex-wrap: wrap;
+  }
+
+  .sqlwhale-schema-column-row > strong {
+    min-width: 90px;
+  }
+
+  .sqlwhale-schema-default {
+    width: 100%;
+    margin-left: 32px;
+  }
+
+  .sqlwhale-schema-creation-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
