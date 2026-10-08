@@ -89,7 +89,7 @@ export function SQLWhaleHero() {
             <span>WRITE</span>
             <span className={styles.line} />
             <span>TRACE</span>
-            <span className="h-px w-8 bg-neutral-300" />
+            <span className={styles.line} />
             <span>UNDERSTAND</span>
           </div>
         </motion.div>
@@ -219,6 +219,13 @@ export function SQLWhaleHero() {
             </motion.div>
           </div>
         </motion.div>
+        <div className={styles.sideSteps} aria-label="SQLWhale learning flow">
+          <span>WRITE</span>
+          <span className={styles.sideArrow}>→</span>
+          <span>TRACE</span>
+          <span className={styles.sideArrow}>→</span>
+          <span>UNDERSTAND</span>
+        </div>
       </div>
     </section>
   );
