@@ -31,44 +31,44 @@ export function SQLWhaleHero() {
   };
 
   return (
-    <section className={`${styles.hero} px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-16`}>
+    <section className={styles.hero}>
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -left-32 -top-32 h-[520px] w-[520px] rounded-full bg-white blur-3xl" />
         <div className="absolute -bottom-40 right-[-8%] h-[560px] w-[560px] rounded-full bg-neutral-200/70 blur-3xl" />
         <div className="absolute inset-0 opacity-[0.28] [background-image:linear-gradient(to_right,rgba(23,23,23,.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,23,23,.045)_1px,transparent_1px)] [background-size:64px_64px]" />
       </div>
 
-      <div className={`${styles.inner} grid items-center gap-16 lg:grid-cols-[0.86fr_1.14fr] lg:gap-12`}>
+      <div className={styles.inner}>
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 24 }}
           animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ type: "spring", bounce: 0, duration: 0.6 }}
-          className="relative z-10 max-w-[650px]"
+          className={styles.copy}
         >
-          <div className="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-neutral-500">
-            <span className="h-2 w-2 rounded-full bg-neutral-950 shadow-[0_0_0_5px_rgba(23,23,23,.06)]" />
+          <div className={styles.eyebrow}>
+            <span className={styles.dot} />
             Interactive SQL learning
           </div>
 
-          <h1 className="text-[clamp(3.5rem,7vw,7.2rem)] font-medium leading-[0.86] tracking-[-0.075em]">
+          <h1 className={styles.title}>
             SQL, but you
             <br />
-            <span className="text-neutral-400">can actually see it.</span>
+            <span className={styles.titleMuted}>can actually see it.</span>
           </h1>
 
-          <p className="mt-9 max-w-[530px] text-[17px] leading-7 tracking-[-0.01em] text-neutral-500 sm:text-[19px]">
+          <p className={styles.lede}>
             Write the query. Follow the tables. Watch the data move. Learn what
             SQL is doing while it happens.
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className={styles.actions}>
             <motion.div
               whileTap={reducedMotion ? undefined : { scale: 0.965 }}
               transition={{ type: "spring", bounce: 0, duration: 0.22 }}
             >
               <Link
                 href="/run-query"
-                className="group inline-flex items-center gap-3 rounded-full bg-neutral-950 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,.16)]"
+                className={styles.primary}
               >
                 Start learning
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -79,15 +79,15 @@ export function SQLWhaleHero() {
               href="#how-it-works"
               whileTap={reducedMotion ? undefined : { scale: 0.965 }}
               transition={{ type: "spring", bounce: 0, duration: 0.22 }}
-              className="inline-flex items-center rounded-full border border-neutral-300/80 bg-white/70 px-6 py-3.5 text-sm font-medium text-neutral-700 backdrop-blur-xl"
+              className={styles.secondary}
             >
               See how it works
             </motion.a>
           </div>
 
-          <div className="mt-12 flex items-center gap-8 text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+          <div className={styles.steps}>
             <span>WRITE</span>
-            <span className="h-px w-8 bg-neutral-300" />
+            <span className={styles.line} />
             <span>TRACE</span>
             <span className="h-px w-8 bg-neutral-300" />
             <span>UNDERSTAND</span>
@@ -98,10 +98,10 @@ export function SQLWhaleHero() {
           initial={reducedMotion ? false : { opacity: 0, x: 36, scale: 0.97 }}
           animate={reducedMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
           transition={{ type: "spring", bounce: 0, duration: 0.75, delay: 0.05 }}
-          className="relative mx-auto w-full max-w-[790px]"
+          className={styles.visual}
         >
           <motion.div
-            className="absolute left-1/2 top-1/2 h-[75%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 blur-[80px]"
+            className={styles.glow}
             style={reducedMotion ? undefined : { x: glowX, y: glowY }}
           />
 
@@ -109,55 +109,55 @@ export function SQLWhaleHero() {
             ref={cardRef}
             onPointerMove={handlePointerMove}
             onPointerLeave={resetPointer}
-            className="relative [perspective:1400px]"
+            className={styles.perspective}
           >
             <motion.div
               style={{ rotateX, rotateY }}
-              className="relative rounded-[30px] border border-white bg-white/65 p-2 shadow-[0_45px_120px_rgba(0,0,0,.18)] backdrop-blur-2xl will-change-transform"
+              className={styles.shell}
             >
-              <div className="overflow-hidden rounded-[23px] border border-neutral-800 bg-[#0b0b0c] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
-                <div className="flex h-14 items-center justify-between border-b border-white/[0.08] px-5">
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-1.5">
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+              <div className={styles.workspace}>
+                <div className={styles.workspaceHeader}>
+                  <div className={styles.workspaceBrand}>
+                    <div className={styles.windowDots}>
+                      <span className={`${styles.windowDot} ${styles.red}`} />
+                      <span className={`${styles.windowDot} ${styles.yellow}`} />
+                      <span className={`${styles.windowDot} ${styles.green}`} />
                     </div>
-                    <span className="ml-2 text-xs font-medium text-neutral-300">
+                    <span className={styles.workspaceName}>
                       SQLWhale Workspace
                     </span>
                   </div>
-                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[9px] uppercase tracking-[0.15em] text-neutral-500">
+                  <span className={styles.live}>
                     Live
                   </span>
                 </div>
 
-                <div className="grid min-h-[510px] grid-cols-[1.12fr_.88fr]">
-                  <div className="border-r border-white/[0.07] p-5 sm:p-7">
-                    <div className="mb-5 flex items-center justify-between">
-                      <span className="text-[10px] uppercase tracking-[0.18em] text-neutral-600">
+                <div className={styles.workspaceGrid}>
+                  <div className={styles.editorPane}>
+                    <div className={styles.paneHeader}>
+                      <span className={styles.paneLabel}>
                         SQL Editor
                       </span>
                       <span className="text-[10px] text-neutral-600">01 / QUERY</span>
                     </div>
 
-                    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5 font-mono text-xs leading-7 sm:text-sm">
-                      <div><span className="text-neutral-600">01</span> <span className="text-white">SELECT</span> <span className="text-neutral-300">e.name, d.name</span></div>
+                    <div className={styles.code}>
+                      <div><span className={styles.lineNo}>01</span> <span className={styles.keyword}>SELECT</span> <span className={styles.codeText}>e.name, d.name</span></div>
                       <div><span className="text-neutral-600">02</span> <span className="text-white">FROM</span> <span className="text-neutral-300">employees e</span></div>
                       <div><span className="text-neutral-600">03</span> <span className="text-white">JOIN</span> <span className="text-neutral-300">departments d</span></div>
                       <div><span className="text-neutral-600">04</span> <span className="text-white">ON</span> <span className="text-neutral-300">e.department_id = d.id</span></div>
                       <div><span className="text-neutral-600">05</span> <span className="text-white">WHERE</span> <span className="text-neutral-300">e.active = 1</span></div>
-                      <div className="mt-3 h-px bg-white/[0.07]" />
-                      <div className="mt-3 flex items-center gap-2 text-[10px] text-neutral-500">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      <div className={styles.codeRule} />
+                      <div className={styles.ready}>
+                        <span className={styles.readyDot} />
                         Query ready to run
                       </div>
                     </div>
 
-                    <div className="mt-5 grid grid-cols-2 gap-3">
-                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
-                        <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">Tables</span>
-                        <span className="mt-2 block text-lg text-neutral-200">02</span>
+                    <div className={styles.stats}>
+                      <div className={styles.stat}>
+                        <span className={styles.statLabel}>Tables</span>
+                        <span className={styles.statValue}>02</span>
                       </div>
                       <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
                         <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">Steps</span>
@@ -166,7 +166,7 @@ export function SQLWhaleHero() {
                     </div>
                   </div>
 
-                  <div className="bg-[#101011] p-5 sm:p-7">
+                  <div className={styles.executionPane}>
                     <div className="mb-5 flex items-center justify-between">
                       <span className="text-[10px] uppercase tracking-[0.18em] text-neutral-600">
                         Execution
@@ -174,7 +174,7 @@ export function SQLWhaleHero() {
                       <span className="text-[10px] text-neutral-600">VISIBLE</span>
                     </div>
 
-                    <div className="space-y-2">
+                    <div className={styles.executionList}>
                       {[
                         ["01", "FROM", "employees"],
                         ["02", "JOIN", "departments"],
@@ -186,32 +186,32 @@ export function SQLWhaleHero() {
                           initial={reducedMotion ? false : { opacity: 0, x: 10 }}
                           animate={reducedMotion ? undefined : { opacity: 1, x: 0 }}
                           transition={{ type: "spring", bounce: 0, duration: 0.4, delay: 0.3 + index * 0.08 }}
-                          className="rounded-2xl border border-white/[0.07] bg-white/[0.035] p-3.5"
+                          className={styles.executionItem}
                         >
-                          <div className="flex items-center gap-3">
-                            <span className="text-[9px] text-neutral-600">{num}</span>
-                            <span className="text-xs font-semibold text-neutral-200">{op}</span>
-                            <span className="ml-auto text-[10px] text-neutral-500">{detail}</span>
+                          <div className={styles.executionRow}>
+                            <span className={styles.executionNum}>{num}</span>
+                            <span className={styles.executionOp}>{op}</span>
+                            <span className={styles.executionDetail}>{detail}</span>
                           </div>
                         </motion.div>
                       ))}
                     </div>
 
-                    <div className="mt-4 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-                      <div className="mb-3 text-[9px] uppercase tracking-[0.16em] text-neutral-600">
+                    <div className={styles.database}>
+                      <div className={styles.dbLabel}>
                         Database
                       </div>
-                      <div className="relative h-24">
-                        <div className="absolute left-1 top-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-[9px] text-neutral-300">employees</div>
-                        <div className="absolute right-1 top-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-[9px] text-neutral-300">departments</div>
-                        <div className="absolute left-1/2 top-12 h-px w-[76%] -translate-x-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                        <div className="absolute left-1/2 top-[43px] h-2 w-2 -translate-x-1/2 rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,.8)]" />
+                      <div className={styles.dbCanvas}>
+                        <div className={`${styles.dbTable} ${styles.dbLeft}`}>employees</div>
+                        <div className={`${styles.dbTable} ${styles.dbRight}`}>departments</div>
+                        <div className={styles.dbLine} />
+                        <div className={styles.dbNode} />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-white/[0.08] px-5 py-3 text-[9px] uppercase tracking-[0.16em] text-neutral-600">
+                <div className={styles.workspaceFooter}>
                   <span>SQLWHALE</span>
                   <span>Write → Trace → Understand</span>
                 </div>
