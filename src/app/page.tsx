@@ -212,7 +212,7 @@ export default function Home() {
           depth={0.7}
         />
       </div>
-      <header className="sqlwhale-reference-nav">
+      <header className="sqlwhale-reference-nav" style={{ backgroundColor: "#000", color: "#fff", borderBottomColor: "rgba(255,255,255,.12)" }}>
         <div className="navbar-inner">
           <Link href="/" className="sqlwhale-logo reference-nav-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
             <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={44} height={44} className="sqlwhale-logo-image" priority />
