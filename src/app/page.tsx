@@ -246,9 +246,9 @@ export default function Home() {
                 <span aria-hidden="true">Profile</span>
               </Link>
             ) : (
-              <Link href="/run-query" className="reference-nav-cta">
-                <span>Start learning</span>
-                <span aria-hidden="true">Start learning</span>
+              <Link href="/login" className="reference-nav-cta">
+                <span>Login</span>
+                <span aria-hidden="true">Login</span>
               </Link>
             )}
           </div>
