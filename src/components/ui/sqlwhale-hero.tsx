@@ -2,221 +2,201 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Database, Play, Search, Table2 } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Database,
+  FileCode2,
+  Play,
+  Search,
+} from "lucide-react";
 
-const commandItems = [
+const commands = [
   {
-    icon: Table2,
-    title: "Explore database",
+    icon: CalendarDays,
+    label: "Open today's query",
     shortcut: "⌘1",
-    description: "See your tables and relationships",
   },
   {
-    icon: Play,
-    title: "Run a SQL query",
+    icon: FileCode2,
+    label: "Jump to SQL editor",
     shortcut: "⌘2",
-    description: "Execute and inspect the result",
   },
   {
     icon: Database,
-    title: "Show what happened",
+    label: "Explore database",
     shortcut: "⌘3",
-    description: "Follow the query step by step",
+  },
+  {
+    icon: Play,
+    label: "Run a SQL query",
+    shortcut: "⌘4",
   },
 ];
 
 export function SQLWhaleHero() {
   return (
-    <section className="relative isolate overflow-hidden bg-white px-5 pb-16 pt-12 text-neutral-950 sm:px-8 sm:pb-20 sm:pt-16 lg:px-10 lg:pb-24 lg:pt-20">
+    <section className="relative isolate overflow-hidden bg-[#080808] px-5 pb-20 pt-10 text-white sm:px-8 sm:pb-24 sm:pt-14 lg:px-10 lg:pb-28 lg:pt-16">
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         aria-hidden="true"
       >
-        <div className="absolute left-1/2 top-0 h-[520px] w-[760px] -translate-x-1/2 rounded-full bg-purple-100/70 blur-3xl" />
-        <div className="absolute inset-x-0 top-0 h-px bg-neutral-200" />
-        <div
-          className="absolute inset-0 opacity-[0.32]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(23,23,23,.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(23,23,23,.07) 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-            maskImage:
-              "linear-gradient(to bottom, black, rgba(0,0,0,.35) 62%, transparent)",
-          }}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_45%,rgba(255,255,255,0.075),transparent_34%)]" />
+        <div className="absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_90%)]" />
       </div>
 
-      <div className="mx-auto max-w-[1280px]">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div className="mx-auto max-w-[1320px]">
+        <div className="grid min-h-[650px] items-center gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: "easeOut" }}
-            className="max-w-2xl"
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="relative z-10 max-w-[610px]"
           >
-            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white/80 px-3.5 py-2 text-xs font-medium tracking-wide text-neutral-600 shadow-sm backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-600" />
+            <div className="mb-7 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-neutral-500">
+              <span className="h-1.5 w-1.5 rounded-full bg-white" />
+              SQLWHALE
+              <span className="text-neutral-700">/</span>
               INTERACTIVE SQL LEARNING
-              <ArrowRight className="h-3.5 w-3.5" />
             </div>
 
-            <h1 className="max-w-[760px] text-5xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl lg:text-[76px]">
-              See what your
+            <h1 className="text-[clamp(3.25rem,6.5vw,6.6rem)] font-medium leading-[0.91] tracking-[-0.065em] text-white">
+              Understand
               <br />
-              <span className="bg-gradient-to-r from-neutral-950 via-purple-700 to-neutral-950 bg-clip-text text-transparent">
-                SQL actually does.
-              </span>
+              <span className="text-neutral-500">SQL at a glance.</span>
             </h1>
 
-            <p className="mt-7 max-w-xl text-base leading-7 text-neutral-600 sm:text-lg">
-              Write a query, run it, and follow the data through the database.
-              SQLWhale turns SQL execution into something you can actually see
-              and understand.
+            <p className="mt-8 max-w-[500px] text-base leading-7 text-neutral-400 sm:text-lg">
+              Write SQL, run it, and see what happens inside the database.
+              SQLWhale turns query execution into a visual learning experience.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link
                 href="/run-query"
-                className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-purple-700"
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black transition hover:bg-neutral-200"
               >
                 Run your first query
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-5 py-3 text-sm font-semibold text-neutral-800 transition hover:border-neutral-400"
+                className="inline-flex items-center gap-2 rounded-full border border-neutral-700 px-5 py-3 text-sm font-medium text-neutral-300 transition hover:border-neutral-500 hover:text-white"
               >
                 How it works
               </a>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-[0.16em] text-neutral-400">
-              <span>Write</span>
+            <div className="mt-12 flex items-center gap-6 text-[10px] uppercase tracking-[0.18em] text-neutral-600">
+              <span>WRITE</span>
               <span>→</span>
-              <span>Execute</span>
+              <span>EXECUTE</span>
               <span>→</span>
-              <span>Understand</span>
+              <span>UNDERSTAND</span>
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 28, rotateX: 5 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-            className="relative mx-auto w-full max-w-[720px] lg:pt-6"
+            initial={{ opacity: 0, x: 35, y: 12 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.12, ease: "easeOut" }}
+            className="relative mx-auto w-full max-w-[720px] lg:-mr-2"
           >
-            <div className="absolute -inset-8 -z-10 rounded-[40px] bg-purple-200/45 blur-3xl" />
+            <div className="absolute -inset-16 -z-10 bg-white/[0.035] blur-3xl" />
 
-            <div className="overflow-hidden rounded-[26px] border border-neutral-200 bg-white shadow-[0_30px_90px_rgba(23,23,23,.13)]">
-              <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-4">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-neutral-300" />
-                </div>
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-neutral-400">
-                  SQLWHALE / COMMAND
-                </span>
-                <span className="rounded-full bg-green-50 px-2 py-1 text-[10px] font-semibold text-green-700">
-                  READY
-                </span>
-              </div>
-
-              <div className="p-5 sm:p-7">
-                <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-3">
-                  <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
-                    <Search className="h-4 w-4 text-neutral-400" />
-                    <span className="flex-1 text-sm text-neutral-500">
-                      What do you want to understand?
-                    </span>
-                    <kbd className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold text-neutral-400">
-                      ⌘K
-                    </kbd>
+            <div className="relative rotate-[0.4deg] rounded-[22px] border border-white/[0.11] bg-[#111111] p-2 shadow-[0_45px_120px_rgba(0,0,0,0.65)]">
+              <div className="rounded-[17px] border border-white/[0.07] bg-[#0d0d0d]">
+                <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
                   </div>
-
-                  <div className="mt-3 space-y-2">
-                    {commandItems.map((item, index) => {
-                      const Icon = item.icon;
-                      return (
-                        <motion.div
-                          key={item.title}
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.45,
-                            delay: 0.45 + index * 0.1,
-                            ease: "easeOut",
-                          }}
-                          className="group flex items-center gap-3 rounded-xl border border-transparent bg-white px-4 py-3.5 transition hover:border-purple-200 hover:bg-purple-50/60"
-                        >
-                          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600 group-hover:bg-purple-100 group-hover:text-purple-700">
-                            <Icon className="h-4 w-4" />
-                          </span>
-                          <span className="min-w-0 flex-1">
-                            <span className="block text-sm font-semibold text-neutral-900">
-                              {item.title}
-                            </span>
-                            <span className="block text-xs text-neutral-400">
-                              {item.description}
-                            </span>
-                          </span>
-                          <kbd className="rounded-md border border-neutral-200 bg-neutral-50 px-2 py-1 text-[10px] font-semibold text-neutral-400">
-                            {item.shortcut}
-                          </kbd>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
+                  <span className="text-[10px] tracking-[0.2em] text-neutral-600">
+                    SQLWHALE
+                  </span>
+                  <span className="text-[10px] text-neutral-600">⌘K</span>
                 </div>
 
-                <div className="mt-5 grid gap-3 sm:grid-cols-[1.15fr_.85fr]">
-                  <div className="rounded-2xl border border-neutral-200 bg-neutral-950 p-4 text-white">
-                    <div className="mb-4 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-neutral-500">
-                      <span>Query</span>
-                      <span>01</span>
+                <div className="p-5 sm:p-7">
+                  <div className="mb-5 flex items-center justify-between text-xs text-neutral-600">
+                    <span>Thu 08 October</span>
+                    <span>11:57 PM</span>
+                  </div>
+
+                  <div className="rounded-xl border border-white/[0.1] bg-white/[0.035] p-2">
+                    <div className="flex items-center gap-3 rounded-lg px-3 py-3.5">
+                      <Search className="h-4 w-4 text-neutral-500" />
+                      <span className="flex-1 text-sm text-neutral-500">
+                        Search SQL, tables, and actions
+                      </span>
+                      <kbd className="rounded-md border border-white/[0.09] bg-white/[0.035] px-2 py-1 text-[10px] text-neutral-600">
+                        ⌘K
+                      </kbd>
                     </div>
-                    <div className="space-y-1 font-mono text-xs leading-6 sm:text-sm">
-                      <div><span className="text-purple-400">SELECT</span> name, salary</div>
-                      <div><span className="text-purple-400">FROM</span> employees</div>
-                      <div><span className="text-purple-400">WHERE</span> salary &gt; 50000;</div>
-                    </div>
-                    <div className="mt-4 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-green-400">
-                      <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
-                      Query executed
+
+                    <div className="mt-1 space-y-1">
+                      {commands.map((command, index) => {
+                        const Icon = command.icon;
+                        return (
+                          <motion.div
+                            key={command.label}
+                            initial={{ opacity: 0, x: 12 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{
+                              duration: 0.4,
+                              delay: 0.55 + index * 0.08,
+                              ease: "easeOut",
+                            }}
+                            className={[
+                              "group flex items-center gap-3 rounded-lg px-3 py-3.5",
+                              index === 0
+                                ? "bg-white/[0.07]"
+                                : "hover:bg-white/[0.04]",
+                            ].join(" ")}
+                          >
+                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-white/[0.08] bg-white/[0.035] text-neutral-400 transition group-hover:text-white">
+                              <Icon className="h-4 w-4" />
+                            </span>
+                            <span className="flex-1 text-sm text-neutral-300">
+                              {command.label}
+                            </span>
+                            <kbd className="rounded-md border border-white/[0.08] px-2 py-1 text-[10px] text-neutral-600">
+                              {command.shortcut}
+                            </kbd>
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-neutral-200 bg-white p-4">
-                    <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-400">
-                      Result
-                    </div>
-                    <div className="space-y-2">
-                      {[
-                        ["Aisha", "$82k"],
-                        ["Rohan", "$76k"],
-                        ["Maya", "$64k"],
-                      ].map(([name, salary]) => (
-                        <div
-                          key={name}
-                          className="flex items-center justify-between border-b border-neutral-100 pb-2 text-xs"
-                        >
-                          <span className="font-medium text-neutral-700">{name}</span>
-                          <span className="font-mono text-purple-600">{salary}</span>
+                  <div className="mt-6 grid grid-cols-3 gap-2">
+                    {[
+                      ["EDITOR", "SELECT *"],
+                      ["CANVAS", "4 TABLES"],
+                      ["RESULT", "3 ROWS"],
+                    ].map(([label, value]) => (
+                      <div
+                        key={label}
+                        className="rounded-lg border border-white/[0.07] bg-white/[0.02] px-3 py-3"
+                      >
+                        <div className="text-[9px] tracking-[0.16em] text-neutral-600">
+                          {label}
                         </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 text-[10px] font-medium text-neutral-400">
-                      3 rows returned
-                    </div>
+                        <div className="mt-1 truncate font-mono text-[10px] text-neutral-400">
+                          {value}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-5 flex items-center justify-between px-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-400">
-              <span>SQL EDITOR</span>
-              <span>DATABASE CANVAS</span>
-              <span>QUERY OUTPUT</span>
+            <div className="mt-5 flex justify-between px-2 text-[9px] uppercase tracking-[0.2em] text-neutral-700">
+              <span>COMMAND</span>
+              <span>QUERY</span>
+              <span>UNDERSTAND</span>
             </div>
           </motion.div>
         </div>
