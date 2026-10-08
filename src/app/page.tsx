@@ -9,7 +9,6 @@ import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
-import "./home-overrides.module.css";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
