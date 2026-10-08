@@ -18849,7 +18849,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-reference-nav{position:fixed!important;top:24px;left:16px!important;right:16px!important;width:auto!important;max-width:1120px;margin-inline:auto;box-sizing:border-box;transform:none!important;z-index:1000;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
 .sqlwhale-reference-nav .reference-nav-links{display:flex!important}
 .sqlwhale-reference-nav .reference-nav-actions{display:flex!important}
-.sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#f7f7f5;box-shadow:0 10px 34px rgba(23,23,23,.10);border:1px solid rgba(23,23,23,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
+.sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#000 !important;color:#fff !important;box-shadow:0 10px 34px rgba(23,23,23,.10);border:1px solid rgba(23,23,23,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
 .sqlwhale-reference-nav .reference-nav-logo{width:48px!important;height:48px!important;min-width:48px;background:#fff;border-radius:50%;display:grid;place-items:center;overflow:hidden;transition:transform .6s cubic-bezier(.22,1,.36,1);text-decoration:none}
 .sqlwhale-reference-nav .reference-nav-logo:hover{transform:rotateY(-360deg)}
 .sqlwhale-reference-nav .reference-nav-logo .sqlwhale-logo-image{width:40px;height:40px;object-fit:contain}
