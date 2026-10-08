@@ -18846,7 +18846,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
    SQLWHALE / BEDIMCODE-INSPIRED INTERACTIVE NAVBAR
    Scoped so it does not disturb the rest of the homepage.
    ========================================================= */
-.sqlwhale-reference-nav{position:fixed!important;top:24px;left:50%;right:auto!important;width:min(1120px,calc(100% - 32px));transform:translateX(-50%);z-index:1000;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
+.sqlwhale-reference-nav{position:fixed!important;top:24px;left:16px!important;right:16px!important;width:auto!important;max-width:1120px;margin-inline:auto;box-sizing:border-box;transform:none!important;z-index:1000;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
 .sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#050505;box-shadow:0 8px 28px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
 .sqlwhale-reference-nav .reference-nav-logo{width:48px!important;height:48px!important;min-width:48px;background:#fff;border-radius:50%;display:grid;place-items:center;overflow:hidden;transition:transform .6s cubic-bezier(.22,1,.36,1);text-decoration:none}
 .sqlwhale-reference-nav .reference-nav-logo:hover{transform:rotateY(-360deg)}
@@ -18872,7 +18872,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-reference-nav .reference-nav-toggle.is-open .reference-nav-close{opacity:1;transform:rotate(0)}
 .sqlwhale-reference-nav .reference-mobile-menu{display:none}
 @media (max-width:1150px){
-  .sqlwhale-reference-nav{top:18px;width:calc(100% - 24px)}
+  .sqlwhale-reference-nav{top:18px;left:12px!important;right:12px!important;width:auto!important;max-width:none}
   .sqlwhale-reference-nav .navbar-inner{height:58px;min-height:58px;padding:7px 9px 7px 7px}
   .sqlwhale-reference-nav .reference-nav-logo{width:44px!important;height:44px!important;min-width:44px}
   .sqlwhale-reference-nav .reference-nav-logo .sqlwhale-logo-image{width:36px;height:36px}
@@ -18886,7 +18886,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .sqlwhale-reference-nav .reference-mobile-link>span{width:24px;color:#777;font:500 10px/1 monospace}
 }
 @media (max-width:640px){
-  .sqlwhale-reference-nav{top:12px;width:calc(100% - 20px)}
+  .sqlwhale-reference-nav{top:12px;left:10px!important;right:10px!important;width:auto!important}
   .sqlwhale-reference-nav .reference-mobile-menu{padding:70px 22px 24px}
 }
 @media (prefers-reduced-motion:reduce){
