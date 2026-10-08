@@ -212,13 +212,13 @@ export default function Home() {
           depth={0.7}
         />
       </div>
-      <header className="sqlwhale-navbar sqlwhale-reference-nav">
+      <header className="sqlwhale-reference-nav">
         <div className="navbar-inner">
           <Link href="/" className="sqlwhale-logo reference-nav-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
             <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={44} height={44} className="sqlwhale-logo-image" priority />
           </Link>
 
-          <nav className="navbar-links reference-nav-links" aria-label="Primary navigation">
+          <nav className="reference-nav-links" aria-label="Primary navigation">
             {[
               ["Home", "/"],
               ["Run Query", "/run-query"],
@@ -239,7 +239,7 @@ export default function Home() {
             ) : null}
           </nav>
 
-          <div className="navbar-auth-actions reference-nav-actions">
+          <div className="reference-nav-actions">
             {!authLoading && user ? (
               <Link href="/account" className="reference-nav-cta" title={user.email}>
                 <span>Profile</span>
