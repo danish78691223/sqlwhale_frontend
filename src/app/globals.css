@@ -18846,7 +18846,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
    SQLWHALE / BEDIMCODE-INSPIRED INTERACTIVE NAVBAR
    Scoped so it does not disturb the rest of the homepage.
    ========================================================= */
-.sqlwhale-reference-nav{position:fixed!important;top:24px;left:16px!important;right:16px!important;width:auto!important;max-width:1120px;margin-inline:auto;box-sizing:border-box;transform:none!important;z-index:1000;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
+.sqlwhale-reference-nav{position:fixed!important;top:24px;left:16px!important;right:16px!important;width:auto!important;max-width:1120px;margin-inline:auto;box-sizing:border-box;transform:none!important;z-index:1000;border-radius:999px;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
 .sqlwhale-reference-nav .reference-nav-links{display:flex!important}
 .sqlwhale-reference-nav .reference-nav-actions{display:flex!important}
 .sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#000 !important;color:#fff !important;box-shadow:0 10px 34px rgba(23,23,23,.10);border:1px solid rgba(23,23,23,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
