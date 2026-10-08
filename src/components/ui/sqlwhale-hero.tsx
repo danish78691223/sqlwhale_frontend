@@ -30,7 +30,7 @@ export function SQLWhaleHero() {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: "easeOut" }}
+          transition={{ type: "spring", bounce: 0, duration: 0.65 }}
           className="relative z-10 max-w-[590px]"
         >
           <div className="mb-7 text-[11px] font-medium uppercase tracking-[0.22em] text-neutral-500">
@@ -52,7 +52,7 @@ export function SQLWhaleHero() {
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link
               href="/run-query"
-              className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-neutral-800"
+              whileTap={{ scale: 0.97 }}\n              whileHover={{ scale: 1.015 }}\n              transition={{ type: "spring", bounce: 0, duration: 0.28 }}\n              className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-semibold text-white"
             >
               Run your first query
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -60,7 +60,7 @@ export function SQLWhaleHero() {
 
             <a
               href="#how-it-works"
-              className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-700 transition hover:border-neutral-400"
+              whileTap={{ scale: 0.97 }}\n              whileHover={{ scale: 1.01 }}\n              transition={{ type: "spring", bounce: 0, duration: 0.28 }}\n              className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-700"
             >
               How it works
             </a>
@@ -70,12 +70,12 @@ export function SQLWhaleHero() {
         <motion.div
           initial={{ opacity: 0, x: 30, y: 12 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.1, ease: "easeOut" }}
-          className="relative mx-auto w-full max-w-[720px]"
+          transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.08 }}
+          className="relative mx-auto w-full max-w-[720px] [perspective:1200px]"
         >
           <div className="absolute -inset-16 -z-10 rounded-full bg-neutral-200/60 blur-3xl" />
 
-          <div className="relative rounded-[22px] border border-neutral-200 bg-neutral-100 p-2 shadow-[0_35px_90px_rgba(0,0,0,0.14)]">
+          <div whileHover={{ y: -6, rotateX: 1.5, rotateY: -1 }}\n            transition={{ type: "spring", bounce: 0.12, duration: 0.45 }}\n            className="relative rounded-[22px] border border-white/80 bg-white/70 p-2 shadow-[0_35px_90px_rgba(0,0,0,0.14)] backdrop-blur-xl">
             <div className="overflow-hidden rounded-[17px] border border-neutral-200 bg-[#111111] text-white">
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
                 <span className="text-sm font-medium tracking-[-0.01em]">Launcher</span>
