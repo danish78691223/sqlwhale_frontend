@@ -1,0 +1,42 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 76px);
+  overflow: hidden;
+  isolation: isolate;
+  background: #f7f7f5;
+  color: #171717;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255,255,255,.95), transparent 32%),
+    radial-gradient(circle at 92% 100%, rgba(229,229,229,.72), transparent 34%),
+    linear-gradient(rgba(23,23,23,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23,23,23,.045) 1px, transparent 1px);
+  background-size: auto, auto, 64px 64px, 64px 64px;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: min(1380px, calc(100% - 40px));
+  min-height: 680px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1023px) {
+  .hero { min-height: auto; }
+  .inner { min-height: auto; width: min(100% - 30px, 760px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero *, .hero *::before, .hero *::after {
+    scroll-behavior: auto !important;
+  }
+}
