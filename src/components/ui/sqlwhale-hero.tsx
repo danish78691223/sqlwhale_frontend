@@ -45,11 +45,6 @@ export function SQLWhaleHero() {
           transition={{ type: "spring", bounce: 0, duration: 0.6 }}
           className={styles.copy}
         >
-          <div className={styles.eyebrow}>
-            <span className={styles.dot} />
-            Interactive SQL learning
-          </div>
-
           <h1 className={styles.title}>
             SQL, but you
             <br />
