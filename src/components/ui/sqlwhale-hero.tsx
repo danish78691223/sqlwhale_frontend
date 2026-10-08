@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { ArrowRight, Database, FileCode2, Play, Search } from "lucide-react";
 import { useRef } from "react";
+import styles from "./SQLWhaleHero.module.css";
 
 const commands = [
   { icon: FileCode2, label: "Write a SQL query", shortcut: "⌘1" },
@@ -37,14 +38,14 @@ export function SQLWhaleHero() {
   };
 
   return (
-    <section className="relative min-h-[calc(100vh-76px)] overflow-hidden bg-[#f7f7f5] px-5 py-14 text-neutral-950 sm:px-8 sm:py-20 lg:px-10 lg:py-16">
+    <section className={`${styles.hero} px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-16`}>
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <div className="absolute -left-32 -top-32 h-[520px] w-[520px] rounded-full bg-white blur-3xl" />
         <div className="absolute -bottom-40 right-[-8%] h-[560px] w-[560px] rounded-full bg-neutral-200/70 blur-3xl" />
         <div className="absolute inset-0 opacity-[0.28] [background-image:linear-gradient(to_right,rgba(23,23,23,.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,23,23,.045)_1px,transparent_1px)] [background-size:64px_64px]" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[680px] max-w-[1380px] items-center gap-16 lg:grid-cols-[0.86fr_1.14fr] lg:gap-12">
+      <div className={`${styles.inner} grid items-center gap-16 lg:grid-cols-[0.86fr_1.14fr] lg:gap-12`}>
         <motion.div
           initial={reducedMotion ? false : { opacity: 0, y: 24 }}
           animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
