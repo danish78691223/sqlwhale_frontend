@@ -8,6 +8,7 @@ import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
+import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -284,74 +285,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="home-hero agency-hero">
-        <div className="agency-hero-noise" aria-hidden="true" />
-        <div className="agency-hero-grid" aria-hidden="true" />
-        <div className="agency-hero-meta">
-          <span>SQLWHALE / 01</span>
-          <span>INTERACTIVE SQL LEARNING</span>
-        </div>
-
-        <div className="agency-hero-inner">
-          <Reveal className="agency-hero-copy">
-            <p className="agency-eyebrow">See the query. Understand the query.</p>
-            <h1>SQL becomes<br /><RotatingHeroWord />.</h1>
-            <p className="agency-hero-lede">
-              Stop memorizing what SQL does. Write a query, run it, and follow the data through the database.
-            </p>
-            <div className="hero-actions">
-              <Link href="/run-query" className="primary-button agency-primary-button">
-                Run your first query <span>↗</span>
-              </Link>
-              <a href="#how-it-works" className="secondary-button agency-secondary-button">
-                Explore the method <span>↓</span>
-              </a>
-            </div>
-          </Reveal>
-
-          <Reveal className="agency-hero-stage">
-            <div className="agency-stage-caption">
-              <span>LIVE QUERY MAP</span>
-              <span>01 / 03</span>
-            </div>
-            <div className="query-scene" aria-label="Animated SQL query relationship preview">
-              <div className="query-scene-glow" />
-              <div className="scene-table scene-table-source">
-                <span className="scene-table-type">TABLE</span>
-                <strong>employees</strong>
-                <i /><i /><i />
-              </div>
-              <div className="scene-table scene-table-filter">
-                <span className="scene-table-type">FILTER</span>
-                <strong>salary &gt; 50000</strong>
-                <i /><i />
-              </div>
-              <div className="scene-table scene-table-result">
-                <span className="scene-table-type">RESULT</span>
-                <strong>3 rows</strong>
-                <i /><i /><i />
-              </div>
-              <div className="scene-line scene-line-one"><span /></div>
-              <div className="scene-line scene-line-two"><span /></div>
-              <div className="scene-query">
-                <span className="scene-query-number">01</span>
-                <div><b>SELECT</b> name, salary</div>
-                <div><b>FROM</b> employees</div>
-                <div><b>WHERE</b> salary &gt; 50000;</div>
-              </div>
-              <div className="scene-status"><span /> QUERY EXECUTED</div>
-            </div>
-            <div className="agency-stage-footer">
-              <span>WRITE</span><b>→</b><span>EXECUTE</span><b>→</b><span>UNDERSTAND</span>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="agency-hero-bottom">
-          <span>Built for people learning SQL from the ground up.</span>
-          <span>Scroll to discover the system.</span>
-        </div>
-      </section>
+      <SQLWhaleHero />
 
       <LeaderboardSection />
 
