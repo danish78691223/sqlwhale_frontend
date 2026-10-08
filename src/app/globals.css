@@ -18894,3 +18894,12 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 @media (prefers-reduced-motion:reduce){
   .sqlwhale-reference-nav *{transition:none!important}
 }
+
+
+/* Homepage navbar overrides */
+.sqlwhale-reference-nav { background:#000 !important; color:#fff !important; border-bottom-color:rgba(255,255,255,.12) !important; }
+.sqlwhale-reference-nav .reference-nav-link, .sqlwhale-reference-nav .reference-nav-link span, .sqlwhale-reference-nav .reference-nav-feedback, .sqlwhale-reference-nav .reference-nav-toggle, .sqlwhale-reference-nav .reference-nav-close { color:#fff !important; }
+.sqlwhale-reference-nav .reference-nav-cta { color:#fff !important; background:transparent !important; border-color:rgba(255,255,255,.65) !important; }
+.sqlwhale-reference-nav .reference-nav-cta:hover { color:#000 !important; background:#fff !important; }
+.sqlwhale-reference-nav .reference-mobile-menu { background:#000 !important; color:#fff !important; }
+.sqlwhale-reference-nav .reference-mobile-link, .sqlwhale-reference-nav .reference-mobile-link span { color:#fff !important; }
