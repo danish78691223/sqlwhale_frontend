@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
-import {
-  ArrowRight,
-  Database,
-  FileCode2,
-  Play,
-  Search,
-} from "lucide-react";
+import { ArrowRight, Database, FileCode2, Play, Search } from "lucide-react";
 import { useRef } from "react";
 
 const commands = [
@@ -21,21 +15,20 @@ const commands = [
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
-
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const rotateX = useSpring(pointerY, { stiffness: 260, damping: 30, mass: 0.7 });
-  const rotateY = useSpring(pointerX, { stiffness: 260, damping: 30, mass: 0.7 });
+  const rotateX = useSpring(pointerY, { stiffness: 220, damping: 28, mass: 0.8 });
+  const rotateY = useSpring(pointerX, { stiffness: 220, damping: 28, mass: 0.8 });
+  const glowX = useSpring(pointerX, { stiffness: 160, damping: 30 });
+  const glowY = useSpring(pointerY, { stiffness: 160, damping: 30 });
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (reducedMotion || !cardRef.current) return;
-
     const rect = cardRef.current.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-    pointerX.set(x * 5);
-    pointerY.set(y * -5);
+    pointerX.set(x * 7);
+    pointerY.set(y * -7);
   };
 
   const resetPointer = () => {
@@ -44,172 +37,192 @@ export function SQLWhaleHero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-white px-5 py-16 text-neutral-950 sm:px-8 sm:py-20 lg:px-10 lg:py-24">
+    <section className="relative min-h-[calc(100vh-76px)] overflow-hidden bg-[#f7f7f5] px-5 py-14 text-neutral-950 sm:px-8 sm:py-20 lg:px-10 lg:py-16">
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute left-[52%] top-[-18%] h-[620px] w-[620px] rounded-full bg-neutral-100 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.32] [background-image:radial-gradient(circle,rgba(23,23,23,.12)_1px,transparent_1px)] [background-size:28px_28px] [mask-image:linear-gradient(to_bottom,black,transparent_88%)]" />
+        <div className="absolute -left-32 -top-32 h-[520px] w-[520px] rounded-full bg-white blur-3xl" />
+        <div className="absolute -bottom-40 right-[-8%] h-[560px] w-[560px] rounded-full bg-neutral-200/70 blur-3xl" />
+        <div className="absolute inset-0 opacity-[0.28] [background-image:linear-gradient(to_right,rgba(23,23,23,.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,23,23,.045)_1px,transparent_1px)] [background-size:64px_64px]" />
       </div>
 
-      <div className="relative mx-auto grid min-h-[650px] max-w-[1280px] items-center gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div className="relative mx-auto grid min-h-[680px] max-w-[1380px] items-center gap-16 lg:grid-cols-[0.86fr_1.14fr] lg:gap-12">
         <motion.div
-          initial={reducedMotion ? false : { opacity: 0, y: 22 }}
+          initial={reducedMotion ? false : { opacity: 0, y: 24 }}
           animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.55 }}
-          className="relative z-10 max-w-[620px]"
+          transition={{ type: "spring", bounce: 0, duration: 0.6 }}
+          className="relative z-10 max-w-[650px]"
         >
-          <div className="mb-7 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
-            <span className="h-1.5 w-1.5 rounded-full bg-neutral-950" />
-            SQLWHALE
+          <div className="mb-8 flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-neutral-500">
+            <span className="h-2 w-2 rounded-full bg-neutral-950 shadow-[0_0_0_5px_rgba(23,23,23,.06)]" />
+            Interactive SQL learning
           </div>
 
-          <h1 className="max-w-[700px] text-[clamp(3.35rem,6.7vw,6.7rem)] font-medium leading-[0.91] tracking-[-0.07em]">
-            Learn SQL by
+          <h1 className="text-[clamp(3.5rem,7vw,7.2rem)] font-medium leading-[0.86] tracking-[-0.075em]">
+            SQL, but you
             <br />
-            <span className="text-neutral-400">seeing it happen.</span>
+            <span className="text-neutral-400">can actually see it.</span>
           </h1>
 
-          <p className="mt-8 max-w-[510px] text-base leading-7 text-neutral-500 sm:text-lg">
-            Write a query, run it, and watch the database respond. SQLWhale
-            turns execution into something you can see, follow, and understand.
+          <p className="mt-9 max-w-[530px] text-[17px] leading-7 tracking-[-0.01em] text-neutral-500 sm:text-[19px]">
+            Write the query. Follow the tables. Watch the data move. Learn what
+            SQL is doing while it happens.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
+          <div className="mt-10 flex flex-wrap gap-3">
             <motion.div
-              whileTap={reducedMotion ? undefined : { scale: 0.97 }}
-              transition={{ type: "spring", bounce: 0, duration: 0.25 }}
+              whileTap={reducedMotion ? undefined : { scale: 0.965 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.22 }}
             >
               <Link
                 href="/run-query"
-                className="group inline-flex items-center gap-2 rounded-full bg-neutral-950 px-5 py-3 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(0,0,0,0.14)]"
+                className="group inline-flex items-center gap-3 rounded-full bg-neutral-950 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,.16)]"
               >
-                Run your first query
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                Start learning
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </motion.div>
 
             <motion.a
               href="#how-it-works"
-              whileTap={reducedMotion ? undefined : { scale: 0.97 }}
-              transition={{ type: "spring", bounce: 0, duration: 0.25 }}
-              className="inline-flex items-center rounded-full border border-neutral-200 bg-white px-5 py-3 text-sm font-medium text-neutral-700 shadow-sm"
+              whileTap={reducedMotion ? undefined : { scale: 0.965 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.22 }}
+              className="inline-flex items-center rounded-full border border-neutral-300/80 bg-white/70 px-6 py-3.5 text-sm font-medium text-neutral-700 backdrop-blur-xl"
             >
               See how it works
             </motion.a>
           </div>
+
+          <div className="mt-12 flex items-center gap-8 text-[10px] uppercase tracking-[0.2em] text-neutral-400">
+            <span>WRITE</span>
+            <span className="h-px w-8 bg-neutral-300" />
+            <span>TRACE</span>
+            <span className="h-px w-8 bg-neutral-300" />
+            <span>UNDERSTAND</span>
+          </div>
         </motion.div>
 
         <motion.div
-          initial={reducedMotion ? false : { opacity: 0, x: 26 }}
-          animate={reducedMotion ? undefined : { opacity: 1, x: 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.7, delay: 0.06 }}
-          className="relative mx-auto w-full max-w-[730px]"
+          initial={reducedMotion ? false : { opacity: 0, x: 36, scale: 0.97 }}
+          animate={reducedMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.75, delay: 0.05 }}
+          className="relative mx-auto w-full max-w-[790px]"
         >
+          <motion.div
+            className="absolute left-1/2 top-1/2 h-[75%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/80 blur-[80px]"
+            style={reducedMotion ? undefined : { x: glowX, y: glowY }}
+          />
+
           <div
             ref={cardRef}
             onPointerMove={handlePointerMove}
             onPointerLeave={resetPointer}
-            className="relative [perspective:1200px]"
+            className="relative [perspective:1400px]"
           >
             <motion.div
               style={{ rotateX, rotateY }}
-              className="relative rounded-[28px] border border-white/80 bg-white/60 p-2 shadow-[0_35px_100px_rgba(0,0,0,0.16)] backdrop-blur-2xl"
+              className="relative rounded-[30px] border border-white bg-white/65 p-2 shadow-[0_45px_120px_rgba(0,0,0,.18)] backdrop-blur-2xl will-change-transform"
             >
-              <div className="overflow-hidden rounded-[21px] border border-neutral-200 bg-[#111111] text-white">
-                <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-white" />
-                    <span className="text-sm font-medium tracking-[-0.01em]">
-                      SQLWhale
+              <div className="overflow-hidden rounded-[23px] border border-neutral-800 bg-[#0b0b0c] text-white shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
+                <div className="flex h-14 items-center justify-between border-b border-white/[0.08] px-5">
+                  <div className="flex items-center gap-3">
+                    <div className="flex gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                    </div>
+                    <span className="ml-2 text-xs font-medium text-neutral-300">
+                      SQLWhale Workspace
                     </span>
                   </div>
-                  <span className="text-[10px] uppercase tracking-[0.16em] text-neutral-500">
-                    Learn by doing
+                  <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[9px] uppercase tracking-[0.15em] text-neutral-500">
+                    Live
                   </span>
                 </div>
 
-                <div className="p-5 sm:p-7">
-                  <div className="mb-5 flex items-center justify-between text-xs text-neutral-500">
-                    <span>Query workspace</span>
-                    <span>Ready</span>
-                  </div>
-
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-2">
-                    <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.055] px-3 py-3.5">
-                      <Search className="h-4 w-4 shrink-0 text-neutral-500" />
-                      <span className="flex-1 text-sm text-neutral-400">
-                        What do you want to understand?
+                <div className="grid min-h-[510px] grid-cols-[1.12fr_.88fr]">
+                  <div className="border-r border-white/[0.07] p-5 sm:p-7">
+                    <div className="mb-5 flex items-center justify-between">
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-neutral-600">
+                        SQL Editor
                       </span>
-                      <span className="hidden rounded-md border border-white/10 px-2 py-1 text-[10px] text-neutral-500 sm:block">
-                        ⌘K
-                      </span>
+                      <span className="text-[10px] text-neutral-600">01 / QUERY</span>
                     </div>
 
-                    <div className="mt-2 space-y-1">
-                      {commands.map((command, index) => {
-                        const Icon = command.icon;
+                    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5 font-mono text-xs leading-7 sm:text-sm">
+                      <div><span className="text-neutral-600">01</span> <span className="text-white">SELECT</span> <span className="text-neutral-300">e.name, d.name</span></div>
+                      <div><span className="text-neutral-600">02</span> <span className="text-white">FROM</span> <span className="text-neutral-300">employees e</span></div>
+                      <div><span className="text-neutral-600">03</span> <span className="text-white">JOIN</span> <span className="text-neutral-300">departments d</span></div>
+                      <div><span className="text-neutral-600">04</span> <span className="text-white">ON</span> <span className="text-neutral-300">e.department_id = d.id</span></div>
+                      <div><span className="text-neutral-600">05</span> <span className="text-white">WHERE</span> <span className="text-neutral-300">e.active = 1</span></div>
+                      <div className="mt-3 h-px bg-white/[0.07]" />
+                      <div className="mt-3 flex items-center gap-2 text-[10px] text-neutral-500">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                        Query ready to run
+                      </div>
+                    </div>
 
-                        return (
-                          <motion.div
-                            key={command.label}
-                            initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-                            animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-                            transition={{
-                              type: "spring",
-                              bounce: 0,
-                              duration: 0.42,
-                              delay: reducedMotion ? 0 : 0.32 + index * 0.055,
-                            }}
-                            whileTap={reducedMotion ? undefined : { scale: 0.985 }}
-                            className="group flex items-center gap-3 rounded-xl px-3 py-3.5 transition-colors hover:bg-white/[0.07]"
-                          >
-                            <Icon className="h-4 w-4 shrink-0 text-neutral-500 transition-colors group-hover:text-white" />
-                            <span className="flex-1 text-sm text-neutral-300">
-                              {command.label}
-                            </span>
-                            <kbd className="rounded-md border border-white/10 px-2 py-1 text-[10px] text-neutral-500">
-                              {command.shortcut}
-                            </kbd>
-                          </motion.div>
-                        );
-                      })}
+                    <div className="mt-5 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
+                        <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">Tables</span>
+                        <span className="mt-2 block text-lg text-neutral-200">02</span>
+                      </div>
+                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
+                        <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">Steps</span>
+                        <span className="mt-2 block text-lg text-neutral-200">04</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="mt-6 grid grid-cols-3 gap-2">
-                    <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
-                      <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">
-                        Write
+                  <div className="bg-[#101011] p-5 sm:p-7">
+                    <div className="mb-5 flex items-center justify-between">
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-neutral-600">
+                        Execution
                       </span>
-                      <span className="mt-2 block text-xs text-neutral-300">
-                        SQL
-                      </span>
+                      <span className="text-[10px] text-neutral-600">VISIBLE</span>
                     </div>
-                    <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
-                      <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">
-                        See
-                      </span>
-                      <span className="mt-2 block text-xs text-neutral-300">
-                        Data flow
-                      </span>
+
+                    <div className="space-y-2">
+                      {[
+                        ["01", "FROM", "employees"],
+                        ["02", "JOIN", "departments"],
+                        ["03", "WHERE", "active = 1"],
+                        ["04", "RESULT", "24 rows"],
+                      ].map(([num, op, detail], index) => (
+                        <motion.div
+                          key={op}
+                          initial={reducedMotion ? false : { opacity: 0, x: 10 }}
+                          animate={reducedMotion ? undefined : { opacity: 1, x: 0 }}
+                          transition={{ type: "spring", bounce: 0, duration: 0.4, delay: 0.3 + index * 0.08 }}
+                          className="rounded-2xl border border-white/[0.07] bg-white/[0.035] p-3.5"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="text-[9px] text-neutral-600">{num}</span>
+                            <span className="text-xs font-semibold text-neutral-200">{op}</span>
+                            <span className="ml-auto text-[10px] text-neutral-500">{detail}</span>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
-                    <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
-                      <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">
-                        Understand
-                      </span>
-                      <span className="mt-2 block text-xs text-neutral-300">
-                        Why
-                      </span>
+
+                    <div className="mt-4 rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
+                      <div className="mb-3 text-[9px] uppercase tracking-[0.16em] text-neutral-600">
+                        Database
+                      </div>
+                      <div className="relative h-24">
+                        <div className="absolute left-1 top-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-[9px] text-neutral-300">employees</div>
+                        <div className="absolute right-1 top-2 rounded-lg border border-white/10 bg-white/[0.05] px-3 py-2 text-[9px] text-neutral-300">departments</div>
+                        <div className="absolute left-1/2 top-12 h-px w-[76%] -translate-x-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                        <div className="absolute left-1/2 top-[43px] h-2 w-2 -translate-x-1/2 rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,.8)]" />
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <div className="flex items-center justify-between border-t border-white/[0.08] px-5 py-3 text-[9px] uppercase tracking-[0.16em] text-neutral-600">
+                  <span>SQLWHALE</span>
+                  <span>Write → Trace → Understand</span>
+                </div>
               </div>
             </motion.div>
-          </div>
-
-          <div className="mt-5 flex justify-between px-1 text-[9px] uppercase tracking-[0.2em] text-neutral-400">
-            <span>WRITE</span>
-            <span>FOLLOW</span>
-            <span>UNDERSTAND</span>
           </div>
         </motion.div>
       </div>
