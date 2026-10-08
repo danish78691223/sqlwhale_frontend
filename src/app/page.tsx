@@ -212,80 +212,81 @@ export default function Home() {
           depth={0.7}
         />
       </div>
-      <header className="sqlwhale-navbar">
+      <header className="sqlwhale-navbar sqlwhale-reference-nav">
         <div className="navbar-inner">
-          <Link href="/" className="sqlwhale-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
-            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={46} height={46} className="sqlwhale-logo-image" priority />
-            <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
+          <Link href="/" className="sqlwhale-logo reference-nav-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
+            <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={44} height={44} className="sqlwhale-logo-image" priority />
           </Link>
 
-          <nav className="navbar-links" aria-label="Primary navigation">
-            <Link href="/" className="nav-link active">Home</Link>
-            <Link href="/run-query" className="nav-link">Run Query</Link>
-            <a href="#about" className="nav-link">About</a>
-            <a href="#how-it-works" className="nav-link">How It Works</a>
-            <Link href="/contact" className="nav-link">Contact</Link>
+          <nav className="navbar-links reference-nav-links" aria-label="Primary navigation">
+            {[
+              ["Home", "/"],
+              ["Run Query", "/run-query"],
+              ["About", "#about"],
+              ["How It Works", "#how-it-works"],
+              ["Contact", "/contact"],
+            ].map(([label, href]) => (
+              <Link key={label} href={href} className="reference-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                <span>{label}</span>
+                <span aria-hidden="true">{label}</span>
+              </Link>
+            ))}
             {!authLoading && user ? (
-              <button
-                type="button"
-                className="nav-link nav-feedback-button"
-                onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
-              >
-                Feedback
+              <button type="button" className="reference-nav-link reference-nav-feedback" onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}>
+                <span>Feedback</span>
+                <span aria-hidden="true">Feedback</span>
               </button>
             ) : null}
           </nav>
 
-          <div className="navbar-auth-actions">
+          <div className="navbar-auth-actions reference-nav-actions">
             {!authLoading && user ? (
-              <Link href="/account" className="navbar-profile-btn" title={user.email} aria-label="Open SQLWhale Profile">
-                <span className="navbar-profile-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="12" cy="8" r="3.2" />
-                    <path d="M5.5 19.2c.9-3.2 3.1-4.8 6.5-4.8s5.6 1.6 6.5 4.8" strokeLinecap="round" />
-                  </svg>
-                </span>
+              <Link href="/account" className="reference-nav-cta" title={user.email}>
                 <span>Profile</span>
+                <span aria-hidden="true">Profile</span>
               </Link>
-            ) : null}
+            ) : (
+              <Link href="/run-query" className="reference-nav-cta">
+                <span>Start learning</span>
+                <span aria-hidden="true">Start learning</span>
+              </Link>
+            )}
           </div>
 
           <button
             type="button"
-            className={`mobile-menu-button ${mobileMenuOpen ? "is-open" : ""}`}
+            className={`reference-nav-toggle ${mobileMenuOpen ? "is-open" : ""}`}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={mobileMenuOpen}
           >
-            <span /><span /><span />
+            <span className="reference-nav-burger" aria-hidden="true"><i /><i /><i /></span>
+            <span className="reference-nav-close" aria-hidden="true">×</span>
           </button>
         </div>
 
-        <div className={`mobile-menu ${mobileMenuOpen ? "mobile-menu-open" : ""}`}>
-          <nav className="mobile-menu-links" aria-label="Primary navigation">
-            <Link href="/" className="mobile-nav-link active" onClick={() => setMobileMenuOpen(false)}><span>01</span>Home</Link>
-            <Link href="/run-query" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>02</span>Run Query</Link>
-            <a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>03</span>About</a>
-            <a href="#how-it-works" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>04</span>How It Works</a>
-            <Link href="/contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>05</span>Contact</Link>
+        <div className={`reference-mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}>
+          <nav className="reference-mobile-links" aria-label="Mobile navigation">
+            {[
+              ["01", "Home", "/"],
+              ["02", "Run Query", "/run-query"],
+              ["03", "About", "#about"],
+              ["04", "How It Works", "#how-it-works"],
+              ["05", "Contact", "/contact"],
+            ].map(([num, label, href]) => (
+              <Link key={label} href={href} className="reference-mobile-link" onClick={() => setMobileMenuOpen(false)}>
+                <span>{num}</span>{label}
+              </Link>
+            ))}
             {!authLoading && user ? (
-              <>
-                <Link href="/account" className="mobile-nav-link mobile-account-label" onClick={() => setMobileMenuOpen(false)}><span>06</span>Profile</Link>
-                <button type="button" className="mobile-nav-link mobile-feedback-button" onClick={() => { setMobileMenuOpen(false); window.dispatchEvent(new Event("sqlwhale:open-feedback")); }}><span>07</span>Feedback</button>
-                <button type="button" className="mobile-auth-button" onClick={handleLogout}><span>08</span>Logout</button>
-              </>
-            ) : !authLoading ? (
-              <>
-                <Link href="/login" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>06</span>Login</Link>
-                <Link href="/signup" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}><span>07</span>Sign Up</Link>
-              </>
+              <button type="button" className="reference-mobile-link" onClick={() => {
+                window.dispatchEvent(new Event("sqlwhale:open-feedback"));
+                setMobileMenuOpen(false);
+              }}><span>06</span>Feedback</button>
             ) : null}
-            <a href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer" className="mobile-coffee-button" onClick={() => setMobileMenuOpen(false)}><AppleEmoji name="coffee" size={17} /> Support SQLWhale</a>
           </nav>
         </div>
-      </header>
-
-      <SQLWhaleHero />
+      </header>     <SQLWhaleHero />
 
       <LeaderboardSection />
 
