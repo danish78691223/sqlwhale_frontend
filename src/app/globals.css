@@ -18849,23 +18849,23 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-reference-nav{position:fixed!important;top:24px;left:16px!important;right:16px!important;width:auto!important;max-width:1120px;margin-inline:auto;box-sizing:border-box;transform:none!important;z-index:1000;pointer-events:none;background:transparent!important;border:0!important;box-shadow:none!important}
 .sqlwhale-reference-nav .reference-nav-links{display:flex!important}
 .sqlwhale-reference-nav .reference-nav-actions{display:flex!important}
-.sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#050505;box-shadow:0 8px 28px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
+.sqlwhale-reference-nav .navbar-inner{height:64px;min-height:64px;padding:8px 10px 8px 8px;border-radius:999px;background:#f7f7f5;box-shadow:0 10px 34px rgba(23,23,23,.10);border:1px solid rgba(23,23,23,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:auto}
 .sqlwhale-reference-nav .reference-nav-logo{width:48px!important;height:48px!important;min-width:48px;background:#fff;border-radius:50%;display:grid;place-items:center;overflow:hidden;transition:transform .6s cubic-bezier(.22,1,.36,1);text-decoration:none}
 .sqlwhale-reference-nav .reference-nav-logo:hover{transform:rotateY(-360deg)}
 .sqlwhale-reference-nav .reference-nav-logo .sqlwhale-logo-image{width:40px;height:40px;object-fit:contain}
 .sqlwhale-reference-nav .reference-nav-links{display:flex;align-items:center;justify-content:center;gap:clamp(16px,2.2vw,36px);margin:0 auto}
-.sqlwhale-reference-nav .reference-nav-link{position:relative;display:grid;place-items:center;overflow:hidden;height:24px;padding:0;border:0;background:transparent;color:#fff;font:600 12px/1 system-ui,sans-serif;letter-spacing:.01em;text-decoration:none;white-space:nowrap;cursor:pointer}
+.sqlwhale-reference-nav .reference-nav-link{position:relative;display:grid;place-items:center;overflow:hidden;height:24px;padding:0;border:0;background:transparent;color:#171717;font:600 12px/1 system-ui,sans-serif;letter-spacing:.01em;text-decoration:none;white-space:nowrap;cursor:pointer}
 .sqlwhale-reference-nav .reference-nav-link span{transition:transform .4s cubic-bezier(.22,1,.36,1)}
 .sqlwhale-reference-nav .reference-nav-link span:nth-child(2){position:absolute;transform:translateY(150%)}
 .sqlwhale-reference-nav .reference-nav-link:hover span:first-child{transform:translateY(-150%)}
 .sqlwhale-reference-nav .reference-nav-link:hover span:nth-child(2){transform:translateY(0)}
 .sqlwhale-reference-nav .reference-nav-actions{display:flex!important;align-items:center;gap:8px;margin:0!important}
-.sqlwhale-reference-nav .reference-nav-cta{position:relative;display:grid;place-items:center;overflow:hidden;min-width:max-content;height:42px;padding:0 17px;border-radius:999px;background:#fff;color:#050505;font:500 12px/1 system-ui,sans-serif;text-decoration:none;cursor:pointer}
+.sqlwhale-reference-nav .reference-nav-cta{position:relative;display:grid;place-items:center;overflow:hidden;min-width:max-content;height:42px;padding:0 17px;border-radius:999px;background:#171717;color:#fff;font:500 12px/1 system-ui,sans-serif;text-decoration:none;cursor:pointer}
 .sqlwhale-reference-nav .reference-nav-cta span{transition:transform .2s ease}
 .sqlwhale-reference-nav .reference-nav-cta span:nth-child(2){position:absolute;transform:translateY(200%)}
 .sqlwhale-reference-nav .reference-nav-cta:hover span:first-child{transform:translateY(-200%)}
 .sqlwhale-reference-nav .reference-nav-cta:hover span:nth-child(2){transform:translateY(0)}
-.sqlwhale-reference-nav .reference-nav-toggle{display:none;width:38px;height:38px;border:0;background:transparent;color:#fff;position:relative;place-items:center;cursor:pointer}
+.sqlwhale-reference-nav .reference-nav-toggle{display:none;width:38px;height:38px;border:0;background:transparent;color:#171717;position:relative;place-items:center;cursor:pointer}
 .sqlwhale-reference-nav .reference-nav-burger,.sqlwhale-reference-nav .reference-nav-close{position:absolute;display:grid;place-items:center;transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1)}
 .sqlwhale-reference-nav .reference-nav-burger{gap:4px}
 .sqlwhale-reference-nav .reference-nav-burger i{display:block;width:19px;height:1.5px;background:#fff;border-radius:2px}
@@ -18880,12 +18880,12 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .sqlwhale-reference-nav .reference-nav-logo .sqlwhale-logo-image{width:36px;height:36px}
   .sqlwhale-reference-nav .reference-nav-links,.sqlwhale-reference-nav .reference-nav-actions{display:none!important}
   .sqlwhale-reference-nav .reference-nav-toggle{display:grid}
-  .sqlwhale-reference-nav .reference-mobile-menu{position:absolute;top:0;left:0;right:0;background:#050505;border-radius:28px;box-shadow:0 8px 28px rgba(0,0,0,.22);padding:76px 28px 28px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s ease;display:block}
+  .sqlwhale-reference-nav .reference-mobile-menu{position:absolute;top:0;left:0;right:0;background:#f7f7f5;border-radius:28px;box-shadow:0 8px 28px rgba(0,0,0,.22);padding:76px 28px 28px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .3s ease;display:block}
   .sqlwhale-reference-nav .reference-mobile-menu.is-open{opacity:1;pointer-events:auto;transform:translateY(0)}
   .sqlwhale-reference-nav .navbar-inner{position:relative;z-index:2}
   .sqlwhale-reference-nav .reference-mobile-links{display:flex;flex-direction:column;align-items:center;gap:22px}
-  .sqlwhale-reference-nav .reference-mobile-link{display:flex;align-items:center;gap:14px;color:#fff;font:600 16px/1 system-ui,sans-serif;text-decoration:none;background:none;border:0;cursor:pointer}
-  .sqlwhale-reference-nav .reference-mobile-link>span{width:24px;color:#777;font:500 10px/1 monospace}
+  .sqlwhale-reference-nav .reference-mobile-link{display:flex;align-items:center;gap:14px;color:#171717;font:600 16px/1 system-ui,sans-serif;text-decoration:none;background:none;border:0;cursor:pointer}
+  .sqlwhale-reference-nav .reference-mobile-link>span{width:24px;color:#8a8a8a;font:500 10px/1 monospace}
 }
 @media (max-width:640px){
   .sqlwhale-reference-nav{top:12px;left:10px!important;right:10px!important;width:auto!important}
