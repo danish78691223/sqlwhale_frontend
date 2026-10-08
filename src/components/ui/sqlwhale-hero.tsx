@@ -2,16 +2,9 @@
 
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
-import { ArrowRight, Database, FileCode2, Play, Search } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import styles from "./SQLWhaleHero.module.css";
-
-const commands = [
-  { icon: FileCode2, label: "Write a SQL query", shortcut: "⌘1" },
-  { icon: Database, label: "See your database", shortcut: "⌘2" },
-  { icon: Play, label: "Run the query", shortcut: "⌘3" },
-  { icon: Search, label: "Understand each step", shortcut: "⌘4" },
-];
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
