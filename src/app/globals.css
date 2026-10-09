@@ -18898,15 +18898,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 
 
 
-/* Responsive fixes for the SQLWhale homepage hero and mobile navigation. */
-@media (max-width: 1023px) {
-  .sqlwhale-home .sqlwhale-hero,
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] {
-    display: block;
-    visibility: visible;
-    opacity: 1;
-  }
-}
+/* Mobile navigation profile/login affordance */
 .sqlwhale-home .sqlwhale-reference-nav .reference-mobile-menu.is-open {
   z-index: 1;
   max-height: calc(100dvh - 32px);
@@ -18934,84 +18926,6 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   color: rgba(255,255,255,.78) !important;
 }
 
-@media (max-width: 1023px) {
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] {
-    min-height: auto;
-    padding-top: 112px;
-    padding-bottom: 36px;
-    overflow: visible;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] > div[class*="inner"] {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    width: min(100% - 32px, 760px);
-    min-height: auto;
-    gap: 34px;
-    transform: none;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="copy"],
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="visual"] {
-    min-width: 0;
-    max-width: 100%;
-    width: 100%;
-    opacity: 1;
-    visibility: visible;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] h1 {
-    font-size: clamp(3.25rem, 9.5vw, 5.5rem);
-    line-height: .9;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="lede"] {
-    margin-top: 24px;
-    font-size: clamp(1rem, 2vw, 1.125rem);
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="visual"] {
-    margin-top: 0;
-  }
-}
-@media (max-width: 640px) {
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] {
-    padding: 100px 16px 28px;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] > div[class*="inner"] {
-    width: 100%;
-    gap: 28px;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] h1 {
-    font-size: clamp(2.8rem, 12vw, 4rem);
-    letter-spacing: -.075em;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="actions"] {
-    gap: 10px;
-    margin-top: 26px;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="primary"],
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="secondary"] {
-    min-height: 44px;
-    padding: 12px 17px;
-    font-size: 13px;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="shell"] {
-    transform: none !important;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="workspaceGrid"] {
-    grid-template-columns: minmax(0, 1fr);
-    min-height: auto;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="editorPane"] {
-    padding: 16px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(255,255,255,.07);
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="executionPane"] {
-    padding: 16px;
-  }
-  .sqlwhale-home section[class*="SQLWhaleHero-module"][class*="__hero"] [class*="code"] {
-    padding: 14px;
-    font-size: 10px;
-    overflow-x: auto;
-  }
-}
 /* Homepage navbar overrides */
 .sqlwhale-reference-nav { background:#000 !important; color:#fff !important; border-bottom-color:rgba(255,255,255,.12) !important; }
 .sqlwhale-reference-nav .reference-nav-link, .sqlwhale-reference-nav .reference-nav-link span, .sqlwhale-reference-nav .reference-nav-feedback, .sqlwhale-reference-nav .reference-nav-toggle, .sqlwhale-reference-nav .reference-nav-close { color:#fff !important; }
