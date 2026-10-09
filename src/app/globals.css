@@ -3265,7 +3265,10 @@
   width: 46px;
   height: 46px;
 
-  object-fit: cover;
+  object-fit: contain;
+  box-sizing: border-box;
+  padding: 5px;
+  background: #000;
 
   border-radius: 11px;
 
