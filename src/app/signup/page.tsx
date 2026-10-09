@@ -15,7 +15,7 @@ export default function SignupPage() {
     finally{setLoading(false);}
   }
   return <main className="auth-page sqlwhale-light-auth"><div className="auth-shell auth-simple-shell">
-    <Link href="/" className="auth-brand"><span className="auth-logo-wrap"><Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={46} height={46} priority/></span><span className="auth-brand-text"><strong>SQL</strong>Whale</span></Link>
+    <Link href="/" className="auth-brand"><span className="auth-logo-wrap"><Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={46} height={46} priority/></span><span className="auth-brand-text"><strong>SQL</strong>Whale</span></Link>
     <section className="auth-card auth-simple-card">
       <div className="auth-eyebrow"><span/> SQLWHALE ACCOUNT</div>
       <h1>Create your account</h1><p className="auth-intro">Create a separate account for SQLWhale.</p>
