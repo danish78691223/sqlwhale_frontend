@@ -37,8 +37,6 @@ export default function FeedbackWidget() {
     };
   }, []);
 
-  if (!user) return null;
-
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!message.trim()) return;
@@ -52,9 +50,9 @@ export default function FeedbackWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           product: "SQLWhale",
-          userId: user.id || "",
-          name: user.name || "SQLWhale user",
-          email: user.email || "",
+          userId: user?.id || "",
+          name: user?.name || "SQLWhale visitor",
+          email: user?.email || "",
           rating,
           category,
           message: message.trim(),
