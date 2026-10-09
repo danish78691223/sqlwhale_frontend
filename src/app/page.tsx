@@ -278,11 +278,31 @@ export default function Home() {
                 <span>{num}</span>{label}
               </Link>
             ))}
+            {!authLoading ? (
+              user ? (
+                <Link
+                  href="/account"
+                  className="reference-mobile-link reference-mobile-profile"
+                  title={user.email}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>06</span>Profile
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="reference-mobile-link reference-mobile-profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>06</span>Login
+                </Link>
+              )
+            ) : null}
             {!authLoading && user ? (
               <button type="button" className="reference-mobile-link" onClick={() => {
                 window.dispatchEvent(new Event("sqlwhale:open-feedback"));
                 setMobileMenuOpen(false);
-              }}><span>06</span>Feedback</button>
+              }}><span>07</span>Feedback</button>
             ) : null}
           </nav>
         </div>
