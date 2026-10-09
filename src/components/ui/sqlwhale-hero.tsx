@@ -197,7 +197,7 @@ export function SQLWhaleHero() {
               </div>
             </motion.div>
           </div>
-        </motion.div>
+        </div>
         <div className={styles.sideSteps} aria-label="SQLWhale learning flow">
           <span>WRITE</span>
           <span className={styles.sideArrow}>→</span>
