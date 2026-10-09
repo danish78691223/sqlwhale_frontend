@@ -78,7 +78,7 @@ export default function ContactPage() {
             onClick={() => setMobileMenuOpen(false)}
           >
             <Image
-              src="/assets/sqlwhale-logo.png"
+              src="/sqlwhale-logo-main.png"
               alt="SQLWhale"
               width={46}
               height={46}
@@ -284,7 +284,7 @@ export default function ContactPage() {
         <div className="footer-industrial-grid">
           <div className="footer-brand-block">
             <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
-              <Image src="/assets/sqlwhale-logo.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" />
+              <Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" />
               <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
             </Link>
             <p className="footer-tagline">Learn SQL. See the process. Understand the result.</p>
