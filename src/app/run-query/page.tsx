@@ -518,36 +518,24 @@ export default function RunQueryPage() {
               className="sqlwhale-run-nav"
               aria-label="Primary navigation"
             >
-              <Link href="/learn" className="run-nav-link">
-                <span className="run-nav-number">01</span>
-                Learn
+              <Link href="/" className="run-nav-link">
+                <span className="run-nav-number">⌂</span>
+                Home
               </Link>
 
-              <Link
-                href="/run-query"
-                className="run-nav-link active"
+              <Link href="/account" className="run-nav-link">
+                <span className="run-nav-number">◎</span>
+                Profile
+              </Link>
+
+              <button
+                type="button"
+                className="run-nav-link run-feedback-button"
+                onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
               >
-                <span className="run-nav-number">02</span>
-                Visualize
-              </Link>
-
-              <Link
-                href="/understand"
-                className="run-nav-link"
-              >
-                <span className="run-nav-number">03</span>
-                Understand
-              </Link>
-
-              {feedbackUser ? (
-                <button
-                  type="button"
-                  className="run-nav-link run-feedback-button"
-                  onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
-                >
-                  Feedback
-                </button>
-              ) : null}
+                <span className="run-nav-number">✉</span>
+                Feedback
+              </button>
             </nav>
 
             <button
@@ -578,49 +566,37 @@ export default function RunQueryPage() {
             aria-label="Mobile navigation"
           >
             <Link
-              href="/learn"
+              href="/"
               className="run-mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="run-mobile-nav-number">01</span>
-              <span>Learn</span>
+              <span className="run-mobile-nav-number">⌂</span>
+              <span>Home</span>
               <span className="run-mobile-arrow">→</span>
             </Link>
 
             <Link
-              href="/run-query"
-              className="run-mobile-nav-link active"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="run-mobile-nav-number">02</span>
-              <span>Visualize</span>
-              <span className="run-mobile-arrow">→</span>
-            </Link>
-
-            <Link
-              href="/understand"
+              href="/account"
               className="run-mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="run-mobile-nav-number">03</span>
-              <span>Understand</span>
+              <span className="run-mobile-nav-number">◎</span>
+              <span>Profile</span>
               <span className="run-mobile-arrow">→</span>
             </Link>
 
-            {feedbackUser ? (
-              <button
-                type="button"
-                className="run-mobile-nav-link run-mobile-feedback-button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  window.dispatchEvent(new Event("sqlwhale:open-feedback"));
-                }}
-              >
-                <span className="run-mobile-nav-number">04</span>
-                <span>Feedback</span>
-                <span className="run-mobile-arrow">→</span>
-              </button>
-            ) : null}
+            <button
+              type="button"
+              className="run-mobile-nav-link run-mobile-feedback-button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                window.dispatchEvent(new Event("sqlwhale:open-feedback"));
+              }}
+            >
+              <span className="run-mobile-nav-number">✉</span>
+              <span>Feedback</span>
+              <span className="run-mobile-arrow">→</span>
+            </button>
           </nav>
 
           <div className="run-mobile-status">
