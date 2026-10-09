@@ -59,3 +59,52 @@
 .sideSteps{transform:translateY(40px)}
 @media(max-width:1023px){.sideSteps{transform:translateY(24px)}}
 @media(max-width:640px){.sideSteps{transform:translateY(18px);padding-bottom:28px}}
+
+
+/* Stable single-column layout for tablet and mobile widths. */
+@media (max-width: 1023px) {
+  .hero {
+    min-height: auto;
+    padding-top: 100px;
+    padding-bottom: 36px;
+    overflow: visible;
+  }
+  .inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    width: min(calc(100% - 32px), 760px);
+    min-height: auto;
+    gap: 34px;
+    transform: none;
+  }
+  .copy,
+  .visual {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    opacity: 1;
+    visibility: visible;
+  }
+  .title {
+    font-size: clamp(3.25rem, 9.5vw, 5.5rem);
+    line-height: .9;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero { padding: 92px 16px 28px; }
+  .inner { width: 100%; gap: 28px; }
+  .title { font-size: clamp(2.8rem, 12vw, 4rem); letter-spacing: -.075em; }
+  .lede { margin-top: 24px; font-size: 16px; }
+  .actions { gap: 10px; margin-top: 26px; }
+  .primary,
+  .secondary { min-height: 44px; padding: 12px 17px; font-size: 13px; }
+  .shell { transform: none !important; }
+  .workspaceGrid { grid-template-columns: minmax(0, 1fr); min-height: auto; }
+  .editorPane { padding: 16px; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .executionPane { padding: 16px; }
+  .code { padding: 14px; font-size: 10px; overflow-x: auto; }
+  .sideSteps { gap: 12px; font-size: 9px; }
+}
