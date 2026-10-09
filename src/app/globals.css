@@ -6754,7 +6754,10 @@
 .sqlwhale-logo-image {
   width: 42px;
   height: 42px;
-  object-fit: cover;
+  box-sizing: border-box;
+  padding: 5px;
+  object-fit: contain;
+  background: #000;
   border-radius: 10px;
   display: block;
 }
@@ -11875,8 +11878,15 @@ body.sql-loader-lock { overflow: hidden; }
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.13);
   border-radius: 14px;
-  background: linear-gradient(145deg, #0d2632, #07151c);
+  background: #000;
   box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+}
+
+.auth-logo-wrap img {
+  box-sizing: border-box;
+  padding: 5px;
+  object-fit: contain;
+  background: #000;
 }
 .auth-brand-text {
   font-size: 27px;
