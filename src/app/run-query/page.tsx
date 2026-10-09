@@ -483,7 +483,7 @@ export default function RunQueryPage() {
             onClick={() => setMobileMenuOpen(false)}
           >
             <Image
-              src="/assets/sqlwhale-logo.png"
+              src="/sqlwhale-logo-main.png"
               alt="SQLWhale"
               width={46}
               height={46}
