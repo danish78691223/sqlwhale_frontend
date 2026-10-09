@@ -39,12 +39,7 @@ export function SQLWhaleHero() {
       </div>
 
       <div className={styles.inner}>
-        <motion.div
-          initial={reducedMotion ? false : { opacity: 0, y: 24 }}
-          animate={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.6 }}
-          className={styles.copy}
-        >
+        <div className={styles.copy}>
           <h1 className={styles.title}>
             SQL, but you
             <br />
@@ -87,14 +82,9 @@ export function SQLWhaleHero() {
             <span className={styles.line} />
             <span>UNDERSTAND</span>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={reducedMotion ? false : { opacity: 0, x: 36, scale: 0.97 }}
-          animate={reducedMotion ? undefined : { opacity: 1, x: 0, scale: 1 }}
-          transition={{ type: "spring", bounce: 0, duration: 0.75, delay: 0.05 }}
-          className={styles.visual}
-        >
+        <div className={styles.visual}>
           <motion.div
             className={styles.glow}
             style={reducedMotion ? undefined : { x: glowX, y: glowY }}
@@ -176,19 +166,13 @@ export function SQLWhaleHero() {
                         ["03", "WHERE", "active = 1"],
                         ["04", "RESULT", "24 rows"],
                       ].map(([num, op, detail], index) => (
-                        <motion.div
-                          key={op}
-                          initial={reducedMotion ? false : { opacity: 0, x: 10 }}
-                          animate={reducedMotion ? undefined : { opacity: 1, x: 0 }}
-                          transition={{ type: "spring", bounce: 0, duration: 0.4, delay: 0.3 + index * 0.08 }}
-                          className={styles.executionItem}
-                        >
+                        <div key={op} className={styles.executionItem}>
                           <div className={styles.executionRow}>
                             <span className={styles.executionNum}>{num}</span>
                             <span className={styles.executionOp}>{op}</span>
                             <span className={styles.executionDetail}>{detail}</span>
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
 
