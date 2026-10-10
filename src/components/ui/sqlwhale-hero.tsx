@@ -49,6 +49,7 @@ export function SQLWhaleHero() {
           colorSpeed={1.0}
           enableMouseInteraction={true}
           mouseInfluence={0.25}
+          lightMode={true}
         />
       </div>
 
