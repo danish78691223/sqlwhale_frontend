@@ -5,6 +5,7 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-moti
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import styles from "./SQLWhaleHero.module.css";
+import SoftAurora from "./SoftAurora";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -32,10 +33,24 @@ export function SQLWhaleHero() {
 
   return (
     <section className={styles.hero}>
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="absolute -left-32 -top-32 h-[520px] w-[520px] rounded-full bg-white blur-3xl" />
-        <div className="absolute -bottom-40 right-[-8%] h-[560px] w-[560px] rounded-full bg-neutral-200/70 blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.28] [background-image:linear-gradient(to_right,rgba(23,23,23,.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,23,23,.045)_1px,transparent_1px)] [background-size:64px_64px]" />
+      <div className={styles.auroraBackground} aria-hidden="true">
+        <SoftAurora
+          speed={0.45}
+          scale={1.65}
+          brightness={1.05}
+          color1="#1862FD"
+          color2="#B44CFF"
+          noiseFrequency={2.3}
+          noiseAmplitude={1.05}
+          bandHeight={0.42}
+          bandSpread={1.15}
+          octaveDecay={0.32}
+          layerOffset={1.25}
+          colorSpeed={0.8}
+          enableMouseInteraction
+          mouseInfluence={0.18}
+        />
+        <div className={styles.auroraGrid} />
       </div>
 
       <div className={styles.inner}>
