@@ -116,6 +116,9 @@ export function SQLWhaleHero() {
               foldCount={6} foldSharpness={0.6} wrinkleDepth={0.65}
               creaseStrength={0.18} paperColor="#f4f0e8"
               paperTexture={0.08} draggable returnToOrigin
+              onStateChange={() => {}}
+              onError={(error) => console.error("PaperCrumple error:", error)}
+              style={{}}
               className={styles.paperCrumple}
             />
           </div>
