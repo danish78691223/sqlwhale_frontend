@@ -50,7 +50,6 @@ export function SQLWhaleHero() {
           enableMouseInteraction
           mouseInfluence={0.18}
         />
-        <div className={styles.auroraGrid} />
       </div>
 
       <div className={styles.inner}>
