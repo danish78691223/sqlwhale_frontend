@@ -37,9 +37,9 @@ export function SQLWhaleHero() {
         <SoftAurora
           speed={0.45}
           scale={1.65}
-          brightness={1.05}
-          color1="#1862FD"
-          color2="#B44CFF"
+          brightness={1.45}
+          color1="#f7f7f7"
+          color2="#e100ff"
           noiseFrequency={2.3}
           noiseAmplitude={1.05}
           bandHeight={0.42}
