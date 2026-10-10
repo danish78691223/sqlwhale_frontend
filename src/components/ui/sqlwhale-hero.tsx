@@ -117,7 +117,7 @@ export function SQLWhaleHero() {
               creaseStrength={0.18} paperColor="#f4f0e8"
               paperTexture={0.08} draggable returnToOrigin
               onStateChange={() => {}}
-              onError={(error) => console.error("PaperCrumple error:", error)}
+              onError={(error: unknown) => console.error("PaperCrumple error:", error)}
               style={{}}
               className={styles.paperCrumple}
             />
