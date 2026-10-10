@@ -16,14 +16,25 @@
   position: relative;
   transform: translateY(56px);
   z-index: 1;
-  width: min(900px, calc(100% - 40px));
+  width: min(1380px, calc(100% - 40px));
   min-height: 680px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
+  justify-items: start;
   gap: 30px;
 }
+
+.copy {
+  width: 100%;
+  max-width: 760px;
+  justify-self: start;
+  text-align: left;
+}
+
+.actions { justify-content: flex-start; }
+.steps { justify-content: flex-start; }
 
 @media (max-width: 1023px) {
   .hero { min-height: auto; padding-top: 56px; }
