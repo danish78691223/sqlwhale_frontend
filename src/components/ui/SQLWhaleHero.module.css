@@ -16,11 +16,11 @@
   position: relative;
   transform: translateY(56px);
   z-index: 1;
-  width: min(1380px, calc(100% - 40px));
+  width: min(900px, calc(100% - 40px));
   min-height: 680px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(560px, 790px) 96px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 30px;
 }
