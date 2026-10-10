@@ -16154,9 +16154,18 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   }
 
   .sqlwhale-home .agency-hero,
-  .sqlwhale-home .agency-particle-background,
   .sqlwhale-home .home-section {
     z-index: 1;
+  }
+
+  /* The fixed opaque particle background must remain behind the hero. */
+  .sqlwhale-home .agency-particle-background {
+    z-index: 0;
+  }
+
+  .sqlwhale-home .agency-hero {
+    position: relative;
+    z-index: 2;
   }
 }
 
