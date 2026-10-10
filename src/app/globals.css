@@ -18962,3 +18962,91 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-reference-nav .reference-nav-cta:hover { color:#fff !important; background:#1862FD !important; border-color:#1862FD !important; }
 .sqlwhale-reference-nav .reference-mobile-menu { background:#000 !important; color:#fff !important; }
 .sqlwhale-reference-nav .reference-mobile-link, .sqlwhale-reference-nav .reference-mobile-link span { color:#fff !important; }
+
+
+/* Connection status alert for the SQL workspace */
+.sqlwhale-offline-alert-wrap {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 10000;
+  width: min(36rem, calc(100vw - 2rem));
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: sqlwhale-offline-alert-in 220ms ease-out both;
+}
+
+.sqlwhale-offline-alert {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1rem 1rem 1.05rem;
+  overflow: hidden;
+  border: 1px solid rgb(245 158 11 / 30%);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgb(255 251 235 / 98%), rgb(255 255 255 / 98%) 70%, rgb(255 247 ed / 98%));
+  color: #78350f;
+  box-shadow: 0 14px 40px rgb(15 23 42 / 16%);
+  pointer-events: auto;
+  backdrop-filter: blur(14px);
+}
+
+.dark .sqlwhale-offline-alert {
+  border-color: rgb(245 158 11 / 36%);
+  background: linear-gradient(135deg, rgb(69 39 7 / 97%), rgb(30 30 30 / 98%) 70%, rgb(58 32 5 / 97%));
+  color: #fef3c7;
+}
+
+.sqlwhale-offline-alert::before {
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 9999px;
+  background: rgb(245 158 11 / 15%);
+  content: "";
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.sqlwhale-offline-alert-icon {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 0.75rem;
+  background: rgb(245 158 11 / 13%);
+  color: #b45309;
+}
+
+.dark .sqlwhale-offline-alert-icon { color: #fbbf24; }
+.sqlwhale-offline-alert-content { position: relative; flex: 1; min-width: 0; padding-top: 0.05rem; }
+.sqlwhale-offline-alert-content strong { display: block; font-size: 0.95rem; font-weight: 700; line-height: 1.35; }
+.sqlwhale-offline-alert-content p { margin: 0.25rem 0 0; font-size: 0.825rem; line-height: 1.5; opacity: 0.9; }
+.sqlwhale-offline-alert-close {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  margin: -0.25rem -0.25rem 0 0;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.72;
+}
+.sqlwhale-offline-alert-close:hover { background: rgb(245 158 11 / 12%); opacity: 1; }
+.sqlwhale-offline-alert-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+@keyframes sqlwhale-offline-alert-in { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (prefers-reduced-motion: reduce) { .sqlwhale-offline-alert-wrap { animation: none; } }
+@media (max-width: 480px) {
+  .sqlwhale-offline-alert { gap: 0.65rem; padding: 0.85rem; }
+  .sqlwhale-offline-alert-content p { font-size: 0.78rem; }
+}
