@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
+import PaperCrumple from "./PaperCrumple.jsx";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -105,112 +106,18 @@ export function SQLWhaleHero() {
             style={reducedMotion ? undefined : { x: glowX, y: glowY }}
           />
 
-          <div
-            ref={cardRef}
-            onPointerMove={handlePointerMove}
-            onPointerLeave={resetPointer}
-            className={styles.perspective}
-          >
-            <motion.div
-              style={{ rotateX, rotateY }}
-              className={styles.shell}
-            >
-              <div className={styles.workspace}>
-                <div className={styles.workspaceHeader}>
-                  <div className={styles.workspaceBrand}>
-                    <div className={styles.windowDots}>
-                      <span className={`${styles.windowDot} ${styles.red}`} />
-                      <span className={`${styles.windowDot} ${styles.yellow}`} />
-                      <span className={`${styles.windowDot} ${styles.green}`} />
-                    </div>
-                    <span className={styles.workspaceName}>
-                      SQLWhale Workspace
-                    </span>
-                  </div>
-                  <span className={styles.live}>
-                    Live
-                  </span>
-                </div>
-
-                <div className={styles.workspaceGrid}>
-                  <div className={styles.editorPane}>
-                    <div className={styles.paneHeader}>
-                      <span className={styles.paneLabel}>
-                        SQL Editor
-                      </span>
-                      <span className="text-[10px] text-neutral-600">01 / QUERY</span>
-                    </div>
-
-                    <div className={styles.code}>
-                      <div><span className={styles.lineNo}>01</span> <span className={styles.keyword}>SELECT</span> <span className={styles.codeText}>e.name, d.name</span></div>
-                      <div><span className="text-neutral-600">02</span> <span className="text-white">FROM</span> <span className="text-neutral-300">employees e</span></div>
-                      <div><span className="text-neutral-600">03</span> <span className="text-white">JOIN</span> <span className="text-neutral-300">departments d</span></div>
-                      <div><span className="text-neutral-600">04</span> <span className="text-white">ON</span> <span className="text-neutral-300">e.department_id = d.id</span></div>
-                      <div><span className="text-neutral-600">05</span> <span className="text-white">WHERE</span> <span className="text-neutral-300">e.active = 1</span></div>
-                      <div className={styles.codeRule} />
-                      <div className={styles.ready}>
-                        <span className={styles.readyDot} />
-                        Query ready to run
-                      </div>
-                    </div>
-
-                    <div className={styles.stats}>
-                      <div className={styles.stat}>
-                        <span className={styles.statLabel}>Tables</span>
-                        <span className={styles.statValue}>02</span>
-                      </div>
-                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-4">
-                        <span className="block text-[9px] uppercase tracking-[0.16em] text-neutral-600">Steps</span>
-                        <span className="mt-2 block text-lg text-neutral-200">04</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.executionPane}>
-                    <div className="mb-5 flex items-center justify-between">
-                      <span className="text-[10px] uppercase tracking-[0.18em] text-neutral-600">
-                        Execution
-                      </span>
-                      <span className="text-[10px] text-neutral-600">VISIBLE</span>
-                    </div>
-
-                    <div className={styles.executionList}>
-                      {[
-                        ["01", "FROM", "employees"],
-                        ["02", "JOIN", "departments"],
-                        ["03", "WHERE", "active = 1"],
-                        ["04", "RESULT", "24 rows"],
-                      ].map(([num, op, detail], index) => (
-                        <div key={op} className={styles.executionItem}>
-                          <div className={styles.executionRow}>
-                            <span className={styles.executionNum}>{num}</span>
-                            <span className={styles.executionOp}>{op}</span>
-                            <span className={styles.executionDetail}>{detail}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className={styles.database}>
-                      <div className={styles.dbLabel}>
-                        Database
-                      </div>
-                      <div className={styles.dbCanvas}>
-                        <div className={`${styles.dbTable} ${styles.dbLeft}`}>employees</div>
-                        <div className={`${styles.dbTable} ${styles.dbRight}`}>departments</div>
-                        <div className={styles.dbLine} />
-                        <div className={styles.dbNode} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.workspaceFooter}>
-                  <span>SQLWHALE</span>
-                  <span>Write → Trace → Understand</span>
-                </div>
-              </div>
-            </motion.div>
+          <div className={styles.perspective}>
+            <PaperCrumple
+              src="/sqlwhale-workspace-card.svg"
+              alt="SQLWhale Workspace. SQL Editor 01 / QUERY. SELECT e.name, d.name. FROM employees e. JOIN departments d. ON e.department_id = d.id. WHERE e.active = 1. Query ready to run. Tables 02. Steps 04. Execution VISIBLE. FROM employees. JOIN departments. WHERE active = 1. RESULT 24 rows. Database employees and departments. SQLWHALE Write to Trace to Understand."
+              width={1000} height={760} sceneHeight={600}
+              releaseBehavior="restore" crumpleAmount={0.85}
+              crumpleDuration={0.55} releaseDuration={0.4}
+              foldCount={6} foldSharpness={0.6} wrinkleDepth={0.65}
+              creaseStrength={0.18} paperColor="#f4f0e8"
+              paperTexture={0.08} draggable returnToOrigin
+              className={styles.paperCrumple}
+            />
           </div>
         </div>
         <div className={styles.sideSteps} aria-label="SQLWhale learning flow">
