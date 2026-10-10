@@ -18970,8 +18970,8 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   box-shadow:
     0 12px 36px rgba(0, 0, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(155%) !important;
-  backdrop-filter: blur(24px) saturate(155%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(155%) !important;
+  backdrop-filter: blur(15px) saturate(155%) !important;
 }
 .sqlwhale-reference-nav .reference-nav-link, .sqlwhale-reference-nav .reference-nav-link span, .sqlwhale-reference-nav .reference-nav-feedback, .sqlwhale-reference-nav .reference-nav-toggle, .sqlwhale-reference-nav .reference-nav-close { color:#fff !important; }
 .sqlwhale-reference-nav .reference-nav-cta {
