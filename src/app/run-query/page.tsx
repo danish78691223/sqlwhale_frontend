@@ -70,21 +70,59 @@ export default function RunQueryPage() {
   }, []);
 
   useEffect(() => {
-    const handleOffline = () => {
+    let mounted = true;
+    let wasOffline = false;
+
+    const markOffline = () => {
+      if (!mounted) return;
+      wasOffline = true;
       setIsOnline(false);
       setOfflineAlertDismissed(false);
     };
-    const handleOnline = () => {
+
+    const markOnline = () => {
+      if (!mounted) return;
+      if (wasOffline) setOfflineAlertDismissed(false);
+      wasOffline = false;
       setIsOnline(true);
-      setOfflineAlertDismissed(false);
     };
 
-    setIsOnline(navigator.onLine);
+    const checkConnection = async () => {
+      if (!navigator.onLine) {
+        markOffline();
+        return;
+      }
+
+      // navigator.onLine can stay true when Wi-Fi is connected but internet
+      // access is unavailable. A fresh same-origin request checks real reachability.
+      try {
+        const response = await fetch(`/favicon.ico?connection-check=${Date.now()}`, {
+          method: "GET",
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" },
+        });
+        if (response.ok) markOnline();
+        else markOffline();
+      } catch {
+        markOffline();
+      }
+    };
+
+    const handleOffline = () => markOffline();
+    const handleOnline = () => { void checkConnection(); };
+
+    void checkConnection();
+    const intervalId = window.setInterval(() => { void checkConnection(); }, 5000);
     window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
+    window.addEventListener("focus", handleOnline);
+
     return () => {
+      mounted = false;
+      window.clearInterval(intervalId);
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
+      window.removeEventListener("focus", handleOnline);
     };
   }, []);
 
