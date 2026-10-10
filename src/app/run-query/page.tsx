@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
+import { WifiOff, X } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -53,6 +54,8 @@ export default function RunQueryPage() {
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [showDesktopNotice, setShowDesktopNotice] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+  const [offlineAlertDismissed, setOfflineAlertDismissed] = useState(false);
 
   const tourSteps = [
     { target: "schema", title: "Database Canvas", text: "This is your database. See tables, columns, and how they are connected." },
@@ -64,6 +67,25 @@ export default function RunQueryPage() {
 
   useEffect(() => {
     if (localStorage.getItem("sqlwhale-product-tour-seen") !== "true") setShowProductTour(true);
+  }, []);
+
+  useEffect(() => {
+    const handleOffline = () => {
+      setIsOnline(false);
+      setOfflineAlertDismissed(false);
+    };
+    const handleOnline = () => {
+      setIsOnline(true);
+      setOfflineAlertDismissed(false);
+    };
+
+    setIsOnline(navigator.onLine);
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
   }, []);
 
   useEffect(() => {
@@ -605,6 +627,21 @@ export default function RunQueryPage() {
           </div>
         </div>
       </header>
+
+      {!isOnline && !offlineAlertDismissed && (
+        <div className="sqlwhale-offline-alert-wrap" aria-live="assertive" aria-atomic="true">
+          <div className="sqlwhale-offline-alert" role="alert">
+            <span className="sqlwhale-offline-alert-icon" aria-hidden="true"><WifiOff size={21} strokeWidth={2.2} /></span>
+            <div className="sqlwhale-offline-alert-content">
+              <strong>No internet connection</strong>
+              <p>Your connection was interrupted. Reconnect to continue using SQLWhale.</p>
+            </div>
+            <button type="button" className="sqlwhale-offline-alert-close" onClick={() => setOfflineAlertDismissed(true)} aria-label="Dismiss offline notification">
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      )}
 
       {showProductTour && tourRect && (
         <div className="sqlwhale-product-tour" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-tour-title">
