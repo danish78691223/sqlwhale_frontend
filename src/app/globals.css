@@ -18961,8 +18961,18 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   color: rgba(255,255,255,.78) !important;
 }
 
-/* Homepage navbar overrides */
-.sqlwhale-reference-nav { background:#000 !important; color:#fff !important; border-bottom-color:rgba(255,255,255,.12) !important; }
+/* Homepage navbar: dark glassmorphism over the aurora hero. */
+.sqlwhale-reference-nav {
+  background: rgba(12, 12, 16, 0.58) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(155%) !important;
+  backdrop-filter: blur(24px) saturate(155%) !important;
+}
 .sqlwhale-reference-nav .reference-nav-link, .sqlwhale-reference-nav .reference-nav-link span, .sqlwhale-reference-nav .reference-nav-feedback, .sqlwhale-reference-nav .reference-nav-toggle, .sqlwhale-reference-nav .reference-nav-close { color:#fff !important; }
 .sqlwhale-reference-nav .reference-nav-cta {
   color:#fff !important;
@@ -18973,7 +18983,14 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     0 6px 18px -6px rgba(37, 99, 235, 0.55) !important;
 }
 .sqlwhale-reference-nav .reference-nav-cta:hover { color:#fff !important; background:#1862FD !important; border-color:#1862FD !important; }
-.sqlwhale-reference-nav .reference-mobile-menu { background:#000 !important; color:#fff !important; }
+.sqlwhale-reference-nav .reference-mobile-menu {
+  background: rgba(12, 12, 16, 0.82) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(28px) saturate(155%);
+  backdrop-filter: blur(28px) saturate(155%);
+}
 .sqlwhale-reference-nav .reference-mobile-link, .sqlwhale-reference-nav .reference-mobile-link span { color:#fff !important; }
 
 
