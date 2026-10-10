@@ -96,7 +96,7 @@ export default function RunQueryPage() {
       // navigator.onLine can stay true when Wi-Fi is connected but internet
       // access is unavailable. A fresh same-origin request checks real reachability.
       try {
-        const response = await fetch(`/favicon.ico?connection-check=${Date.now()}`, {
+        const response = await fetch(`/?connection-check=${Date.now()}`, {
           method: "GET",
           cache: "no-store",
           headers: { "Cache-Control": "no-cache" },
