@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-moti
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import styles from "./SQLWhaleHero.module.css";
-import SoftAurora from "./SoftAurora";
+import SoftAurora from "./SoftAurora.jsx";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -35,20 +35,20 @@ export function SQLWhaleHero() {
     <section className={styles.hero}>
       <div className={styles.auroraBackground} aria-hidden="true">
         <SoftAurora
-          speed={0.45}
-          scale={1.65}
-          brightness={1.45}
+          speed={0.6}
+          scale={1.5}
+          brightness={1.0}
           color1="#f7f7f7"
           color2="#e100ff"
-          noiseFrequency={2.3}
-          noiseAmplitude={1.05}
-          bandHeight={0.42}
-          bandSpread={1.15}
-          octaveDecay={0.32}
-          layerOffset={1.25}
-          colorSpeed={0.8}
-          enableMouseInteraction
-          mouseInfluence={0.18}
+          noiseFrequency={2.5}
+          noiseAmplitude={1.0}
+          bandHeight={0.5}
+          bandSpread={1.0}
+          octaveDecay={0.1}
+          layerOffset={0}
+          colorSpeed={1.0}
+          enableMouseInteraction={true}
+          mouseInfluence={0.25}
         />
       </div>
 
