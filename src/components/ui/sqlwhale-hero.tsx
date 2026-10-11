@@ -14,7 +14,7 @@ export function SQLWhaleHero() {
 
   return (
     <section ref={heroRef} className={styles.hero}>
-      <TargetCursor container={heroRef} spinDuration={0} hideDefaultCursor parallaxOn />
+      <TargetCursor container={heroRef} spinDuration={2} hideDefaultCursor parallaxOn />
       <div className={styles.auroraBackground} aria-hidden="true">
         <SoftAurora
           speed={0.6}
