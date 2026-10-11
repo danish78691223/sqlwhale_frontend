@@ -189,6 +189,9 @@ export default function SoftAurora({
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // Mobile browsers can lose WebGL context while scrolling or backgrounding.
+    // Use the CSS fallback on small screens to keep the hero stable and readable.
+    if (window.matchMedia('(max-width: 767px)').matches) return;
     if (!containerRef.current) return;
     const container = containerRef.current;
     const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
