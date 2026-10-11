@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
@@ -9,10 +10,11 @@ import TargetCursor from "./TargetCursor.jsx";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
 
   return (
-    <section className={styles.hero}>
-      <TargetCursor spinDuration={2} hideDefaultCursor parallaxOn />
+    <section ref={heroRef} className={styles.hero}>
+      <TargetCursor container={heroRef} spinDuration={0} hideDefaultCursor parallaxOn />
       <div className={styles.auroraBackground} aria-hidden="true">
         <SoftAurora
           speed={0.6}
