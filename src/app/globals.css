@@ -19121,3 +19121,51 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 @keyframes sqlwhale-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @media (max-width: 520px) { .sqlwhale-bargain-overlay { padding: 12px; align-items: center; } .sqlwhale-bargain-modal { padding: 25px 19px 22px; border-radius: 22px; } .sqlwhale-bargain-prices strong { font-size: 18px; } }
 @media (prefers-reduced-motion: reduce) { .sqlwhale-bargain-whale { animation: none; } .sqlwhale-bargain-primary, .sqlwhale-bargain-secondary { transition: none; } }
+
+
+/* Performance: keep the homepage subscription section light during scroll/reveal */
+.sqlwhale-home .agency-final-section .scroll-reveal,
+.sqlwhale-home .agency-final-section .scroll-reveal-visible {
+  animation: none !important;
+  transition: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.sqlwhale-home .agency-final-section .support-box,
+.sqlwhale-home .agency-final-section .agency-support-box {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
+}
+.sqlwhale-home .agency-final-section .support-box::before,
+.sqlwhale-home .agency-final-section .support-box::after {
+  animation: none !important;
+  filter: none !important;
+}
+.sqlwhale-bargain-overlay {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.sqlwhale-bargain-whale {
+  animation: none !important;
+}
+.sqlwhale-subscribe-choices {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.sqlwhale-bargain-choice-note {
+  margin: 3px 0 0;
+  color: #8c95a9;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-home .agency-final-section *,
+  .sqlwhale-bargain-overlay * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
