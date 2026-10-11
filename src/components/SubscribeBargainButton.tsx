@@ -65,6 +65,12 @@ export default function SubscribeBargainButton() {
     setCounterOffer(null);
     setBargain(null);
     try {
+      const statusResponse = await api.get("/subscription/status");
+      if (statusResponse.data?.subscribed) {
+        setSubscribed(true);
+        setMessage("SQLWhale Premium aapke account par pehle se active hai. Happy querying! 🎉");
+        return;
+      }
       const response = await api.post("/subscription/bargain/start");
       setBargain(response.data.bargain);
       setMessage("Whale ready hai! Apna best offer dijiye. 🐳");
