@@ -55,9 +55,11 @@ export default function SubscribeBargainButton() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [view, setView] = useState<"choice" | "bargain">("choice");
 
   async function beginBargain() {
     setOpen(true);
+    setView("choice");
     setLoading(true);
     setError("");
     setMessage("");
@@ -70,14 +72,30 @@ export default function SubscribeBargainButton() {
         setMessage("SQLWhale Premium aapke account par pehle se active hai. Happy querying! 🎉");
         return;
       }
-      const response = await api.post("/subscription/bargain/start");
-      setBargain(response.data.bargain);
-      setMessage("Whale ready hai! Apna best offer dijiye. 🐳");
+      setMessage("");
     } catch (err: any) {
       const status = err?.response?.status;
       setError(status === 401
         ? "Subscribe karne ke liye pehle SQLWhale mein login karein."
         : err?.response?.data?.error || "Bargain start nahi ho paaya. Dobara try karein.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function startBargain() {
+    setView("bargain");
+    setLoading(true);
+    setError("");
+    setMessage("");
+    setCounterOffer(null);
+    setBargain(null);
+    try {
+      const response = await api.post("/subscription/bargain/start");
+      setBargain(response.data.bargain);
+      setMessage("Enter an offer and let's see if we can make a deal. 🐳");
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Could not start bargaining. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -126,15 +144,15 @@ export default function SubscribeBargainButton() {
     }
   }
 
-  async function checkout() {
-    if (!bargain || !bargain.locked || !bargain.acceptedPrice) {
-      setError("Checkout se pehle ek valid deal accept karein.");
+  async function checkout(direct = false) {
+    if (!direct && (!bargain || !bargain.locked || !bargain.acceptedPrice)) {
+      setError("Accept a valid deal before checkout.");
       return;
     }
     setPaying(true);
     setError("");
     try {
-      const response = await api.post("/subscription/order", { sessionId: bargain.sessionId });
+      const response = await api.post("/subscription/order", direct ? { direct: true } : { sessionId: bargain?.sessionId });
       const { order, keyId, plan } = response.data;
       if (!keyId || !order?.id) throw new Error("Payment settings abhi ready nahi hain. Please baad mein retry karein.");
 
@@ -216,7 +234,19 @@ export default function SubscribeBargainButton() {
             {message ? <div className={subscribed ? "sqlwhale-bargain-message is-success" : "sqlwhale-bargain-message"} aria-live="polite">{message}</div> : null}
             {error ? <div className="sqlwhale-bargain-error" role="alert">{error}</div> : null}
 
-            {!subscribed && bargain && !bargain.locked ? (
+            {!subscribed && view === "choice" && !loading ? (
+              <div className="sqlwhale-subscribe-choices">
+                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout(true)} disabled={paying}>
+                  Proceed to Pay ₹1,000
+                </button>
+                <button type="button" className="sqlwhale-bargain-secondary" onClick={() => void startBargain()} disabled={paying}>
+                  🤝 Bargain for a better price
+                </button>
+                <p className="sqlwhale-bargain-choice-note">Pay the listed price instantly, or bargain with the Whale first.</p>
+              </div>
+            ) : null}
+
+            {!subscribed && view === "bargain" && bargain && !bargain.locked ? (
               <form className="sqlwhale-bargain-form" onSubmit={(event) => { event.preventDefault(); void submitOffer(); }}>
                 <label htmlFor="sqlwhale-bargain-offer">Your offer (₹)</label>
                 <div className="sqlwhale-bargain-input-row">
@@ -241,13 +271,13 @@ export default function SubscribeBargainButton() {
               </form>
             ) : null}
 
-            {!subscribed && counterOffer !== null && !bargain?.locked ? (
+            {!subscribed && view === "bargain" && counterOffer !== null && !bargain?.locked ? (
               <button type="button" className="sqlwhale-bargain-secondary" onClick={() => void acceptCounterOffer()} disabled={loading || paying}>
                 {loading ? "Accepting…" : "Accept Whale's offer · ₹" + counterOffer}
               </button>
             ) : null}
 
-            {!subscribed && bargain?.locked ? (
+            {!subscribed && view === "bargain" && bargain?.locked ? (
               <div className="sqlwhale-bargain-checkout">
                 <p>Deal price locked: <strong>₹{bargain.acceptedPrice?.toLocaleString("en-IN")}</strong></p>
                 <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout()} disabled={paying || loading}>
