@@ -6,8 +6,7 @@ import api from "@/services/api";
 type BargainState = {
   sessionId: string;
   originalPrice: number;
-  minimumPrice: number;
-  attempts: number;
+    attempts: number;
   remainingAttempts: number;
   locked: boolean;
   acceptedPrice: number | null;
@@ -87,8 +86,8 @@ export default function SubscribeBargainButton() {
   async function submitOffer() {
     if (!bargain) return;
     const amount = Number(offer);
-    if (!Number.isSafeInteger(amount) || amount < 1 || amount > 5000) {
-      setError("₹1 se ₹5,000 ke beech whole-number offer enter karein.");
+    if (!Number.isSafeInteger(amount) || amount < 1 || amount > 1000) {
+      setError("₹1 se ₹1,000 ke beech whole-number offer enter karein.");
       return;
     }
     setLoading(true);
@@ -210,7 +209,7 @@ export default function SubscribeBargainButton() {
             {!subscribed ? (
               <div className="sqlwhale-bargain-prices">
                 <div><span>Original price</span><strong>₹1,000</strong></div>
-                <div><span>Minimum deal</span><strong>₹600</strong></div>
+                <div><span>Personal bargain</span><strong>Your offer</strong></div>
               </div>
             ) : null}
 
@@ -226,7 +225,7 @@ export default function SubscribeBargainButton() {
                     id="sqlwhale-bargain-offer"
                     type="number"
                     min="1"
-                    max="5000"
+                    max="1000"
                     step="1"
                     inputMode="numeric"
                     value={offer}
