@@ -9,6 +9,7 @@ import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
+import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -418,9 +419,9 @@ export default function Home() {
         <Reveal className="support-box-wrap">
           <div id="support" className="support-box agency-support-box">
             <span>BUILDING IN PUBLIC</span>
-            <h3><AppleEmoji name="coffee" size={22} /> Support SQLWhale</h3>
-            <p>Help us keep building better tools for learning SQL.</p>
-            <a className="support-button" href="https://buymeacoffee.com/danishkhanww" target="_blank" rel="noopener noreferrer">Support the project</a>
+            <h3><AppleEmoji name="coffee" size={22} /> Subscribe to SQLWhale</h3>
+            <p>Unlock a more powerful SQL learning experience. Bargain for your plan and make a deal with the Whale.</p>
+            <SubscribeBargainButton />
           </div>
         </Reveal>
       </section>
