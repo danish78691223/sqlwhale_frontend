@@ -8,7 +8,7 @@ const CORNER_ANGLES = [0, 90, 180, 270];
 const QUARTER = Math.PI / 2;
 
 const spring = (state, goal, stiffness, damping, dt) => {
-  const steps = 2;
+  const steps = 1;
   const h = dt / steps;
   for (let i = 0; i < steps; i++) {
     state.v += (stiffness * (goal - state.x) - damping * state.v) * h;
@@ -265,7 +265,7 @@ const TargetCursor = ({
         Math.abs(centerX.v) + Math.abs(centerY.v) + Math.abs(halfW.v) + Math.abs(halfH.v) + Math.abs(turn.v) > 0.01 ||
         Math.abs(goalX - centerX.x) + Math.abs(goalY - centerY.x) > 0.05 ||
         Math.abs(lock.v) + Math.abs(press.v) + Math.abs(presence.v) > 0.001;
-      if (!resting && (spinning || moving || locked)) raf = requestAnimationFrame(frame);
+      if (!resting && (spinning || moving)) raf = requestAnimationFrame(frame);
       else last = 0;
     };
 
