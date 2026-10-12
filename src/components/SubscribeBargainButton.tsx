@@ -45,7 +45,7 @@ async function loadRazorpayCheckout() {
   return win.Razorpay;
 }
 
-export default function SubscribeBargainButton() {
+export default function SubscribeBargainButton({ inline = false }: { inline?: boolean }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paying, setPaying] = useState(false);
@@ -205,7 +205,7 @@ export default function SubscribeBargainButton() {
 
   return (
     <>
-      <button type="button" className="support-button sqlwhale-subscribe-trigger" onClick={beginBargain}>
+      <button type="button" className="support-button sqlwhale-subscribe-trigger" onClick={() => { if (inline) void beginBargain(); else window.location.href = "/subscribe"; }}>
         Subscribe <span aria-hidden="true">↗</span>
       </button>
 
