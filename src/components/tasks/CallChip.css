@@ -1,0 +1,57 @@
+.call-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: var(--cc-size, 34px);
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0 11px;
+  border: 1px solid color-mix(in srgb, var(--cc-ink) 12%, transparent);
+  border-radius: var(--cc-radius, 10px);
+  background: var(--cc-surface, #27272a);
+  color: var(--cc-ink, currentColor);
+  font: 500 12px/1.1 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  isolation: isolate;
+}
+.call-chip::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto 0 0;
+  width: var(--cc-progress-width, 0%);
+  background: var(--cc-progress, currentColor);
+  opacity: var(--cc-progress-opacity, .08);
+  transition: width 100ms linear;
+}
+.call-chip.is-done::after,
+.call-chip.is-error::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--cc-done, #22c55e);
+  opacity: var(--cc-wash-opacity, .14);
+  pointer-events: none;
+}
+.call-chip.is-error::after { background: var(--cc-error, #ef4444); }
+.call-chip.is-error { animation: call-chip-shake 260ms ease-in-out; }
+.call-chip-glyph { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; opacity: .9; }
+.call-chip.is-done .call-chip-glyph { color: var(--cc-done, #22c55e); }
+.call-chip.is-error .call-chip-glyph { color: var(--cc-error, #ef4444); }
+.call-chip-command { display: flex; align-items: baseline; gap: 7px; min-width: 0; white-space: nowrap; }
+.call-chip-name { opacity: .62; }
+.call-chip-argument { overflow: hidden; text-overflow: ellipsis; }
+.call-chip-timer { flex: 0 0 auto; margin-left: 5px; opacity: .6; font-size: 10px; }
+.call-chip-retry { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; border: 0; padding: 3px; border-radius: 5px; color: var(--cc-error, #ef4444); background: transparent; cursor: pointer; }
+.call-chip-retry:hover { background: color-mix(in srgb, var(--cc-error, #ef4444) 12%, transparent); }
+@keyframes call-chip-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(var(--cc-shake, 6px)); }
+  50% { transform: translateX(calc(var(--cc-shake, 6px) * -1)); }
+  75% { transform: translateX(calc(var(--cc-shake, 6px) * .5)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .call-chip, .call-chip::before { animation: none !important; transition: none !important; }
+}
