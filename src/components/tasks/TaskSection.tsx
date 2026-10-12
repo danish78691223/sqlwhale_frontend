@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, ClipboardList, RefreshCw } from "lucide-react";
+import { CheckCircle2, ClipboardList, RefreshCw, Eye, LockKeyhole } from "lucide-react";
 import { api } from "@/services/api";
 
 type Task = {
@@ -25,6 +25,9 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [revealedAnswers, setRevealedAnswers] = useState<Record<string, string>>({});
+  const [revealError, setRevealError] = useState<Record<string, string>>({});
+  const [revealingTaskId, setRevealingTaskId] = useState<string | null>(null);
 
   const loadTasks = async () => {
     setLoading(true);
@@ -119,6 +122,39 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                   <CheckCircle2 size={15} />
                   {activeTaskId === task.id ? "Task Started" : "Start Task"}
                 </button>
+              )}
+              {activeTaskId === task.id && (
+                <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 12 }}>
+                  <button
+                    type="button"
+                    className="sqlwhale-task-start"
+                    onClick={() => void handleRevealAnswer(task)}
+                    disabled={revealingTaskId === task.id || Boolean(revealedAnswers[task.id])}
+                    style={{ width: "100%", opacity: revealedAnswers[task.id] ? 0.7 : 1 }}
+                  >
+                    {revealingTaskId === task.id ? (
+                      <RefreshCw size={15} className="sqlwhale-spin" />
+                    ) : (
+                      <Eye size={15} />
+                    )}
+                    {revealedAnswers[task.id] ? "Answer Revealed" : revealingTaskId === task.id ? "Revealing..." : "Reveal Answer"}
+                  </button>
+                  {revealError[task.id] && (
+                    <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
+                      <strong><LockKeyhole size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: 5 }} />Answer unavailable</strong>
+                      <span>{revealError[task.id]}</span>
+                      {(revealError[task.id].includes("Sign in")) && (
+                        <a href="/login" style={{ display: "inline-block", marginTop: 8, fontWeight: 700, textDecoration: "underline" }}>Sign in to SQLWhale</a>
+                      )}
+                    </div>
+                  )}
+                  {revealedAnswers[task.id] && (
+                    <div className="sqlwhale-task-check is-correct" style={{ marginTop: 10, textAlign: "left" }}>
+                      <strong>Expected SQL answer</strong>
+                      <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", margin: "10px 0 0", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, lineHeight: 1.65 }}>{revealedAnswers[task.id]}</pre>
+                    </div>
+                  )}
+                </div>
               )}
               {activeTaskId === task.id && taskCheck && (
                 <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
