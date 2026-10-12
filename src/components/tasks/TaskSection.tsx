@@ -46,6 +46,60 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
     void loadTasks();
   }, []);
 
+  const handleRevealAnswer = async (task: Task) => {
+    setRevealError((current) => ({ ...current, [task.id]: "" }));
+    setRevealingTaskId(task.id);
+
+    try {
+      const response = await api.post(`/tasks/${task.id}/reveal-answer`);
+      const answer = response?.data?.answer ?? response?.data?.expectedQuery;
+
+      if (typeof answer !== "string" || !answer.trim()) {
+        setRevealError((current) => ({
+          ...current,
+          [task.id]: "The answer could not be loaded. Please try again.",
+        }));
+        return;
+      }
+
+      setRevealedAnswers((current) => ({ ...current, [task.id]: answer }));
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+      const code = data?.code || data?.errorCode || data?.error;
+      const message = typeof data?.message === "string" ? data.message : "";
+
+      if (status === 401 || code === "AUTH_REQUIRED") {
+        setRevealError((current) => ({
+          ...current,
+          [task.id]: "Sign in to your SQLWhale account to reveal an answer.",
+        }));
+        return;
+      }
+
+      if (status === 429 || code === "REVEAL_LIMIT_REACHED") {
+        const resetAt = data?.resetAt ? new Date(data.resetAt) : null;
+        const resetText =
+          resetAt && !Number.isNaN(resetAt.getTime())
+            ? resetAt.toLocaleString()
+            : "in 24 hours";
+
+        window.alert(
+          `You've used all 5 answer reveals for this 24-hour period. Your limit resets ${resetText}. Redirecting you to the subscription page.`
+        );
+        window.location.assign("/subscribe");
+        return;
+      }
+
+      setRevealError((current) => ({
+        ...current,
+        [task.id]: message || data?.error || "Unable to reveal this answer right now. Please try again.",
+      }));
+    } finally {
+      setRevealingTaskId(null);
+    }
+  };
+
   useEffect(() => {
     if (!taskCheck?.correct) return;
 
