@@ -246,11 +246,28 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                     style={{ width: "100%", opacity: revealedAnswers[task.id] ? 0.7 : 1 }}
                   >
                     {revealingTaskId === task.id ? (
-                      <RefreshCw size={15} className="sqlwhale-spin" />
+                      <CallChip
+                        icon="terminal"
+                        name="sqlwhale"
+                        argument="revealing answer"
+                        status="running"
+                        expectedMs={2500}
+                        size={34}
+                        radius={10}
+                        color="currentColor"
+                        surfaceColor="#27272a"
+                        progressColor="currentColor"
+                        progressOpacity={0.08}
+                        doneColor="#22c55e"
+                        errorColor="#ef4444"
+                        washOpacity={0.14}
+                        shake={6}
+                        showTimer
+                      />
                     ) : (
                       <Eye size={15} />
                     )}
-                    {revealedAnswers[task.id] ? "Answer Revealed" : revealingTaskId === task.id ? "Revealing..." : "Reveal Answer"}
+                    {revealedAnswers[task.id] ? "Answer Revealed" : revealingTaskId === task.id ? "" : "Reveal Answer"}
                   </button>
                   {revealError[task.id] && (
                     <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
