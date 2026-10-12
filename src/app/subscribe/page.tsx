@@ -6,51 +6,111 @@ import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 
 export default function SubscribePage() {
   return (
-    <main className="min-h-screen bg-[#07070b] text-white">
-      <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-6 sm:px-10">
-        <Link href="/" aria-label="SQLWhale home" className="flex items-center gap-3">
+    <main className="subscription-page">
+      <style jsx global>{`
+        .subscription-page, .subscription-page * { box-sizing: border-box; }
+        .subscription-page {
+          min-height: 100vh; background: #07070b; color: #f8fafc;
+          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          overflow: hidden;
+        }
+        .subscription-page a { color: inherit; text-decoration: none; }
+        .subscription-header {
+          width: min(1160px, calc(100% - 48px)); min-height: 88px; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between; gap: 24px;
+          border-bottom: 1px solid rgba(255,255,255,.09);
+        }
+        .subscription-brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 750; letter-spacing: -.03em; }
+        .subscription-back { color: #cbd5e1 !important; font-size: 13px; padding: 10px 15px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; transition: .2s ease; }
+        .subscription-back:hover { border-color: rgba(255,255,255,.5); color: #fff !important; }
+        .subscription-content { position: relative; width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 72px 0 64px; }
+        .subscription-glow { position: absolute; z-index: 0; width: 520px; height: 520px; left: 50%; top: 80px; transform: translateX(-50%); border-radius: 50%; background: rgba(37,99,235,.14); filter: blur(110px); pointer-events: none; }
+        .subscription-heading { position: relative; z-index: 1; max-width: 760px; margin: 0 auto 42px; text-align: center; }
+        .subscription-eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 8px 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; background: rgba(255,255,255,.035); color: #cbd5e1; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+        .subscription-eyebrow:before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; box-shadow: 0 0 12px #3b82f6; }
+        .subscription-title { margin: 24px 0 0; color: #fff !important; font-size: clamp(38px, 6vw, 68px); line-height: 1.04; font-weight: 760; letter-spacing: -.055em; }
+        .subscription-title span { color: #60a5fa; }
+        .subscription-description { max-width: 620px; margin: 20px auto 0; color: #cbd5e1 !important; font-size: 16px; line-height: 1.8; }
+        .subscription-card { position: relative; z-index: 1; width: min(100%, 620px); margin: 0 auto; padding: 34px; border: 1px solid rgba(255,255,255,.14); border-radius: 24px; background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); box-shadow: 0 24px 90px rgba(0,0,0,.28); }
+        .subscription-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+        .subscription-plan-label { margin: 0; color: #93c5fd !important; font-size: 11px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+        .subscription-card-title { margin: 10px 0 0; color: #fff !important; font-size: 25px; line-height: 1.25; font-weight: 700; letter-spacing: -.035em; }
+        .subscription-whale { font-size: 36px; line-height: 1; }
+        .subscription-divider { height: 1px; margin: 26px 0; background: rgba(255,255,255,.11); }
+        .subscription-benefits { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
+        .subscription-benefits li { display: flex; align-items: flex-start; gap: 12px; color: #e2e8f0 !important; font-size: 14px; line-height: 1.65; }
+        .subscription-check { flex: 0 0 21px; width: 21px; height: 21px; display: inline-grid; place-items: center; border: 1px solid rgba(96,165,250,.35); border-radius: 50%; color: #93c5fd; font-size: 12px; }
+        .subscription-cta { margin-top: 30px; }
+        .subscription-cta .sqlwhale-subscribe-trigger { display: flex !important; width: 100% !important; min-height: 52px !important; align-items: center !important; justify-content: center !important; gap: 10px !important; border: 1px solid #3b82f6 !important; border-radius: 13px !important; background: #2563eb !important; color: #fff !important; font-size: 15px !important; font-weight: 700 !important; box-shadow: 0 8px 28px rgba(37,99,235,.25) !important; cursor: pointer; transition: background .2s ease, transform .2s ease !important; }
+        .subscription-cta .sqlwhale-subscribe-trigger:hover { background: #1d4ed8 !important; transform: translateY(-1px); }
+        .subscription-note { margin: 15px 0 0; color: #94a3b8 !important; font-size: 12px; line-height: 1.7; text-align: center; }
+        .subscription-footer { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 23px 0 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid rgba(255,255,255,.09); color: #94a3b8; font-size: 12px; }
+        .subscription-legal { display: flex; flex-wrap: wrap; gap: 20px; }
+        .subscription-legal a { color: #cbd5e1 !important; transition: color .2s ease; }
+        .subscription-legal a:hover { color: #fff !important; text-decoration: underline; text-underline-offset: 4px; }
+        @media (max-width: 640px) {
+          .subscription-header, .subscription-content, .subscription-footer { width: min(100% - 32px, 1160px); }
+          .subscription-header { min-height: 76px; }
+          .subscription-brand { font-size: 16px; gap: 8px; }
+          .subscription-brand img { width: 34px; height: 34px; }
+          .subscription-back { padding: 9px 11px; font-size: 12px; }
+          .subscription-content { padding: 54px 0 42px; }
+          .subscription-heading { margin-bottom: 30px; }
+          .subscription-description { font-size: 14px; }
+          .subscription-card { padding: 23px 20px; border-radius: 20px; }
+          .subscription-card-title { font-size: 22px; }
+          .subscription-footer { align-items: flex-start; flex-direction: column; padding-top: 22px; }
+          .subscription-legal { gap: 15px; }
+        }
+      `}</style>
+
+      <header className="subscription-header">
+        <Link href="/" aria-label="SQLWhale home" className="subscription-brand">
           <Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={42} height={42} priority />
-          <span className="text-lg font-semibold tracking-tight">SQLWhale</span>
+          <span>SQLWhale</span>
         </Link>
-        <Link href="/" className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/75 transition hover:border-white/50 hover:text-white">
-          ← Back to home
-        </Link>
+        <Link href="/" className="subscription-back">← Back to home</Link>
       </header>
 
-      <section className="relative mx-auto flex min-h-[72vh] w-full max-w-5xl flex-col items-center justify-center overflow-hidden px-6 py-20 text-center sm:px-10">
-        <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 h-[460px] w-[460px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/15 blur-[120px]" />
-        <div className="relative z-10 mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/65">
-          <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-          Building in public
+      <section className="subscription-content">
+        <div className="subscription-glow" aria-hidden="true" />
+        <div className="subscription-heading">
+          <div className="subscription-eyebrow">Building in public · Membership</div>
+          <h1 className="subscription-title">Make a deal with <span>the Whale.</span></h1>
+          <p className="subscription-description">
+            Choose your way into a more powerful SQL learning experience. Pay the listed price or make an offer and see if the Whale accepts.
+          </p>
         </div>
-        <h1 className="relative z-10 max-w-3xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-6xl md:text-7xl">
-          Make a deal with <span className="text-blue-400">the Whale.</span>
-        </h1>
-        <p className="relative z-10 mt-6 max-w-2xl text-base leading-7 text-white/65 sm:text-lg">
-          Unlock a more powerful SQL learning experience. Choose the listed price or make an offer and see if the Whale accepts.
-        </p>
 
-        <div className="relative z-10 mt-10 w-full max-w-xl rounded-3xl border border-white/12 bg-white/[0.04] p-6 text-left shadow-2xl shadow-blue-950/20 sm:p-9">
-          <div className="flex items-start justify-between gap-4">
+        <section className="subscription-card" aria-labelledby="subscription-plan-title">
+          <div className="subscription-card-head">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">SQLWhale Premium</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight">Your next level of SQL learning</h2>
+              <p className="subscription-plan-label">SQLWhale Premium</p>
+              <h2 id="subscription-plan-title" className="subscription-card-title">More clarity. More confidence with SQL.</h2>
             </div>
-            <div aria-hidden="true" className="text-4xl">🐳</div>
+            <span className="subscription-whale" aria-hidden="true">🐳</span>
           </div>
-          <div className="my-6 h-px bg-white/10" />
-          <ul className="space-y-3 text-sm leading-6 text-white/70">
-            <li className="flex gap-3"><span className="text-blue-400">✓</span><span>Learn with a more powerful SQLWhale experience</span></li>
-            <li className="flex gap-3"><span className="text-blue-400">✓</span><span>Make an offer and negotiate with the Whale</span></li>
-            <li className="flex gap-3"><span className="text-blue-400">✓</span><span>Secure INR checkout powered by Razorpay</span></li>
+          <div className="subscription-divider" />
+          <ul className="subscription-benefits">
+            <li><span className="subscription-check">✓</span><span>Build your SQL skills with a more powerful learning experience.</span></li>
+            <li><span className="subscription-check">✓</span><span>Make an offer and negotiate directly with the Whale.</span></li>
+            <li><span className="subscription-check">✓</span><span>Complete your payment through Razorpay’s secure checkout.</span></li>
           </ul>
-          <div className="mt-8">
+          <div className="subscription-cta">
             <SubscribeBargainButton inline />
           </div>
-          <p className="mt-4 text-center text-xs leading-5 text-white/40">You’ll be asked to log in before subscribing. Payment is completed securely through Razorpay.</p>
-        </div>
-        <p className="relative z-10 mt-8 text-sm text-white/35">Built in public by WebxWhale</p>
+          <p className="subscription-note">Sign in is required to subscribe. Review the terms and refund policy before completing your purchase.</p>
+        </section>
       </section>
+
+      <footer className="subscription-footer">
+        <span>© {new Date().getFullYear()} SQLWhale · A WebxWhale product</span>
+        <nav className="subscription-legal" aria-label="Legal links">
+          <Link href="/terms">Terms &amp; Conditions</Link>
+          <Link href="/refund-policy">Refund Policy</Link>
+          <Link href="/privacy-policy">Privacy Policy</Link>
+        </nav>
+      </footer>
     </main>
   );
 }
