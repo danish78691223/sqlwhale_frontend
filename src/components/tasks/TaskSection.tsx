@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, ClipboardList, RefreshCw, Eye, LockKeyhole } from "lucide-react";
 import { api } from "@/services/api";
+import CallChip from "@/components/tasks/CallChip";
 
 type Task = {
   id: string;
@@ -148,12 +149,47 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
       </div>
 
       {loading ? (
-        <div className="sqlwhale-task-empty">
-          <RefreshCw size={18} className="sqlwhale-spin" />
-          <span>Loading tasks...</span>
+        <div className="sqlwhale-task-empty" style={{ display: "flex", justifyContent: "center", padding: "24px 12px" }}>
+          <CallChip
+            icon="terminal"
+            name="sqlwhale"
+            argument="loading tasks"
+            status="running"
+            expectedMs={2500}
+            size={34}
+            radius={10}
+            color="currentColor"
+            surfaceColor="#27272a"
+            progressColor="currentColor"
+            progressOpacity={0.08}
+            doneColor="#22c55e"
+            errorColor="#ef4444"
+            washOpacity={0.14}
+            shake={6}
+            showTimer
+          />
         </div>
       ) : error ? (
-        <div className="sqlwhale-task-empty is-error">
+        <div className="sqlwhale-task-empty is-error" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "24px 12px" }}>
+          <CallChip
+            icon="terminal"
+            name="sqlwhale"
+            argument="load tasks"
+            status="error"
+            expectedMs={2500}
+            size={34}
+            radius={10}
+            color="currentColor"
+            surfaceColor="#27272a"
+            progressColor="currentColor"
+            progressOpacity={0.08}
+            doneColor="#22c55e"
+            errorColor="#ef4444"
+            washOpacity={0.14}
+            shake={6}
+            showTimer
+            onRetry={() => void loadTasks()}
+          />
           <span>{error}</span>
           <button type="button" onClick={() => void loadTasks()}>Retry</button>
         </div>
