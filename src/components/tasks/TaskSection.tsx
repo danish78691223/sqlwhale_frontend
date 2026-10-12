@@ -28,6 +28,8 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
   const [revealedAnswers, setRevealedAnswers] = useState<Record<string, string>>({});
   const [revealError, setRevealError] = useState<Record<string, string>>({});
   const [revealingTaskId, setRevealingTaskId] = useState<string | null>(null);
+  const [startingTaskId, setStartingTaskId] = useState<string | null>(null);
+  const [startErrors, setStartErrors] = useState<Record<string, string>>({});
 
   const loadTasks = async () => {
     setLoading(true);
@@ -45,6 +47,22 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
   useEffect(() => {
     void loadTasks();
   }, []);
+
+  const handleStartTask = async (task: Task) => {
+    setStartingTaskId(task.id);
+    setStartErrors((current) => ({ ...current, [task.id]: "" }));
+    try {
+      await api.post(`/tasks/${task.id}/start`);
+      onStartTask(task);
+    } catch (err: any) {
+      setStartErrors((current) => ({
+        ...current,
+        [task.id]: err?.response?.data?.error || "Unable to prepare this task. Please try again.",
+      }));
+    } finally {
+      setStartingTaskId(null);
+    }
+  };
 
   const handleRevealAnswer = async (task: Task) => {
     setRevealError((current) => ({ ...current, [task.id]: "" }));
@@ -170,12 +188,17 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 <button
                   type="button"
                   className="sqlwhale-task-start"
-                  onClick={() => onStartTask(task)}
-                  disabled={activeTaskId === task.id}
+                  onClick={() => void handleStartTask(task)}
+                  disabled={activeTaskId === task.id || startingTaskId === task.id}
                 >
                   <CheckCircle2 size={15} />
-                  {activeTaskId === task.id ? "Task Started" : "Start Task"}
+                  {startingTaskId === task.id ? "Preparing..." : activeTaskId === task.id ? "Task Started" : "Start Task"}
                 </button>
+              )}
+              {startErrors[task.id] && (
+                <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
+                  <span>{startErrors[task.id]}</span>
+                </div>
               )}
               {activeTaskId === task.id && (
                 <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 12 }}>
