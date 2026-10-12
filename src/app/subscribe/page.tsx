@@ -10,7 +10,7 @@ export default function SubscribePage() {
       <style jsx global>{`
         .subscription-page, .subscription-page * { box-sizing: border-box; }
         .subscription-page {
-          min-height: 100vh; background: #07070b; color: #f8fafc;
+          min-height: 100vh; background: #f5f3ed; color: #111827;
           font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           overflow: hidden;
         }
@@ -18,36 +18,36 @@ export default function SubscribePage() {
         .subscription-header {
           width: min(1160px, calc(100% - 48px)); min-height: 88px; margin: 0 auto;
           display: flex; align-items: center; justify-content: space-between; gap: 24px;
-          border-bottom: 1px solid rgba(255,255,255,.09);
+          border-bottom: 1px solid rgba(17,24,39,.10);
         }
         .subscription-brand { display: inline-flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 750; letter-spacing: -.03em; }
-        .subscription-back { color: #cbd5e1 !important; font-size: 13px; padding: 10px 15px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; transition: .2s ease; }
-        .subscription-back:hover { border-color: rgba(255,255,255,.5); color: #fff !important; }
+        .subscription-back { color: #596170 !important; font-size: 13px; padding: 10px 15px; border: 1px solid rgba(17,24,39,.14); border-radius: 999px; transition: .2s ease; }
+        .subscription-back:hover { border-color: rgba(17,24,39,.5); color: #111827 !important; }
         .subscription-content { position: relative; width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 72px 0 64px; }
-        .subscription-glow { position: absolute; z-index: 0; width: 520px; height: 520px; left: 50%; top: 80px; transform: translateX(-50%); border-radius: 50%; background: rgba(37,99,235,.14); filter: blur(110px); pointer-events: none; }
+        .subscription-glow { position: absolute; z-index: 0; width: 520px; height: 520px; left: 50%; top: 80px; transform: translateX(-50%); border-radius: 50%; background: rgba(0,184,196,.10); filter: blur(110px); pointer-events: none; }
         .subscription-heading { position: relative; z-index: 1; max-width: 760px; margin: 0 auto 42px; text-align: center; }
-        .subscription-eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 8px 13px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; background: rgba(255,255,255,.035); color: #cbd5e1; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
-        .subscription-eyebrow:before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; box-shadow: 0 0 12px #3b82f6; }
-        .subscription-title { margin: 24px 0 0; color: #fff !important; font-size: clamp(38px, 6vw, 68px); line-height: 1.04; font-weight: 760; letter-spacing: -.055em; }
-        .subscription-title span { color: #60a5fa; }
-        .subscription-description { max-width: 620px; margin: 20px auto 0; color: #cbd5e1 !important; font-size: 16px; line-height: 1.8; }
-        .subscription-card { position: relative; z-index: 1; width: min(100%, 620px); margin: 0 auto; padding: 34px; border: 1px solid rgba(255,255,255,.14); border-radius: 24px; background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); box-shadow: 0 24px 90px rgba(0,0,0,.28); }
+        .subscription-eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 8px 13px; border: 1px solid rgba(17,24,39,.12); border-radius: 999px; background: rgba(255,255,255,.48); color: #596170; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+        .subscription-eyebrow:before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #00b8c4; box-shadow: 0 0 12px #009eaa; }
+        .subscription-title { margin: 24px 0 0; color: #111827 !important; font-size: clamp(38px, 6vw, 68px); line-height: 1.04; font-weight: 760; letter-spacing: -.055em; }
+        .subscription-title span { color: #00b8c4; }
+        .subscription-description { max-width: 620px; margin: 20px auto 0; color: #596170 !important; font-size: 16px; line-height: 1.8; }
+        .subscription-card { position: relative; z-index: 1; width: min(100%, 620px); margin: 0 auto; padding: 34px; border: 1px solid rgba(255,255,255,.14); border-radius: 24px; background: linear-gradient(145deg, rgba(255,255,255,.78), rgba(255,255,255,.55)); box-shadow: 0 24px 90px rgba(17,24,39,.045); }
         .subscription-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
-        .subscription-plan-label { margin: 0; color: #93c5fd !important; font-size: 11px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
-        .subscription-card-title { margin: 10px 0 0; color: #fff !important; font-size: 25px; line-height: 1.25; font-weight: 700; letter-spacing: -.035em; }
+        .subscription-plan-label { margin: 0; color: #008e99 !important; font-size: 11px; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+        .subscription-card-title { margin: 10px 0 0; color: #111827 !important; font-size: 25px; line-height: 1.25; font-weight: 700; letter-spacing: -.035em; }
         .subscription-whale { font-size: 36px; line-height: 1; }
-        .subscription-divider { height: 1px; margin: 26px 0; background: rgba(255,255,255,.11); }
+        .subscription-divider { height: 1px; margin: 26px 0; background: rgba(17,24,39,.10); }
         .subscription-benefits { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
-        .subscription-benefits li { display: flex; align-items: flex-start; gap: 12px; color: #e2e8f0 !important; font-size: 14px; line-height: 1.65; }
-        .subscription-check { flex: 0 0 21px; width: 21px; height: 21px; display: inline-grid; place-items: center; border: 1px solid rgba(96,165,250,.35); border-radius: 50%; color: #93c5fd; font-size: 12px; }
+        .subscription-benefits li { display: flex; align-items: flex-start; gap: 12px; color: #374151 !important; font-size: 14px; line-height: 1.65; }
+        .subscription-check { flex: 0 0 21px; width: 21px; height: 21px; display: inline-grid; place-items: center; border: 1px solid rgba(0,184,196,.28); border-radius: 50%; color: #008e99; font-size: 12px; }
         .subscription-cta { margin-top: 30px; }
-        .subscription-cta .sqlwhale-subscribe-trigger { display: flex !important; width: 100% !important; min-height: 52px !important; align-items: center !important; justify-content: center !important; gap: 10px !important; border: 1px solid #3b82f6 !important; border-radius: 13px !important; background: #2563eb !important; color: #fff !important; font-size: 15px !important; font-weight: 700 !important; box-shadow: 0 8px 28px rgba(37,99,235,.25) !important; cursor: pointer; transition: background .2s ease, transform .2s ease !important; }
-        .subscription-cta .sqlwhale-subscribe-trigger:hover { background: #1d4ed8 !important; transform: translateY(-1px); }
-        .subscription-note { margin: 15px 0 0; color: #94a3b8 !important; font-size: 12px; line-height: 1.7; text-align: center; }
-        .subscription-footer { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 23px 0 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid rgba(255,255,255,.09); color: #94a3b8; font-size: 12px; }
+        .subscription-cta .sqlwhale-subscribe-trigger { display: flex !important; width: 100% !important; min-height: 52px !important; align-items: center !important; justify-content: center !important; gap: 10px !important; border: 1px solid #009eaa !important; border-radius: 13px !important; background: #009eaa !important; color: #111827 !important; font-size: 15px !important; font-weight: 700 !important; box-shadow: 0 8px 28px rgba(0,158,170,.18) !important; cursor: pointer; transition: background .2s ease, transform .2s ease !important; }
+        .subscription-cta .sqlwhale-subscribe-trigger:hover { background: #007f89 !important; transform: translateY(-1px); }
+        .subscription-note { margin: 15px 0 0; color: #697180 !important; font-size: 12px; line-height: 1.7; text-align: center; }
+        .subscription-footer { width: min(1160px, calc(100% - 48px)); margin: 0 auto; padding: 23px 0 30px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid rgba(17,24,39,.10); color: #697180; font-size: 12px; }
         .subscription-legal { display: flex; flex-wrap: wrap; gap: 20px; }
-        .subscription-legal a { color: #cbd5e1 !important; transition: color .2s ease; }
-        .subscription-legal a:hover { color: #fff !important; text-decoration: underline; text-underline-offset: 4px; }
+        .subscription-legal a { color: #596170 !important; transition: color .2s ease; }
+        .subscription-legal a:hover { color: #111827 !important; text-decoration: underline; text-underline-offset: 4px; }
         @media (max-width: 640px) {
           .subscription-header, .subscription-content, .subscription-footer { width: min(100% - 32px, 1160px); }
           .subscription-header { min-height: 76px; }
