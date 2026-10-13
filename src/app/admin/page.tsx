@@ -19,6 +19,7 @@ type User = {
 
 type Task = {
   id: string;
+  requiredTables?: TaskTableConfig[];
   title: string;
   description: string;
   expectedQuery: string;
@@ -30,6 +31,12 @@ type Task = {
 };
 
 type NewTask = Omit<Task, "id" | "createdAt">;
+
+type TableColumn = { name: string; type: "INTEGER" | "REAL" | "TEXT" | "BOOLEAN" | "DATE"; primaryKey?: boolean; notNull?: boolean };
+type TableRelationship = { column: string; referencesTable: string; referencesColumn: string };
+type TableTemplate = { id: string; name: string; description: string; columns: TableColumn[]; relationships: TableRelationship[]; seedRows: Record<string, unknown>[]; isDefault: boolean };
+type TaskTableConfig = { templateId?: string | null; tableName: string; mode: "template" | "custom"; columns: TableColumn[]; relationships: TableRelationship[]; seedRows: Record<string, unknown>[] };
+
 
 type Maintenance = {
   enabled: boolean;
@@ -49,12 +56,15 @@ export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [maintenance, setMaintenance] = useState<Maintenance>(emptyMaintenance);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [tableTemplates, setTableTemplates] = useState<TableTemplate[]>([]);
+  const [customTableJson, setCustomTableJson] = useState("");
   const [newTask, setNewTask] = useState<NewTask>({
     title: "",
     description: "",
     expectedQuery: "",
     difficulty: "Easy",
     isActive: true,
+    requiredTables: [],
   });
   const [savingTask, setSavingTask] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -92,8 +102,12 @@ export default function AdminPage() {
       // Tasks are an independent admin module. Do not let a task API
       // deployment/version mismatch break the entire control center.
       try {
-        const taskResponse = await api.get("/admin/tasks");
+        const [taskResponse, templateResponse] = await Promise.all([
+          api.get("/admin/tasks"),
+          api.get("/admin/table-templates"),
+        ]);
         setTasks(taskResponse.data.tasks || []);
+        setTableTemplates(templateResponse.data.templates || []);
       } catch (taskError: any) {
         console.error("Admin task list unavailable:", taskError);
         setTasks([]);
@@ -155,9 +169,16 @@ export default function AdminPage() {
     setError("");
     setMessage("");
     try {
-      const response = await api.post("/admin/tasks", newTask);
+      let requiredTables = newTask.requiredTables || [];
+      if (customTableJson.trim()) {
+        const custom = JSON.parse(customTableJson);
+        const customTables = Array.isArray(custom) ? custom : [custom];
+        requiredTables = [...requiredTables, ...customTables.map((table: any) => ({ ...table, mode: "custom", templateId: null }))];
+      }
+      const response = await api.post("/admin/tasks", { ...newTask, requiredTables });
       setTasks((current) => [response.data.task, ...current]);
-      setNewTask({ title: "", description: "", expectedQuery: "", difficulty: "Easy", isActive: true });
+      setNewTask({ title: "", description: "", expectedQuery: "", difficulty: "Easy", isActive: true, requiredTables: [] });
+      setCustomTableJson("");
       setMessage("Task added successfully.");
     } catch (err: any) {
       setError(err?.response?.data?.error || "Unable to add task.");
@@ -174,6 +195,7 @@ export default function AdminPage() {
       expectedQuery: task.expectedQuery,
       difficulty: task.difficulty,
       isActive: task.isActive,
+      requiredTables: task.requiredTables || [],
     });
     setError("");
     setMessage("");
@@ -201,9 +223,15 @@ export default function AdminPage() {
     setMessage("");
 
     try {
+      let requiredTables = editingTask.requiredTables || [];
+      if (customTableJson.trim()) {
+        const custom = JSON.parse(customTableJson);
+        const customTables = Array.isArray(custom) ? custom : [custom];
+        requiredTables = [...requiredTables, ...customTables.map((table: any) => ({ ...table, mode: "custom", templateId: null }))];
+      }
       const response = await api.patch(
         "/admin/tasks/" + encodeURIComponent(editingTaskId),
-        editingTask
+        { ...editingTask, requiredTables }
       );
 
       setTasks((current) =>
@@ -213,6 +241,7 @@ export default function AdminPage() {
       );
 
       setMessage("Task updated successfully. Existing completions were reset if the expected query changed.");
+      setCustomTableJson("");
       cancelEditTask();
     } catch (err: any) {
       setError(err?.response?.data?.error || "Unable to update task.");
@@ -482,6 +511,29 @@ export default function AdminPage() {
               <p className="sqlwhale-admin-muted">Add SQL challenges that appear in the Run Query → Task section.</p>
 
               <div className="sqlwhale-admin-task-form">
+                <div className="sqlwhale-admin-table-config">
+                  <strong>Required database tables</strong>
+                  <p className="sqlwhale-admin-muted">Choose reusable tables for this challenge. SQLWhale prepares them in each learner’s own workspace when they start the task.</p>
+                  <div className="sqlwhale-admin-template-options">
+                    {tableTemplates.map((template) => {
+                      const selected = (newTask.requiredTables || []).some((table) => table.templateId === template.id || table.tableName.toLowerCase() === template.name.toLowerCase());
+                      return (
+                        <label key={template.id} className="sqlwhale-admin-template-option">
+                          <input type="checkbox" checked={selected} onChange={(event) => setNewTask((current) => ({
+                            ...current,
+                            requiredTables: event.target.checked
+                              ? [...(current.requiredTables || []), { templateId: template.id, tableName: template.name, mode: "template", columns: template.columns, relationships: template.relationships, seedRows: template.seedRows }]
+                              : (current.requiredTables || []).filter((table) => table.templateId !== template.id && table.tableName.toLowerCase() !== template.name.toLowerCase()),
+                          }))} />
+                          <span><b>{template.name}</b><small>{template.description || template.columns.map((column) => column.name).join(", ")}</small></span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <label className="sqlwhale-admin-field-label">Or define custom table schema (JSON)</label>
+                  <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" rows={5} value={customTableJson} onChange={(event) => setCustomTableJson(event.target.value)} placeholder={'{\n  "tableName": "orders",\n  "mode": "custom",\n  "columns": [{"name":"order_id","type":"INTEGER","primaryKey":true},{"name":"customer_id","type":"INTEGER"}],\n  "relationships": [{"column":"customer_id","referencesTable":"customers","referencesColumn":"customer_id"}],\n  "seedRows": [{"order_id":1,"customer_id":1}]\n}'} />
+                  <small className="sqlwhale-admin-muted">Supported types: INTEGER, REAL, TEXT, BOOLEAN, DATE. Add relationships and sample rows when needed. For multiple custom tables, use a JSON array.</small>
+                </div>
                 <input className="sqlwhale-admin-input" value={newTask.title} onChange={(e) => setNewTask((c) => ({ ...c, title: e.target.value }))} placeholder="Task title" />
                 <textarea className="sqlwhale-admin-textarea" value={newTask.description} onChange={(e) => setNewTask((c) => ({ ...c, description: e.target.value }))} placeholder="Task description / instructions" rows={3} />
                 <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={newTask.expectedQuery} onChange={(e) => setNewTask((c) => ({ ...c, expectedQuery: e.target.value }))} placeholder="Expected SQL answer" rows={4} />
@@ -523,6 +575,27 @@ export default function AdminPage() {
                       </div>
                       <input className="sqlwhale-admin-input" value={editingTask.title} onChange={(e) => setEditingTask((current) => current ? { ...current, title: e.target.value } : current)} placeholder="Task title" />
                       <textarea className="sqlwhale-admin-textarea" value={editingTask.description} onChange={(e) => setEditingTask((current) => current ? { ...current, description: e.target.value } : current)} placeholder="Task description / instructions" rows={4} />
+                      <div className="sqlwhale-admin-table-config">
+                        <strong>Required database tables</strong>
+                        <div className="sqlwhale-admin-template-options">
+                          {tableTemplates.map((template) => {
+                            const selected = (editingTask.requiredTables || []).some((table) => table.templateId === template.id || table.tableName.toLowerCase() === template.name.toLowerCase());
+                            return (
+                              <label key={template.id} className="sqlwhale-admin-template-option">
+                                <input type="checkbox" checked={selected} onChange={(event) => setEditingTask((current) => current ? ({
+                                  ...current,
+                                  requiredTables: event.target.checked
+                                    ? [...(current.requiredTables || []), { templateId: template.id, tableName: template.name, mode: "template", columns: template.columns, relationships: template.relationships, seedRows: template.seedRows }]
+                                    : (current.requiredTables || []).filter((table) => table.templateId !== template.id && table.tableName.toLowerCase() !== template.name.toLowerCase()),
+                                }) : current)} />
+                                <span><b>{template.name}</b><small>{template.description}</small></span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                        <label className="sqlwhale-admin-field-label">Add custom schema JSON</label>
+                        <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" rows={4} value={customTableJson} onChange={(event) => setCustomTableJson(event.target.value)} placeholder='{"tableName":"orders","columns":[{"name":"order_id","type":"INTEGER","primaryKey":true}],"relationships":[],"seedRows":[{"order_id":1}]}' />
+                      </div>
                       <textarea className="sqlwhale-admin-textarea sqlwhale-admin-code-input" value={editingTask.expectedQuery} onChange={(e) => setEditingTask((current) => current ? { ...current, expectedQuery: e.target.value } : current)} placeholder="Expected SQL answer — must return the required output" rows={6} />
                       <div className="sqlwhale-admin-task-form-row">
                         <select className="sqlwhale-admin-select" value={editingTask.difficulty} onChange={(e) => setEditingTask((current) => current ? { ...current, difficulty: e.target.value as NewTask["difficulty"] } : current)}>
