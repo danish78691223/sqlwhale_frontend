@@ -129,6 +129,9 @@ export default function FixedPriceSubscriptionCheckout() {
               setMessage("Payment verified. Your ₹49/month SQLWhale Premium subscription is active.");
               setPolicyAccepted(false);
               await refreshStatus();
+            } else if (verified.data?.pendingActivation) {
+              setMessage(verified.data?.message || "Payment authorization was verified. Premium will activate once Razorpay confirms the subscription.");
+              await refreshStatus();
             } else {
               setError(verified.data?.error || "Razorpay has not activated the subscription yet. Please check the status again shortly.");
             }
@@ -207,7 +210,7 @@ export default function FixedPriceSubscriptionCheckout() {
               disabled={processing || statusLoading}
             />
             <span>
-              I agree to the <Link href="/terms" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</Link> and the <Link href="/refund-policy" target="_blank" rel="noopener noreferrer">Refund &amp; Cancellation Policy</Link>. I explicitly authorize recurring billing of ₹49 every month through Razorpay until I cancel. I understand the current paid billing period is generally non-refundable except where the policy or applicable law says otherwise.
+              I agree to the <Link href="/terms" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</Link> and the <Link href="/refund-policy" target="_blank" rel="noopener noreferrer">Refund &amp; Cancellation Policy</Link>. I explicitly authorize recurring billing of ₹49 every month through Razorpay for up to 120 monthly billing cycles unless I cancel sooner. I understand the current paid billing period is generally non-refundable except where the policy or applicable law says otherwise.
             </span>
           </label>
 
