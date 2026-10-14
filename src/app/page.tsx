@@ -10,6 +10,7 @@ import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 import CardSwap, { Card } from "@/components/CardSwap";
 import FolderFloat from "@/components/FolderFloat";
+import systemSplit from "./system-split.module.css";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -250,49 +251,52 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <section className="home-section agency-system-section">
-        <Reveal>
-          <div className="agency-section-head">
-            <div className="agency-section-index">04 / THE SYSTEM</div>
-            <h2>From syntax<br /><em>to understanding.</em></h2>
+      <section className={`home-section agency-system-section ${systemSplit.section}`}>
+        <div className={systemSplit.layout}>
+          <Reveal>
+            <div className={systemSplit.copy}>
+              <div className="agency-section-index">04 / THE SYSTEM</div>
+              <h2>From syntax<br /><em>to understanding.</em></h2>
+              <p>Explore how SQLWhale turns writing a query into understanding what the database does.</p>
+            </div>
+          </Reveal>
+          <div className={systemSplit.visual}>
+            <FolderFloat
+              items={[
+                "WRITE — Edit real SQL instead of copying an answer",
+                "TRACE — See which tables and relationships your query touches",
+                "EXECUTE — Watch operations turn SQL into results",
+                "UNDERSTAND — Connect syntax to what the database did"
+              ]}
+              label="The SQLWhale method"
+              sublabel="4 steps to clarity"
+              trigger="hover"
+              closeOnSelect
+              physics
+              drift={0.5}
+              onOpenChange={() => {}}
+              onSelect={(value: string, index: number) => console.log("SQLWhale method:", value, index)}
+              folderColor="#202124"
+              frontColor="#303238"
+              paperColor="#f5f5f5"
+              itemColor="#f5f5f5"
+              itemTextColor="#18181b"
+              labelColor="#f5f5f5"
+              width={260}
+              height={180}
+              radius={16}
+              spread={250}
+              lift={32}
+              tilt={8}
+              flapAngle={34}
+              restAngle={16}
+              openDuration={520}
+              stagger={45}
+              bounce={0.3}
+              className="sqlwhale-method-folder"
+            />
+            <p className={systemSplit.hint}>Hover over the folder to explore the four steps.</p>
           </div>
-        </Reveal>
-        <div className="sqlwhale-method-folder-wrap">
-          <FolderFloat
-            items={[
-              "WRITE — Edit real SQL instead of copying an answer",
-              "TRACE — See which tables and relationships your query touches",
-              "EXECUTE — Watch operations turn SQL into results",
-              "UNDERSTAND — Connect syntax to what the database did"
-            ]}
-            label="The SQLWhale method"
-            sublabel="4 steps to clarity"
-            trigger="hover"
-            closeOnSelect
-            physics
-            drift={0.5}
-            onOpenChange={() => {}}
-            onSelect={(value: string, index: number) => console.log("SQLWhale method:", value, index)}
-            folderColor="#202124"
-            frontColor="#303238"
-            paperColor="#f5f5f5"
-            itemColor="#f5f5f5"
-            itemTextColor="#18181b"
-            labelColor="#f5f5f5"
-            width={260}
-            height={180}
-            radius={16}
-            spread={250}
-            lift={32}
-            tilt={8}
-            flapAngle={34}
-            restAngle={16}
-            openDuration={520}
-            stagger={45}
-            bounce={0.3}
-            className="sqlwhale-method-folder"
-          />
-          <p className="sqlwhale-method-folder-hint">Hover over the folder to explore the four steps.</p>
         </div>
       </section>
 
