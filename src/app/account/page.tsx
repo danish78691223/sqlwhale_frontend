@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authApi } from "@/services/api";
@@ -149,19 +148,7 @@ export default function AccountPage() {
       <div className="account-orb account-orb-one" aria-hidden="true" />
       <div className="account-orb account-orb-two" aria-hidden="true" />
 
-      <header className="account-topbar">
-        <Link href="/" className="account-brand">
-          <Image
-            src="/assets/sqlwhale-logo.png"
-            alt="SQLWhale"
-            width={44}
-            height={44}
-            priority
-          />
-          <span><strong>SQL</strong>Whale</span>
-        </Link>
-        <Link href="/" className="account-back">← Back to SQLWhale</Link>
-      </header>
+
 
       <section className="account-shell">
         <div className="account-heading">
