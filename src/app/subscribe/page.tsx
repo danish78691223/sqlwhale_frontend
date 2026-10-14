@@ -48,6 +48,11 @@ export default function SubscribePage() {
         .fixed-plan-pay-button:hover:not(:disabled) { background: #007f89; transform: translateY(-1px); }
         .fixed-plan-pay-button:disabled { cursor: not-allowed; opacity: .48; box-shadow: none; }
         .fixed-plan-hint { margin: 0; color: #7b8790; font-size: 11px; text-align: center; line-height: 1.55; }
+        .fixed-plan-hint a { color: #007f89 !important; font-weight: 700; text-decoration: underline !important; }
+        .fixed-plan-active { display: grid; gap: 10px; margin-top: 28px; padding: 16px; border: 1px solid #b9e6d1; border-radius: 13px; background: #effbf5; color: #205a42; font-size: 12px; line-height: 1.6; }
+        .fixed-plan-active strong { font-size: 14px; }
+        .fixed-plan-cancel-button { width: fit-content; min-height: 38px; padding: 8px 13px; border: 1px solid #b6c9c1; border-radius: 9px; background: #fff; color: #205a42; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .fixed-plan-cancel-button:disabled { opacity: .6; cursor: not-allowed; }
         .fixed-plan-feedback { margin: 0; padding: 12px 14px; border-radius: 10px; font-size: 12px; line-height: 1.6; }
         .fixed-plan-feedback.is-error { background: #fff1f0; color: #a52720; border: 1px solid #ffd0cc; }
         .fixed-plan-feedback.is-success { background: #ecfdf5; color: #166534; border: 1px solid #bbf7d0; }
@@ -70,10 +75,10 @@ export default function SubscribePage() {
       <section className="subscription-content">
         <div className="subscription-glow" aria-hidden="true" />
         <div className="subscription-heading">
-          <div className="subscription-eyebrow">SQLWhale Premium · One-time plan</div>
+          <div className="subscription-eyebrow">SQLWhale Premium · Monthly plan</div>
           <h1 className="subscription-title">Unlock more with <span>SQLWhale.</span></h1>
           <p className="subscription-description">
-            Get SQLWhale Premium for a simple ₹49 one-time payment. Review the policies and accept them before opening secure Razorpay checkout.
+            Get SQLWhale Premium for ₹49 each month. Review the policies and explicitly authorize recurring billing before opening secure Razorpay subscription checkout.
           </p>
         </div>
 
@@ -84,7 +89,7 @@ export default function SubscribePage() {
               <h2 id="subscription-plan-title" className="subscription-card-title">More clarity. More confidence with SQL.</h2>
               <div className="subscription-price-row">
                 <strong className="subscription-price">₹49</strong>
-                <span className="subscription-price-note">one-time payment · INR</span>
+                <span className="subscription-price-note">per month · INR</span>
               </div>
             </div>
             <span className="subscription-whale" aria-hidden="true">🐳</span>
@@ -92,11 +97,11 @@ export default function SubscribePage() {
           <div className="subscription-divider" />
           <ul className="subscription-benefits">
             <li><span className="subscription-check">✓</span><span>Unlock SQLWhale Premium learning access after verified payment.</span></li>
-            <li><span className="subscription-check">✓</span><span>Secure checkout through Razorpay with server-side payment verification.</span></li>
-            <li><span className="subscription-check">✓</span><span>No automatic monthly renewal is created by this one-time payment.</span></li>
+            <li><span className="subscription-check">✓</span><span>Secure recurring billing through Razorpay, with server-side signature verification.</span></li>
+            <li><span className="subscription-check">✓</span><span>Cancel future renewals from this page; Premium access continues through the current paid period.</span></li>
           </ul>
           <FixedPriceSubscriptionCheckout />
-          <p className="subscription-note">The ₹49 payment is non-refundable except for cases stated in the Refund &amp; Cancellation Policy or where required by law.</p>
+          <p className="subscription-note">Each ₹49 monthly charge is non-refundable except for cases stated in the Refund &amp; Cancellation Policy or where required by law.</p>
         </section>
 
         <section className="subscription-alternative" aria-label="Alternative subscription option">
