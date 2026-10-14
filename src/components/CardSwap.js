@@ -7,6 +7,18 @@ export function Card({ children, className = "" }) {
   return <div className={`reactbits-card-swap-card ${className}`}>{children}</div>;
 }
 
+/**
+ * @typedef {{ eyebrow: string, title: string, description: string }} CardSwapItem
+ */
+
+/**
+ * @param {{
+ *   items?: CardSwapItem[],
+ *   delay?: number,
+ *   width?: number | string,
+ *   height?: number | string
+ * }} props
+ */
 export default function CardSwap({
   items = [],
   delay = 4000,
