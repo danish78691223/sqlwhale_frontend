@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { api, authApi } from "@/services/api";
+import { api } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
@@ -142,10 +141,7 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 }
 
 export default function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
-  const [user, setUser] = useState<{ name: string; email: string; currentPlan: string; role?: string } | null>(null);
 
   useEffect(() => {
     // The intro loader is only for the first homepage visit in this browser tab.
@@ -163,30 +159,6 @@ export default function Home() {
     return () => document.body.classList.remove("sql-loader-lock");
   }, [loading]);
 
-  useEffect(() => {
-    if (loading) return;
-    let cancelled = false;
-    authApi.get("/auth/me")
-      .then((response) => {
-        if (!cancelled && response.data?.authenticated) setUser(response.data.user);
-      })
-      .catch(() => {
-        if (!cancelled) setUser(null);
-      })
-      .finally(() => {
-        if (!cancelled) setAuthLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, [loading]);
-
-  async function handleLogout() {
-    try {
-      await authApi.post("/auth/logout");
-    } finally {
-      setUser(null);
-      setMobileMenuOpen(false);
-    }
-  }
 
   useEffect(() => {
     if (loading) return;
@@ -213,101 +185,7 @@ export default function Home() {
           depth={0.7}
         />
       </div>
-      <header className="sqlwhale-reference-nav" style={{ backgroundColor: "#000", color: "#fff", borderBottomColor: "rgba(255,255,255,.12)" }}>
-        <div className="navbar-inner">
-          <Link href="/" className="sqlwhale-logo reference-nav-logo" aria-label="SQLWhale Home" onClick={() => setMobileMenuOpen(false)}>
-            <Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={44} height={44} className="sqlwhale-logo-image" priority />
-          </Link>
-
-          <nav className="reference-nav-links" aria-label="Primary navigation">
-            {[
-              ["Home", "/"],
-              ["Run Query", "/run-query"],
-              ["About", "#about"],
-              ["How It Works", "#how-it-works"],
-              ["Contact", "/contact"],
-            ].map(([label, href]) => (
-              <Link key={label} href={href} className="reference-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                <span>{label}</span>
-                <span aria-hidden="true">{label}</span>
-              </Link>
-            ))}
-            {!authLoading && user ? (
-              <button type="button" className="reference-nav-link reference-nav-feedback" onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}>
-                <span>Feedback</span>
-                <span aria-hidden="true">Feedback</span>
-              </button>
-            ) : null}
-          </nav>
-
-          <div className="reference-nav-actions">
-            {!authLoading && user ? (
-              <Link href="/account" className="reference-nav-cta" title={user.email}>
-                <span>Profile</span>
-                <span aria-hidden="true">Profile</span>
-              </Link>
-            ) : (
-              <Link href="/login" className="reference-nav-cta">
-                <span>Login</span>
-                <span aria-hidden="true">Login</span>
-              </Link>
-            )}
-          </div>
-
-          <button
-            type="button"
-            className={`reference-nav-toggle ${mobileMenuOpen ? "is-open" : ""}`}
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className="reference-nav-burger" aria-hidden="true"><i /><i /><i /></span>
-            <span className="reference-nav-close" aria-hidden="true">×</span>
-          </button>
-        </div>
-
-        <div className={`reference-mobile-menu ${mobileMenuOpen ? "is-open" : ""}`}>
-          <nav className="reference-mobile-links" aria-label="Mobile navigation">
-            {[
-              ["01", "Home", "/"],
-              ["02", "Run Query", "/run-query"],
-              ["03", "About", "#about"],
-              ["04", "How It Works", "#how-it-works"],
-              ["05", "Contact", "/contact"],
-            ].map(([num, label, href]) => (
-              <Link key={label} href={href} className="reference-mobile-link" onClick={() => setMobileMenuOpen(false)}>
-                <span>{num}</span>{label}
-              </Link>
-            ))}
-            {!authLoading ? (
-              user ? (
-                <Link
-                  href="/account"
-                  className="reference-mobile-link reference-mobile-profile"
-                  title={user.email}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>06</span>Profile
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  className="reference-mobile-link reference-mobile-profile"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>06</span>Login
-                </Link>
-              )
-            ) : null}
-            {!authLoading && user ? (
-              <button type="button" className="reference-mobile-link" onClick={() => {
-                window.dispatchEvent(new Event("sqlwhale:open-feedback"));
-                setMobileMenuOpen(false);
-              }}><span>07</span>Feedback</button>
-            ) : null}
-          </nav>
-        </div>
-      </header>     <SQLWhaleHero />
+     <SQLWhaleHero />
 
       <LeaderboardSection />
 
@@ -426,17 +304,7 @@ export default function Home() {
         </Reveal>
       </section>
 
-      <footer className="sqlwhale-footer">
-        <div className="footer-industrial-grid">
-          <div className="footer-brand-block"><Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home"><Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" /><span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span></Link><p className="footer-tagline">Learn SQL. See the process. Understand the result.</p><div className="footer-status"><span className="status-dot" />SQL LEARNING SYSTEM</div></div>
-          <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><a href="#about">About</a><a href="#how-it-works">How It Works</a><Link href="/contact">Contact</Link></div>
-          <div className="footer-column"><span className="footer-column-title">PLATFORM</span><span>SQL Editor</span><span>Query Execution</span><span>Visual Learning</span><span>Interactive Database</span></div>
-          <div className="footer-column"><span className="footer-column-title">BUILT BY</span><span className="footer-company">WEBXWHALE</span><span className="footer-company-description">Interactive SQL learning platform.</span>{!authLoading && user?.role === "admin" ? <Link href="/admin">Admin</Link> : null}</div>
-          <div className="footer-column"><span className="footer-column-title">LEGAL</span><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms">Terms &amp; Conditions</Link><Link href="/refund-policy">Return &amp; Refund Policy</Link></div>
-        </div>
-        <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / INDEPENDENT ACCOUNT SYSTEM</span><span /></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">SQLWhale learning platform</span></div>
-      </footer>
+
     </main>
   );
 }
