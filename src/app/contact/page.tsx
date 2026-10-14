@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Link from "next/link";
 import { ArrowUpRight, Mail, MessageSquare, Send } from "lucide-react";
 
 const WEBXWHALE_URL = "https://webxwhale-ebon.vercel.app/home";
