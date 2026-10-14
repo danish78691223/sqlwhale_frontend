@@ -183,7 +183,6 @@ export default function Home() {
       await authApi.post("/auth/logout");
     } finally {
       setUser(null);
-      setMobileMenuOpen(false);
     }
   }
 
