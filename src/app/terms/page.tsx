@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 
 export default function TermsPage() {
   return (
@@ -378,20 +377,7 @@ export default function TermsPage() {
         }
       `}</style>
 
-      <header className="legal-topbar">
-        <Link href="/" className="legal-logo">
-          <img
-            src="/assets/sqlwhale-logo.png"
-            alt="SQLWhale"
-            className="legal-logo-mark"
-          />
-          <span>SQLWhale</span>
-        </Link>
 
-        <Link href="/" className="back-home">
-          ← Back to SQLWhale
-        </Link>
-      </header>
 
       <section className="legal-hero">
         <div className="legal-eyebrow">
@@ -672,16 +658,7 @@ export default function TermsPage() {
         </div>
       </section>
 
-      <footer className="legal-footer">
-        <span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span>
 
-        <div className="legal-footer-links">
-          <Link href="/privacy-policy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/refund-policy">Refund Policy</Link>
-          <Link href="/">SQLWhale Home</Link>
-        </div>
-      </footer>
     </main>
   );
 }

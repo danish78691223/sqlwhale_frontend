@@ -265,8 +265,6 @@ export default function UnderstandPage() {
   const [activeSection, setActiveSection] =
     useState("select");
 
-  const [menuOpen, setMenuOpen] =
-    useState(false);
   const [completedSections, setCompletedSections] =
     useState<string[]>([]);
   const [savingCompletion, setSavingCompletion] =
@@ -359,87 +357,7 @@ export default function UnderstandPage() {
           NAVBAR
       ================================================= */}
 
-      <header className="understand-navbar">
-        <div className="understand-navbar-inner">
-          <Link
-            href="/"
-            className="understand-logo"
-          >
-            <span className="understand-logo-mark">
-              ◢
-            </span>
 
-            <span>
-              SQLWhale
-            </span>
-          </Link>
-
-          <nav className="understand-nav">
-            <Link href="/">
-              Home
-            </Link>
-
-            <Link href="/learn">
-              Learn
-            </Link>
-
-            <Link
-              href="/run-query"
-            >
-              Visualize
-            </Link>
-
-            <Link
-              href="/understand"
-              className="active"
-            >
-              Understand
-            </Link>
-          </nav>
-
-          <Link
-            href="/run-query"
-            className="understand-run-button"
-          >
-            Run Query
-            <span>→</span>
-          </Link>
-
-          <button
-            className="mobile-menu-button"
-            onClick={() =>
-              setMenuOpen(
-                !menuOpen
-              )
-            }
-            aria-label="Toggle navigation"
-          >
-            {menuOpen
-              ? "×"
-              : "☰"}
-          </button>
-        </div>
-
-        {menuOpen && (
-          <div className="mobile-understand-menu">
-            <Link href="/">
-              Home
-            </Link>
-
-            <Link href="/learn">
-              Learn
-            </Link>
-
-            <Link href="/run-query">
-              Visualize
-            </Link>
-
-            <Link href="/understand">
-              Understand
-            </Link>
-          </div>
-        )}
-      </header>
 
       {/* =================================================
           HERO
@@ -1857,36 +1775,7 @@ WHERE department IS NULL;`}
           FOOTER
       ================================================= */}
 
-      <footer className="understand-footer">
-        <div>
-          <strong>
-            SQLWhale
-          </strong>
 
-          <span>
-            Learn SQL. See the process.
-            Understand the result.
-          </span>
-        </div>
-
-        <div>
-          <Link href="/learn">
-            Learn
-          </Link>
-
-          <Link href="/run-query">
-            Visualize
-          </Link>
-
-          <Link href="/understand">
-            Understand
-          </Link>
-        </div>
-
-        <span>
-          © {new Date().getFullYear()} SQLWhale
-        </span>
-      </footer>
 
       {/* =================================================
           INTERNAL CSS
