@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 import FixedPriceSubscriptionCheckout from "@/components/FixedPriceSubscriptionCheckout";
 
