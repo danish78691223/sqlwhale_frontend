@@ -2208,7 +2208,7 @@ main {
 .mobile-nav-link span,
 .mobile-auth-button span {
   min-width: 26px;
-  color: #94a3b8;
+  color: rgba(244,242,235,.52);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: .08em;
@@ -14724,7 +14724,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 
 .sqlwhale-cookie-consent-copy h2 {
   margin: 0;
-  color: #0f172a;
+  color: #f4f2eb;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -14859,10 +14859,10 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
    ========================================================= */
 
 .sqlwhale-home{
-  --agency-ink:#0a0b0d;
-  --agency-paper:#f3f1eb;
-  --agency-line:rgba(10,11,13,.14);
-  --agency-muted:#686963;
+  --agency-ink:#f4f2eb;
+  --agency-paper:#0a0b0d;
+  --agency-line:rgba(244,242,235,.14);
+  --agency-muted:rgba(244,242,235,.66);
   --agency-accent:#7A9A74;
   background:var(--agency-paper);
   color:var(--agency-ink);
@@ -17028,7 +17028,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 
 .sqlwhale-leaderboard-head h2 {
   margin: 8px 0 0;
-  color: #0f172a;
+  color: #f4f2eb;
   font-size: clamp(38px, 5vw, 64px);
   line-height: .98;
   letter-spacing: -0.045em;
@@ -17060,10 +17060,10 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   align-items: center;
   gap: 7px;
   padding: 7px 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(244,242,235,.16);
   border-radius: 999px;
-  background: #fff;
-  color: #64748b;
+  background: #111315;
+  color: rgba(244,242,235,.68);
   font-size: 9px;
   font-weight: 800;
   letter-spacing: .05em;
@@ -17087,10 +17087,10 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   gap: 14px;
   min-height: 72px;
   padding: 10px 14px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(244,242,235,.14);
   border-radius: 14px;
-  background: rgba(255,255,255,.88);
-  box-shadow: 0 8px 24px rgba(15,23,42,.04);
+  background: rgba(255,255,255,.035);
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
   transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
 }
 
@@ -17101,7 +17101,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 }
 
 .sqlwhale-leaderboard-row.is-top-rank {
-  background: linear-gradient(135deg, #fff, #f8fbff);
+  background: linear-gradient(135deg, #17191c, #101113);
 }
 
 .sqlwhale-rank-badge {
