@@ -26,18 +26,17 @@ async function loadRazorpayCheckout() {
 
   await new Promise<void>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>('script[data-razorpay-checkout="true"]');
-    if (existing) {
-      existing.addEventListener("load", () => resolve(), { once: true });
-      existing.addEventListener("error", () => reject(new Error("Unable to load Razorpay checkout.")), { once: true });
-      if (win.Razorpay) resolve();
-      return;
-    }
+    // Remove stale failed scripts so checkout can recover on a later attempt.
+    existing?.remove();
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
     script.dataset.razorpayCheckout = "true";
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Unable to load Razorpay checkout. Check your internet connection and retry."));
+    script.onerror = () => {
+      script.remove();
+      reject(new Error("Unable to load Razorpay checkout. Check your internet connection and retry."));
+    };
     document.body.appendChild(script);
   });
 
