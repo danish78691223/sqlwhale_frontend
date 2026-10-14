@@ -1,0 +1,70 @@
+.section {
+  position: relative;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  align-items: center;
+  gap: clamp(28px, 6vw, 100px);
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.copy {
+  max-width: 540px;
+  text-align: left;
+}
+.copy h2 {
+  margin: 18px 0 18px;
+  font-size: clamp(42px, 5.4vw, 76px);
+  line-height: .99;
+  letter-spacing: -.065em;
+}
+.copy h2 em {
+  font-style: normal;
+}
+.copy p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--muted-foreground, #a5a7ad);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.75;
+}
+.visual {
+  display: flex;
+  min-width: 0;
+  min-height: 390px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  overflow: visible;
+}
+.visual :global(.sqlwhale-method-folder) {
+  flex: 0 0 auto;
+  margin: 0 auto;
+}
+.hint {
+  margin: 26px 0 0;
+  color: var(--muted-foreground, #8f9299);
+  font-size: 12px;
+  letter-spacing: .025em;
+  text-align: center;
+}
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .copy h2 {
+    font-size: clamp(40px, 8vw, 64px);
+  }
+  .visual {
+    min-height: 350px;
+    padding: 18px 8px;
+  }
+  .hint {
+    max-width: 240px;
+    line-height: 1.5;
+  }
+}
