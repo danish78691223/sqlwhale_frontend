@@ -55,10 +55,12 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [policyAccepted, setPolicyAccepted] = useState(false);
   const [view, setView] = useState<"choice" | "bargain">("choice");
 
   async function beginBargain() {
     setOpen(true);
+    setPolicyAccepted(false);
     setView("choice");
     setLoading(true);
     setError("");
@@ -145,6 +147,10 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   }
 
   async function checkout(direct = false) {
+    if (!policyAccepted) {
+      setError("Please accept the Terms & Conditions and Refund/Cancellation Policy before paying.");
+      return;
+    }
     if (!direct && (!bargain || !bargain.locked || !bargain.acceptedPrice)) {
       setError("Accept a valid deal before checkout.");
       return;
@@ -152,7 +158,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
     setPaying(true);
     setError("");
     try {
-      const response = await api.post("/subscription/order", direct ? { direct: true } : { sessionId: bargain?.sessionId });
+      const response = await api.post("/subscription/order", { ...(direct ? { direct: true } : { sessionId: bargain?.sessionId }), termsAccepted: true, refundPolicyAccepted: true });
       const { order, keyId, plan } = response.data;
       if (!keyId || !order?.id) throw new Error("Payment settings abhi ready nahi hain. Please baad mein retry karein.");
 
@@ -234,9 +240,23 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
             {message ? <div className={subscribed ? "sqlwhale-bargain-message is-success" : "sqlwhale-bargain-message"} aria-live="polite">{message}</div> : null}
             {error ? <div className="sqlwhale-bargain-error" role="alert">{error}</div> : null}
 
+            {!subscribed && (view === "choice" || Boolean(bargain?.locked)) ? (
+              <label className="sqlwhale-bargain-consent">
+                <input
+                  type="checkbox"
+                  checked={policyAccepted}
+                  onChange={(event) => { setPolicyAccepted(event.target.checked); setError(""); }}
+                  disabled={paying || loading}
+                />
+                <span>
+                  I agree to the <a href="/terms" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a> and <a href="/refund-policy" target="_blank" rel="noopener noreferrer">Refund &amp; Cancellation Policy</a>, including the non-refundable payment terms and stated exceptions.
+                </span>
+              </label>
+            ) : null}
+
             {!subscribed && view === "choice" && !loading ? (
               <div className="sqlwhale-subscribe-choices">
-                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout(true)} disabled={paying}>
+                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout(true)} disabled={paying || !policyAccepted}>
                   Proceed to Pay ₹1,000
                 </button>
                 <button type="button" className="sqlwhale-bargain-secondary" onClick={() => void startBargain()} disabled={paying}>
@@ -280,7 +300,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
             {!subscribed && view === "bargain" && bargain?.locked ? (
               <div className="sqlwhale-bargain-checkout">
                 <p>Deal price locked: <strong>₹{bargain.acceptedPrice?.toLocaleString("en-IN")}</strong></p>
-                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout()} disabled={paying || loading}>
+                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout()} disabled={paying || loading || !policyAccepted}>
                   {paying ? "Processing…" : "Deal Done & Pay ₹" + bargain.acceptedPrice?.toLocaleString("en-IN")}
                 </button>
               </div>
