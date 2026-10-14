@@ -534,7 +534,7 @@ export default function RunQueryPage() {
       )}
 
       <main className="sqlwhale-run-page">
-      <header className="sqlwhale-run-navbar sqlwhale-run-subnavbar" aria-label="SQL workspace secondary navigation">
+      <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
           <Link
             href="/"

@@ -32,6 +32,9 @@ export default function SiteChrome() {
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
+  // Run Query keeps its original workspace navigation and viewport layout.
+  if (pathname === "/run-query") return null;
+
   return (
     <>
       <header className="sqlwhale-site-nav">
@@ -62,6 +65,9 @@ export default function SiteChrome() {
 }
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  if (pathname === "/run-query") return null;
+
   return (
     <footer className="sqlwhale-footer">
       <div className="footer-industrial-grid">
