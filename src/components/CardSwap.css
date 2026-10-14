@@ -1,79 +1,157 @@
-.reactbits-card-swap {
+.card-swap {
   position: relative;
-  max-width: 590px;
-  margin: 0 auto;
-  perspective: 1200px;
-  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.reactbits-card-swap-card {
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: clamp(26px, 4vw, 44px);
+
+.card-swap-sizer {
+  max-height: 100%;
   overflow: hidden;
-  border: 1px solid rgba(244,242,235,.17);
-  border-radius: 5px;
-  color: #f4f2eb;
-  background: linear-gradient(145deg, #17191b 0%, #101113 72%, #151815 100%);
-  box-shadow: 0 28px 70px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.04);
-  transform-origin: 50% 100%;
-  transition: transform 850ms cubic-bezier(.2,.75,.2,1), opacity 850ms ease, filter 850ms ease;
-}
-.reactbits-card-swap-card::after {
-  content: "";
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  right: -100px;
-  top: -100px;
-  border-radius: 50%;
-  background: rgba(122,154,116,.11);
-  filter: blur(35px);
   pointer-events: none;
 }
-.reactbits-card-swap-card.is-position-0 { z-index: 3; opacity: 1; transform: translate3d(0,0,0) rotate(0deg) scale(1); filter: none; }
-.reactbits-card-swap-card.is-position-1 { z-index: 2; opacity: .8; transform: translate3d(16px,13px,-60px) rotate(2.5deg) scale(.96); }
-.reactbits-card-swap-card.is-position-2 { z-index: 1; opacity: .55; transform: translate3d(30px,25px,-120px) rotate(5deg) scale(.92); }
-.card-swap-eyebrow {
-  margin-bottom: auto;
-  color: #9dbb96;
-  font: 700 10px/1.4 "SFMono-Regular", Consolas, monospace;
-  letter-spacing: .16em;
-  text-transform: uppercase;
+
+.card-swap-sizer > span {
+  display: block;
+  width: 100%;
+  max-width: var(--swap-stage-w);
+  aspect-ratio: var(--swap-ratio);
 }
-.reactbits-card-swap-card h3 {
-  max-width: 440px;
-  margin: 42px 0 16px;
-  color: #f4f2eb;
-  font: 800 clamp(28px,3.3vw,44px)/.98 Arial, Helvetica, sans-serif;
-  letter-spacing: -.055em;
+
+.card-swap-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--swap-stage-w);
+  height: var(--swap-stage-h);
+  perspective: 900px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
-.reactbits-card-swap-card p {
-  max-width: 440px;
-  margin: 0;
-  color: rgba(244,242,235,.68);
-  font-size: 15px;
-  line-height: 1.65;
+
+.card-swap-slot {
+  position: absolute;
+  top: var(--swap-oy);
+  left: var(--swap-ox);
+  width: var(--swap-w);
+  height: var(--swap-h);
+  margin: calc(var(--swap-h) / -2) 0 0 calc(var(--swap-w) / -2);
+  border-radius: var(--swap-radius);
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--swap-shadow);
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
-.card-swap-index {
+
+.card-swap:focus-visible .card-swap-slot[data-front] {
+  outline: 2px solid var(--swap-ink);
+  outline-offset: 3px;
+}
+
+.card-swap-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  background: var(--swap-shade);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card-swap-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: inherit;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--swap-tile);
+  color: var(--swap-ink);
+}
+
+.card-swap-card-rim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--swap-tile-edge),
+    inset 0 1px 0 var(--swap-tile-highlight);
+  pointer-events: none;
+}
+
+.card-swap-item {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 100%;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.card-swap-head {
+  display: flex;
+  flex: none;
   align-items: center;
   gap: 10px;
-  margin-top: auto;
-  padding-top: 26px;
-  color: rgba(244,242,235,.48);
-  font: 700 10px "SFMono-Regular", Consolas, monospace;
+  min-width: 0;
+  height: 30px;
+  padding: 0 6px;
 }
-.card-swap-index i { width: 38px; height: 1px; background: rgba(244,242,235,.24); }
-@media (max-width: 640px) {
-  .reactbits-card-swap-card { padding: 24px; }
-  .reactbits-card-swap-card h3 { margin-top: 28px; font-size: 30px; }
-  .reactbits-card-swap-card p { font-size: 13px; }
+
+.card-swap-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--swap-badge);
 }
-@media (prefers-reduced-motion: reduce) {
-  .reactbits-card-swap-card { transition: none; }
+
+.card-swap-title {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-swap-media {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: max(0px, calc(var(--swap-radius) - 6px));
+  background: var(--swap-badge);
+}
+
+.card-swap-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.card-swap-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--swap-media-edge);
+  pointer-events: none;
 }
