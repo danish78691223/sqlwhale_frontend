@@ -1,0 +1,79 @@
+.reactbits-card-swap {
+  position: relative;
+  max-width: 590px;
+  margin: 0 auto;
+  perspective: 1200px;
+  isolation: isolate;
+}
+.reactbits-card-swap-card {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(26px, 4vw, 44px);
+  overflow: hidden;
+  border: 1px solid rgba(244,242,235,.17);
+  border-radius: 5px;
+  color: #f4f2eb;
+  background: linear-gradient(145deg, #17191b 0%, #101113 72%, #151815 100%);
+  box-shadow: 0 28px 70px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.04);
+  transform-origin: 50% 100%;
+  transition: transform 850ms cubic-bezier(.2,.75,.2,1), opacity 850ms ease, filter 850ms ease;
+}
+.reactbits-card-swap-card::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -100px;
+  top: -100px;
+  border-radius: 50%;
+  background: rgba(122,154,116,.11);
+  filter: blur(35px);
+  pointer-events: none;
+}
+.reactbits-card-swap-card.is-position-0 { z-index: 3; opacity: 1; transform: translate3d(0,0,0) rotate(0deg) scale(1); filter: none; }
+.reactbits-card-swap-card.is-position-1 { z-index: 2; opacity: .8; transform: translate3d(16px,13px,-60px) rotate(2.5deg) scale(.96); }
+.reactbits-card-swap-card.is-position-2 { z-index: 1; opacity: .55; transform: translate3d(30px,25px,-120px) rotate(5deg) scale(.92); }
+.card-swap-eyebrow {
+  margin-bottom: auto;
+  color: #9dbb96;
+  font: 700 10px/1.4 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.reactbits-card-swap-card h3 {
+  max-width: 440px;
+  margin: 42px 0 16px;
+  color: #f4f2eb;
+  font: 800 clamp(28px,3.3vw,44px)/.98 Arial, Helvetica, sans-serif;
+  letter-spacing: -.055em;
+}
+.reactbits-card-swap-card p {
+  max-width: 440px;
+  margin: 0;
+  color: rgba(244,242,235,.68);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.card-swap-index {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 26px;
+  color: rgba(244,242,235,.48);
+  font: 700 10px "SFMono-Regular", Consolas, monospace;
+}
+.card-swap-index i { width: 38px; height: 1px; background: rgba(244,242,235,.24); }
+@media (max-width: 640px) {
+  .reactbits-card-swap-card { padding: 24px; }
+  .reactbits-card-swap-card h3 { margin-top: 28px; font-size: 30px; }
+  .reactbits-card-swap-card p { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reactbits-card-swap-card { transition: none; }
+}
