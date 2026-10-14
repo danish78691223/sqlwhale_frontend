@@ -8,7 +8,7 @@ import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
-import CardSwap from "@/components/CardSwap";
+import CardSwap, { Card } from "@/components/CardSwap";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -197,12 +197,53 @@ export default function Home() {
               <h2>SQL makes more sense<br />when you can <em>see it.</em></h2>
               <p>Four things that make SQL difficult to learn — and how SQLWhale helps connect the dots.</p>
             </div>
-            <CardSwap items={[
-              { eyebrow: "01 / THE GAP", title: "Reading isn't understanding.", description: "You can follow a tutorial line by line and still get stuck when it's time to write a query yourself." },
-              { eyebrow: "02 / THE BLIND SPOT", title: "Tables are more than rows.", description: "JOINs, keys, and relationships are hard to grasp when the database structure is just text on a screen." },
-              { eyebrow: "03 / THE MISSING LINK", title: "The result hides the process.", description: "A query returns an answer, but that doesn't always explain how filtering, joining, and other operations produced it." },
-              { eyebrow: "04 / THE OPPORTUNITY", title: "What if you could see SQL?", description: "SQLWhale connects your query, database structure, and output in one visual workspace, making the execution easier to follow." }
-            ]} delay={4000} height={360} />
+            <div className="agency-card-swap-stage" style={{ height: 500, width: "100%" }}>
+              <CardSwap
+                width={350}
+                height={290}
+                cardDistance={46}
+                verticalDistance={48}
+                depth={70}
+                skewAmount={4}
+                visibleCards={4}
+                delay={4000}
+                theme="dark"
+                cardRadius={18}
+              >
+                <Card customClass="sqlwhale-about-swap-card">
+                  <div className="sqlwhale-about-card-content">
+                    <span className="sqlwhale-about-card-eyebrow">01 / THE GAP</span>
+                    <h3>Reading isn&apos;t understanding.</h3>
+                    <p>You can follow a tutorial line by line and still get stuck when it&apos;s time to write a query yourself.</p>
+                    <span className="sqlwhale-about-card-index">01 <i /> 04</span>
+                  </div>
+                </Card>
+                <Card customClass="sqlwhale-about-swap-card">
+                  <div className="sqlwhale-about-card-content">
+                    <span className="sqlwhale-about-card-eyebrow">02 / THE BLIND SPOT</span>
+                    <h3>Tables are more than rows.</h3>
+                    <p>JOINs, keys, and relationships are hard to grasp when the database structure is just text on a screen.</p>
+                    <span className="sqlwhale-about-card-index">02 <i /> 04</span>
+                  </div>
+                </Card>
+                <Card customClass="sqlwhale-about-swap-card">
+                  <div className="sqlwhale-about-card-content">
+                    <span className="sqlwhale-about-card-eyebrow">03 / THE MISSING LINK</span>
+                    <h3>The result hides the process.</h3>
+                    <p>A query returns an answer, but that doesn&apos;t always explain how filtering, joining, and other operations produced it.</p>
+                    <span className="sqlwhale-about-card-index">03 <i /> 04</span>
+                  </div>
+                </Card>
+                <Card customClass="sqlwhale-about-swap-card">
+                  <div className="sqlwhale-about-card-content">
+                    <span className="sqlwhale-about-card-eyebrow">04 / THE OPPORTUNITY</span>
+                    <h3>What if you could see SQL?</h3>
+                    <p>SQLWhale connects your query, database structure, and output in one visual workspace, making the execution easier to follow.</p>
+                    <span className="sqlwhale-about-card-index">04 <i /> 04</span>
+                  </div>
+                </Card>
+              </CardSwap>
+            </div>
           </div>
         </Reveal>
       </section>
