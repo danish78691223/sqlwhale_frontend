@@ -11,6 +11,27 @@ body {
   min-height: 100vh;
 }
 
+/* Shared dark canvas across every route, matching the homepage hero. */
+html,
+body {
+  background-color: #07070b;
+}
+
+body,
+main {
+  background-color: #07070b;
+}
+
+/* Keep the public homepage and shared page shells on the same canvas. */
+.sqlwhale-home,
+.page-container,
+.page-shell,
+.site-page,
+.app-page {
+  background-color: #07070b;
+  color: #f5f5f7;
+}
+
 /* =========================================================
    SQLCREW DATABASE VISUALIZATION
    ========================================================= */
