@@ -12,6 +12,20 @@ import {
 } from 'react';
 import './CardSwap.css';
 
+/** @typedef {{ [key: string]: string | number | undefined }} CardSwapStyle */
+/** @typedef {{ title?: string, image?: string, alt?: string, icon?: import('react').ReactNode }} CardSwapItem */
+/** @typedef {{ customClass?: string, className?: string, children?: import('react').ReactNode, [key: string]: unknown }} CardProps */
+/** @typedef {{
+ * items?: CardSwapItem[], width?: number, height?: number, cardDistance?: number,
+ * verticalDistance?: number, depth?: number, skewAmount?: number, visibleCards?: number,
+ * delay?: number, autoplay?: boolean, pauseOnHover?: boolean, draggable?: boolean,
+ * speed?: number, bounce?: number, parallax?: number, hoverSpread?: number, dim?: number,
+ * cardRadius?: number, intro?: boolean, theme?: 'dark' | 'light',
+ * onCardClick?: (index: number) => void, onChange?: (index: number) => void,
+ * className?: string, children?: import('react').ReactNode
+ * }} CardSwapProps
+ */
+
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 const THEMES = {
@@ -81,6 +95,7 @@ const stackBounds = ({ width, height, cardDistance, verticalDistance, depth, ske
   };
 };
 
+/** @type {import('react').ForwardRefExoticComponent<CardProps & import('react').RefAttributes<HTMLDivElement>>} */
 export const Card = forwardRef(({ customClass, className, children, ...rest }, ref) => (
   <div ref={ref} {...rest} className={['card-swap-card', customClass, className].filter(Boolean).join(' ')}>
     {children}
@@ -107,18 +122,7 @@ const ItemCard = ({ item }) => (
   </Card>
 );
 
-/**
- * @param {{
- *  items?: Array<{ title?: string, image?: string, alt?: string, icon?: import('react').ReactNode }>,
- *  width?: number, height?: number, cardDistance?: number, verticalDistance?: number,
- *  depth?: number, skewAmount?: number, visibleCards?: number, delay?: number,
- *  autoplay?: boolean, pauseOnHover?: boolean, draggable?: boolean, speed?: number,
- *  bounce?: number, parallax?: number, hoverSpread?: number, dim?: number,
- *  cardRadius?: number, intro?: boolean, theme?: 'dark' | 'light',
- *  onCardClick?: (index: number) => void, onChange?: (index: number) => void,
- *  className?: string, children?: import('react').ReactNode
- * }} props
- */
+/** @type {import('react').ForwardRefExoticComponent<CardSwapProps & import('react').RefAttributes<HTMLDivElement>>} */
 const CardSwap = forwardRef(
   (
     {
