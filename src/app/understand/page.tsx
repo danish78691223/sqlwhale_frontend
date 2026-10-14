@@ -265,8 +265,6 @@ export default function UnderstandPage() {
   const [activeSection, setActiveSection] =
     useState("select");
 
-  const [menuOpen, setMenuOpen] =
-    useState(false);
   const [completedSections, setCompletedSections] =
     useState<string[]>([]);
   const [savingCompletion, setSavingCompletion] =
