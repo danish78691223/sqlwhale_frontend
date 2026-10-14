@@ -19309,3 +19309,61 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   text-underline-offset: 2px;
 }
 .sqlwhale-bargain-consent a:hover { color: #fff; }
+
+
+/* SQLWhale about-section cards inside the original React Bits CardSwap stack. */
+.sqlwhale-about-swap-card {
+  background: linear-gradient(145deg, #17191d 0%, #0e1013 75%, #15191b 100%);
+}
+.sqlwhale-about-card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 30px 28px 38px;
+  gap: 16px;
+  transform: skewY(-4deg);
+}
+.sqlwhale-about-card-eyebrow {
+  color: #a7ef63;
+  font: 600 10px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .12em;
+}
+.sqlwhale-about-card-content h3 {
+  margin: 0;
+  max-width: 280px;
+  color: #f4f2eb;
+  font-size: clamp(23px, 2.3vw, 30px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+  font-weight: 600;
+}
+.sqlwhale-about-card-content p {
+  margin: 0;
+  color: #a5a7ad;
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 285px;
+}
+.sqlwhale-about-card-index {
+  position: absolute;
+  left: 28px;
+  bottom: 19px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #777b83;
+  font: 600 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.sqlwhale-about-card-index i {
+  display: block;
+  width: 34px;
+  height: 1px;
+  background: #41464c;
+}
+@media (max-width: 760px) {
+  .agency-card-swap-stage { height: 430px !important; }
+}
