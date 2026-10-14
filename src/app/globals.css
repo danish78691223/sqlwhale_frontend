@@ -19205,3 +19205,51 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .sqlwhale-admin-table-config { padding: 12px; }
   .sqlwhale-admin-template-options { grid-template-columns: 1fr; }
 }
+
+
+/* Required legal consent on the SQLWhale signup form */
+.sqlwhale-light-auth .auth-consent-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 14px;
+  border: 1px solid #d9edf0;
+  border-radius: 12px;
+  background: #f5fbfc;
+}
+.sqlwhale-light-auth .auth-consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #526b73;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.65;
+  cursor: pointer;
+}
+.sqlwhale-light-auth .auth-consent-row input[type="checkbox"] {
+  appearance: auto;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: #159da5;
+  box-shadow: none;
+  cursor: pointer;
+}
+.sqlwhale-light-auth .auth-consent-row a {
+  color: #138f98;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sqlwhale-light-auth .auth-consent-row a:hover {
+  color: #08757d;
+}
+.sqlwhale-light-auth .auth-consent-hint {
+  margin: -5px 0 0;
+  color: #879ca2;
+  font-size: 11px;
+  line-height: 1.5;
+}
