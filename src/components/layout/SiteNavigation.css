@@ -1,0 +1,173 @@
+/* Shared site navigation used across SQLWhale public pages */
+.sqlwhale-site-nav {
+  position: fixed; z-index: 12000; top: 20px; left: 16px; right: 16px;
+  width: calc(100% - 32px); max-width: 1120px; margin: 0 auto;
+  box-sizing: border-box; color: #fff; border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px; background: rgba(8,8,12,.88);
+  box-shadow: 0 14px 38px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(20px) saturate(155%); backdrop-filter: blur(20px) saturate(155%);
+}
+.sqlwhale-site-nav-inner { min-height: 64px; padding: 7px 10px 7px 8px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.sqlwhale-site-brand { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; }
+.sqlwhale-site-brand img { width: 40px; height: 40px; object-fit: contain; }
+.sqlwhale-site-links { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2.8vw, 38px); margin: 0 auto; }
+.sqlwhale-site-links a { position: relative; display: inline-flex; align-items: center; min-height: 40px; color: #f8fafc; text-decoration: none; font: 600 12px/1 system-ui, sans-serif; white-space: nowrap; transition: color .2s ease; }
+.sqlwhale-site-links a:hover, .sqlwhale-site-links a.is-active { color: #bca7ff; }
+.sqlwhale-site-links a::after { position: absolute; left: 0; bottom: 7px; width: 0; height: 2px; content: ""; border-radius: 99px; background: #8b5cf6; transition: width .2s ease; }
+.sqlwhale-site-links a:hover::after, .sqlwhale-site-links a.is-active::after { width: 100%; }
+.sqlwhale-site-account { display: inline-flex; align-items: center; justify-content: center; min-width: 70px; min-height: 40px; padding: 0 17px; border-radius: 999px; background: #1862fd; color: #fff; text-decoration: none; font: 650 12px/1 system-ui, sans-serif; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 18px rgba(24,98,253,.28); }
+.sqlwhale-site-account:hover { background: #3475ff; }
+.sqlwhale-site-menu-button { display: none; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; gap: 4px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+.sqlwhale-site-menu-button span { display: block; width: 18px; height: 2px; border-radius: 99px; background: #fff; transition: transform .2s ease, opacity .2s ease; }
+.sqlwhale-site-menu-button.is-open span:first-child { transform: translateY(6px) rotate(45deg); }
+.sqlwhale-site-menu-button.is-open span:nth-child(2) { opacity: 0; }
+.sqlwhale-site-menu-button.is-open span:last-child { transform: translateY(-6px) rotate(-45deg); }
+.sqlwhale-site-mobile-menu { display: none; }
+.sqlwhale-site-nav-spacer { height: 108px; flex: 0 0 108px; }
+@media (max-width: 900px) {
+  .sqlwhale-site-nav { top: 14px; left: 12px; right: 12px; width: calc(100% - 24px); border-radius: 25px; }
+  .sqlwhale-site-nav-inner { min-height: 58px; padding: 6px 8px; gap: 8px; position: relative; z-index: 2; }
+  .sqlwhale-site-brand { width: 42px; height: 42px; flex-basis: 42px; }
+  .sqlwhale-site-brand img { width: 36px; height: 36px; }
+  .sqlwhale-site-links { display: none; }
+  .sqlwhale-site-menu-button { display: grid; }
+  .sqlwhale-site-mobile-menu { display: flex; position: absolute; top: 0; left: 0; right: 0; flex-direction: column; gap: 5px; padding: 76px 20px 20px; border: 1px solid rgba(255,255,255,.12); border-radius: 25px; background: rgba(8,8,12,.97); box-shadow: 0 20px 45px rgba(0,0,0,.34); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .18s ease, transform .18s ease; }
+  .sqlwhale-site-mobile-menu.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .sqlwhale-site-mobile-menu a { display: flex; align-items: center; gap: 13px; min-height: 42px; padding: 0 10px; border-radius: 10px; color: #f8fafc; text-decoration: none; font-size: 14px; font-weight: 600; }
+  .sqlwhale-site-mobile-menu a:hover { background: rgba(139,92,246,.14); color: #d7c9ff; }
+  .sqlwhale-site-mobile-menu a span { width: 22px; color: #9692a6; font: 11px/1 monospace; }
+  .sqlwhale-site-account { min-height: 38px; min-width: 64px; padding: 0 14px; margin-left: auto; }
+  .sqlwhale-site-nav-spacer { height: 91px; flex-basis: 91px; }
+}
+@media (max-width: 480px) {
+  .sqlwhale-site-nav { top: 10px; left: 9px; right: 9px; width: calc(100% - 18px); }
+  .sqlwhale-site-nav-spacer { height: 82px; flex-basis: 82px; }
+}
+
+/* Navigation refinements: the shared header is the primary site navigation.
+   The Run Query header remains a compact workspace-only secondary navigation. */
+
+.sqlwhale-run-page {
+  height: calc(100vh - 108px);
+  min-height: 620px;
+}
+
+.sqlwhale-main-workspace {
+  height: calc(100vh - 108px - 58px - 250px);
+  min-height: 420px;
+}
+
+.sqlwhale-run-navbar.sqlwhale-run-subnavbar {
+  position: relative;
+  top: auto;
+  z-index: 20;
+  width: min(1400px, calc(100% - 32px));
+  height: auto;
+  margin: 0 auto 14px;
+  padding: 0;
+  border: 1px solid #dbe3ef;
+  border-radius: 15px;
+  background: rgba(247, 248, 252, .94);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+}
+
+.sqlwhale-run-navbar.sqlwhale-run-subnavbar .sqlwhale-run-navbar-inner {
+  min-height: 58px;
+  padding: 0 18px;
+  gap: 18px;
+}
+
+.sqlwhale-run-subnavbar .sqlwhale-run-logo-image {
+  width: 36px;
+  height: 36px;
+  padding: 3px;
+  border-radius: 9px;
+}
+
+.sqlwhale-run-subnavbar .sqlwhale-run-logo-wordmark {
+  font-size: 19px;
+}
+
+.sqlwhale-run-subnavbar .sqlwhale-run-right {
+  gap: 14px;
+}
+
+.sqlwhale-run-subnavbar .theme-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  font-size: 16px;
+}
+
+.sqlwhale-run-subnavbar .sqlwhale-run-nav {
+  gap: 5px;
+}
+
+.sqlwhale-run-subnavbar .run-nav-link {
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.sqlwhale-run-subnavbar .run-nav-number {
+  font-size: 13px;
+}
+
+.dark .sqlwhale-run-navbar.sqlwhale-run-subnavbar {
+  border-color: #334155;
+  background: rgba(15, 23, 42, .96);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16);
+}
+
+.dark .sqlwhale-run-navbar.sqlwhale-run-subnavbar .sqlwhale-run-logo-wordmark .run-logo-text {
+  color: #f8fafc;
+}
+
+@media (max-width: 900px) {
+  .sqlwhale-run-page {
+    height: auto;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  .sqlwhale-main-workspace {
+    height: 700px;
+    min-height: 560px;
+  }
+
+  .sqlwhale-run-navbar.sqlwhale-run-subnavbar {
+    width: calc(100% - 24px);
+    margin: 0 auto 10px;
+    border-radius: 13px;
+  }
+
+  .sqlwhale-run-navbar.sqlwhale-run-subnavbar .sqlwhale-run-navbar-inner {
+    min-height: 56px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .sqlwhale-run-subnavbar .sqlwhale-run-right {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sqlwhale-run-navbar.sqlwhale-run-subnavbar {
+    width: calc(100% - 18px);
+  }
+
+  .sqlwhale-run-navbar.sqlwhale-run-subnavbar .sqlwhale-run-navbar-inner {
+    padding: 0 9px;
+  }
+
+  .sqlwhale-run-subnavbar .sqlwhale-run-logo-wordmark {
+    font-size: 17px;
+  }
+
+  .sqlwhale-run-subnavbar .theme-button {
+    width: 32px;
+    height: 32px;
+  }
+}
