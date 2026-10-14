@@ -191,16 +191,17 @@ export default function Home() {
 
       <section id="about" className="home-section agency-intro-section agency-about-cards-section">
         <Reveal>
-          <div className="agency-section-index">03 / THE PROBLEM</div>
-          <div className="agency-about-cards-layout">
-            <div className="agency-about-cards-copy">
+          <div className="agency-section-index">03 / ABOUT SQLWHALE</div>
+          <div className="sqlwhale-about-hero-layout">
+            <div className="sqlwhale-about-hero-copy">
               <h2>SQL, understood <em>visually.</em></h2>
               <p>One workspace to write queries, explore database relationships, and see how your SQL turns into results.</p>
+              <Link href="/run-query" className="sqlwhale-about-cta">Run SQL <span aria-hidden="true">↗</span></Link>
             </div>
-            <div className="agency-card-swap-stage" style={{ height: 500, width: "100%" }}>
+            <div className="agency-card-swap-stage sqlwhale-about-hero-cards" style={{ height: 560, width: "100%" }}>
               <CardSwap
-                width={350}
-                height={290}
+                width={460}
+                height={360}
                 cardDistance={46}
                 verticalDistance={48}
                 depth={70}
