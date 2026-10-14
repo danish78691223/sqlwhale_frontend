@@ -9,6 +9,7 @@ import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 import CardSwap, { Card } from "@/components/CardSwap";
+import FolderFloat from "@/components/FolderFloat";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -256,20 +257,41 @@ export default function Home() {
             <h2>From syntax<br /><em>to understanding.</em></h2>
           </div>
         </Reveal>
-        <div className="agency-system-rail">
-          {[
-            ["01", "WRITE", "Start with real SQL. Edit the query instead of copying an answer."],
-            ["02", "TRACE", "See which tables and relationships your query touches."],
-            ["03", "EXECUTE", "Watch the operations turn your SQL into a result."],
-            ["04", "UNDERSTAND", "Connect the syntax to what the database actually did."]
-          ].map(([num, title, copy]) => (
-            <Reveal key={num} className="agency-system-item">
-              <span className="agency-system-number">{num}</span>
-              <div className="agency-system-rule" />
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </Reveal>
-          ))}
+        <div className="sqlwhale-method-folder-wrap">
+          <FolderFloat
+            items={[
+              "WRITE · Edit real SQL",
+              "TRACE · Follow table relationships",
+              "EXECUTE · Watch query operations",
+              "UNDERSTAND · Connect syntax to results"
+            ]}
+            label="The SQLWhale method"
+            sublabel="4 steps to clarity"
+            trigger="hover"
+            closeOnSelect
+            physics
+            drift={0.5}
+            onSelect={(value, index) => console.log("SQLWhale method:", value, index)}
+            folderColor="#202124"
+            frontColor="#303238"
+            paperColor="#f5f5f5"
+            itemColor="#f5f5f5"
+            itemTextColor="#18181b"
+            labelColor="#f5f5f5"
+            width={260}
+            height={180}
+            radius={16}
+            spread={250}
+            lift={32}
+            tilt={8}
+            flapAngle={34}
+            restAngle={16}
+            openDuration={520}
+            stagger={45}
+            bounce={0.3}
+            className="sqlwhale-method-folder"
+          />
+          <p className="sqlwhale-method-folder-hint">Hover over the folder to explore the four steps.</p>
         </div>
       </section>
 
