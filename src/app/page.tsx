@@ -194,8 +194,8 @@ export default function Home() {
           <div className="agency-section-index">03 / THE PROBLEM</div>
           <div className="agency-about-cards-layout">
             <div className="agency-about-cards-copy">
-              <h2>SQL makes more sense<br />when you can <em>see it.</em></h2>
-              <p>Four things that make SQL difficult to learn — and how SQLWhale helps connect the dots.</p>
+              <h2>SQL, understood <em>visually.</em></h2>
+              <p>One workspace to write queries, explore database relationships, and see how your SQL turns into results.</p>
             </div>
             <div className="agency-card-swap-stage" style={{ height: 500, width: "100%" }}>
               <CardSwap
