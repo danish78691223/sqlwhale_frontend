@@ -19205,3 +19205,88 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .sqlwhale-admin-table-config { padding: 12px; }
   .sqlwhale-admin-template-options { grid-template-columns: 1fr; }
 }
+
+
+/* Shared site navigation used across SQLWhale public pages */
+.sqlwhale-site-nav {
+  position: fixed; z-index: 12000; top: 20px; left: 16px; right: 16px;
+  width: calc(100% - 32px); max-width: 1120px; margin: 0 auto;
+  box-sizing: border-box; color: #fff; border: 1px solid rgba(255,255,255,.16);
+  border-radius: 999px; background: rgba(8,8,12,.88);
+  box-shadow: 0 14px 38px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(20px) saturate(155%); backdrop-filter: blur(20px) saturate(155%);
+}
+.sqlwhale-site-nav-inner { min-height: 64px; padding: 7px 10px 7px 8px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.sqlwhale-site-brand { display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; }
+.sqlwhale-site-brand img { width: 40px; height: 40px; object-fit: contain; }
+.sqlwhale-site-links { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2.8vw, 38px); margin: 0 auto; }
+.sqlwhale-site-links a { position: relative; display: inline-flex; align-items: center; min-height: 40px; color: #f8fafc; text-decoration: none; font: 600 12px/1 system-ui, sans-serif; white-space: nowrap; transition: color .2s ease; }
+.sqlwhale-site-links a:hover, .sqlwhale-site-links a.is-active { color: #bca7ff; }
+.sqlwhale-site-links a::after { position: absolute; left: 0; bottom: 7px; width: 0; height: 2px; content: ""; border-radius: 99px; background: #8b5cf6; transition: width .2s ease; }
+.sqlwhale-site-links a:hover::after, .sqlwhale-site-links a.is-active::after { width: 100%; }
+.sqlwhale-site-account { display: inline-flex; align-items: center; justify-content: center; min-width: 70px; min-height: 40px; padding: 0 17px; border-radius: 999px; background: #1862fd; color: #fff; text-decoration: none; font: 650 12px/1 system-ui, sans-serif; box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 6px 18px rgba(24,98,253,.28); }
+.sqlwhale-site-account:hover { background: #3475ff; }
+.sqlwhale-site-menu-button { display: none; width: 40px; height: 40px; flex: 0 0 40px; place-items: center; gap: 4px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+.sqlwhale-site-menu-button span { display: block; width: 18px; height: 2px; border-radius: 99px; background: #fff; transition: transform .2s ease, opacity .2s ease; }
+.sqlwhale-site-menu-button.is-open span:first-child { transform: translateY(6px) rotate(45deg); }
+.sqlwhale-site-menu-button.is-open span:nth-child(2) { opacity: 0; }
+.sqlwhale-site-menu-button.is-open span:last-child { transform: translateY(-6px) rotate(-45deg); }
+.sqlwhale-site-mobile-menu { display: none; }
+.sqlwhale-site-nav-spacer { height: 108px; flex: 0 0 108px; }
+@media (max-width: 900px) {
+  .sqlwhale-site-nav { top: 14px; left: 12px; right: 12px; width: calc(100% - 24px); border-radius: 25px; }
+  .sqlwhale-site-nav-inner { min-height: 58px; padding: 6px 8px; gap: 8px; position: relative; z-index: 2; }
+  .sqlwhale-site-brand { width: 42px; height: 42px; flex-basis: 42px; }
+  .sqlwhale-site-brand img { width: 36px; height: 36px; }
+  .sqlwhale-site-links { display: none; }
+  .sqlwhale-site-menu-button { display: grid; }
+  .sqlwhale-site-mobile-menu { display: flex; position: absolute; top: 0; left: 0; right: 0; flex-direction: column; gap: 5px; padding: 76px 20px 20px; border: 1px solid rgba(255,255,255,.12); border-radius: 25px; background: rgba(8,8,12,.97); box-shadow: 0 20px 45px rgba(0,0,0,.34); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity .18s ease, transform .18s ease; }
+  .sqlwhale-site-mobile-menu.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .sqlwhale-site-mobile-menu a { display: flex; align-items: center; gap: 13px; min-height: 42px; padding: 0 10px; border-radius: 10px; color: #f8fafc; text-decoration: none; font-size: 14px; font-weight: 600; }
+  .sqlwhale-site-mobile-menu a:hover { background: rgba(139,92,246,.14); color: #d7c9ff; }
+  .sqlwhale-site-mobile-menu a span { width: 22px; color: #9692a6; font: 11px/1 monospace; }
+  .sqlwhale-site-account { min-height: 38px; min-width: 64px; padding: 0 14px; margin-left: auto; }
+  .sqlwhale-site-nav-spacer { height: 91px; flex-basis: 91px; }
+}
+@media (max-width: 480px) {
+  .sqlwhale-site-nav { top: 10px; left: 9px; right: 9px; width: calc(100% - 18px); }
+  .sqlwhale-site-nav-spacer { height: 82px; flex-basis: 82px; }
+}
+
+/* Subscription checkout */
+.monthly-subscribe-page { min-height: 60vh; padding: 44px 20px 80px; background: #050507; color: #f8fafc; }
+.monthly-checkout { width: min(100%, 1040px); margin: 0 auto; }
+.monthly-checkout-hero { max-width: 760px; margin: 0 auto 34px; text-align: center; }
+.monthly-checkout-eyebrow { display: inline-block; color: #a78bfa; font: 700 11px/1.6 ui-monospace, SFMono-Regular, monospace; letter-spacing: .18em; }
+.monthly-checkout-hero h1 { margin: 16px 0; color: #fff; font-size: clamp(36px, 6vw, 62px); line-height: 1.04; letter-spacing: -.055em; }
+.monthly-checkout-hero h1 span { color: #bca7ff; }
+.monthly-checkout-hero p { max-width: 640px; margin: 0 auto; color: #a4a4b3; font-size: 15px; line-height: 1.8; }
+.monthly-checkout-card { width: min(100%, 650px); margin: 0 auto; padding: clamp(22px, 4vw, 36px); border: 1px solid rgba(255,255,255,.13); border-radius: 24px; background: linear-gradient(145deg, rgba(24,24,31,.98), rgba(10,10,14,.98)); box-shadow: 0 26px 90px rgba(0,0,0,.32); }
+.monthly-plan-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.monthly-plan-label { color: #a78bfa; font: 700 10px/1.6 ui-monospace, monospace; letter-spacing: .16em; }
+.monthly-plan-top h2 { margin: 8px 0; color: #fff; font-size: 23px; letter-spacing: -.035em; }
+.monthly-plan-top p { max-width: 340px; margin: 0; color: #a1a1aa; font-size: 13px; line-height: 1.7; }
+.monthly-price { text-align: right; white-space: nowrap; }
+.monthly-price strong { color: #fff; font-size: clamp(32px, 5vw, 44px); font-weight: 800; letter-spacing: -.06em; }
+.monthly-price span { display: block; color: #a1a1aa; font-size: 12px; }
+.monthly-plan-divider { height: 1px; margin: 26px 0; background: rgba(255,255,255,.11); }
+.monthly-benefits { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.monthly-benefits li { display: flex; align-items: flex-start; gap: 11px; color: #dedee7; font-size: 13px; line-height: 1.6; }
+.monthly-benefits li span { display: grid; place-items: center; flex: 0 0 20px; width: 20px; height: 20px; border: 1px solid rgba(167,139,250,.35); border-radius: 50%; color: #c4b5fd; font-size: 11px; }
+.monthly-consent-list { display: grid; gap: 13px; margin-top: 28px; padding: 18px; border: 1px solid rgba(255,255,255,.10); border-radius: 15px; background: rgba(255,255,255,.025); }
+.monthly-consent { display: flex; align-items: flex-start; gap: 10px; color: #c7c7d2; font-size: 12px; line-height: 1.65; cursor: pointer; }
+.monthly-consent input { flex: 0 0 16px; width: 16px; height: 16px; margin: 2px 0 0; accent-color: #8b5cf6; }
+.monthly-consent a, .monthly-policy-footnote a, .monthly-login-note a { color: #c4b5fd; text-decoration: underline; text-underline-offset: 3px; }
+.monthly-pay-button, .monthly-secondary-button { display: flex; width: 100%; min-height: 50px; align-items: center; justify-content: center; margin-top: 17px; padding: 12px 17px; border: 1px solid #1862fd; border-radius: 12px; background: #1862fd; color: #fff; font-size: 14px; font-weight: 750; cursor: pointer; transition: transform .15s ease, background .15s ease, opacity .15s ease; }
+.monthly-pay-button:hover:not(:disabled), .monthly-secondary-button:hover:not(:disabled) { background: #3475ff; transform: translateY(-1px); }
+.monthly-pay-button:disabled, .monthly-secondary-button:disabled { opacity: .42; cursor: not-allowed; transform: none; }
+.monthly-secondary-button { background: rgba(24,98,253,.12); color: #c6d7ff; border-color: rgba(65,128,255,.4); }
+.monthly-secure-note, .monthly-policy-footnote, .monthly-login-note { margin: 12px 0 0; color: #898999; font-size: 11px; line-height: 1.65; text-align: center; }
+.monthly-active-panel { display: grid; gap: 8px; margin-top: 25px; padding: 17px; border: 1px solid rgba(52,211,153,.25); border-radius: 14px; background: rgba(16,185,129,.07); color: #b7f7dc; }
+.monthly-active-panel strong { font-size: 14px; }
+.monthly-active-panel span { color: #a6c9bd; font-size: 12px; line-height: 1.6; }
+.monthly-feedback { margin: 16px 0 0; padding: 12px 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; font-size: 12px; line-height: 1.6; }
+.monthly-error { border-color: rgba(248,113,113,.3); background: rgba(239,68,68,.08); color: #fecaca; }
+.monthly-success { border-color: rgba(52,211,153,.25); background: rgba(16,185,129,.07); color: #b7f7dc; }
+@media (max-width: 560px) { .monthly-subscribe-page { padding: 35px 12px 55px; } .monthly-plan-top { flex-direction: column; } .monthly-price { text-align: left; } .monthly-price span { display: inline; margin-left: 6px; } .monthly-consent-list { padding: 14px; } }
+@media (prefers-reduced-motion: reduce) { .sqlwhale-site-nav *, .monthly-checkout-card * { transition: none !important; } }
