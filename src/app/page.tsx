@@ -8,6 +8,7 @@ import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
+import CardSwap from "@/components/CardSwap";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -188,19 +189,20 @@ export default function Home() {
 
       <LeaderboardSection />
 
-      <section id="about" className="home-section agency-intro-section">
+      <section id="about" className="home-section agency-intro-section agency-about-cards-section">
         <Reveal>
           <div className="agency-section-index">03 / THE PROBLEM</div>
-          <div className="agency-intro-grid">
-            <h2>You can read<br />a query without<br /><em className="agency-purple-accent">understanding it.</em></h2>
-            <div>
-              <p className="agency-big-copy">
-                Most SQL tools show you what came out. SQLWhale focuses on what happened before it.
-              </p>
-              <p>
-                Tables. Relationships. Filters. Operations. Results. We turn the invisible execution path into something you can follow.
-              </p>
+          <div className="agency-about-cards-layout">
+            <div className="agency-about-cards-copy">
+              <h2>SQL makes more sense<br />when you can <em>see it.</em></h2>
+              <p>Four things that make SQL difficult to learn — and how SQLWhale helps connect the dots.</p>
             </div>
+            <CardSwap items={[
+              { eyebrow: "01 / THE GAP", title: "Reading isn't understanding.", description: "You can follow a tutorial line by line and still get stuck when it's time to write a query yourself." },
+              { eyebrow: "02 / THE BLIND SPOT", title: "Tables are more than rows.", description: "JOINs, keys, and relationships are hard to grasp when the database structure is just text on a screen." },
+              { eyebrow: "03 / THE MISSING LINK", title: "The result hides the process.", description: "A query returns an answer, but that doesn't always explain how filtering, joining, and other operations produced it." },
+              { eyebrow: "04 / THE OPPORTUNITY", title: "What if you could see SQL?", description: "SQLWhale connects your query, database structure, and output in one visual workspace, making the execution easier to follow." }
+            ]} delay={4000} height={360} />
           </div>
         </Reveal>
       </section>
