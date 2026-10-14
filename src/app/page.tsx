@@ -271,7 +271,8 @@ export default function Home() {
             closeOnSelect
             physics
             drift={0.5}
-            onSelect={(value, index) => console.log("SQLWhale method:", value, index)}
+            onOpenChange={() => {}}
+            onSelect={(value: string, index: number) => console.log("SQLWhale method:", value, index)}
             folderColor="#202124"
             frontColor="#303238"
             paperColor="#f5f5f5"
