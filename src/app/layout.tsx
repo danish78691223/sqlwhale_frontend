@@ -4,6 +4,7 @@ import "./globals.css";
 import FeedbackWidget from "../components/FeedbackWidget";
 import MaintenanceGate from "../components/MaintenanceGate";
 import CookieConsent from "../components/CookieConsent";
+import SiteChrome, { SiteFooter } from "../components/layout/SiteChrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><MaintenanceGate>{children}</MaintenanceGate><FeedbackWidget /><CookieConsent /></body>
+      <body className="min-h-full flex flex-col"><MaintenanceGate><SiteChrome />{children}<SiteFooter /></MaintenanceGate><FeedbackWidget /><CookieConsent /></body>
     </html>
   );
 }
