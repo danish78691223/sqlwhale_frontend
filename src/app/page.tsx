@@ -260,10 +260,10 @@ export default function Home() {
         <div className="sqlwhale-method-folder-wrap">
           <FolderFloat
             items={[
-              "WRITE · Edit real SQL",
-              "TRACE · Follow table relationships",
-              "EXECUTE · Watch query operations",
-              "UNDERSTAND · Connect syntax to results"
+              "WRITE — Edit real SQL instead of copying an answer",
+              "TRACE — See which tables and relationships your query touches",
+              "EXECUTE — Watch operations turn SQL into results",
+              "UNDERSTAND — Connect syntax to what the database did"
             ]}
             label="The SQLWhale method"
             sublabel="4 steps to clarity"
