@@ -19367,3 +19367,97 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 @media (max-width: 760px) {
   .agency-card-swap-stage { height: 430px !important; }
 }
+
+
+/* SQLWhale About split hero: copy and CTA left, larger animated cards right. */
+.sqlwhale-about-hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 84px);
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.sqlwhale-about-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 510px;
+  text-align: left;
+}
+.sqlwhale-about-hero-copy h2 {
+  margin: 0 0 22px;
+  font-size: clamp(42px, 5.4vw, 76px);
+  line-height: .99;
+  letter-spacing: -.065em;
+}
+.sqlwhale-about-hero-copy h2 em {
+  font-style: normal;
+}
+.sqlwhale-about-hero-copy p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--muted-foreground, #a5a7ad);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.75;
+}
+.sqlwhale-about-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  min-height: 52px;
+  margin-top: 30px;
+  padding: 0 22px;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 999px;
+  background: #f4f2eb;
+  color: #101113;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: transform .2s ease, background .2s ease;
+}
+.sqlwhale-about-cta:hover {
+  transform: translateY(-2px);
+  background: #a7ef63;
+}
+.sqlwhale-about-hero-cards {
+  min-width: 0;
+  overflow: visible;
+}
+.sqlwhale-about-hero-cards .card-swap-container {
+  transform: scale(1.04);
+  transform-origin: center center;
+}
+@media (max-width: 900px) {
+  .sqlwhale-about-hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .sqlwhale-about-hero-copy {
+    max-width: 680px;
+  }
+  .sqlwhale-about-hero-copy h2 {
+    font-size: clamp(40px, 8vw, 64px);
+  }
+  .sqlwhale-about-hero-cards {
+    height: 500px !important;
+  }
+  .sqlwhale-about-hero-cards .card-swap-container {
+    transform: scale(.9);
+  }
+}
+@media (max-width: 560px) {
+  .sqlwhale-about-hero-cards {
+    height: 420px !important;
+    margin-left: -12px;
+    width: calc(100% + 24px) !important;
+  }
+  .sqlwhale-about-hero-cards .card-swap-container {
+    transform: scale(.72);
+  }
+  .sqlwhale-about-cta {
+    margin-top: 24px;
+  }
+}
