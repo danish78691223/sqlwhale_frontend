@@ -390,20 +390,7 @@ export default function RefundPolicyPage() {
         }
       `}</style>
 
-      <header className="legal-topbar">
-        <Link href="/" className="legal-logo">
-          <img
-            src="/assets/sqlwhale-logo.png"
-            alt="SQLWhale"
-            className="legal-logo-mark"
-          />
-          <span>SQLWhale</span>
-        </Link>
-
-        <Link href="/" className="back-home">
-          ← Back to SQLWhale
-        </Link>
-      </header>
+      
 
       <section className="legal-hero">
         <div className="legal-eyebrow">
@@ -445,10 +432,7 @@ export default function RefundPolicyPage() {
 
         <div className="legal-content">
           <div className="status-banner">
-            <strong>Current service status:</strong> SQLWhale is primarily
-            provided as an educational SQL learning platform. Any future paid
-            products, subscriptions, or services may be subject to additional
-            payment-specific terms displayed at the time of purchase.
+            <strong>Current subscription:</strong> SQLWhale Premium is offered at ₹49 per month. If you start a recurring subscription, Razorpay will present the applicable payment method or mandate authorisation before activation. The cancellation and refund rules below apply to this plan, subject to applicable law.
           </div>
 
           <article id="scope" className="legal-card">
@@ -503,19 +487,25 @@ export default function RefundPolicyPage() {
 
           <article id="paid" className="legal-card">
             <div className="legal-number">04 / PAID SERVICES</div>
-            <h2>Future paid products or subscriptions</h2>
+            <h2>SQLWhale Premium monthly subscription</h2>
 
             <p>
-              If SQLWhale introduces paid subscriptions, courses, premium
-              features, digital products, or other paid services, the
-              applicable price, cancellation rules, access period, and refund
-              conditions may be displayed separately before payment.
+              SQLWhale Premium costs ₹49 per month. By subscribing, you authorise
+              recurring monthly billing through the payment method or mandate
+              confirmed in Razorpay Checkout. The billing schedule and any
+              mandate details are shown by Razorpay during authorisation.
             </p>
 
             <p>
-              Where a specific purchase page contains different refund terms,
-              those purchase-specific terms will apply to that transaction to
-              the extent permitted by applicable law.
+              You can request cancellation of future renewals from the Subscribe
+              page while signed in. A cancellation request stops future renewals
+              when processed by Razorpay; access may continue through the
+              already-paid billing period. The ₹49 fee for a billing period
+              that has started or been activated is generally non-refundable,
+              except for duplicate or excess charges, verified unauthorised or
+              erroneous transactions, failed payments where money was debited
+              without the service being provided, or where a refund is required
+              by applicable law.
             </p>
           </article>
 
@@ -539,17 +529,19 @@ export default function RefundPolicyPage() {
 
           <article id="nonrefundable" className="legal-card">
             <div className="legal-number">06 / NON-REFUNDABLE</div>
-            <h2>Situations that may not qualify</h2>
+            <h2>Non-refundable subscription fees</h2>
 
             <p>
-              Unless otherwise required by law or expressly stated at the time
-              of purchase, refunds may not be available for:
+              Once a monthly billing period has started and Premium access has
+              been activated, the subscription fee is generally non-refundable.
+              This rule does not remove any rights or remedies that cannot be
+              excluded under applicable law, or the exceptions listed above.
             </p>
 
             <ul>
-              <li>Voluntary support payments after successful completion.</li>
+              <li>Requests to refund a billing period after Premium access has been activated, except for the policy exceptions above.</li>
               <li>Requests made after an applicable refund period has expired.</li>
-              <li>Services that have already been fully delivered where the applicable terms exclude refunds.</li>
+              <li>Change of mind after access to the digital subscription period has been activated, subject to applicable law.</li>
               <li>Misuse of a service or violation of platform terms.</li>
               <li>Changes in personal preference after a digital service has been accessed.</li>
             </ul>
@@ -640,16 +632,7 @@ export default function RefundPolicyPage() {
         </div>
       </section>
 
-      <footer className="legal-footer">
-        <span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span>
-
-        <div className="legal-footer-links">
-          <Link href="/privacy-policy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/refund-policy">Refund Policy</Link>
-          <Link href="/">SQLWhale Home</Link>
-        </div>
-      </footer>
+      
     </main>
   );
 }
