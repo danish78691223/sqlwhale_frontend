@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { api } from "@/services/api";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
