@@ -19253,3 +19253,38 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   font-size: 11px;
   line-height: 1.5;
 }
+
+
+/* Required legal consent on the legacy SQLWhale bargain checkout */
+.sqlwhale-bargain-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 14px 0 16px;
+  padding: 12px;
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .035);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.65;
+  cursor: pointer;
+}
+.sqlwhale-bargain-consent input[type="checkbox"] {
+  appearance: auto;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  padding: 0;
+  accent-color: #60a5fa;
+  cursor: pointer;
+}
+.sqlwhale-bargain-consent a {
+  color: #a5c8ff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.sqlwhale-bargain-consent a:hover { color: #fff; }
