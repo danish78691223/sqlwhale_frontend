@@ -15,16 +15,22 @@ const links = [
   { label: "Subscribe", href: "/subscribe" },
 ];
 
+type SessionUser = { name?: string; email?: string; role?: string };
+
 export default function SiteChrome() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
-  const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
+  const [user, setUser] = useState<SessionUser | null>(null);
 
   useEffect(() => {
     let live = true;
+    setAuthLoading(true);
     authApi.get("/auth/me")
-      .then((response) => { if (live && response.data?.authenticated) setUser(response.data.user); })
+      .then((response) => {
+        if (!live) return;
+        setUser(response.data?.authenticated ? response.data.user ?? null : null);
+      })
       .catch(() => { if (live) setUser(null); })
       .finally(() => { if (live) setAuthLoading(false); });
     return () => { live = false; };
@@ -32,8 +38,9 @@ export default function SiteChrome() {
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
-  // Run Query keeps its original workspace navigation and viewport layout.
   if (pathname === "/run-query") return null;
+
+  const accountHref = authLoading ? "/login" : user ? "/account" : "/login";
 
   return (
     <>
@@ -47,7 +54,7 @@ export default function SiteChrome() {
               <Link key={item.href} href={item.href} className={pathname === item.href ? "is-active" : ""}>{item.label}</Link>
             ))}
           </nav>
-          <Link href={authLoading ? "/login" : user ? "/account" : "/login"} className="sqlwhale-site-account" title={user?.email || "Login"}>
+          <Link href={accountHref} className="sqlwhale-site-account" title={user?.email || "Login"}>
             {authLoading ? "Login" : user ? "Profile" : "Login"}
           </Link>
           <button className={`sqlwhale-site-menu-button ${menuOpen ? "is-open" : ""}`} type="button" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>
@@ -56,7 +63,7 @@ export default function SiteChrome() {
         </div>
         <nav className={`sqlwhale-site-mobile-menu ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation">
           {links.map((item, index) => <Link key={item.href} href={item.href}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</Link>)}
-          <Link href={authLoading ? "/login" : user ? "/account" : "/login"}><span>06</span>{authLoading ? "Login" : user ? "Profile" : "Login"}</Link>
+          <Link href={accountHref}><span>06</span>{authLoading ? "Login" : user ? "Profile" : "Login"}</Link>
         </nav>
       </header>
       <div className="sqlwhale-site-nav-spacer" aria-hidden="true" />
@@ -66,7 +73,24 @@ export default function SiteChrome() {
 
 export function SiteFooter() {
   const pathname = usePathname();
+  const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUser] = useState<SessionUser | null>(null);
+
+  useEffect(() => {
+    let live = true;
+    setAuthLoading(true);
+    authApi.get("/auth/me")
+      .then((response) => {
+        if (!live) return;
+        setUser(response.data?.authenticated ? response.data.user ?? null : null);
+      })
+      .catch(() => { if (live) setUser(null); })
+      .finally(() => { if (live) setAuthLoading(false); });
+    return () => { live = false; };
+  }, [pathname]);
+
   if (pathname === "/run-query") return null;
+  const isAdmin = !authLoading && user?.role?.toLowerCase() === "admin";
 
   return (
     <footer className="sqlwhale-footer">
@@ -82,6 +106,7 @@ export function SiteFooter() {
         <div className="footer-column"><span className="footer-column-title">NAVIGATION</span><Link href="/">Home</Link><Link href="/run-query">Run Query</Link><Link href="/learn">Learn</Link><Link href="/understand">Understand</Link><Link href="/contact">Contact</Link><Link href="/subscribe">Subscribe</Link></div>
         <div className="footer-column"><span className="footer-column-title">PLATFORM</span><span>SQL Editor</span><span>Query Execution</span><span>Visual Learning</span><span>Interactive Database</span></div>
         <div className="footer-column"><span className="footer-column-title">BUILT BY</span><a className="footer-company footer-company-link" href="https://webxwhale.com" target="_blank" rel="noopener noreferrer">WEBXWHALE TECH &amp; SOLUTIONS</a><span className="footer-company-description">Technology &amp; digital learning systems.</span></div>
+        {isAdmin && <div className="footer-column footer-admin-column"><span className="footer-column-title">ADMIN</span><Link href="/admin" style={{ color: "#ff4545", fontWeight: 700 }}>Admin Dashboard ↗</Link></div>}
         <div className="footer-column"><span className="footer-column-title">LEGAL</span><Link href="/terms">Terms &amp; Conditions</Link><Link href="/privacy-policy">Privacy Policy</Link><Link href="/refund-policy">Return &amp; Cancellation Policy</Link></div>
       </div>
       <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBXWHALE TECH &amp; SOLUTIONS</span><span /></div>
