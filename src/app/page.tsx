@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import Shuffle from "@/components/Shuffle";
@@ -301,7 +302,7 @@ export default function Home() {
           <div className="agency-section-index">05 / SEE IT HAPPEN</div>
           <div className="agency-visual-layout">
             <div className="agency-visual-copy">
-              <h2>The database<br /><em className="agency-purple-accent">stops being abstract.</em></h2>
+              <h2>The <span className="draw-circle-word">database<svg viewBox="0 0 286 73" fill="none" aria-hidden="true"><motion.path initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true, amount: 0.65 }} transition={{ duration: 1.25, ease: "easeInOut" }} d="M142.293 1C106.854 16.8908 6.08202 7.17705 1.23654 43.3756C-2.10604 68.3466 29.5633 73.2652 122.688 71.7518C215.814 70.2384 316.298 70.689 275.761 38.0785C230.14 1.37835 97.0503 24.4575 52.9384 1" stroke="currentColor" strokeWidth="3" strokeLinecap="round" /></svg></span><br /><em className="agency-purple-accent">stops being abstract.</em></h2>
               <p>
                 SQLWhale puts your editor, database structure and result into one visual learning loop.
               </p>
