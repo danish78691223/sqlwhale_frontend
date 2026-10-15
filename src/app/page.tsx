@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Database, KeyRound, Activity } from "lucide-react";
+import { Database, KeyRound, Activity, Building2, Users, FolderKanban, WalletCards } from "lucide-react";
 import { motion } from "framer-motion";
 import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
@@ -152,16 +152,16 @@ function DatabaseBeamCanvas() {
     <div className="agency-database-art sqlwhale-beam-canvas" ref={containerRef} aria-label="Animated database relationships">
       <div className="db-art-label"><span className="db-art-label-title"><Database size={13} strokeWidth={1.8} /> SCHEMA MAP</span><span className="db-art-live"><i /> LIVE TRACE</span></div>
       <div className="db-art-table db-art-a sqlwhale-beam-table" ref={departmentsRef}>
-        <b><i><Database size={13} strokeWidth={1.8} /></i> departments</b><span><strong>PK</strong> id <em>·</em> name</span>
+        <b aria-label="Departments"><i><Building2 size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> name</span>
       </div>
       <div className="db-art-table db-art-b sqlwhale-beam-table sqlwhale-beam-primary" ref={employeesRef}>
-        <b><i><Database size={13} strokeWidth={1.8} /></i> employees</b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> dept_id</span><span>salary</span>
+        <b aria-label="Employees"><i><Users size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> dept_id</span><span>salary</span>
       </div>
       <div className="db-art-table db-art-c sqlwhale-beam-table" ref={projectsRef}>
-        <b><i><Database size={13} strokeWidth={1.8} /></i> projects</b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> employee_id</span>
+        <b aria-label="Projects"><i><FolderKanban size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> employee_id</span>
       </div>
       <div className="db-art-table db-art-d sqlwhale-beam-table" ref={salaryRef}>
-        <b><i><Database size={13} strokeWidth={1.8} /></i> salary</b><span><strong>FK</strong> employee_id <em>·</em> amount</span>
+        <b aria-label="Salary"><i><WalletCards size={16} strokeWidth={1.8} /></i></b><span><strong>FK</strong> employee_id <em>·</em> amount</span>
       </div>
       <AnimatedBeam containerRef={containerRef} fromRef={departmentsRef} toRef={employeesRef} curvature={-28} gradientStartColor="#a78bfa" gradientStopColor="#6d28d9" duration={3.1} />
       <AnimatedBeam containerRef={containerRef} fromRef={projectsRef} toRef={employeesRef} curvature={24} gradientStartColor="#c4b5fd" gradientStopColor="#7c3aed" duration={3.7} delay={0.5} reverse />
