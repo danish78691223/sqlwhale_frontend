@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { WifiOff, X } from "lucide-react";
+import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -570,7 +570,7 @@ export default function RunQueryPage() {
               aria-pressed={darkMode}
             >
               <span className="theme-icon">
-                {darkMode ? "☾" : "☼"}
+                {darkMode ? <Moon size={17} strokeWidth={1.9} /> : <Sun size={17} strokeWidth={1.9} />}
               </span>
             </button>
 
@@ -579,12 +579,12 @@ export default function RunQueryPage() {
               aria-label="Primary navigation"
             >
               <Link href="/" className="run-nav-link">
-                <span className="run-nav-number">⌂</span>
+                <Home className="run-nav-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
                 Home
               </Link>
 
               <Link href="/account" className="run-nav-link">
-                <span className="run-nav-number">◎</span>
+                <UserRound className="run-nav-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
                 Profile
               </Link>
 
@@ -593,7 +593,7 @@ export default function RunQueryPage() {
                 className="run-nav-link run-feedback-button"
                 onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
               >
-                <span className="run-nav-number">✉</span>
+                <MessageSquare className="run-nav-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
                 Feedback
               </button>
             </nav>
@@ -630,9 +630,9 @@ export default function RunQueryPage() {
               className="run-mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="run-mobile-nav-number">⌂</span>
+              <Home size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Home</span>
-              <span className="run-mobile-arrow">→</span>
+              <ArrowRight className="run-mobile-arrow-icon" size={16} aria-hidden="true" />
             </Link>
 
             <Link
@@ -640,7 +640,7 @@ export default function RunQueryPage() {
               className="run-mobile-nav-link"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <span className="run-mobile-nav-number">◎</span>
+              <UserRound size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Profile</span>
               <span className="run-mobile-arrow">→</span>
             </Link>
@@ -653,7 +653,7 @@ export default function RunQueryPage() {
                 window.dispatchEvent(new Event("sqlwhale:open-feedback"));
               }}
             >
-              <span className="run-mobile-nav-number">✉</span>
+              <MessageSquare size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Feedback</span>
               <span className="run-mobile-arrow">→</span>
             </button>
@@ -721,7 +721,7 @@ export default function RunQueryPage() {
             <DatabaseCanvasSkeleton />
           ) : tablesError ? (
             <div className="output-error-state">
-              <div className="output-error-icon">!</div>
+              <div className="output-error-icon"><X size={19} strokeWidth={2.2} /></div>
               <h3>Schema unavailable</h3>
               <p>{tablesError}</p>
             </div>
@@ -754,7 +754,7 @@ export default function RunQueryPage() {
         >
           <div className="output-box-header">
             <div className="output-box-title">
-              <span className="output-box-symbol">◫</span>
+              <Database className="output-box-symbol-icon" size={17} strokeWidth={1.8} aria-hidden="true" />
               <strong>Query Output</strong>
             </div>
 
@@ -787,7 +787,7 @@ export default function RunQueryPage() {
 
             {loading || taskSubmitting ? (
               <div className="output-empty">
-                <div className="output-empty-icon">◌</div>
+                <div className="output-empty-icon"><LoaderCircle size={25} strokeWidth={1.8} className="run-query-spinner" /></div>
                 <h3>Executing query...</h3>
                 <p>
                   SQLWhale is tracing the query execution.
@@ -838,7 +838,7 @@ export default function RunQueryPage() {
               </div>
             ) : (
               <div className="output-empty">
-                <div className="output-empty-icon">▷</div>
+                <div className="output-empty-icon"><CirclePlay size={25} strokeWidth={1.7} /></div>
                 <h3>Run a SQL query</h3>
                 <p>
                   Execute a query to see the result and its
@@ -860,7 +860,7 @@ export default function RunQueryPage() {
             aria-expanded={builderOpen}
           >
             <span className="sqlwhale-builder-button-main">
-              <span className="sqlwhale-query-mode-number">01</span>
+              <span className="sqlwhale-query-mode-number"><Wrench size={16} strokeWidth={1.8} aria-hidden="true" /></span>
               <span>
                 <strong>Build the Query</strong>
                 <small>{builderOpen ? "Visual SQL builder" : "Start from a visual query"}</small>
@@ -880,7 +880,7 @@ export default function RunQueryPage() {
             aria-expanded={taskOpen}
           >
             <span className="sqlwhale-builder-button-main">
-              <span className="sqlwhale-query-mode-number">02</span>
+              <span className="sqlwhale-query-mode-number"><ListTodo size={16} strokeWidth={1.8} aria-hidden="true" /></span>
               <span>
                 <strong>Task</strong>
                 <small>{taskOpen ? "SQL practice tasks" : "Solve an admin-created task"}</small>
@@ -891,7 +891,7 @@ export default function RunQueryPage() {
 
         {!builderOpen && !taskOpen && (
           <div className="sqlwhale-query-side-placeholder">
-            <div className="sqlwhale-query-side-placeholder-icon">01</div>
+            <div className="sqlwhale-query-side-placeholder-icon"><Wrench size={21} strokeWidth={1.7} /></div>
             <h3>Build Query</h3>
             <p>Build your SQL visually, or select a task to practice.</p>
           </div>
