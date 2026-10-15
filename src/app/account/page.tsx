@@ -218,8 +218,13 @@ export default function AccountPage() {
               </div>
               <div>
                 <span>SQLWHALE PLAN</span>
-                <strong className={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "account-plan-premium" : "account-plan-starter"}>
-                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "Premium ✓" : "Starter"}
+                <strong
+                  className={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "account-plan-premium" : "account-plan-starter"}
+                  style={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium"
+                    ? { display: "inline-flex", alignItems: "center", color: "#047857", background: "#d1fae5", border: "1px solid #a7f3d0", borderRadius: 999, padding: "6px 11px", fontSize: 13 }
+                    : { display: "inline-flex", alignItems: "center", color: "#4b5563", background: "#f3f4f6", border: "1px solid #e5e7eb", borderRadius: 999, padding: "6px 11px", fontSize: 13 }}
+                >
+                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
                 </strong>
                 {planStatus?.subscriptionStatus ? <small style={{ display: "block", marginTop: 6, opacity: .75 }}>Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
                 {planStatus?.currentPeriodEnd ? <small style={{ display: "block", marginTop: 4, opacity: .75 }}>Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
