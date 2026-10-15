@@ -442,3 +442,32 @@
     animation: none !important;
   }
 }
+
+
+/* Keep the preview at its original dimensions while GlareHover supplies the effect. */
+.showcaseGlare {
+  display: block !important;
+  width: min(100%, 656px) !important;
+  max-width: 656px;
+  height: auto !important;
+  justify-self: end;
+}
+.showcaseGlare > .cursorShowcase {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+}
+@media (max-width: 1023px) {
+  .showcaseGlare {
+    justify-self: stretch;
+    width: min(100%, 680px) !important;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 480px) {
+  .showcaseGlare {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
