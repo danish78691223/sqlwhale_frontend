@@ -30,6 +30,8 @@ export default function AccountPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [planStatus, setPlanStatus] = useState<{ subscribed?: boolean; currentPlan?: string; recurring?: boolean; subscriptionStatus?: string | null; cancelAtCycleEnd?: boolean; currentPeriodEnd?: string | null; activationPending?: boolean } | null>(null);
+  const [refreshingPlan, setRefreshingPlan] = useState(false);
+  const [planRefreshMessage, setPlanRefreshMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
   const [history, setHistory] = useState<QueryHistoryItem[]>([]);
@@ -70,21 +72,29 @@ export default function AccountPage() {
         if (!mounted) return;
         setUser(response.data.user);
 
+        // Fetch plan state independently: a learning-history failure must not hide the plan.
+        void api.get("/subscription/status")
+          .then((subscriptionResponse) => {
+            if (!mounted) return;
+            setPlanStatus(subscriptionResponse.data || null);
+            if (subscriptionResponse.data?.currentPlan) {
+              setUser((current) => current ? { ...current, currentPlan: subscriptionResponse.data.currentPlan } : current);
+            }
+          })
+          .catch((subscriptionError) => {
+            console.error("Unable to load subscription status:", subscriptionError);
+          });
+
         try {
-          const [historyResponse, dashboardResponse, completedTasksResponse, subscriptionResponse] = await Promise.all([
+          const [historyResponse, dashboardResponse, completedTasksResponse] = await Promise.all([
             authApi.get("/auth/query-history?limit=50"),
             authApi.get("/auth/learning-dashboard"),
             authApi.get("/auth/task-completions"),
-            api.get("/subscription/status").catch(() => ({ data: null })),
           ]);
           if (mounted) {
             setHistory(historyResponse.data?.history || []);
             setDashboard(dashboardResponse.data?.stats || null);
             setCompletedTasks(completedTasksResponse.data?.completions || []);
-            setPlanStatus(subscriptionResponse.data || null);
-            if (subscriptionResponse.data?.currentPlan && response.data.user) {
-              setUser({ ...response.data.user, currentPlan: subscriptionResponse.data.currentPlan });
-            }
           }
         } catch (historyError) {
           console.error("Unable to load account activity:", historyError);
@@ -114,6 +124,30 @@ export default function AccountPage() {
       mounted = false;
     };
   }, [router]);
+
+  async function refreshPlanStatus() {
+    if (refreshingPlan) return;
+    setRefreshingPlan(true);
+    setPlanRefreshMessage("");
+    try {
+      const response = await api.get("/subscription/status");
+      setPlanStatus(response.data || null);
+      if (response.data?.currentPlan) {
+        setUser((current) => current ? { ...current, currentPlan: response.data.currentPlan } : current);
+      }
+      setPlanRefreshMessage(
+        response.data?.currentPlan === "SQLWhale Premium"
+          ? "Premium status is up to date."
+          : response.data?.activationPending
+            ? "Razorpay is still confirming activation. You do not need to pay again."
+            : "Plan status refreshed.",
+      );
+    } catch (error: any) {
+      setPlanRefreshMessage(error?.response?.data?.error || "Unable to refresh plan status. Please try again shortly.");
+    } finally {
+      setRefreshingPlan(false);
+    }
+  }
 
   async function handleLogout() {
     setLoggingOut(true);
@@ -190,6 +224,10 @@ export default function AccountPage() {
                 {planStatus?.subscriptionStatus ? <small style={{ display: "block", marginTop: 6, opacity: .75 }}>Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
                 {planStatus?.currentPeriodEnd ? <small style={{ display: "block", marginTop: 4, opacity: .75 }}>Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
                 {planStatus?.activationPending ? <small style={{ display: "block", marginTop: 6, color: "#b45309" }}>Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
+                <button type="button" onClick={() => void refreshPlanStatus()} disabled={refreshingPlan} style={{ display: "inline-flex", marginTop: 10, padding: "7px 10px", border: "1px solid rgba(128,128,128,.35)", borderRadius: 9, background: "transparent", cursor: refreshingPlan ? "wait" : "pointer", fontSize: 12, fontWeight: 650 }}>
+                  {refreshingPlan ? "Checking Razorpay…" : "Refresh plan status ↻"}
+                </button>
+                {planRefreshMessage ? <small role="status" style={{ display: "block", marginTop: 6, color: planRefreshMessage.toLowerCase().includes("unable") ? "#b91c1c" : "#047857" }}>{planRefreshMessage}</small> : null}
                 {(planStatus?.currentPlan || user.currentPlan || "Starter") === "Starter" ? <Link href="/subscribe" style={{ display: "inline-block", marginTop: 8 }}>Upgrade to Premium ↗</Link> : null}
               </div>
             </div>
