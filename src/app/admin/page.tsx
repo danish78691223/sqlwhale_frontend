@@ -693,7 +693,17 @@ export default function AdminPage() {
                               <option value="admin">admin</option>
                             </select>
                           </td>
-                          <td><input className="sqlwhale-admin-cell-input" value={user.currentPlan} onChange={(e) => updateLocalUser(user.id, "currentPlan", e.target.value)} /></td>
+                          <td>
+                            <select
+                              className="sqlwhale-admin-select"
+                              value={user.currentPlan === "SQLWhale Premium" ? "SQLWhale Premium" : "Starter"}
+                              onChange={(e) => updateLocalUser(user.id, "currentPlan", e.target.value)}
+                              aria-label={"Plan for " + user.name}
+                            >
+                              <option value="Starter">Starter</option>
+                              <option value="SQLWhale Premium">SQLWhale Premium</option>
+                            </select>
+                          </td>
                           <td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}</td>
                           <td>
                             <div className="sqlwhale-admin-actions">
