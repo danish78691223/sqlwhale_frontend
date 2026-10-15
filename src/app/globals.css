@@ -19909,16 +19909,37 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   .sqlwhale-home .sqlwhale-beam-canvas {
     min-height: 650px;
   }
+  /* Compact square icon nodes, staggered on opposite sides of the canvas. */
   .sqlwhale-home .sqlwhale-beam-canvas .db-art-table {
     right: auto;
-    width: 70%;
-    padding: 10px 11px;
+    width: 76px;
+    height: 76px;
+    min-height: 76px;
+    box-sizing: border-box;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    border-radius: 16px;
   }
-  /* Keep the cards in a vertical flow, but stagger them left and right. */
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { left: 6%; top: 15%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { left: 24%; top: 33%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { left: 6%; top: 51%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { left: 24%; top: 69%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table b {
+    margin: 0;
+    justify-content: center;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table b i {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table > span {
+    display: none;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { left: 10%; top: 19%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { left: auto; right: 10%; top: 35%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { left: 10%; top: 51%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { left: auto; right: 10%; top: 67%; bottom: auto; }
   .sqlwhale-home .sqlwhale-beam-canvas .db-art-label {
     left: 12px;
     right: 12px;
