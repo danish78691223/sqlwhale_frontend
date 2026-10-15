@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SQLwhale",
-  description: "Created By WEBWHALE",
+  description: "Created By WEBXWHALE",
   icons: {
     icon: '/favicon.ico', // public folder me rakhi image ka path
     
