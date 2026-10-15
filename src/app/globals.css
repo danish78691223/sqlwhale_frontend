@@ -19494,3 +19494,112 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     line-height: 1.5;
   }
 }
+
+
+/* =========================================================
+   RUN QUERY — COMFY DARK THEME TOKENS
+   Scoped to /run-query so the rest of SQLWhale keeps its own theme.
+========================================================= */
+.dark .sqlwhale-run-page {
+  --run-bg: #171718;
+  --run-surface: #222222;
+  --run-surface-raised: #262729;
+  --run-surface-hover: #353535;
+  --run-border: #4e4e4e;
+  --run-muted: #8a8a8a;
+  --run-text: #ffffff;
+  --run-subtle: #cccccc;
+  background: var(--run-bg) !important;
+  color: var(--run-text);
+}
+
+.dark .sqlwhale-run-page .sqlwhale-main-workspace {
+  background: var(--run-bg);
+}
+
+.dark .sqlwhale-run-page .sqlwhale-center-output,
+.dark .sqlwhale-run-page .sqlwhale-query-editor,
+.dark .sqlwhale-run-page .sql-editor-card,
+.dark .sqlwhale-run-page .output-box {
+  border-color: var(--run-border) !important;
+  background: var(--run-surface) !important;
+  color: var(--run-text);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+.dark .sqlwhale-run-page .output-box-header,
+.dark .sqlwhale-run-page .output-box-content,
+.dark .sqlwhale-run-page .sql-editor-header,
+.dark .sqlwhale-run-page .sql-editor-footer,
+.dark .sqlwhale-run-page .sqlwhale-query-side-panel,
+.dark .sqlwhale-run-page .sqlwhale-builder-toggle-button,
+.dark .sqlwhale-run-page .sqlwhale-query-side-placeholder,
+.dark .sqlwhale-run-page .sqlwhale-query-mode-switch {
+  border-color: var(--run-border) !important;
+  background: var(--run-surface-raised) !important;
+}
+
+.dark .sqlwhale-run-page .output-empty,
+.dark .sqlwhale-run-page .output-error-state,
+.dark .sqlwhale-run-page .query-result-preview,
+.dark .sqlwhale-run-page .result-preview-heading,
+.dark .sqlwhale-run-page .result-preview-table td,
+.dark .sqlwhale-run-page .result-preview-table th {
+  border-color: var(--run-border) !important;
+  background: var(--run-surface-raised) !important;
+}
+
+.dark .sqlwhale-run-page .output-box-title strong,
+.dark .sqlwhale-run-page .output-empty h3,
+.dark .sqlwhale-run-page .result-preview-heading,
+.dark .sqlwhale-run-page .result-preview-table td,
+.dark .sqlwhale-run-page .sql-editor-heading h2,
+.dark .sqlwhale-run-page .sqlwhale-builder-toggle-button strong,
+.dark .sqlwhale-run-page .sqlwhale-query-side-placeholder h3 {
+  color: var(--run-text) !important;
+}
+
+.dark .sqlwhale-run-page .output-box-subtitle,
+.dark .sqlwhale-run-page .output-empty p,
+.dark .sqlwhale-run-page .sql-editor-heading p,
+.dark .sqlwhale-run-page .sql-editor-footer,
+.dark .sqlwhale-run-page .sqlwhale-builder-toggle-button small,
+.dark .sqlwhale-run-page .sqlwhale-query-side-placeholder p {
+  color: var(--run-muted) !important;
+}
+
+.dark .sqlwhale-run-page .result-preview-table tr:hover td,
+.dark .sqlwhale-run-page .sqlwhale-builder-toggle-button:hover {
+  background: var(--run-surface-hover) !important;
+}
+
+.dark .sqlwhale-run-page .sqlwhale-query-editor .monaco-editor,
+.dark .sqlwhale-run-page .sqlwhale-query-editor .monaco-editor-background,
+.dark .sqlwhale-run-page .sqlwhale-query-editor .monaco-editor .margin,
+.dark .sqlwhale-run-page .sql-editor-container {
+  background: var(--run-surface) !important;
+}
+
+.dark .sqlwhale-run-page .sqlwhale-query-editor .editor-header {
+  background: var(--run-surface-raised) !important;
+  border-color: var(--run-border) !important;
+}
+
+.dark .sqlwhale-run-page .sql-clear-button {
+  border-color: var(--run-border) !important;
+  background: var(--run-surface-raised) !important;
+  color: var(--run-subtle) !important;
+}
+
+.dark .sqlwhale-run-page .sql-clear-button:hover {
+  background: var(--run-surface-hover) !important;
+  border-color: #8a8a8a !important;
+}
+
+.dark .sqlwhale-run-page .sqlwhale-schema-workspace .database-visual-wrapper,
+.dark .sqlwhale-run-page .sqlwhale-schema-workspace .database-loading,
+.dark .sqlwhale-run-page .sqlwhale-schema-workspace .database-error,
+.dark .sqlwhale-run-page .sqlwhale-schema-workspace .database-empty {
+  border-color: var(--run-border) !important;
+  background-color: var(--run-surface) !important;
+}
