@@ -19905,14 +19905,32 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   box-shadow: 0 0 10px rgba(139, 92, 246, .55);
 }
 @media (max-width: 560px) {
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table {
-    width: 44%;
-    padding: 11px 8px;
+  /* Stack the four schema cards vertically on phones. */
+  .sqlwhale-home .sqlwhale-beam-canvas {
+    min-height: 650px;
   }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { left: 3%; top: 22%; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { right: 3%; top: 22%; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { left: 3%; bottom: 16%; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { right: 3%; bottom: 16%; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-label { left: 12px; right: 12px; }
-  .sqlwhale-home .sqlwhale-beam-canvas-footer { left: 12px; right: 12px; font-size: 7px; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table {
+    left: 13%;
+    right: auto;
+    width: 74%;
+    padding: 10px 11px;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { top: 15%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { top: 33%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { top: 51%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { top: 69%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-label {
+    left: 12px;
+    right: 12px;
+    top: 16px;
+    gap: 8px;
+    font-size: 7px;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas-footer {
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    flex-wrap: wrap;
+    font-size: 7px;
+  }
 }
