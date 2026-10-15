@@ -19910,15 +19910,15 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     min-height: 650px;
   }
   .sqlwhale-home .sqlwhale-beam-canvas .db-art-table {
-    left: 13%;
     right: auto;
-    width: 74%;
+    width: 70%;
     padding: 10px 11px;
   }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { top: 15%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { top: 33%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { top: 51%; bottom: auto; }
-  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { top: 69%; bottom: auto; }
+  /* Keep the cards in a vertical flow, but stagger them left and right. */
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { left: 6%; top: 15%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { left: 24%; top: 33%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { left: 6%; top: 51%; bottom: auto; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { left: 24%; top: 69%; bottom: auto; }
   .sqlwhale-home .sqlwhale-beam-canvas .db-art-label {
     left: 12px;
     right: 12px;
