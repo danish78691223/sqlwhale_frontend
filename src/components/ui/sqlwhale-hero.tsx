@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
 import TargetCursor from "./TargetCursor.jsx";
+import GlareHover from "./GlareHover.jsx";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -75,7 +76,26 @@ export function SQLWhaleHero() {
           </div>
         </div>
 
-        <div className={styles.cursorShowcase} aria-label="Interactive SQLWhale preview">
+        <GlareHover
+          width="100%"
+          height="auto"
+          borderRadius="22px"
+          borderColor="rgba(255,255,255,0.16)"
+          background="rgba(255,255,255,0.015)"
+          mode="hover"
+          variant="streak"
+          glareColor="#ffffff"
+          glareOpacity={0.5}
+          glareSize={30}
+          softness={0.6}
+          glareAngle={-45}
+          blendMode="screen"
+          rimGlint={true}
+          transitionDuration={650}
+          className={styles.showcaseGlare}
+          style={{ display: "block" }}
+        >
+          <div className={styles.cursorShowcase} aria-label="Interactive SQLWhale preview">
           <div className={styles.showcaseTopline}>
             <span className={styles.showcaseStatus}><i /> LIVE QUERY TRACE</span>
             <span className={styles.showcaseIndex}>01 — 03</span>
@@ -104,7 +124,8 @@ export function SQLWhaleHero() {
             <span className={styles.resultBar}><i /></span>
           </div>
           <p className={styles.showcaseCaption}>FROM QUERY TO RESULT — FOLLOW EVERY STEP</p>
-        </div>
+          </div>
+        </GlareHover>
       </div>
     </section>
   );
