@@ -257,19 +257,16 @@ export default function Home() {
             <div className={systemSplit.copy}>
               <div className="agency-section-index">04 / THE SYSTEM</div>
               <h2>From syntax<br /><em>to understanding.</em></h2>
-              <p>Explore how SQLWhale turns writing a query into understanding what the database does.</p>
             </div>
           </Reveal>
           <div className={systemSplit.visual}>
             <FolderFloat
               items={[
-                "WRITE — Edit real SQL instead of copying an answer",
-                "TRACE — See which tables and relationships your query touches",
-                "EXECUTE — Watch operations turn SQL into results",
-                "UNDERSTAND — Connect syntax to what the database did"
+                "UNDERSTAND",
+                "EXECUTE",
+                "TRACE",
+                "WRITE"
               ]}
-              label="The SQLWhale method"
-              sublabel="4 steps to clarity"
               trigger="hover"
               closeOnSelect
               physics
@@ -295,7 +292,6 @@ export default function Home() {
               bounce={0.3}
               className="sqlwhale-method-folder"
             />
-            <p className={systemSplit.hint}>Hover over the folder to explore the four steps.</p>
           </div>
         </div>
       </section>
