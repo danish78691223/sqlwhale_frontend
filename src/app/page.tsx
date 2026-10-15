@@ -343,14 +343,15 @@ export default function Home() {
             ["01", "Choose a table", "Start from the database canvas and understand the structure you're querying."],
             ["02", "Write the SQL", "Use the editor to build the query yourself and practice the syntax."],
             ["03", "Run it", "Execute the query and watch the output change instead of guessing."],
-            ["04", "Connect the dots", "Use the visual flow to understand why the result looks the way it does."]
+            ["04", "Connect the dots", "Use the visual flow to understand why the result looks the way it does."],
+            ["05", "Learn SQL", "Explore SQL fundamentals, commands, joins and advanced concepts in the Learn section."]
           ].map(([num, title, copy]) => (
             <Reveal key={num}>
               <div className="agency-method-row">
                 <span>{num}</span>
                 <h3>{title}</h3>
                 <p>{copy}</p>
-                <Link href="/run-query" aria-label={title + " in SQLWhale"}>↗</Link>
+                <Link href={num === "05" ? "/learn" : "/run-query"} aria-label={num === "05" ? "Learn SQL with SQLWhale" : title + " in SQLWhale"}>↗</Link>
               </div>
             </Reveal>
           ))}
