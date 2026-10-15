@@ -19760,3 +19760,31 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   background: #353535;
   color: #ffffff;
 }
+
+
+/* Draw-circle emphasis for the database keyword in the homepage statement. */
+.sqlwhale-home .agency-visual-copy .draw-circle-word {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  isolation: isolate;
+}
+.sqlwhale-home .agency-visual-copy .draw-circle-word svg {
+  position: absolute;
+  z-index: -1;
+  left: -0.12em;
+  top: -0.19em;
+  width: calc(100% + 0.24em);
+  height: 1.5em;
+  overflow: visible;
+  color: #8b5cf6;
+  pointer-events: none;
+}
+.sqlwhale-home .agency-visual-copy .draw-circle-word svg path {
+  vector-effect: non-scaling-stroke;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-home .agency-visual-copy .draw-circle-word svg path {
+    animation: none;
+  }
+}
