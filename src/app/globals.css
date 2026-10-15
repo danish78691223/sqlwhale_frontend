@@ -17143,7 +17143,7 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 
 .sqlwhale-leaderboard-user strong {
   overflow: hidden;
-  color: #0f172a;
+  color: #F5F5F5;
   font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
