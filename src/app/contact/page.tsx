@@ -10,6 +10,7 @@ const SERVICES = [
   ["software", "Software / Product Development"],
   ["ai-ml", "AI / Machine Learning"],
   ["consulting", "Consulting"],
+  ["payment", "Payment related Issues"],
   ["collaboration", "Collaboration"],
   ["other", "Something else"],
 ] as const;
