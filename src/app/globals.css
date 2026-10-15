@@ -19788,3 +19788,119 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     animation: none;
   }
 }
+
+
+/* Magic UI Animated Beam database relationship preview */
+.sqlwhale-home .sqlwhale-beam-canvas {
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 52% 46%, rgba(139, 92, 246, .12), transparent 48%),
+    linear-gradient(145deg, #f1f0f7, #e5e4ee 58%, #f5f4fa);
+}
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-label {
+  z-index: 4;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #77748a;
+}
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-label span {
+  color: #7c3aed;
+}
+.sqlwhale-home .sqlwhale-beam-table {
+  z-index: 3;
+  width: clamp(150px, 34%, 190px);
+  padding: 14px 13px;
+  border-color: rgba(63, 55, 85, .16);
+  border-radius: 9px;
+  background: rgba(250, 249, 255, .94);
+  box-shadow: 0 12px 30px rgba(49, 39, 78, .08);
+}
+.sqlwhale-home .sqlwhale-beam-table b {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #252136;
+  font-size: 12px;
+}
+.sqlwhale-home .sqlwhale-beam-table b i {
+  display: inline-grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border-radius: 5px;
+  background: #ede9fe;
+  color: #7c3aed;
+  font-size: 13px;
+  font-style: normal;
+}
+.sqlwhale-home .sqlwhale-beam-table span {
+  color: #77748a;
+  font-size: 9px;
+  line-height: 1.7;
+}
+.sqlwhale-home .sqlwhale-beam-table span strong {
+  color: #7c3aed;
+  font-weight: 800;
+}
+.sqlwhale-home .sqlwhale-beam-table span em {
+  color: #b0aabd;
+  font-style: normal;
+}
+.sqlwhale-home .sqlwhale-beam-primary {
+  border-color: rgba(124, 58, 237, .38);
+  box-shadow: 0 12px 34px rgba(124, 58, 237, .14);
+}
+.sqlwhale-home .sqlwhale-beam-primary b i {
+  background: #7c3aed;
+  color: #fff;
+}
+.sqlwhale-home .sqlwhale-animated-beam {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.sqlwhale-home .sqlwhale-beam-canvas-footer {
+  position: absolute;
+  z-index: 4;
+  right: 18px;
+  bottom: 16px;
+  left: 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #858096;
+  font: 700 8px/1.4 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .08em;
+}
+.sqlwhale-home .sqlwhale-beam-canvas-footer span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.sqlwhale-home .sqlwhale-beam-canvas-footer i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  box-shadow: 0 0 10px rgba(139, 92, 246, .55);
+}
+@media (max-width: 560px) {
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-table {
+    width: 44%;
+    padding: 11px 8px;
+  }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-a { left: 3%; top: 22%; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-b { right: 3%; top: 22%; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-c { left: 3%; bottom: 16%; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-d { right: 3%; bottom: 16%; }
+  .sqlwhale-home .sqlwhale-beam-canvas .db-art-label { left: 12px; right: 12px; }
+  .sqlwhale-home .sqlwhale-beam-canvas-footer { left: 12px; right: 12px; font-size: 7px; }
+}
