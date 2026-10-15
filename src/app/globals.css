@@ -19795,8 +19795,8 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 52% 46%, rgba(139, 92, 246, .12), transparent 48%),
-    linear-gradient(145deg, #f1f0f7, #e5e4ee 58%, #f5f4fa);
+    radial-gradient(ellipse at 52% 46%, rgba(122, 154, 116, .09), transparent 52%),
+    linear-gradient(145deg, #0d0f11, #0a0b0d 58%, #0c0e10);
 }
 .sqlwhale-home .sqlwhale-beam-canvas .db-art-label {
   z-index: 4;
@@ -19805,25 +19805,37 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  color: #77748a;
+  color: rgba(244, 242, 235, .62);
 }
-.sqlwhale-home .sqlwhale-beam-canvas .db-art-label span {
-  color: #7c3aed;
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-label-title,
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-label-title { color: rgba(244, 242, 235, .72); }
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-label .db-art-live { color: #7A9A74; }
+.sqlwhale-home .sqlwhale-beam-canvas .db-art-live i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7A9A74;
+  box-shadow: 0 0 10px rgba(122, 154, 116, .55);
 }
 .sqlwhale-home .sqlwhale-beam-table {
   z-index: 3;
   width: clamp(150px, 34%, 190px);
   padding: 14px 13px;
-  border-color: rgba(63, 55, 85, .16);
+  border-color: rgba(244, 242, 235, .15);
   border-radius: 9px;
-  background: rgba(250, 249, 255, .94);
-  box-shadow: 0 12px 30px rgba(49, 39, 78, .08);
+  background: rgba(22, 24, 26, .94);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .22);
 }
 .sqlwhale-home .sqlwhale-beam-table b {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #252136;
+  color: #f4f2eb;
   font-size: 12px;
 }
 .sqlwhale-home .sqlwhale-beam-table b i {
@@ -19832,22 +19844,22 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   height: 21px;
   place-items: center;
   border-radius: 5px;
-  background: #ede9fe;
-  color: #7c3aed;
+  background: rgba(122, 154, 116, .14);
+  color: #a6c69e;
   font-size: 13px;
   font-style: normal;
 }
 .sqlwhale-home .sqlwhale-beam-table span {
-  color: #77748a;
+  color: rgba(244, 242, 235, .56);
   font-size: 9px;
   line-height: 1.7;
 }
 .sqlwhale-home .sqlwhale-beam-table span strong {
-  color: #7c3aed;
+  color: #a6c69e;
   font-weight: 800;
 }
 .sqlwhale-home .sqlwhale-beam-table span em {
-  color: #b0aabd;
+  color: rgba(244, 242, 235, .35);
   font-style: normal;
 }
 .sqlwhale-home .sqlwhale-beam-primary {
