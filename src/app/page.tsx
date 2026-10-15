@@ -11,6 +11,8 @@ import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
 import SubscribeBargainButton from "@/components/SubscribeBargainButton";
 import CardSwap, { Card } from "@/components/CardSwap";
 import FolderFloat from "@/components/FolderFloat";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
+import { useRef } from "react";
 import systemSplit from "./system-split.module.css";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
@@ -136,6 +138,36 @@ function RotatingHeroWord() {
       loop={false}
       loopDelay={0}
     />
+  );
+}
+
+function DatabaseBeamCanvas() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const departmentsRef = useRef<HTMLDivElement>(null);
+  const employeesRef = useRef<HTMLDivElement>(null);
+  const projectsRef = useRef<HTMLDivElement>(null);
+  const salaryRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div className="agency-database-art sqlwhale-beam-canvas" ref={containerRef} aria-label="Animated database relationships">
+      <div className="db-art-label">DATABASE RELATIONSHIPS <span>LIVE TRACE</span></div>
+      <div className="db-art-table db-art-a sqlwhale-beam-table" ref={departmentsRef}>
+        <b><i>▦</i> departments</b><span><strong>PK</strong> id <em>·</em> name</span>
+      </div>
+      <div className="db-art-table db-art-b sqlwhale-beam-table sqlwhale-beam-primary" ref={employeesRef}>
+        <b><i>▦</i> employees</b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> dept_id</span><span>salary</span>
+      </div>
+      <div className="db-art-table db-art-c sqlwhale-beam-table" ref={projectsRef}>
+        <b><i>▦</i> projects</b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> employee_id</span>
+      </div>
+      <div className="db-art-table db-art-d sqlwhale-beam-table" ref={salaryRef}>
+        <b><i>▦</i> salary</b><span><strong>FK</strong> employee_id <em>·</em> amount</span>
+      </div>
+      <AnimatedBeam containerRef={containerRef} fromRef={departmentsRef} toRef={employeesRef} curvature={-28} gradientStartColor="#a78bfa" gradientStopColor="#6d28d9" duration={3.1} />
+      <AnimatedBeam containerRef={containerRef} fromRef={projectsRef} toRef={employeesRef} curvature={24} gradientStartColor="#c4b5fd" gradientStopColor="#7c3aed" duration={3.7} delay={0.5} reverse />
+      <AnimatedBeam containerRef={containerRef} fromRef={employeesRef} toRef={salaryRef} curvature={-18} gradientStartColor="#a78bfa" gradientStopColor="#6d28d9" duration={3.4} delay={0.9} />
+      <div className="sqlwhale-beam-canvas-footer"><span><i /> PRIMARY / FOREIGN KEYS</span><span>RELATIONSHIPS CONNECTED</span></div>
+    </div>
   );
 }
 
@@ -308,21 +340,7 @@ export default function Home() {
               </p>
               <Link href="/run-query" className="primary-button">Open the SQL workspace <span>↗</span></Link>
             </div>
-            <div className="agency-database-art" aria-hidden="true">
-              <div className="db-art-label">DATABASE CANVAS</div>
-              <div className="db-art-table db-art-a"><b>departments</b><span>id · name</span></div>
-              <div className="db-art-table db-art-b"><b>employees</b><span>id · dept_id · salary</span></div>
-              <div className="db-art-table db-art-c"><b>projects</b><span>id · employee_id</span></div>
-              <div className="db-art-table db-art-d"><b>salary</b><span>employee_id · amount</span></div>
-              <svg className="db-art-lines" viewBox="0 0 620 430" preserveAspectRatio="none">
-                <path d="M145 118 C240 118 235 205 310 205" />
-                <path d="M465 118 C380 118 385 205 310 205" />
-                <path d="M310 255 C310 300 195 300 195 345" />
-                <path d="M310 255 C310 300 440 300 440 345" />
-              </svg>
-              <div className="db-art-key">PK</div>
-              <div className="db-art-key db-art-key-fk">FK</div>
-            </div>
+            <DatabaseBeamCanvas />
           </div>
         </Reveal>
       </section>
