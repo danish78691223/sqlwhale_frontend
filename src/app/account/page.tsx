@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/services/api";
+import { authApi, api } from "@/services/api";
 import { ProfileRankCard } from "@/components/Leaderboard";
 
 type User = {
@@ -29,6 +29,7 @@ type QueryHistoryItem = {
 export default function AccountPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [planStatus, setPlanStatus] = useState<{ subscribed?: boolean; currentPlan?: string; recurring?: boolean; subscriptionStatus?: string | null; cancelAtCycleEnd?: boolean; currentPeriodEnd?: string | null; activationPending?: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
   const [loggingOut, setLoggingOut] = useState(false);
   const [history, setHistory] = useState<QueryHistoryItem[]>([]);
@@ -70,15 +71,20 @@ export default function AccountPage() {
         setUser(response.data.user);
 
         try {
-          const [historyResponse, dashboardResponse, completedTasksResponse] = await Promise.all([
+          const [historyResponse, dashboardResponse, completedTasksResponse, subscriptionResponse] = await Promise.all([
             authApi.get("/auth/query-history?limit=50"),
             authApi.get("/auth/learning-dashboard"),
             authApi.get("/auth/task-completions"),
+            api.get("/subscription/status").catch(() => ({ data: null })),
           ]);
           if (mounted) {
             setHistory(historyResponse.data?.history || []);
             setDashboard(dashboardResponse.data?.stats || null);
             setCompletedTasks(completedTasksResponse.data?.completions || []);
+            setPlanStatus(subscriptionResponse.data || null);
+            if (subscriptionResponse.data?.currentPlan && response.data.user) {
+              setUser({ ...response.data.user, currentPlan: subscriptionResponse.data.currentPlan });
+            }
           }
         } catch (historyError) {
           console.error("Unable to load account activity:", historyError);
@@ -178,7 +184,13 @@ export default function AccountPage() {
               </div>
               <div>
                 <span>SQLWHALE PLAN</span>
-                <strong>{user.currentPlan || "Starter"}</strong>
+                <strong className={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "account-plan-premium" : "account-plan-starter"}>
+                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "Premium ✓" : "Starter"}
+                </strong>
+                {planStatus?.subscriptionStatus ? <small style={{ display: "block", marginTop: 6, opacity: .75 }}>Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
+                {planStatus?.currentPeriodEnd ? <small style={{ display: "block", marginTop: 4, opacity: .75 }}>Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
+                {planStatus?.activationPending ? <small style={{ display: "block", marginTop: 6, color: "#b45309" }}>Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
+                {(planStatus?.currentPlan || user.currentPlan || "Starter") === "Starter" ? <Link href="/subscribe" style={{ display: "inline-block", marginTop: 8 }}>Upgrade to Premium ↗</Link> : null}
               </div>
             </div>
           </section>
