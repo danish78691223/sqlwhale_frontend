@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond } from "lucide-react";
+import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond, Plus } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -261,6 +261,8 @@ export default function RunQueryPage() {
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
   const [feedbackUser, setFeedbackUser] = useState<any>(null);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<any>(null);
+  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
 
   const [darkMode, setDarkMode] =
     useState(false);
@@ -299,8 +301,36 @@ export default function RunQueryPage() {
       .catch(() => {
         if (active) setFeedbackUser(null);
       });
+    api.get("/subscription/status")
+      .then((response) => {
+        if (active) setSubscriptionStatus(response.data || null);
+      })
+      .catch(() => {
+        if (active) setSubscriptionStatus(null);
+      });
     return () => { active = false; };
   }, []);
+
+  const isSubscribed = Boolean(
+    subscriptionStatus?.subscribed ||
+    (subscriptionStatus?.currentPlan && subscriptionStatus.currentPlan !== "Starter" && subscriptionStatus.currentPlan !== "Free")
+  );
+
+  const handleSubscriptionBadgeClick = () => {
+    if (!isSubscribed) {
+      window.location.href = "/subscribe";
+      return;
+    }
+    setSubscriptionDialogOpen(true);
+  };
+
+  const subscriptionExpiry = subscriptionStatus?.currentPeriodEnd
+    ? new Date(subscriptionStatus.currentPeriodEnd).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
 
   useEffect(() => {
     const savedTheme =
@@ -562,9 +592,16 @@ export default function RunQueryPage() {
               <span className="run-logo-whale">SQL</span>
               <span className="run-logo-text">Whale</span>
             </span>
-            <span className="sqlwhale-run-diamond-badge" aria-label="Pro">
-              <Diamond size={8} strokeWidth={2.5} fill="white" color="white" />
-            </span>
+            <button
+              type="button"
+              className={`sqlwhale-run-diamond-badge ${isSubscribed ? "is-subscribed" : "needs-subscription"}`}
+              aria-label={isSubscribed ? "View subscription details" : "Upgrade subscription"}
+              title={isSubscribed ? "Subscription details" : "Upgrade to Premium"}
+              onClick={handleSubscriptionBadgeClick}
+            >
+              {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
+              <Diamond size={10} strokeWidth={2.5} fill="white" color="white" aria-hidden="true" />
+            </button>
           </Link>
 
           <div className="sqlwhale-run-right">
@@ -675,6 +712,33 @@ export default function RunQueryPage() {
           </div>
         </div>
       </header>
+
+      {subscriptionDialogOpen && (
+        <div className="sqlwhale-subscription-overlay" role="presentation" onMouseDown={(event) => {
+          if (event.target === event.currentTarget) setSubscriptionDialogOpen(false);
+        }}>
+          <section className="sqlwhale-subscription-dialog" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-subscription-title">
+            <button type="button" className="sqlwhale-subscription-close" onClick={() => setSubscriptionDialogOpen(false)} aria-label="Close subscription details">
+              <X size={17} />
+            </button>
+            <span className="sqlwhale-subscription-icon"><Diamond size={18} fill="white" color="white" /></span>
+            <p className="sqlwhale-subscription-eyebrow">YOUR SUBSCRIPTION</p>
+            <h2 id="sqlwhale-subscription-title">{subscriptionStatus?.currentPlan || "SQLWhale Premium"}</h2>
+            <p className="sqlwhale-subscription-status">
+              <span className="sqlwhale-subscription-status-dot" />
+              {subscriptionStatus?.subscriptionStatus || "Active"}
+            </p>
+            <div className="sqlwhale-subscription-detail">
+              <span>Access valid until</span>
+              <strong>{subscriptionExpiry || "Expiry date not available"}</strong>
+            </div>
+            {subscriptionStatus?.cancelAtCycleEnd && <p className="sqlwhale-subscription-note">Your subscription is set to end on the date shown above.</p>}
+            {subscriptionStatus?.activationPending && <p className="sqlwhale-subscription-note">Your subscription activation is still being confirmed.</p>}
+            <button type="button" className="sqlwhale-subscription-done" onClick={() => setSubscriptionDialogOpen(false)}>Done</button>
+            <Link href="/account" className="sqlwhale-subscription-account" onClick={() => setSubscriptionDialogOpen(false)}>Manage account <ArrowRight size={13} /></Link>
+          </section>
+        </div>
+      )}
 
       {!isOnline && !offlineAlertDismissed && (
         <div className="sqlwhale-offline-alert-wrap" aria-live="assertive" aria-atomic="true">
