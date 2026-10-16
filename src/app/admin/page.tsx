@@ -27,6 +27,7 @@ type Task = {
   isActive: boolean;
   expectedColumns?: string[] | null;
   expectedRows?: unknown[][] | null;
+  taskType?: "query" | "setup";
   createdAt?: string;
 };
 
@@ -643,7 +644,9 @@ export default function AdminPage() {
                         <strong>{task.title}</strong>
                         <span>{task.difficulty} · {task.isActive ? "Active" : "Hidden"}</span>
                         <small>{task.description}</small>
-                        {task.expectedRows && task.expectedColumns ? (
+                        {task.taskType === "setup" ? (
+                          <em>Setup task · graded by resulting table structure and records</em>
+                        ) : task.expectedRows && task.expectedColumns ? (
                           <em>{task.expectedRows.length} expected result row{task.expectedRows.length === 1 ? "" : "s"} · output-based grading</em>
                         ) : (
                           <em>Expected output will be generated when this task is edited and saved.</em>
