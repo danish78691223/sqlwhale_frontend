@@ -19955,3 +19955,24 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
     font-size: 7px;
   }
 }
+
+
+/* Small diamond badge beside the Run Query navbar wordmark. */
+.sqlwhale-run-diamond-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 15px;
+  width: 15px;
+  height: 10px;
+  margin-left: 2px;
+  border-radius: 30px;
+  background: #171718;
+  color: #fff;
+  line-height: 1;
+}
+.sqlwhale-run-diamond-badge svg {
+  display: block;
+  width: 8px;
+  height: 8px;
+}
