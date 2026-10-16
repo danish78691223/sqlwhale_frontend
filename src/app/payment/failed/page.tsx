@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PaymentFailedPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const reason = searchParams.get("reason");
+  const [reason, setReason] = useState("");
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setReason(params.get("reason") || "");
     const timer = window.setTimeout(() => router.replace("/contact?issue=payment"), 10000);
     return () => window.clearTimeout(timer);
   }, [router]);
