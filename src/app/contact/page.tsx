@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ArrowUpRight, Mail, MessageSquare, Send } from "lucide-react";
 
 const WEBXWHALE_URL = "https://webxwhale-ebon.vercel.app/home";
@@ -17,8 +17,14 @@ const SERVICES = [
 
 export default function ContactPage() {
   const [sending, setSending] = useState(false);
+  const [service, setService] = useState("");
   const [message, setMessage] = useState<"success" | "error" | "">("");
   const [errorText, setErrorText] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("issue") === "payment") setService("payment");
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -158,7 +164,7 @@ export default function ContactPage() {
 
               <label>
                 <span>What can we help with?</span>
-                <select name="service" defaultValue="" required>
+                <select name="service" value={service} onChange={(event) => setService(event.target.value)} required>
                   <option value="" disabled>Select an option</option>
                   {SERVICES.map(([value, label]) => (
                     <option value={value} key={value}>{label}</option>

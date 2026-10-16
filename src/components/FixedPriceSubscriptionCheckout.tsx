@@ -125,17 +125,21 @@ export default function FixedPriceSubscriptionCheckout() {
           try {
             const verified = await api.post("/subscription/verify-subscription", payment);
             if (verified.data?.verified && verified.data?.subscribed) {
-              setMessage("Payment verified. Your ₹49/month SQLWhale Premium subscription is active.");
-              setPolicyAccepted(false);
-              await refreshStatus();
+              window.location.assign("/payment/success");
+              return;
             } else if (verified.data?.pendingActivation) {
-              setMessage(verified.data?.message || "Payment authorization was verified. Premium will activate once Razorpay confirms the subscription.");
-              await refreshStatus();
+              // The result page rechecks server-side status and explains pending UPI AutoPay activation.
+              window.location.assign("/payment/success");
+              return;
             } else {
-              setError(verified.data?.error || "Razorpay has not activated the subscription yet. Please check the status again shortly.");
+              const reason = verified.data?.error || "Razorpay has not activated the subscription yet. Please contact support if money was deducted.";
+              window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
+              return;
             }
           } catch (err: any) {
-            setError(err?.response?.data?.error || "Subscription verification failed. Save your payment ID and contact support if money was deducted.");
+            const reason = err?.response?.data?.error || "Subscription verification failed. Contact support if money was deducted.";
+            window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
+            return;
           } finally {
             setProcessing(false);
           }
@@ -150,8 +154,8 @@ export default function FixedPriceSubscriptionCheckout() {
       });
 
       checkout.on("payment.failed", (failure: any) => {
-        setError(failure?.error?.description || "Payment authorization failed. You can try again.");
-        setProcessing(false);
+        const reason = failure?.error?.description || "Payment authorization failed.";
+        window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
       });
       checkout.open();
     } catch (err: any) {

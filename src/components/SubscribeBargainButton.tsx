@@ -176,14 +176,16 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
           try {
             const verified = await api.post("/subscription/verify", payment);
             if (verified.data?.verified && verified.data?.subscribed) {
-              setSubscribed(true);
-              setMessage("Payment verified! 🎉 SQLWhale Premium aapke account par active hai.");
-              setError("");
-            } else {
-              setError("Payment confirmation abhi verify nahi hui. Account status check karein.");
+              window.location.assign("/payment/success");
+              return;
             }
+            const reason = verified.data?.error || "Payment could not be verified. Contact support if money was deducted.";
+            window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
+            return;
           } catch (err: any) {
-            setError(err?.response?.data?.error || "Payment verify nahi ho paaya. Payment ID save karke support se contact karein.");
+            const reason = err?.response?.data?.error || "Payment verification failed. Contact support if money was deducted.";
+            window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
+            return;
           } finally {
             setPaying(false);
           }
@@ -197,8 +199,8 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
         notes: { plan: "SQLWhale Premium" },
       });
       checkoutInstance.on("payment.failed", (failure: any) => {
-        setError(failure?.error?.description || "Payment fail hua. Aap dobara try kar sakte hain.");
-        setPaying(false);
+        const reason = failure?.error?.description || "Payment failed.";
+        window.location.assign("/payment/failed?reason=" + encodeURIComponent(String(reason).slice(0, 220)));
       });
       checkoutInstance.open();
     } catch (err: any) {
