@@ -592,16 +592,6 @@ export default function RunQueryPage() {
               <span className="run-logo-whale">SQL</span>
               <span className="run-logo-text">Whale</span>
             </span>
-            <button
-              type="button"
-              className={`sqlwhale-run-diamond-badge ${isSubscribed ? "is-subscribed" : "needs-subscription"}`}
-              aria-label={isSubscribed ? "View subscription details" : "Upgrade subscription"}
-              title={isSubscribed ? "Subscription details" : "Upgrade to Premium"}
-              onClick={handleSubscriptionBadgeClick}
-            >
-              {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
-              <Diamond size={10} strokeWidth={2.5} fill="white" color="white" aria-hidden="true" />
-            </button>
           </Link>
 
           <div className="sqlwhale-run-right">
@@ -642,6 +632,17 @@ export default function RunQueryPage() {
               >
                 <MessageSquare className="run-nav-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
                 Feedback
+              </button>
+
+              <button
+                type="button"
+                className={`sqlwhale-run-diamond-badge run-nav-subscription-badge ${isSubscribed ? "is-subscribed" : "needs-subscription"}`}
+                aria-label={isSubscribed ? "View subscription details" : "Upgrade subscription"}
+                title={isSubscribed ? "Subscription details" : "Upgrade to Premium"}
+                onClick={handleSubscriptionBadgeClick}
+              >
+                {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
+                <i className="ri-vip-diamond-fill" aria-hidden="true" />
               </button>
             </nav>
 
