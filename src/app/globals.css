@@ -20002,14 +20002,15 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-run-diamond-badge.needs-subscription { width: 25px; gap: 1px; }
 .sqlwhale-run-diamond-badge .subscription-badge-plus { color: #fff; }
 .run-nav-subscription-badge {
-  width: 30px;
-  min-width: 30px;
+  width: 42px;
+  min-width: 42px;
   height: 30px;
   padding: 0;
   border: 0;
   margin-left: 3px;
   align-self: center;
   border-radius: 9px;
+  background: #ffd400;
 }
 .run-nav-subscription-badge i {
   display: block;
