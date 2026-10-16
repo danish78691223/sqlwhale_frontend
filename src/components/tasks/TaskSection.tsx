@@ -33,6 +33,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
   const [revealError, setRevealError] = useState<Record<string, string>>({});
   const [revealingTaskId, setRevealingTaskId] = useState<string | null>(null);
   const [startingTaskId, setStartingTaskId] = useState<string | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [startErrors, setStartErrors] = useState<Record<string, string>>({});
 
   const loadTasks = async () => {
@@ -66,6 +67,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
     setStartErrors((current) => ({ ...current, [task.id]: "" }));
     try {
       await api.post(`/tasks/${task.id}/start`);
+      setSelectedTask(null);
       onStartTask(task);
     } catch (err: any) {
       setStartErrors((current) => ({
@@ -148,7 +150,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
         <button
           type="button"
           className="sqlwhale-task-refresh"
-          onClick={() => void loadTasks()}
+          onClick={(event) => { event.stopPropagation(); void loadTasks(); }}
           disabled={loading}
           aria-label="Refresh tasks"
         >
@@ -212,7 +214,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
       ) : (
         <div className="sqlwhale-task-list">
           {tasks.map((task, index) => (
-            <article className={"sqlwhale-task-card" + (task.locked ? " is-locked" : "")} key={task.id}>
+            <article className={"sqlwhale-task-card" + (task.locked ? " is-locked" : "")} key={task.id} onClick={() => setSelectedTask(task)} role="button" tabIndex={0} aria-label={`View task ${task.title}`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedTask(task); } }} style={{ cursor: "pointer" }}>
               <div className="sqlwhale-task-card-top">
                 <div className="sqlwhale-task-icon">
                   <ClipboardList size={16} />
@@ -238,7 +240,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 <button
                   type="button"
                   className="sqlwhale-task-start"
-                  onClick={() => void handleStartTask(task)}
+                  onClick={(event) => { event.stopPropagation(); setSelectedTask(task); }}
                   disabled={activeTaskId === task.id || startingTaskId === task.id}
                 >
                   <CheckCircle2 size={15} />
@@ -255,7 +257,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                   <button
                     type="button"
                     className="sqlwhale-task-start"
-                    onClick={() => void handleRevealAnswer(task)}
+                    onClick={(event) => { event.stopPropagation(); void handleRevealAnswer(task); }}
                     disabled={revealingTaskId === task.id || Boolean(revealedAnswers[task.id])}
                     style={{ width: "100%", opacity: revealedAnswers[task.id] ? 0.7 : 1 }}
                   >
@@ -308,6 +310,47 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
               )}
             </article>
           ))}
+        </div>
+      )}
+      {selectedTask && (
+        <div
+          role="presentation"
+          onClick={() => setSelectedTask(null)}
+          style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 20, background: "rgba(8, 15, 30, .62)", backdropFilter: "blur(8px)" }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sqlwhale-task-modal-title"
+            onClick={(event) => event.stopPropagation()}
+            style={{ width: "min(100%, 520px)", maxHeight: "min(82vh, 680px)", overflowY: "auto", borderRadius: 20, padding: 24, background: "var(--sqlwhale-panel, #fff)", color: "var(--sqlwhale-text, #111827)", border: "1px solid rgba(148,163,184,.28)", boxShadow: "0 24px 80px rgba(0,0,0,.28)" }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+              <span className="sqlwhale-task-icon"><ClipboardList size={18} /></span>
+              <span className={"sqlwhale-task-difficulty " + selectedTask.difficulty.toLowerCase()}>{selectedTask.difficulty}</span>
+              <span style={{ marginLeft: "auto", fontSize: 12, opacity: .65 }}>TASK {selectedTask.order ?? tasks.findIndex((item) => item.id === selectedTask.id) + 1}</span>
+              <button type="button" onClick={() => setSelectedTask(null)} aria-label="Close task details" style={{ border: 0, borderRadius: 9, width: 34, height: 34, fontSize: 22, cursor: "pointer", background: "rgba(148,163,184,.14)", color: "inherit" }}>×</button>
+            </div>
+            <h2 id="sqlwhale-task-modal-title" style={{ margin: "0 0 12px", fontSize: 23, lineHeight: 1.3, fontWeight: 750 }}>{selectedTask.title}</h2>
+            <div style={{ fontSize: 14, lineHeight: 1.75, whiteSpace: "pre-wrap", overflowWrap: "anywhere", opacity: .88 }}>{selectedTask.description}</div>
+            {selectedTask.completed ? (
+              <div className="sqlwhale-task-completed" style={{ marginTop: 22 }}><CheckCircle2 size={16} /> Task Completed</div>
+            ) : selectedTask.locked ? (
+              <div className="sqlwhale-task-locked" style={{ marginTop: 22, padding: 12, display: "flex", alignItems: "center", gap: 8 }}><LockKeyhole size={16} /> Complete previous task to unlock</div>
+            ) : (
+              <button
+                type="button"
+                className="sqlwhale-task-start"
+                onClick={() => void handleStartTask(selectedTask)}
+                disabled={startingTaskId === selectedTask.id || activeTaskId === selectedTask.id}
+                style={{ width: "100%", marginTop: 24, minHeight: 46, justifyContent: "center", fontSize: 14 }}
+              >
+                <CheckCircle2 size={16} />
+                {startingTaskId === selectedTask.id ? "Preparing task..." : activeTaskId === selectedTask.id ? "Task already started" : "Start Task"}
+              </button>
+            )}
+            {startErrors[selectedTask.id] && <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 12 }}>{startErrors[selectedTask.id]}</div>}
+          </section>
         </div>
       )}
     </section>
