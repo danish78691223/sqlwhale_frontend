@@ -49,6 +49,7 @@ export default function RunQueryPage() {
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
   const [taskSubmitting, setTaskSubmitting] = useState(false);
+  const [setupTaskSuccessMessage, setSetupTaskSuccessMessage] = useState<string | null>(null);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
@@ -359,6 +360,7 @@ export default function RunQueryPage() {
     }
 
     setQuery(cleanSQL);
+    setSetupTaskSuccessMessage(null);
     setExecutedQuery(null);
     setAnimationComplete(false);
     setDropDestructionStage(0);
@@ -371,6 +373,11 @@ export default function RunQueryPage() {
         const check = await api.post(`/tasks/${activeTaskId}/check`, { query: cleanSQL });
 
         const correct = Boolean(check.data?.correct);
+        const isSetupTask = check.data?.taskType === "setup";
+        setSetupTaskSuccessMessage(isSetupTask && correct ? (check.data?.message || "Task completed: the resulting table structure and records match the expected output.") : null);
+        if (isSetupTask && correct) {
+          await refreshDatabaseTables();
+        }
 
         setTaskCheck({
           taskId: activeTaskId,
@@ -792,6 +799,13 @@ export default function RunQueryPage() {
                 <p>
                   SQLWhale is tracing the query execution.
                 </p>
+              </div>
+            ) : setupTaskSuccessMessage ? (
+              <div className="output-empty">
+                <div className="output-empty-icon" style={{ color: "#16a34a" }}>✓</div>
+                <h3>Task completed</h3>
+                <p>{setupTaskSuccessMessage}</p>
+                <p>The database schema and records now match the expected task output.</p>
               </div>
             ) : error ? (
               <div className="output-error-state">
