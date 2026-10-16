@@ -15,8 +15,8 @@ type Status = {
 };
 
 const premiumFeatures = [
-  { title: "Premium SQL tasks", detail: "Practice the available SQL task library, including medium and hard challenges." },
-  { title: "Reveal Answer", detail: "Access task answer reveal wherever the feature is enabled for Premium members." },
+  { title: "SQL task practice", detail: "Practice SQL challenges across Easy, Medium and Hard difficulties, with sequential task unlocking." },
+  { title: "Unlimited Reveal Answer", detail: "As a verified Premium member, reveal task answers without the free account's daily five-reveal limit." },
   { title: "Structured SQL learning", detail: "Continue through lessons and SQL concepts with your learning progress." },
   { title: "Query history & progress", detail: "Review your saved query activity and learning progress from your account." },
   { title: "Premium plan management", detail: "Check your subscription state and manage future monthly renewals from your profile." },
