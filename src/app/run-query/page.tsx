@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo } from "lucide-react";
+import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -561,6 +561,9 @@ export default function RunQueryPage() {
             <span className="sqlwhale-run-logo-wordmark">
               <span className="run-logo-whale">SQL</span>
               <span className="run-logo-text">Whale</span>
+            </span>
+            <span className="sqlwhale-run-diamond-badge" aria-label="Pro">
+              <Diamond size={8} strokeWidth={2.5} fill="white" color="white" />
             </span>
           </Link>
 
