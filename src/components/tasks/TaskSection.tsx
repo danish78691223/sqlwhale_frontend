@@ -220,7 +220,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 <span className={"sqlwhale-task-difficulty " + task.difficulty.toLowerCase()}>
                   {task.difficulty}
                 </span>
-                <span className="sqlwhale-task-order">TASK {task.order ?? index + 1}</span>
+                <span className="sqlwhale-task-order" style={{ marginLeft: "auto", fontSize: 10, letterSpacing: ".08em", opacity: .72 }}>TASK {task.order ?? index + 1}</span>
               </div>
               <h3>{task.title}</h3>
               <p>{task.description}</p>
@@ -230,7 +230,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                   Task Completed
                 </div>
               ) : task.locked ? (
-                <div className="sqlwhale-task-locked" aria-label="Task locked until the previous task is completed">
+                <div className="sqlwhale-task-locked" aria-label="Task locked until the previous task is completed" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", minHeight: 42, padding: "10px 12px", border: "1px solid rgba(255,255,255,.12)", borderRadius: 10, color: "#9ca3af", background: "rgba(255,255,255,.035)", fontSize: 12, textAlign: "center" }}>
                   <LockKeyhole size={15} />
                   <span>Complete previous task to unlock</span>
                 </div>
