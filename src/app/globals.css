@@ -20001,6 +20001,19 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
 .sqlwhale-run-diamond-badge svg { flex: 0 0 auto; }
 .sqlwhale-run-diamond-badge.needs-subscription { width: 25px; gap: 1px; }
 .sqlwhale-run-diamond-badge .subscription-badge-plus { color: #fff; }
+.run-nav-subscription-badge {
+  padding: 0;
+  border: 0;
+  margin-left: 3px;
+  align-self: center;
+}
+.run-nav-subscription-badge i {
+  display: block;
+  color: #fff;
+  font-size: 9px;
+  line-height: 1;
+}
+
 
 .sqlwhale-subscription-overlay {
   position: fixed;
