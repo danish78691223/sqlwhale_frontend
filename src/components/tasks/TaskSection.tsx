@@ -12,6 +12,9 @@ type Task = {
   difficulty: "Easy" | "Medium" | "Hard";
   createdAt?: string;
   completed?: boolean;
+  unlocked?: boolean;
+  locked?: boolean;
+  order?: number;
 };
 
 type TaskCheck = { taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string };
@@ -37,7 +40,16 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
     setError("");
     try {
       const response = await api.get("/tasks");
-      setTasks(response.data.tasks || []);
+      const incomingTasks: Task[] = response.data.tasks || [];
+      // The backend is the source of truth; retain a fallback for older API deployments.
+      let nextUnlocked = true;
+      const normalizedTasks = incomingTasks.map((task) => {
+        const unlocked = typeof task.unlocked === "boolean" ? task.unlocked : nextUnlocked;
+        const normalized = { ...task, unlocked, locked: !unlocked };
+        if (!task.completed) nextUnlocked = false;
+        return normalized;
+      });
+      setTasks(normalizedTasks);
     } catch (err: any) {
       setError(err?.response?.data?.error || "Unable to load tasks.");
     } finally {
@@ -121,12 +133,8 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
 
   useEffect(() => {
     if (!taskCheck?.correct) return;
-
-    setTasks((current) =>
-      current.map((task) =>
-        task.id === taskCheck.taskId ? { ...task, completed: true } : task
-      )
-    );
+    // Persisted completion determines the next unlocked task.
+    void loadTasks();
   }, [taskCheck]);
 
   return (
@@ -203,8 +211,8 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
         </div>
       ) : (
         <div className="sqlwhale-task-list">
-          {tasks.map((task) => (
-            <article className="sqlwhale-task-card" key={task.id}>
+          {tasks.map((task, index) => (
+            <article className={"sqlwhale-task-card" + (task.locked ? " is-locked" : "")} key={task.id}>
               <div className="sqlwhale-task-card-top">
                 <div className="sqlwhale-task-icon">
                   <ClipboardList size={16} />
@@ -212,6 +220,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 <span className={"sqlwhale-task-difficulty " + task.difficulty.toLowerCase()}>
                   {task.difficulty}
                 </span>
+                <span className="sqlwhale-task-order">TASK {task.order ?? index + 1}</span>
               </div>
               <h3>{task.title}</h3>
               <p>{task.description}</p>
@@ -219,6 +228,11 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 <div className="sqlwhale-task-completed">
                   <CheckCircle2 size={15} />
                   Task Completed
+                </div>
+              ) : task.locked ? (
+                <div className="sqlwhale-task-locked" aria-label="Task locked until the previous task is completed">
+                  <LockKeyhole size={15} />
+                  <span>Complete previous task to unlock</span>
                 </div>
               ) : (
                 <button
@@ -236,7 +250,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                   <span>{startErrors[task.id]}</span>
                 </div>
               )}
-              {activeTaskId === task.id && (
+              {!task.locked && activeTaskId === task.id && (
                 <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 12 }}>
                   <button
                     type="button"
