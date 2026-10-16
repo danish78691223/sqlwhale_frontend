@@ -19976,3 +19976,135 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   width: 8px;
   height: 8px;
 }
+
+
+/* Compact subscription badge beside the Run Query logo */
+.sqlwhale-run-diamond-badge {
+  width: 15px;
+  height: 10px;
+  min-width: 15px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-left: 3px;
+  border: 0;
+  border-radius: 30px;
+  background: #171718;
+  color: #fff;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: transform .18s ease, background .18s ease;
+}
+.sqlwhale-run-diamond-badge:hover { transform: translateY(-1px); background: #343434; }
+.sqlwhale-run-diamond-badge svg { flex: 0 0 auto; }
+.sqlwhale-run-diamond-badge.needs-subscription { width: 25px; gap: 1px; }
+.sqlwhale-run-diamond-badge .subscription-badge-plus { color: #fff; }
+
+.sqlwhale-subscription-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.sqlwhale-subscription-dialog {
+  position: relative;
+  width: min(100%, 360px);
+  padding: 28px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 20px;
+  background: #171718;
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0,0,0,.38);
+  text-align: center;
+}
+.sqlwhale-subscription-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #353535;
+  border-radius: 9px;
+  background: #222;
+  color: #ddd;
+  cursor: pointer;
+}
+.sqlwhale-subscription-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 13px;
+  background: #292929;
+}
+.sqlwhale-subscription-eyebrow {
+  margin: 16px 0 7px;
+  color: #999;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.sqlwhale-subscription-dialog h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+.sqlwhale-subscription-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 12px 0 20px;
+  color: #ccc;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+.sqlwhale-subscription-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #86c77a;
+  box-shadow: 0 0 9px rgba(134,199,122,.5);
+}
+.sqlwhale-subscription-detail {
+  display: grid;
+  gap: 8px;
+  padding: 15px;
+  border: 1px solid #353535;
+  border-radius: 12px;
+  background: #202020;
+  text-align: left;
+}
+.sqlwhale-subscription-detail span { color: #999; font-size: 11px; }
+.sqlwhale-subscription-detail strong { color: #fff; font-size: 14px; }
+.sqlwhale-subscription-note { margin: 13px 0 0; color: #ccc; font-size: 11px; line-height: 1.6; }
+.sqlwhale-subscription-done {
+  width: 100%;
+  margin-top: 18px;
+  padding: 11px 14px;
+  border: 1px solid #fff;
+  border-radius: 11px;
+  background: #fff;
+  color: #171718;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.sqlwhale-subscription-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 15px;
+  color: #ccc;
+  font-size: 12px;
+}
