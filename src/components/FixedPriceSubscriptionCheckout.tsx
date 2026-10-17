@@ -24,6 +24,7 @@ type SubscriptionStatus = {
   cancelAtCycleEnd?: boolean;
   currentPeriodEnd?: string | null;
   plan?: string | null;
+  durationMonths?: number | null;
 };
 declare global { interface Window { Razorpay?: RazorpayConstructor; } }
 
@@ -167,14 +168,14 @@ export default function FixedPriceSubscriptionCheckout({
   const premiumActive = Boolean(status?.subscribed);
   const monthlyActive = Boolean(status?.recurring);
   const isMonthly = planId === "monthly";
-  const buttonLabel = planId === "monthly" ? "Subscribe for ₹49/month" : "Get Premium for ₹" + amount;
+  const buttonLabel = planId === "monthly" ? "Subscribe for ₹49/month" : (monthlyActive ? "Upgrade to " : "Choose ") + (planId === "five-month" ? "5-Month Plan · ₹149" : "10-Month Plan · ₹249");
 
   return (
     <div className="fixed-plan-checkout">
       {statusLoading ? <p className="fixed-plan-hint" role="status">Checking your SQLWhale plan…</p> : null}
-      {premiumActive ? (
+      {premiumActive && ((isMonthly && monthlyActive) || (!isMonthly && !monthlyActive && status?.durationMonths === (planId === "five-month" ? 5 : 10))) ? (
         <div className="fixed-plan-active" role="status">
-          <strong>{monthlyActive ? "Your ₹49/month Premium subscription is active." : "SQLWhale Premium is already active on this account."}</strong>
+          <strong>{isMonthly ? "Current Plan · ₹49/month" : "Current Plan · ₹" + amount + " for " + duration}</strong>
           {monthlyActive && status?.subscriptionStatus ? <span>Subscription status: {status.subscriptionStatus}</span> : null}
           {status?.currentPeriodEnd ? <span>Premium access until {new Date(status.currentPeriodEnd).toLocaleDateString("en-IN")}.</span> : null}
           {status?.cancelAtCycleEnd ? <span>Future renewals are scheduled to stop at the end of the current billing period.</span> : null}
@@ -186,6 +187,11 @@ export default function FixedPriceSubscriptionCheckout({
         </div>
       ) : (
         <>
+          {premiumActive && !isMonthly && monthlyActive ? (
+            <p className="fixed-plan-hint">Switching to this plan will replace your ₹49/month subscription. After the new payment is verified, future monthly renewals will be cancelled.</p>
+          ) : premiumActive && !isMonthly ? (
+            <p className="fixed-plan-hint">Choose this plan to switch your Premium access to a fixed {duration} period.</p>
+          ) : null}
           <label className="fixed-plan-consent">
             <input type="checkbox" checked={policyAccepted} onChange={(event) => { setPolicyAccepted(event.target.checked); setError(""); }} disabled={processing || statusLoading} />
             <span>
@@ -196,7 +202,7 @@ export default function FixedPriceSubscriptionCheckout({
             </span>
           </label>
           <button type="button" className="fixed-plan-pay-button" onClick={() => void proceedToPay()} disabled={!policyAccepted || processing || statusLoading || loggedOut}>
-            {processing ? "Opening secure Razorpay checkout…" : buttonLabel}{!processing ? <span aria-hidden="true">↗</span> : null}
+            {processing ? "Opening secure Razorpay checkout…" : (premiumActive && !isMonthly ? buttonLabel : buttonLabel)}{!processing ? <span aria-hidden="true">↗</span> : null}
           </button>
           {loggedOut ? <p className="fixed-plan-hint">Please <Link href="/login">log in</Link> before subscribing.</p> : null}
           {!policyAccepted ? <p className="fixed-plan-hint">Accept the policies above to enable secure checkout.</p> : null}
