@@ -173,24 +173,19 @@ export function SiteFooter() {
       })
       .catch(() => { if (live) setUser(null); })
       .finally(() => { if (live) setAuthLoading(false); });
-    return () => { live = false; };
-  }, [pathname]);
-
-  if (pathname === "/run-query") return null;
-  const isAdmin = !authLoading && user?.role?.toLowerCase() === "admin";
-
-  return (
-    <>
-      <div className="relative h-[380px] w-full overflow-hidden">
+    return (
+    <div className="relative isolate overflow-hidden bg-[#08090d]">
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
         <AnimatedFooter
           headingLines={["SQLWhale"]}
           leftImage="https://raw.githubusercontent.com/Ashutoshx7/VengeanceUI/main/public/animated-footer/hand-left.jpg"
           rightImage="https://raw.githubusercontent.com/Ashutoshx7/VengeanceUI/main/public/animated-footer/hand-right.jpg"
           background="#08090d"
           textColor="#ffffff"
+          className="pointer-events-none"
         />
       </div>
-      <footer className="sqlwhale-footer">
+      <footer className="sqlwhale-footer relative z-10" style={{ background: "transparent", position: "relative", zIndex: 10 }}>
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
           <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
@@ -209,6 +204,6 @@ export function SiteFooter() {
       <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBXWHALE TECH &amp; SOLUTIONS</span><span /></div>
       <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">Learning service by <a href="https://webxwhale.com" target="_blank" rel="noopener noreferrer"><strong>WEBXWHALE</strong></a></span></div>
       </footer>
-    </>
+    </div>
   );
 }
