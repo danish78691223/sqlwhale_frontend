@@ -173,7 +173,12 @@ export function SiteFooter() {
       })
       .catch(() => { if (live) setUser(null); })
       .finally(() => { if (live) setAuthLoading(false); });
-    return (
+    return () => { live = false; };
+  }, []);
+
+  const isAdmin = user?.role === "admin";
+
+  return (
     <div className="relative isolate overflow-hidden bg-[#08090d]">
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
         <AnimatedFooter
