@@ -73,7 +73,7 @@ export default function SubscribePage() {
               </div>
               <div className="subscription-plan-price-row">
                 <strong className="subscription-plan-price">₹{plan.amount}</strong>
-                <span className="subscription-plan-duration">/{plan.duration}</span>
+                {plan.id === "monthly" ? <span className="subscription-plan-duration">per month</span> : <span className="subscription-plan-duration">for {plan.duration}</span>}
               </div>
               <p className="subscription-plan-detail">{plan.detail}</p>
               <div className="subscription-plan-divider" />
