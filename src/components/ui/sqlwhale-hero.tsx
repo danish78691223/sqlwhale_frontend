@@ -8,7 +8,6 @@ import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
 import TargetCursor from "./TargetCursor.jsx";
 import GlareHover from "./GlareHover.jsx";
-import Text3DFlip from "./text-3d-flip";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -40,30 +39,9 @@ export function SQLWhaleHero() {
       <div className={styles.inner}>
         <div className={styles.copy}>
           <h1 className={styles.title}>
-            <Text3DFlip
-              as="span"
-              className="block"
-              textClassName="text-[#f5f5f7]"
-              flipTextClassName="text-white"
-              rotateDirection="top"
-              staggerDuration={0.03}
-              staggerFrom="first"
-              transition={{ type: "spring", damping: 25, stiffness: 160 }}
-            >
-              SQL, but you
-            </Text3DFlip>
-            <Text3DFlip
-              as="span"
-              className="block"
-              textClassName="text-[#f5f5f7]"
-              flipTextClassName="text-white"
-              rotateDirection="top"
-              staggerDuration={0.03}
-              staggerFrom="first"
-              transition={{ type: "spring", damping: 25, stiffness: 160 }}
-            >
-              can actually see it.
-            </Text3DFlip>
+            SQL, but you
+            <br />
+            <span className={styles.titleMuted}>can actually see it.</span>
           </h1>
 
           <p className={styles.lede}>
