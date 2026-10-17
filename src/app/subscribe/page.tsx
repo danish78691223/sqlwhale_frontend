@@ -41,7 +41,29 @@ export default function SubscribePage() {
         .subscription-plan-features li{display:flex;align-items:flex-start;gap:10px;color:#374151;font-size:13px;line-height:1.6}
         .subscription-plan-check{flex:0 0 19px;width:19px;height:19px;display:inline-grid;place-items:center;border:1px solid rgba(0,184,196,.28);border-radius:50%;color:#008e99;font-size:11px}
         .subscription-plan-cta{display:block;margin-top:auto}
-        .subscription-plan-cta .fixed-plan-checkout{margin-top:0}
+        .subscription-plan-cta .fixed-plan-checkout{margin-top:0;display:flex;flex-direction:column;gap:12px}
+        /* Keep policy consent readable and compact within each pricing card. */
+        .subscription-plan-cta .fixed-plan-consent{display:grid;grid-template-columns:16px minmax(0,1fr);align-items:start;gap:9px;margin:0;color:#566171;font-size:11px;line-height:1.55;font-weight:400;letter-spacing:0;overflow-wrap:anywhere}
+        .subscription-plan-cta .fixed-plan-consent input[type="checkbox"]{appearance:auto;-webkit-appearance:checkbox;width:15px;height:15px;min-width:15px;margin:2px 0 0;accent-color:#009eaa;cursor:pointer}
+        .subscription-plan-cta .fixed-plan-consent input[type="checkbox"]:disabled{cursor:not-allowed;opacity:.6}
+        .subscription-plan-cta .fixed-plan-consent span{display:block;min-width:0;font-size:11px;line-height:1.55;font-weight:400;letter-spacing:0}
+        .subscription-plan-cta .fixed-plan-consent a{color:#008b96;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+        .subscription-plan-cta .fixed-plan-consent a:hover{color:#006d76}
+        .subscription-plan-cta .fixed-plan-pay-button{width:100%;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 0;padding:12px 16px;border:1px solid #008f9a;border-radius:12px;background:linear-gradient(135deg,#00b8c4 0%,#008f9a 100%);box-shadow:0 8px 18px rgba(0,158,170,.2);color:#fff;font-size:13px;line-height:1.35;font-weight:750;letter-spacing:0;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease,opacity .18s ease}
+        .subscription-plan-cta .fixed-plan-pay-button span{font-size:16px;line-height:1;transition:transform .18s ease}
+        .subscription-plan-cta .fixed-plan-pay-button:hover:not(:disabled){transform:translateY(-1px);filter:saturate(1.08);box-shadow:0 12px 24px rgba(0,158,170,.28)}
+        .subscription-plan-cta .fixed-plan-pay-button:hover:not(:disabled) span{transform:translate(2px,-2px)}
+        .subscription-plan-cta .fixed-plan-pay-button:focus-visible{outline:3px solid rgba(0,158,170,.3);outline-offset:3px}
+        .subscription-plan-cta .fixed-plan-pay-button:disabled{border-color:#d1d5db;background:#e5e7eb;box-shadow:none;color:#9ca3af;cursor:not-allowed;transform:none;filter:none}
+        .subscription-plan-cta .fixed-plan-hint{margin:0;color:#6b7280;font-size:11px;line-height:1.55}
+        .subscription-plan-cta .fixed-plan-active{display:flex;flex-direction:column;gap:8px;padding:12px;border:1px solid rgba(0,158,170,.22);border-radius:12px;background:rgba(0,184,196,.06);color:#374151;font-size:12px;line-height:1.5}
+        .subscription-plan-cta .fixed-plan-active strong{color:#087f89;font-size:13px}
+        .subscription-plan-cta .fixed-plan-cancel-button{align-self:flex-start;padding:8px 11px;border:1px solid #d1d5db;border-radius:9px;background:#fff;color:#374151;font-size:11px;font-weight:700;cursor:pointer}
+        .subscription-plan-cta .fixed-plan-cancel-button:hover:not(:disabled){border-color:#9ca3af;background:#f9fafb}
+        .subscription-plan-cta .fixed-plan-cancel-button:disabled{opacity:.6;cursor:not-allowed}
+        .subscription-plan-cta .fixed-plan-feedback{margin:0;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+        .subscription-plan-cta .fixed-plan-feedback.is-error{color:#b91c1c}
+        .subscription-plan-cta .fixed-plan-feedback.is-success{color:#047857}
         .subscription-plan-note{margin:20px 0 0;color:#697180;font-size:11px;line-height:1.7;text-align:center}
         .subscription-alternative{position:relative;z-index:1;width:min(100%,760px);margin:32px auto 0;padding:22px 26px;border:1px solid rgba(17,24,39,.12);border-radius:18px;background:rgba(255,255,255,.48)}
         .subscription-alternative h3{margin:0;color:#222b38;font-size:16px;font-weight:750}
