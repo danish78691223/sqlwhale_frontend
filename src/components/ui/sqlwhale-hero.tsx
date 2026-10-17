@@ -8,6 +8,7 @@ import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
 import TargetCursor from "./TargetCursor.jsx";
 import GlareHover from "./GlareHover.jsx";
+import { Text3DFlipDemo } from "./text-3d-flip-demo";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -59,7 +60,7 @@ export function SQLWhaleHero() {
                 className={styles.primary + " cursor-target"}
                 data-cursor-label="Start learning"
               >
-                Start learning
+                <Text3DFlipDemo />
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </motion.div>
