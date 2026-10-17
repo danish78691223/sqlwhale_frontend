@@ -24,6 +24,7 @@ type SubscriptionStatus = {
   cancelAtCycleEnd?: boolean;
   currentPeriodEnd?: string | null;
   plan?: string | null;
+  durationMonths?: number | null;
 };
 declare global { interface Window { Razorpay?: RazorpayConstructor; } }
 
