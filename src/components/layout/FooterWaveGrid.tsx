@@ -9,7 +9,7 @@ export default function FooterWaveGrid() {
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    let renderer: THREE.WebGLRenderer;
+    let renderer: any;
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     } catch {
@@ -34,7 +34,7 @@ export default function FooterWaveGrid() {
     const material = new THREE.MeshStandardMaterial({ color: "#d8e4ff", metalness: 0.2, roughness: 0.45 });
     const mesh = new THREE.InstancedMesh(geometry, material, size * size);
     const dummy = new THREE.Object3D();
-    const positions: THREE.Vector3[] = [];
+    const positions: Array<{ x: number; z: number }> = [];
     const span = (size - 1) * 0.9;
     for (let x = 0; x < size; x++) {
       for (let z = 0; z < size; z++) {
