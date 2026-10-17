@@ -20170,3 +20170,17 @@ html {
     scroll-behavior: auto;
   }
 }
+
+
+/* Silkscreen typography for the homepage's key statement headings. */
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+.sqlwhale-home .sqlwhale-about-hero-copy h2,
+.sqlwhale-home .agency-system-section .copy h2,
+.sqlwhale-home .agency-visual-copy h2,
+.sqlwhale-home .agency-method-heading h2,
+.sqlwhale-home .agency-final-section > .scroll-reveal > h2 {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
