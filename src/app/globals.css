@@ -20154,3 +20154,19 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   position: relative;
   z-index: 1;
 }
+
+
+/* Keep the homepage How It Works anchor visible below the fixed notch navbar. */
+html {
+  scroll-behavior: smooth;
+}
+
+#how-it-works {
+  scroll-margin-top: 88px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
