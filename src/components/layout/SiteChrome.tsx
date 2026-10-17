@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { authApi } from "@/services/api";
 import { ArrowUpRight, BookOpen, CreditCard, Home, Menu, Play, UserRound, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import FooterWaveGrid from "@/components/layout/FooterWaveGrid";
 
 const links = [
   { label: "Home", href: "/" },
@@ -179,7 +180,8 @@ export function SiteFooter() {
   const isAdmin = !authLoading && user?.role?.toLowerCase() === "admin";
 
   return (
-    <footer className="sqlwhale-footer">
+    <footer className="sqlwhale-footer sqlwhale-footer-wave">
+      <FooterWaveGrid />
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
           <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
