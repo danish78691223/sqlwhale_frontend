@@ -14,7 +14,7 @@ export default function SubscribePage() {
     <main className="subscription-page">
       <style jsx global>{`
         .subscription-page,.subscription-page *{box-sizing:border-box}
-        .subscription-page{min-height:100vh;background:#f5f3ed;color:#111827;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}
+        .subscription-page{position:relative;z-index:0;min-height:100vh;margin-top:-86px;padding-top:86px;background:#f5f3ed;color:#111827;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow:hidden}
         .subscription-page a{color:inherit;text-decoration:none}
         .subscription-content{position:relative;width:min(1160px,calc(100% - 48px));margin:0 auto;padding:72px 0 64px}
         .subscription-glow{position:absolute;z-index:0;width:520px;height:520px;left:50%;top:80px;transform:translateX(-50%);border-radius:50%;background:rgba(0,184,196,.10);filter:blur(110px);pointer-events:none}
@@ -71,7 +71,7 @@ export default function SubscribePage() {
         .subscription-alternative .sqlwhale-subscribe-trigger{display:inline-flex!important;min-height:42px!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:0 17px!important;border:1px solid rgba(17,24,39,.18)!important;border-radius:11px!important;background:transparent!important;color:#202a36!important;font-size:13px!important;font-weight:700!important;cursor:pointer}
         .subscription-alternative .sqlwhale-subscribe-trigger:hover{background:rgba(17,24,39,.05)!important}
         @media(max-width:900px){.subscription-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subscription-plan-card.featured{transform:none;grid-row:1;grid-column:span 2;max-width:560px;width:100%;justify-self:center}.subscription-plan-card{padding:25px 22px}}
-        @media(max-width:600px){.subscription-content{width:min(100% - 28px,1160px);padding:48px 0 38px}.subscription-heading{margin-bottom:26px}.subscription-description{font-size:14px}.subscription-plan-grid{grid-template-columns:1fr;gap:15px}.subscription-plan-card.featured{grid-column:auto;grid-row:auto;max-width:none}.subscription-plan-card{padding:24px 21px;border-radius:19px}.subscription-plan-top{min-height:50px}.subscription-plan-name{font-size:20px}.subscription-plan-price{font-size:48px}.subscription-alternative{padding:19px;margin-top:24px}}
+        @media(max-width:600px){.subscription-page{margin-top:-80px;padding-top:80px}.subscription-content{width:min(100% - 28px,1160px);padding:48px 0 38px}.subscription-heading{margin-bottom:26px}.subscription-description{font-size:14px}.subscription-plan-grid{grid-template-columns:1fr;gap:15px}.subscription-plan-card.featured{grid-column:auto;grid-row:auto;max-width:none}.subscription-plan-card{padding:24px 21px;border-radius:19px}.subscription-plan-top{min-height:50px}.subscription-plan-name{font-size:20px}.subscription-plan-price{font-size:48px}.subscription-alternative{padding:19px;margin-top:24px}}
       `}</style>
 
       <section className="subscription-content">
