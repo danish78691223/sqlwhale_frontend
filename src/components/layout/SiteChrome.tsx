@@ -179,8 +179,7 @@ export function SiteFooter() {
   const isAdmin = !authLoading && user?.role?.toLowerCase() === "admin";
 
   return (
-    <footer className="sqlwhale-footer sqlwhale-footer-wave">
-      <FooterWaveGrid />
+    <footer className="sqlwhale-footer">
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
           <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
