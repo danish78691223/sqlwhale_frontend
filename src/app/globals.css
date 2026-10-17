@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 /* Global page canvas: prevent browser-default white gutters around the dark homepage. */
 html,
 body {
@@ -20173,7 +20174,6 @@ html {
 
 
 /* Silkscreen typography for the homepage's key statement headings. */
-@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 
 .sqlwhale-home .sqlwhale-about-hero-copy h2,
 .sqlwhale-home .agency-system-section .copy h2,
