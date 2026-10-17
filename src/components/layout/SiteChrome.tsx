@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { authApi } from "@/services/api";
+import { ArrowUpRight, BookOpen, CreditCard, Home, Menu, Play, UserRound, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const links = [
   { label: "Home", href: "/" },
@@ -16,6 +18,88 @@ const links = [
 ];
 
 type SessionUser = { name?: string; email?: string; role?: string };
+
+const homeNavLeft = [
+  { label: "Home", href: "/", icon: Home },
+  { label: "About", href: "/#about", icon: UserRound },
+  { label: "How It Works", href: "/#how-it-works", icon: BookOpen },
+];
+const homeNavRight = [
+  { label: "Run Query", href: "/run-query", icon: Play },
+  { label: "Subscribe", href: "/subscribe", icon: CreditCard },
+];
+
+function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; accountLabel: string }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => { setMobileOpen(false); }, [accountHref, accountLabel]);
+
+  const navLink = (item: typeof homeNavLeft[number]) => (
+    <Link key={item.label} href={item.href} className="sqlwhale-notch-link" onClick={() => setMobileOpen(false)}>
+      <item.icon aria-hidden="true" size={15} strokeWidth={1.8} />
+      <span>{item.label}</span>
+    </Link>
+  );
+
+  return (
+    <>
+      <header className="sqlwhale-notch-header">
+        <div className="sqlwhale-notch-side sqlwhale-notch-side-left" aria-hidden="true" />
+        <div className="sqlwhale-notch-center">
+          <nav className="sqlwhale-notch-links sqlwhale-notch-links-left" aria-label="Primary navigation">
+            {homeNavLeft.map(navLink)}
+          </nav>
+          <Link href="/" className="sqlwhale-notch-brand" aria-label="SQLWhale home">
+            <Image src="/sqlwhale-logo-main.png" alt="" width={34} height={34} priority />
+            <span>SQL<span>Whale</span></span>
+          </Link>
+          <nav className="sqlwhale-notch-links sqlwhale-notch-links-right" aria-label="Product navigation">
+            {homeNavRight.map(navLink)}
+            <Link href={accountHref} className="sqlwhale-notch-account">
+              {accountLabel}<ArrowUpRight size={14} aria-hidden="true" />
+            </Link>
+          </nav>
+          <button
+            className="sqlwhale-notch-menu-button"
+            type="button"
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+        <div className="sqlwhale-notch-side sqlwhale-notch-side-right" aria-hidden="true" />
+      </header>
+      <div className="sqlwhale-notch-spacer" aria-hidden="true" />
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.nav
+            className="sqlwhale-notch-mobile-menu"
+            aria-label="Mobile navigation"
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.18 }}
+          >
+            {[...homeNavLeft, ...homeNavRight].map((item) => (
+              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}>
+                <item.icon size={17} aria-hidden="true" />
+                <span>{item.label}</span>
+                <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
+              </Link>
+            ))}
+            <Link href={accountHref} onClick={() => setMobileOpen(false)}>
+              <UserRound size={17} aria-hidden="true" />
+              <span>{accountLabel}</span>
+              <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
+            </Link>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
 
 export default function SiteChrome() {
   const pathname = usePathname();
@@ -41,6 +125,10 @@ export default function SiteChrome() {
   if (pathname === "/run-query") return null;
 
   const accountHref = authLoading ? "/login" : user ? "/account" : "/login";
+
+  if (pathname === "/") {
+    return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} />;
+  }
 
   return (
     <>
