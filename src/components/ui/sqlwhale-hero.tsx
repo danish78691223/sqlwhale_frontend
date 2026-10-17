@@ -39,16 +39,32 @@ export function SQLWhaleHero() {
 
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <Text3DFlip
-            as="h1"
-            className={styles.title}
-            textClassName="text-[#f5f5f7]"
-            flipTextClassName="text-white"
-            rotateDirection="top"
-            staggerDuration={0.035}
-          >
-            SQL, but you can actually see it.
-          </Text3DFlip>
+          <h1 className={styles.title}>
+            <Text3DFlip
+              as="span"
+              className="block"
+              textClassName="text-[#f5f5f7]"
+              flipTextClassName="text-white"
+              rotateDirection="top"
+              staggerDuration={0.03}
+              staggerFrom="first"
+              transition={{ type: "spring", damping: 25, stiffness: 160 }}
+            >
+              SQL, but you
+            </Text3DFlip>
+            <Text3DFlip
+              as="span"
+              className="block"
+              textClassName="text-[#f5f5f7]"
+              flipTextClassName="text-white"
+              rotateDirection="top"
+              staggerDuration={0.03}
+              staggerFrom="first"
+              transition={{ type: "spring", damping: 25, stiffness: 160 }}
+            >
+              can actually see it.
+            </Text3DFlip>
+          </h1>
 
           <p className={styles.lede}>
             Write the query. Follow the tables. Watch the data move. Learn what
