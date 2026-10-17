@@ -126,7 +126,7 @@ export default function SiteChrome() {
 
   const accountHref = authLoading ? "/login" : user ? "/account" : "/login";
 
-  if (pathname === "/") {
+  if (pathname === "/" || pathname === "/subscribe") {
     return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} />;
   }
 
