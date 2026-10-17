@@ -44,7 +44,6 @@ function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; a
   return (
     <>
       <header className="sqlwhale-notch-header">
-        <div className="sqlwhale-notch-side sqlwhale-notch-side-left" aria-hidden="true" />
         <div className="sqlwhale-notch-center">
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-left" aria-label="Primary navigation">
             {homeNavLeft.map(navLink)}
@@ -69,7 +68,6 @@ function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; a
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-        <div className="sqlwhale-notch-side sqlwhale-notch-side-right" aria-hidden="true" />
       </header>
       <div className="sqlwhale-notch-spacer" aria-hidden="true" />
       <AnimatePresence>
