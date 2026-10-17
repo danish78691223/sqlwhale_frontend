@@ -30,15 +30,15 @@ export default function AnimatedFooter({ headingLines = ["SQLWhale"], background
       contexts.forEach(({ ctx, width, height }, index) => {
         if (!ctx) return;
         ctx.clearRect(0, 0, width, height);
-        ctx.font = "12px monospace";
+        ctx.font = "bold 13px monospace";
         ctx.textAlign = "center";
         const time = performance.now() * 0.001;
         for (let y = 0; y < Math.floor(height / 14); y++) {
           for (let x = 0; x < Math.floor(width / 8); x++) {
-            const wave = Math.sin(x * 0.28 + time * 1.2 + index) * Math.cos(y * 0.4 - time);
-            const edge = Math.sin(x * 0.12 + y * 0.2 + time * 0.5);
+            const wave = Math.sin(x * 0.19 + time * 1.6 + index) * Math.cos(y * 0.42 - time * 1.2);
+            const edge = Math.sin(x * 0.09 + y * 0.16 + time * 0.8);
             const value = Math.max(0, Math.min(chars.length - 1, Math.floor((wave + edge + 2) / 4 * chars.length)));
-            ctx.fillStyle = value > chars.length * 0.7 ? "#8bc5ff" : "#66758f";
+            ctx.fillStyle = value > chars.length * 0.62 ? "#8bc5ff" : "#91a4c4";
             ctx.fillText(chars[value], x * 8 + 4, y * 14 + 12);
           }
         }
@@ -72,9 +72,9 @@ export default function AnimatedFooter({ headingLines = ["SQLWhale"], background
 
   return (
     <footer ref={rootRef} className={`relative w-full overflow-hidden ${className}`} style={{ backgroundColor: background, color: textColor }}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-between overflow-hidden opacity-70">
-        <canvas ref={leftRef} className="h-44 w-2/5" />
-        <canvas ref={rightRef} className="h-44 w-2/5" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-between overflow-hidden" style={{ opacity: 0.95 }}>
+        <canvas ref={leftRef} style={{ display: "block", width: "42%", height: "210px", opacity: 0.95 }} />
+        <canvas ref={rightRef} style={{ display: "block", width: "42%", height: "210px", opacity: 0.95 }} />
       </div>
       <div className="relative z-10 flex min-h-[250px] items-end justify-center gap-4 px-6 pb-8 pt-20">
         {headingLines.map((word, wi) => (
