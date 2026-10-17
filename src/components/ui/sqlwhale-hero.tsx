@@ -8,6 +8,7 @@ import styles from "./SQLWhaleHero.module.css";
 import SoftAurora from "./SoftAurora.jsx";
 import TargetCursor from "./TargetCursor.jsx";
 import GlareHover from "./GlareHover.jsx";
+import { LiquidMetalButton } from "./liquid-metal";
 
 export function SQLWhaleHero() {
   const reducedMotion = useReducedMotion();
@@ -54,14 +55,17 @@ export function SQLWhaleHero() {
               whileTap={reducedMotion ? undefined : { scale: 0.965 }}
               transition={{ type: "spring", bounce: 0, duration: 0.22 }}
             >
-              <Link
-                href="/run-query"
-                className={styles.primary + " cursor-target"}
+              <LiquidMetalButton
+                className="cursor-target"
                 data-cursor-label="Start learning"
+                onClick={() => { window.location.href = "/run-query"; }}
+                icon={<ArrowRight className="h-5 w-5" />}
+                size="sm"
+                borderWidth={3}
+                metalConfig={{ colorBack: "#3b82f6", colorTint: "#93c5fd" }}
               >
                 Start learning
-                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </Link>
+              </LiquidMetalButton>
             </motion.div>
 
             <motion.a
