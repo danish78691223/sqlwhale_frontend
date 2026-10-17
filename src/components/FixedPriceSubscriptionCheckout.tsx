@@ -173,9 +173,10 @@ export default function FixedPriceSubscriptionCheckout({
   return (
     <div className="fixed-plan-checkout">
       {statusLoading ? <p className="fixed-plan-hint" role="status">Checking your SQLWhale plan…</p> : null}
-      {premiumActive && ((isMonthly && monthlyActive) || (!isMonthly && !monthlyActive && status?.durationMonths === (planId === "five-month" ? 5 : 10))) ? (
+      {premiumActive && (isMonthly || (!monthlyActive && status?.durationMonths === (planId === "five-month" ? 5 : 10))) ? (
         <div className="fixed-plan-active" role="status">
           <strong>{isMonthly ? "Current Plan · ₹49/month" : "Current Plan · ₹" + amount + " for " + duration}</strong>
+          {isMonthly && !monthlyActive ? <span>Premium is active, but the recurring subscription status is being reconciled. You will not be asked to subscribe again.</span> : null}
           {monthlyActive && status?.subscriptionStatus ? <span>Subscription status: {status.subscriptionStatus}</span> : null}
           {status?.currentPeriodEnd ? <span>Premium access until {new Date(status.currentPeriodEnd).toLocaleDateString("en-IN")}.</span> : null}
           {status?.cancelAtCycleEnd ? <span>Future renewals are scheduled to stop at the end of the current billing period.</span> : null}
