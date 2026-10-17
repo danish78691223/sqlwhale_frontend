@@ -181,7 +181,15 @@ export function SiteFooter() {
 
   return (
     <>
-      <AnimatedFooter headingLines={["SQLWhale"]} background="#08090d" textColor="#ffffff" />
+      <div className="relative h-[380px] w-full overflow-hidden">
+        <AnimatedFooter
+          headingLines={["SQLWhale"]}
+          leftImage="https://raw.githubusercontent.com/Ashutoshx7/VengeanceUI/main/public/animated-footer/hand-left.jpg"
+          rightImage="https://raw.githubusercontent.com/Ashutoshx7/VengeanceUI/main/public/animated-footer/hand-right.jpg"
+          background="#08090d"
+          textColor="#ffffff"
+        />
+      </div>
       <footer className="sqlwhale-footer">
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
