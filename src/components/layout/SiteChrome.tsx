@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { authApi } from "@/services/api";
 import { ArrowUpRight, BookOpen, CreditCard, Home, Menu, Play, UserRound, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import FooterWaveGrid from "@/components/layout/FooterWaveGrid";
+import AnimatedFooter from "@/components/layout/AnimatedFooter";
 
 const links = [
   { label: "Home", href: "/" },
@@ -180,8 +180,9 @@ export function SiteFooter() {
   const isAdmin = !authLoading && user?.role?.toLowerCase() === "admin";
 
   return (
-    <footer className="sqlwhale-footer sqlwhale-footer-wave">
-      <FooterWaveGrid />
+    <>
+      <AnimatedFooter headingLines={["SQLWhale"]} background="#08090d" textColor="#ffffff" />
+      <footer className="sqlwhale-footer">
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
           <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
@@ -199,6 +200,7 @@ export function SiteFooter() {
       </div>
       <div className="footer-industrial-line"><span /><span className="footer-line-label">SQLWHALE / WEBXWHALE TECH &amp; SOLUTIONS</span><span /></div>
       <div className="footer-bottom"><span>© {new Date().getFullYear()} SQLWhale. All rights reserved.</span><span className="footer-learning-service">Learning service by <a href="https://webxwhale.com" target="_blank" rel="noopener noreferrer"><strong>WEBXWHALE</strong></a></span></div>
-    </footer>
+      </footer>
+    </>
   );
 }
