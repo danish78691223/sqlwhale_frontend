@@ -1,7 +1,6 @@
 "use client";
 
-import React, { memo, forwardRef } from "react";
-import { LiquidMetal as LiquidMetalShader } from "@paper-design/shaders-react";
+import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface LiquidMetalProps {
@@ -15,37 +14,26 @@ export interface LiquidMetalProps {
   style?: React.CSSProperties;
 }
 
-export const LiquidMetal = memo(function LiquidMetal({
-  colorBack = "#aaaaac",
-  colorTint = "#ffffff",
-  speed = 0.5,
-  repetition = 4,
-  distortion = 0.1,
-  scale = 1,
+/** Lightweight liquid-metal inspired surface that needs no WebGL dependency. */
+export function LiquidMetal({
+  colorBack = "#3b82f6",
+  colorTint = "#bfdbfe",
   className,
   style,
 }: LiquidMetalProps) {
   return (
-    <div className={cn("absolute inset-0 z-0 overflow-hidden", className)} style={style} aria-hidden="true">
-      <LiquidMetalShader
-        colorBack={colorBack}
-        colorTint={colorTint}
-        speed={speed}
-        repetition={repetition}
-        distortion={distortion}
-        softness={0}
-        shiftRed={0.3}
-        shiftBlue={-0.3}
-        angle={45}
-        shape="none"
-        scale={scale}
-        fit="cover"
-        style={{ width: "100%", height: "100%" }}
-      />
-    </div>
+    <div
+      className={cn("absolute inset-0 overflow-hidden rounded-full", className)}
+      style={{
+        background: `linear-gradient(125deg, ${colorBack} 0%, ${colorTint} 18%, #ffffff 27%, ${colorBack} 43%, #1d4ed8 58%, ${colorTint} 76%, ${colorBack} 100%)`,
+        backgroundSize: "220% 220%",
+        boxShadow: "inset 0 1px 2px rgba(255,255,255,.85), inset 0 -2px 4px rgba(0,0,0,.18)",
+        ...style,
+      }}
+      aria-hidden="true"
+    />
   );
-});
-LiquidMetal.displayName = "LiquidMetal";
+}
 
 export interface LiquidMetalButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -56,24 +44,11 @@ export interface LiquidMetalButtonProps extends React.ButtonHTMLAttributes<HTMLB
 }
 
 export const LiquidMetalButton = forwardRef<HTMLButtonElement, LiquidMetalButtonProps>(
-  (
-    {
-      children,
-      icon,
-      borderWidth = 4,
-      metalConfig,
-      size = "md",
-      className,
-      disabled,
-      type = "button",
-      ...props
-    },
-    ref
-  ) => {
+  ({ children, icon, borderWidth = 3, metalConfig, size = "md", className, disabled, type = "button", ...props }, ref) => {
     const sizeStyles = {
-      sm: "py-2 pl-2 pr-6 gap-3 text-sm",
-      md: "py-3 pl-3 pr-8 gap-4 text-base",
-      lg: "py-4 pl-4 pr-10 gap-6 text-lg",
+      sm: "py-2 pl-2 pr-5 gap-3 text-sm",
+      md: "py-3 pl-3 pr-7 gap-4 text-base",
+      lg: "py-4 pl-4 pr-9 gap-5 text-lg",
     };
     const iconSizes = {
       sm: "w-8 h-8",
@@ -87,33 +62,29 @@ export const LiquidMetalButton = forwardRef<HTMLButtonElement, LiquidMetalButton
         type={type}
         disabled={disabled}
         className={cn(
-          "relative group inline-block cursor-pointer border-none bg-transparent p-0 outline-none transition-transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
+          "relative inline-flex cursor-pointer border-0 bg-transparent p-0 outline-none transition-transform active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
         {...props}
       >
         <span
-          className="relative block overflow-hidden rounded-full shadow-[0_12px_30px_rgba(139,92,246,0.28)]"
-          style={{ padding: borderWidth }}
+          className="relative block overflow-hidden rounded-full"
+          style={{ padding: borderWidth, boxShadow: "0 8px 24px rgba(59,130,246,.25)" }}
         >
           <LiquidMetal
-            colorBack={metalConfig?.colorBack ?? "#3b82f6"}
-            colorTint={metalConfig?.colorTint ?? "#93c5fd"}
-            speed={metalConfig?.speed ?? 0.4}
-            repetition={metalConfig?.repetition ?? 4}
-            distortion={metalConfig?.distortion ?? 0.15}
-            scale={metalConfig?.scale ?? 1}
-            className="rounded-full"
+            colorBack={metalConfig?.colorBack}
+            colorTint={metalConfig?.colorTint}
+            speed={metalConfig?.speed}
+            repetition={metalConfig?.repetition}
+            distortion={metalConfig?.distortion}
+            scale={metalConfig?.scale}
           />
           <span className={cn(
-            "relative z-10 flex items-center rounded-full bg-violet-600 text-white transition-colors duration-200 group-hover:bg-violet-500",
+            "relative z-10 flex items-center rounded-full bg-slate-950 text-white transition-colors duration-200 hover:bg-slate-900",
             sizeStyles[size]
           )}>
             {icon && (
-              <span className={cn(
-                "flex shrink-0 items-center justify-center rounded-full bg-white/15 text-white",
-                iconSizes[size]
-              )}>
+              <span className={cn("flex shrink-0 items-center justify-center rounded-full bg-white/15 text-white", iconSizes[size])}>
                 {icon}
               </span>
             )}
