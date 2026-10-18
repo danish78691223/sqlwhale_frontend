@@ -840,26 +840,28 @@ export default function RunQueryPage() {
           </div>
 
           <div className="output-box-content">
-            <QueryVisualization
-              query={query}
-              command={data?.command}
-              running={loading || taskSubmitting}
-              executed={Boolean(data)}
-              result={result}
-              execution={data?.execution}
-              runId={animationRunId}
-              slowExecution={slowExecution}
-              onComplete={async () => {
-                setAnimationComplete(true);
-                if (slowExecution && /^\s*DROP\s+TABLE\b/i.test(query)) {
-                  await refreshDatabaseTables();
-                  setFocusedTableName(null);
-                }
-              }}
-              onStageChange={setQueryAnimationStage}
-              onExecutionFocus={setFocusedTableName}
-              onDropStageChange={setDropDestructionStage}
-            />
+            {!(loading || taskSubmitting) && (
+              <QueryVisualization
+                query={query}
+                command={data?.command}
+                running={loading || taskSubmitting}
+                executed={Boolean(data)}
+                result={result}
+                execution={data?.execution}
+                runId={animationRunId}
+                slowExecution={slowExecution}
+                onComplete={async () => {
+                  setAnimationComplete(true);
+                  if (slowExecution && /^\s*DROP\s+TABLE\b/i.test(query)) {
+                    await refreshDatabaseTables();
+                    setFocusedTableName(null);
+                  }
+                }}
+                onStageChange={setQueryAnimationStage}
+                onExecutionFocus={setFocusedTableName}
+                onDropStageChange={setDropDestructionStage}
+              />
+            )}
 
             {loading || taskSubmitting ? (
               <div className="output-empty sqlwhale-output-skeleton" aria-live="polite">
