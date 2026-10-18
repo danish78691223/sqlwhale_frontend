@@ -20340,3 +20340,84 @@ html {
   background: #0b1220;
   color: #e5edf7;
 }
+
+
+/* Database Canvas theme polish: keep the entire React Flow surface,
+   controls, lock action, and relationship handles consistent with the site theme. */
+.database-canvas {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: background-color .2s ease, color .2s ease;
+}
+.database-canvas .react-flow__pane {
+  background: #f8fafc;
+}
+.database-canvas .react-flow__background pattern circle {
+  fill: #cbd5e1;
+}
+.database-canvas .react-flow__controls {
+  border-color: #dbe3ee;
+  background: #ffffff;
+}
+.database-canvas .react-flow__controls-button {
+  display: grid;
+  place-items: center;
+  border-bottom-color: #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+  fill: #334155;
+}
+.database-canvas .react-flow__controls-button:hover {
+  background: #f1f5f9;
+}
+.database-canvas .react-flow__controls-button svg {
+  fill: currentColor;
+}
+.database-canvas-lock-button {
+  border-color: #dbe3ee;
+  background: rgb(255 255 255 / .96);
+  color: #334155;
+}
+.database-canvas-lock-button:hover {
+  background: #f1f5f9;
+}
+.dark .database-canvas {
+  background: #0b1220;
+  color: #e2e8f0;
+}
+.dark .database-canvas .react-flow__pane {
+  background: #0b1220;
+}
+.dark .database-canvas .react-flow__background pattern circle {
+  fill: #334155;
+}
+.dark .database-canvas .react-flow__controls {
+  border-color: #334155;
+  background: #111b2b;
+}
+.dark .database-canvas .react-flow__controls-button {
+  border-bottom-color: #334155;
+  background: #111b2b;
+  color: #e2e8f0;
+  fill: #e2e8f0;
+}
+.dark .database-canvas .react-flow__controls-button:hover {
+  background: #1e293b;
+}
+.dark .database-canvas-lock-button {
+  border-color: #334155;
+  background: rgb(17 27 43 / .96);
+  color: #e2e8f0;
+}
+.dark .database-canvas-lock-button:hover {
+  background: #1e293b;
+}
+.dark .database-canvas .react-flow__attribution {
+  background: rgb(11 18 32 / .85);
+  color: #94a3b8;
+}
+@media (prefers-reduced-motion: reduce) {
+  .database-canvas { transition: none; }
+}
