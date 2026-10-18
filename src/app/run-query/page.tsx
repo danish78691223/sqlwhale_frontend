@@ -14,6 +14,7 @@ import DatabaseCanvasSkeleton from "@/components/database/DatabaseCanvasSkeleton
 import AppleEmoji from "@/components/AppleEmoji";
 import QueryVisualization from "@/components/visualization/QueryVisualization";
 import EditTableCanvas from "@/components/database/EditTableCanvas";
+import { Skeleton, SkeletonCard } from "@/components/ui/skeleton";
 
 import { getAllTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
@@ -861,12 +862,19 @@ export default function RunQueryPage() {
             />
 
             {loading || taskSubmitting ? (
-              <div className="output-empty">
+              <div className="output-empty sqlwhale-output-skeleton" aria-live="polite">
                 <div className="output-empty-icon"><LoaderCircle size={25} strokeWidth={1.8} className="run-query-spinner" /></div>
                 <h3>Executing query...</h3>
-                <p>
-                  SQLWhale is tracing the query execution.
-                </p>
+                <p>SQLWhale is tracing the query execution.</p>
+                <div className="sqlwhale-skeleton-layout" aria-hidden="true">
+                  <SkeletonCard />
+                  <div className="sqlwhale-skeleton-lines">
+                    <Skeleton className="h-3 w-4/5" />
+                    <Skeleton className="h-3 w-3/5" />
+                    <Skeleton className="h-3 w-full" />
+                    <Skeleton className="h-3 w-2/3" />
+                  </div>
+                </div>
               </div>
             ) : setupTaskSuccessMessage ? (
               <div className="output-empty">
