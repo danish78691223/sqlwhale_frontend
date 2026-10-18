@@ -20493,3 +20493,53 @@ html {
 .dark .practice-mode [class*="border-slate-"] {
   border-color: #334155 !important;
 }
+
+
+/* Practice Mode / SQL Tasks — use the same .dark theme class as the app. */
+.dark .sqlwhale-task-section {
+  color: #e5edf8 !important;
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  box-shadow: 0 7px 22px rgba(0, 0, 0, .22) !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-header h2,
+.dark .sqlwhale-task-section .sqlwhale-task-card h3 {
+  color: #f1f5f9 !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-header p,
+.dark .sqlwhale-task-section .sqlwhale-task-card p {
+  color: #a8b6ca !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-card {
+  background: #111c2e !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-refresh,
+.dark .sqlwhale-task-section .sqlwhale-task-empty button {
+  background: #172338 !important;
+  border-color: #3b4b63 !important;
+  color: #dbeafe !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-icon {
+  background: #1e3a5f !important;
+  color: #93c5fd !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-start {
+  background: #172b46 !important;
+  border-color: #35557e !important;
+  color: #bfdbfe !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-empty {
+  border-color: #3b4b63 !important;
+  color: #a8b6ca !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-completed,
+.dark .dark .sqlwhale-task-section .sqlwhale-task-check.is-correct {
+  color: #86efac !important;
+}
+.dark .sqlwhale-task-section .sqlwhale-task-locked {
+  background: #172033 !important;
+  border-color: #334155 !important;
+  color: #a8b6ca !important;
+}
