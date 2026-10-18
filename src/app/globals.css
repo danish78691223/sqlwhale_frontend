@@ -20549,3 +20549,9 @@ html {
 .sqlwhale-task-section .sqlwhale-task-completed {
   color: #ffffff !important;
 }
+
+
+/* Keep the completed-task label white in dark mode too. */
+.dark .sqlwhale-task-section .sqlwhale-task-completed {
+  color: #ffffff !important;
+}
