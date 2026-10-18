@@ -928,6 +928,18 @@ export default function RunQueryPage() {
                   </table>
                 </div>
               </div>
+            ) : tablesLoading ? (
+              <div className="sqlwhale-initial-output-skeleton" aria-label="Loading query output" aria-busy="true">
+                <div className="sqlwhale-skeleton-heading" />
+                <div className="sqlwhale-skeleton-table">
+                  <div className="sqlwhale-skeleton-table-head" />
+                  <div className="sqlwhale-skeleton-table-row" />
+                  <div className="sqlwhale-skeleton-table-row" />
+                  <div className="sqlwhale-skeleton-table-row" />
+                  <div className="sqlwhale-skeleton-table-row" />
+                </div>
+                <div className="sqlwhale-skeleton-caption" />
+              </div>
             ) : (
               <div className="output-empty">
                 <div className="output-empty-icon"><CirclePlay size={25} strokeWidth={1.7} /></div>
@@ -982,11 +994,20 @@ export default function RunQueryPage() {
         </div>
 
         {!builderOpen && !taskOpen && (
-          <div className="sqlwhale-query-side-placeholder">
-            <div className="sqlwhale-query-side-placeholder-icon"><Wrench size={21} strokeWidth={1.7} /></div>
-            <h3>Build Query</h3>
-            <p>Build your SQL visually, or select a task to practice.</p>
-          </div>
+          tablesLoading ? (
+            <div className="sqlwhale-side-skeleton" aria-label="Loading query tools" aria-busy="true">
+              <div className="sqlwhale-skeleton-heading" />
+              <div className="sqlwhale-skeleton-caption" />
+              <div className="sqlwhale-skeleton-caption short" />
+              <div className="sqlwhale-skeleton-action" />
+            </div>
+          ) : (
+            <div className="sqlwhale-query-side-placeholder">
+              <div className="sqlwhale-query-side-placeholder-icon"><Wrench size={21} strokeWidth={1.7} /></div>
+              <h3>Build Query</h3>
+              <p>Build your SQL visually, or select a task to practice.</p>
+            </div>
+          )
         )}
 
         {builderOpen && (
