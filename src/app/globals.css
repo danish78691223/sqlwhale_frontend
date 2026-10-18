@@ -20543,3 +20543,9 @@ html {
   border-color: #334155 !important;
   color: #a8b6ca !important;
 }
+
+
+/* Completed task label: white in both light and dark themes, as requested. */
+.sqlwhale-task-section .sqlwhale-task-completed {
+  color: #ffffff !important;
+}
