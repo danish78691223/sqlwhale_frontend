@@ -20316,3 +20316,27 @@ html {
   .sqlwhale-skeleton-table-head,
   .sqlwhale-skeleton-table-row { animation: none; }
 }
+
+
+/* Theme-aware shadcn skeletons used by the Run Query loading state. */
+.sqlwhale-ui-skeleton {
+  background-color: #e8edf4;
+  background-image: linear-gradient(100deg, #e8edf4 20%, #f8fafc 45%, #e8edf4 70%);
+  background-size: 220% 100%;
+}
+.dark .sqlwhale-ui-skeleton {
+  background-color: #263449;
+  background-image: linear-gradient(100deg, #263449 20%, #3b4b62 45%, #263449 70%);
+}
+.dark .sqlwhale-output-skeleton {
+  background: #0b1220;
+  color: #f1f5f9;
+}
+.dark .sqlwhale-side-skeleton {
+  background: #111b2b;
+  border-color: #2b394d;
+}
+.dark .sqlwhale-initial-output-skeleton {
+  background: #0b1220;
+  color: #e5edf7;
+}
