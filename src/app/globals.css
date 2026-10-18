@@ -20253,3 +20253,66 @@ html {
   .sqlwhale-skeleton-lines > div,
   .sqlwhale-skeleton-layout [aria-hidden="true"] { animation: none; }
 }
+
+
+/* Initial Run Query panel placeholders, shown while the schema is loading. */
+.sqlwhale-initial-output-skeleton,
+.sqlwhale-side-skeleton {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+}
+.sqlwhale-initial-output-skeleton { justify-content: center; }
+.sqlwhale-skeleton-heading,
+.sqlwhale-skeleton-caption,
+.sqlwhale-skeleton-action,
+.sqlwhale-skeleton-table-head,
+.sqlwhale-skeleton-table-row {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(100deg, #e8edf4 20%, #f8fafc 45%, #e8edf4 70%);
+  background-size: 220% 100%;
+  animation: sqlwhale-skeleton-pulse 1.4s ease-in-out infinite;
+}
+.sqlwhale-skeleton-heading { width: 48%; height: 14px; }
+.sqlwhale-skeleton-caption { width: 88%; height: 9px; }
+.sqlwhale-skeleton-caption.short { width: 61%; }
+.sqlwhale-skeleton-table {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 6px;
+  width: 100%;
+}
+.sqlwhale-skeleton-table-head { height: 30px; width: 100%; }
+.sqlwhale-skeleton-table-row { height: 20px; width: 100%; }
+.sqlwhale-skeleton-action { width: 100%; height: 38px; margin-top: 10px; }
+.sqlwhale-side-skeleton {
+  min-height: 170px;
+  justify-content: center;
+  border: 1px solid #e7ecf3;
+  border-radius: 12px;
+  background: rgba(248, 250, 252, .78);
+}
+.dark .sqlwhale-initial-output-skeleton,
+.dark .sqlwhale-side-skeleton { background-color: #0b1728; }
+.dark .sqlwhale-side-skeleton { border-color: #253449; }
+.dark .sqlwhale-skeleton-heading,
+.dark .sqlwhale-skeleton-caption,
+.dark .sqlwhale-skeleton-action,
+.dark .sqlwhale-skeleton-table-head,
+.dark .sqlwhale-skeleton-table-row {
+  background: linear-gradient(100deg, #1e293b 20%, #334155 45%, #1e293b 70%);
+  background-size: 220% 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-skeleton-heading,
+  .sqlwhale-skeleton-caption,
+  .sqlwhale-skeleton-action,
+  .sqlwhale-skeleton-table-head,
+  .sqlwhale-skeleton-table-row { animation: none; }
+}
