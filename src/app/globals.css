@@ -20184,3 +20184,72 @@ html {
   font-weight: 400;
   font-style: normal;
 }
+
+
+/* Run Query skeletons: explicit CSS so loading states remain visible even
+   when Tailwind utility generation is unavailable on this route. */
+.sqlwhale-output-skeleton {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.97);
+  color: #172033;
+  text-align: center;
+  position: relative;
+  z-index: 4;
+}
+.sqlwhale-output-skeleton h3 { margin: 2px 0 0; }
+.sqlwhale-output-skeleton p { margin: 0; color: #718096; }
+.sqlwhale-skeleton-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  width: min(100%, 410px);
+  margin-top: 12px;
+  text-align: left;
+}
+.sqlwhale-skeleton-layout > * {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+.sqlwhale-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+.sqlwhale-skeleton-lines > div,
+.sqlwhale-skeleton-layout [aria-hidden="true"] {
+  animation: sqlwhale-skeleton-pulse 1.35s ease-in-out infinite;
+  background: linear-gradient(90deg, #e9edf4 25%, #f6f8fb 50%, #e9edf4 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+}
+.sqlwhale-skeleton-lines > div { height: 10px; }
+.sqlwhale-skeleton-layout [aria-hidden="true"] { min-height: 110px; }
+.dark .sqlwhale-output-skeleton {
+  background: rgba(9, 17, 30, 0.98);
+  color: #f1f5f9;
+}
+.dark .sqlwhale-output-skeleton p { color: #94a3b8; }
+.dark .sqlwhale-skeleton-lines > div,
+.dark .sqlwhale-skeleton-layout [aria-hidden="true"] {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% 100%;
+}
+@keyframes sqlwhale-skeleton-pulse {
+  0% { background-position: 100% 0; opacity: .72; }
+  100% { background-position: -100% 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-skeleton-lines > div,
+  .sqlwhale-skeleton-layout [aria-hidden="true"] { animation: none; }
+}
