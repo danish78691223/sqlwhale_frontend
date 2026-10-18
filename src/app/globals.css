@@ -20421,3 +20421,75 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .database-canvas { transition: none; }
 }
+
+
+/* Practice Mode SQL Tasks: honor the active theme instead of retaining light surfaces. */
+.sql-practice-page,
+.sql-practice-tasks,
+.practice-mode,
+.practice-task-card,
+.sql-task-card,
+.sql-task-list {
+  color: #0f172a;
+}
+.sql-practice-page .practice-task-card,
+.sql-practice-page .sql-task-card,
+.sql-practice-tasks .practice-task-card,
+.sql-practice-tasks .sql-task-card {
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+  color: #0f172a;
+}
+.dark .sql-practice-page,
+.dark .sql-practice-tasks,
+.dark .practice-mode,
+.dark .practice-task-card,
+.dark .sql-task-card,
+.dark .sql-task-list {
+  color: #e2e8f0;
+}
+.dark .sql-practice-page .practice-task-card,
+.dark .sql-practice-page .sql-task-card,
+.dark .sql-practice-tasks .practice-task-card,
+.dark .sql-practice-tasks .sql-task-card {
+  background-color: #111827;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+.dark .sql-practice-page h1,
+.dark .sql-practice-page h2,
+.dark .sql-practice-page h3,
+.dark .sql-practice-tasks h1,
+.dark .sql-practice-tasks h2,
+.dark .sql-practice-tasks h3,
+.dark .practice-mode h1,
+.dark .practice-mode h2,
+.dark .practice-mode h3 {
+  color: #f8fafc;
+}
+.dark .sql-practice-page p,
+.dark .sql-practice-tasks p,
+.dark .practice-mode p {
+  color: #cbd5e1;
+}
+.dark .sql-practice-page [class*="bg-white"],
+.dark .sql-practice-tasks [class*="bg-white"],
+.dark .practice-mode [class*="bg-white"] {
+  background-color: #111827 !important;
+}
+.dark .sql-practice-page [class*="text-gray-"],
+.dark .sql-practice-page [class*="text-slate-"],
+.dark .sql-practice-tasks [class*="text-gray-"],
+.dark .sql-practice-tasks [class*="text-slate-"],
+.dark .practice-mode [class*="text-gray-"],
+.dark .practice-mode [class*="text-slate-"] {
+  color: #cbd5e1 !important;
+}
+.dark .sql-practice-page [class*="border-gray-"],
+.dark .sql-practice-page [class*="border-slate-"],
+.dark .sql-practice-tasks [class*="border-gray-"],
+.dark .sql-practice-tasks [class*="border-slate-"],
+.dark .practice-mode [class*="border-gray-"],
+.dark .practice-mode [class*="border-slate-"] {
+  border-color: #334155 !important;
+}
