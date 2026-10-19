@@ -51,15 +51,13 @@ export function SQLWhaleHero() {
         </div>
 
         <div className={styles.videoShowcase}>
-          <video
+          <img
             className={styles.heroVideo}
-            src="/main-vid (1).gif"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-label="SQLWhale product walkthrough"
+            src="/main-vid%20(1).gif"
+            alt="SQLWhale product walkthrough"
+            width={1200}
+            height={675}
+            fetchPriority="high"
           />
         </div>
       </div>
