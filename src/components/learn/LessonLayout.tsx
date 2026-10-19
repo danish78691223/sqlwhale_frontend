@@ -78,7 +78,7 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
           return (
             <div key={title} className={`lesson-side-item ${id === module.id ? "active" : ""} ${!unlocked ? "locked" : ""}`}>
               {unlocked ? (
-                <Link href={`/learn/${id}`}>
+                <Link href={`/learn#module-${id}`}>
                   <span>{completed.includes(id) ? <CheckCircle2 size={16}/> : <Circle size={16}/>}</span>
                   <span><small>MODULE {id}</small><strong>{title}</strong></span>
                   <em>{status}</em>
