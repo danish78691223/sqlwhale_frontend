@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LessonLayout from "@/components/learn/LessonLayout";
-import moduleOne from "@/content/learn/module-01";
 import { getModuleContent } from "@/content/learn/modules";
 import "./[moduleId]/lesson.css";
 
@@ -447,7 +446,7 @@ export default function LearnPage() {
 
         {view !== "assessment" && view !== "result" && (
           <section id={`module-${lessonModuleId}`} className="learn-unified-lesson">
-            <LessonLayout module={getModuleContent(lessonModuleId) || moduleOne} initialProgress={progress} />
+            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
           </section>
         )}
 
