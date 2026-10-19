@@ -3,6 +3,7 @@ import "./lesson.css";
 import { notFound } from "next/navigation";
 import moduleOne from "@/content/learn/module-01";
 import LessonLayout from "@/components/learn/LessonLayout";
+import LockedModule from "@/components/learn/LockedModule";
 
 type Props = { params: Promise<{ moduleId: string }> };
 export async function generateMetadata({params}:Props):Promise<Metadata> {
