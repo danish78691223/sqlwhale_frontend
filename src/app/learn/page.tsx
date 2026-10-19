@@ -1,1306 +1,618 @@
- "use client";
+"use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-const sqlEssentials = [
-  ["01", "What is SQL?", "SQL (Structured Query Language) is used to define, query, manipulate and control data in relational database systems.", "SELECT name FROM employees;"],
-  ["02", "Statement vs query", "A SQL statement is an instruction sent to the database. A query usually describes a request for data, most commonly a SELECT statement.", "SELECT name, salary FROM employees WHERE salary > 50000;"],
-  ["03", "Logical query order", "A SELECT query is commonly reasoned about as FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT.", "FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT"],
-  ["04", "NULL is not zero", "NULL means an unknown or missing value. Use IS NULL or IS NOT NULL instead of = NULL.", "SELECT * FROM employees WHERE manager_id IS NULL;"],
-  ["05", "Aliases", "Aliases make long table and column references easier to read, especially in JOINs and calculated expressions.", "SELECT e.name AS employee_name FROM employees AS e;"],
-  ["06", "Comparison operators", "Use =, <>, >, <, >=, <= and logical operators such as AND, OR and NOT to express conditions.", "SELECT * FROM shop WHERE price > 1000 AND stock >= 10;"],
-  ["07", "Common data types", "Relational databases commonly use numeric, character, date/time and boolean-like types. Exact names vary by database engine.", "CREATE TABLE users (id INT, name VARCHAR(100), joined_at DATE);"],
-  ["08", "Aggregation", "Aggregate functions reduce multiple rows into summaries. GROUP BY defines which rows belong to each group.", "SELECT department_id, AVG(salary) FROM employees GROUP BY department_id;"],
-];
+type Lesson = { title: string; body: string; example: string };
+type LearningModule = {
+  id: number;
+  title: string;
+  level: string;
+  summary: string;
+  outcomes: string[];
+  lessons: Lesson[];
+};
+type ProgressState = {
+  completedModules: number[];
+  completedCount: number;
+  progressPercent: number;
+  unlockedThrough: number;
+  assessment?: { status: string; attempts: number; totalScore: number } | null;
+};
+type Question = { id: string; question: string; options?: string[]; hint?: string };
+type AssessmentPaper = {
+  mcqs: Question[];
+  longQuestions: Question[];
+  queryQuestions: Question[];
+  totalMarks: number;
+  passMarks: number;
+};
 
-const concepts = [
-  ["01", "Database", "A structured collection of data managed by a database system."],
-  ["02", "Table", "A relation made of rows and columns."],
-  ["03", "Row", "One record or tuple in a table."],
-  ["04", "Column", "An attribute describing one property of each record."],
-  ["05", "Primary Key", "A column or column set that uniquely identifies rows."],
-  ["06", "Foreign Key", "A reference that connects a row to another table."],
-  ["07", "Schema", "The logical structure that defines tables, relationships, constraints and other database objects."],
-  ["08", "Constraint", "A rule that protects data integrity, such as NOT NULL, UNIQUE or CHECK."],
-];
-
-const commandGroups = [
+const modules: LearningModule[] = [
   {
-    title: "DQL — Query data",
-    tag: "READ",
-    items: [
-      ["SELECT", "Retrieve columns and expressions.", "SELECT name, salary FROM employees;"],
-      ["WHERE", "Filter rows before grouping.", "SELECT * FROM employees WHERE salary > 50000;"],
-      ["ORDER BY", "Sort the result.", "SELECT * FROM employees ORDER BY salary DESC;"],
-      ["DISTINCT", "Remove duplicate result rows.", "SELECT DISTINCT department FROM employees;"],
-      ["LIMIT / FETCH", "Restrict the number of rows returned.", "SELECT * FROM employees LIMIT 10;"],
+    id: 1, title: "SQL & Database Foundations", level: "Beginner",
+    summary: "Build a clear mental model of relational databases, tables, records and relationships.",
+    outcomes: ["Explain what SQL is used for", "Read tables as rows and columns", "Identify primary and foreign keys"],
+    lessons: [
+      { title: "What is SQL?", body: "SQL (Structured Query Language) is used to read and work with data in relational databases. A database stores related information; SQL lets you ask questions about it in a consistent way.", example: "SELECT name FROM employees;" },
+      { title: "Tables, rows and columns", body: "A table represents one kind of entity. Each row is a record and each column is an attribute. Select only the information you need rather than always relying on SELECT *.", example: "SELECT employee_id, name, department_id\nFROM employees;" },
+      { title: "Keys and relationships", body: "A primary key uniquely identifies each record. A foreign key references a key in another table, helping represent relationships such as employees belonging to departments.", example: "SELECT e.name, d.department_name\nFROM employees AS e\nJOIN departments AS d\n  ON e.department_id = d.department_id;" },
     ],
   },
   {
-    title: "DML — Change data",
-    tag: "WRITE",
-    items: [
-      ["INSERT", "Add new rows.", "INSERT INTO employees (name, salary) VALUES ('Asha', 60000);"],
-      ["UPDATE", "Change existing rows.", "UPDATE employees SET salary = 65000 WHERE id = 7;"],
-      ["DELETE", "Remove rows.", "DELETE FROM employees WHERE id = 7;"],
-      ["MERGE", "Combine insert/update logic where supported.", "MERGE INTO target USING source ON target.id = source.id ...;"],
+    id: 2, title: "SELECT & Expressions", level: "Beginner",
+    summary: "Choose columns, rename output, remove duplicates and create calculated values.",
+    outcomes: ["Select specific columns", "Use aliases for readability", "Create calculated result columns"],
+    lessons: [
+      { title: "Select specific columns", body: "SELECT defines which expressions appear in the output. Column names should match the table schema.", example: "SELECT name, department_id\nFROM employees;" },
+      { title: "Aliases and DISTINCT", body: "AS gives a clear name to a result column. DISTINCT removes duplicate combinations from the result, which is useful for lists of unique categories.", example: "SELECT DISTINCT department_id AS department\nFROM employees;" },
+      { title: "Expressions", body: "Arithmetic expressions can calculate values at query time. A computed alias makes a result easier to understand in reports.", example: "SELECT employee_id, amount, amount * 1.10 AS adjusted_amount\nFROM salary;" },
     ],
   },
   {
-    title: "DDL — Define structure",
-    tag: "SCHEMA",
-    items: [
-      ["CREATE", "Create database objects.", "CREATE TABLE employees (id INT PRIMARY KEY, name VARCHAR(100));"],
-      ["ALTER", "Change an existing object.", "ALTER TABLE employees ADD COLUMN email VARCHAR(200);"],
-      ["DROP", "Remove an object.", "DROP TABLE old_employees;"],
-      ["TRUNCATE", "Remove all rows while retaining the table structure.", "TRUNCATE TABLE staging;"],
+    id: 3, title: "Filtering with WHERE", level: "Beginner",
+    summary: "Filter records using comparisons, AND/OR, ranges, patterns and NULL checks.",
+    outcomes: ["Write comparison conditions", "Combine conditions safely", "Handle missing values correctly"],
+    lessons: [
+      { title: "Comparison and logic", body: "WHERE filters individual rows before grouping. AND requires both conditions to be true; OR allows either condition to be true. Use parentheses when mixing them.", example: "SELECT * FROM employees\nWHERE department_id = 1 AND employee_id > 1;" },
+      { title: "IN, BETWEEN and LIKE", body: "IN checks a list of values. BETWEEN expresses a range. LIKE supports simple pattern matching; exact pattern support may vary by database.", example: "SELECT * FROM salary\nWHERE amount BETWEEN 45000 AND 60000;" },
+      { title: "NULL is not zero", body: "NULL represents an unknown or absent value; it is not the same as zero or an empty string. Use IS NULL and IS NOT NULL rather than = NULL.", example: "SELECT * FROM employees\nWHERE department_id IS NOT NULL;" },
     ],
   },
   {
-    title: "DCL / TCL — Access & transactions",
-    tag: "CONTROL",
-    items: [
-      ["GRANT", "Give privileges.", "GRANT SELECT ON employees TO analyst;"],
-      ["REVOKE", "Remove privileges.", "REVOKE UPDATE ON employees FROM analyst;"],
-      ["COMMIT", "Make a transaction's changes durable.", "COMMIT;"],
-      ["ROLLBACK", "Undo uncommitted transaction work.", "ROLLBACK;"],
-      ["SAVEPOINT", "Create a transaction rollback point.", "SAVEPOINT before_update;"],
+    id: 4, title: "Sorting, Limiting & Query Order", level: "Beginner",
+    summary: "Sort results, return a controlled number of rows and learn the order clauses are logically processed.",
+    outcomes: ["Sort ascending or descending", "Limit returned rows", "Explain common logical query order"],
+    lessons: [
+      { title: "ORDER BY", body: "ORDER BY sorts the result using one or more columns. ASC is ascending and DESC is descending. Add a second sort key to make ties easier to interpret.", example: "SELECT employee_id, amount\nFROM salary\nORDER BY amount DESC, employee_id ASC;" },
+      { title: "LIMIT", body: "LIMIT restricts the number of rows returned in SQLite and several other systems. Other database engines may use FETCH FIRST or TOP.", example: "SELECT * FROM employees\nORDER BY employee_id\nLIMIT 3;" },
+      { title: "Logical query order", body: "A useful mental model is FROM/JOIN, WHERE, GROUP BY, HAVING, SELECT, DISTINCT, ORDER BY and then LIMIT/FETCH. This helps explain why an aggregate alias is not normally usable in WHERE.", example: "SELECT department_id, COUNT(*) AS total\nFROM employees\nGROUP BY department_id\nORDER BY total DESC\nLIMIT 3;" },
+    ],
+  },
+  {
+    id: 5, title: "Aggregate Functions & GROUP BY", level: "Intermediate",
+    summary: "Summarize records and filter grouped results with aggregate functions.",
+    outcomes: ["Use COUNT, SUM, AVG, MIN and MAX", "Create grouped summaries", "Filter aggregates with HAVING"],
+    lessons: [
+      { title: "Aggregate functions", body: "COUNT counts rows or non-NULL values; SUM adds numbers; AVG finds an average; MIN and MAX return extremes. Most aggregates ignore NULL values.", example: "SELECT COUNT(*) AS employee_count\nFROM employees;" },
+      { title: "GROUP BY", body: "GROUP BY creates one result group for each unique combination of grouping columns. Every selected expression should be aggregated or included in the grouping columns where required by the SQL engine.", example: "SELECT department_id, COUNT(*) AS total\nFROM employees\nGROUP BY department_id;" },
+      { title: "HAVING", body: "WHERE filters rows before groups are formed; HAVING filters the groups after aggregation. Use HAVING for conditions involving COUNT, SUM or AVG.", example: "SELECT department_id, COUNT(*) AS total\nFROM employees\nGROUP BY department_id\nHAVING COUNT(*) >= 1;" },
+    ],
+  },
+  {
+    id: 6, title: "JOINs & Relationships", level: "Intermediate",
+    summary: "Combine related tables and reason about matching and unmatched rows.",
+    outcomes: ["Use explicit ON conditions", "Compare INNER and LEFT JOIN", "Spot duplicated rows caused by one-to-many relations"],
+    lessons: [
+      { title: "INNER JOIN", body: "INNER JOIN returns only rows that match the join condition on both sides. It is useful when the report should include only records with a related match.", example: "SELECT e.name, d.department_name\nFROM employees AS e\nINNER JOIN departments AS d\n  ON e.department_id = d.department_id;" },
+      { title: "LEFT JOIN", body: "LEFT JOIN preserves every row from the left table. When there is no matching right-side row, the right-side columns are NULL.", example: "SELECT e.name, p.project_name\nFROM employees AS e\nLEFT JOIN projects AS p\n  ON e.employee_id = p.employee_id;" },
+      { title: "Join cardinality", body: "If one employee has many projects, that employee can appear on several result rows. Know whether a relationship is one-to-one, one-to-many or many-to-many before aggregating joined data.", example: "SELECT e.name, COUNT(p.project_id) AS project_count\nFROM employees AS e\nLEFT JOIN projects AS p\n  ON e.employee_id = p.employee_id\nGROUP BY e.employee_id, e.name;" },
+    ],
+  },
+  {
+    id: 7, title: "Subqueries, CTEs & Set Operations", level: "Intermediate",
+    summary: "Compose readable multi-step queries by naming or nesting query results.",
+    outcomes: ["Read a nested query", "Use WITH to name a query block", "Choose UNION versus UNION ALL"],
+    lessons: [
+      { title: "Subqueries", body: "A subquery is a query nested inside another statement. It may provide a list of values, a single calculated value or a derived table.", example: "SELECT name FROM employees\nWHERE employee_id IN (SELECT employee_id FROM projects);" },
+      { title: "Common Table Expressions", body: "A CTE begins with WITH and gives a name to a query expression. It can make complex steps easier to test and read.", example: "WITH project_counts AS (\n  SELECT employee_id, COUNT(*) AS total\n  FROM projects GROUP BY employee_id\n)\nSELECT * FROM project_counts;" },
+      { title: "Set operations", body: "UNION combines compatible result sets and removes duplicates. UNION ALL keeps duplicates and is often faster when deduplication is not needed.", example: "SELECT employee_id FROM employees\nUNION\nSELECT employee_id FROM projects;" },
+    ],
+  },
+  {
+    id: 8, title: "Data Modification & Integrity", level: "Intermediate",
+    summary: "Create and change data deliberately while protecting its consistency.",
+    outcomes: ["Understand INSERT, UPDATE and DELETE", "Use constraints to protect data", "Explain transactions and rollback"],
+    lessons: [
+      { title: "INSERT", body: "INSERT creates rows. Listing target columns explicitly makes statements safer when table schemas change.", example: "INSERT INTO departments (department_id, department_name, location)\nVALUES (4, 'Design', 'Pune');" },
+      { title: "UPDATE and DELETE", body: "Always check the target rows before running an UPDATE or DELETE. A missing or overly broad WHERE clause can affect far more rows than intended.", example: "UPDATE employees\nSET department_id = 2\nWHERE employee_id = 4;" },
+      { title: "Constraints and transactions", body: "Primary keys, foreign keys, NOT NULL, UNIQUE and CHECK constraints preserve integrity. A transaction groups changes; COMMIT confirms them and ROLLBACK reverses uncommitted work.", example: "BEGIN;\nUPDATE salary SET amount = amount + 1000 WHERE employee_id = 1;\nCOMMIT;" },
+    ],
+  },
+  {
+    id: 9, title: "Database Design & Performance", level: "Advanced",
+    summary: "Structure data responsibly and understand the trade-offs of indexes and query plans.",
+    outcomes: ["Describe normalization", "Explain index trade-offs", "Recognize common query-performance issues"],
+    lessons: [
+      { title: "Normalization", body: "Normalization organizes facts into related tables to reduce avoidable redundancy and update anomalies. Good design makes data more consistent and easier to maintain.", example: "SELECT employee_id, department_id\nFROM employees;" },
+      { title: "Indexes", body: "Indexes can speed up selected lookups and ordering operations, but use storage and can slow writes because the index must be maintained.", example: "CREATE INDEX idx_salary_amount ON salary(amount);" },
+      { title: "Query plans and tuning", body: "Use an execution plan where supported. Check join predicates, unnecessary columns, unselective filters and indexes that match common access patterns. Measure changes rather than guessing.", example: "SELECT employee_id, amount\nFROM salary\nWHERE amount >= 50000\nORDER BY amount DESC;" },
+    ],
+  },
+  {
+    id: 10, title: "Advanced SQL & Final Revision", level: "Advanced",
+    summary: "Connect CASE expressions, window functions and analytical thinking before the final assessment.",
+    outcomes: ["Write conditional result expressions", "Explain a window function", "Combine the core SQL skills in practical tasks"],
+    lessons: [
+      { title: "CASE expressions", body: "CASE evaluates conditions in order and returns the first matching result. It can label rows without changing stored values.", example: "SELECT employee_id,\n  CASE WHEN amount >= 55000 THEN 'High' ELSE 'Standard' END AS salary_band\nFROM salary;" },
+      { title: "Window functions", body: "A window function calculates across related rows while keeping each row in the output. PARTITION BY creates groups for the calculation and ORDER BY defines its order.", example: "SELECT employee_id, amount,\n  RANK() OVER (ORDER BY amount DESC) AS salary_rank\nFROM salary;" },
+      { title: "Prepare for the final test", body: "Review SELECT, filtering, sorting, aggregation, joins, subqueries, safe data changes, design and performance. The final test contains 10 MCQs, 4 long answers and 4 SQL queries.", example: "SELECT d.department_name, COUNT(e.employee_id) AS team_size\nFROM departments AS d\nLEFT JOIN employees AS e ON e.department_id = d.department_id\nGROUP BY d.department_id, d.department_name;" },
     ],
   },
 ];
-
-const clauses = [
-  ["FROM", "Choose the source table(s).", "FROM employees"],
-  ["JOIN ... ON", "Combine related rows from multiple tables.", "JOIN departments d ON e.department_id = d.id"],
-  ["WHERE", "Filter individual source rows.", "WHERE salary >= 50000"],
-  ["GROUP BY", "Form groups for aggregate calculations.", "GROUP BY department_id"],
-  ["HAVING", "Filter groups after aggregation.", "HAVING AVG(salary) > 60000"],
-  ["SELECT", "Choose the final expressions/columns.", "SELECT department_id, AVG(salary)"],
-  ["DISTINCT", "Remove duplicate final rows.", "SELECT DISTINCT city"],
-  ["ORDER BY", "Sort the result.", "ORDER BY AVG(salary) DESC"],
-  ["LIMIT / FETCH", "Restrict returned rows where supported.", "LIMIT 10"],
-];
-
-const joins = [
-  ["INNER JOIN", "Only matching rows from both sides.", "SELECT e.name, d.name FROM employees e INNER JOIN departments d ON e.department_id = d.id;"],
-  ["LEFT JOIN", "All rows from the left table plus matching rows on the right.", "SELECT e.name, d.name FROM employees e LEFT JOIN departments d ON e.department_id = d.id;"],
-  ["RIGHT JOIN", "All rows from the right table plus matching rows on the left.", "SELECT e.name, d.name FROM employees e RIGHT JOIN departments d ON e.department_id = d.id;"],
-  ["FULL OUTER JOIN", "All rows from both sides, matched where possible.", "SELECT * FROM A FULL OUTER JOIN B ON A.id = B.id;"],
-  ["CROSS JOIN", "Cartesian product: every left row paired with every right row.", "SELECT * FROM colors CROSS JOIN sizes;"],
-  ["SELF JOIN", "Join a table to itself using aliases.", "SELECT e.name, m.name FROM employees e JOIN employees m ON e.manager_id = m.id;"],
-];
-
-const functions = [
-  ["COUNT()", "Count rows or non-null values.", "COUNT(*)"],
-  ["SUM()", "Add numeric values.", "SUM(amount)"],
-  ["AVG()", "Calculate an average.", "AVG(salary)"],
-  ["MIN()", "Find the smallest value.", "MIN(price)"],
-  ["MAX()", "Find the largest value.", "MAX(price)"],
-  ["COALESCE()", "Return the first non-null expression.", "COALESCE(phone, 'N/A')"],
-  ["NULLIF()", "Return NULL when two expressions are equal.", "NULLIF(score, 0)"],
-  ["CASE", "Implement conditional expressions.", "CASE WHEN salary > 80000 THEN 'Senior' ELSE 'Other' END"],
-];
-
-const advanced = [
-  ["Subqueries", "A query nested inside another query.", "SELECT name FROM employees WHERE salary > (SELECT AVG(salary) FROM employees);"],
-  ["CTEs", "Named query blocks introduced with WITH, useful for readable multi-step logic.", "WITH high_paid AS (...) SELECT * FROM high_paid;"],
-  ["Window Functions", "Calculate across related rows without collapsing them into groups.", "AVG(salary) OVER (PARTITION BY department_id)"],
-  ["Set Operators", "Combine compatible query results.", "SELECT city FROM customers UNION SELECT city FROM suppliers;"],
-  ["Views", "Store a reusable query definition as a database object.", "CREATE VIEW active_users AS SELECT ...;"],
-  ["Indexes", "Data structures that can accelerate selected access patterns, with storage/write trade-offs.", "CREATE INDEX idx_email ON users(email);"],
-  ["Transactions", "Group multiple changes into an atomic unit of work.", "BEGIN; UPDATE ...; COMMIT;"],
-  ["Constraints", "Enforce integrity at the database layer.", "CHECK (salary >= 0)"],
-  ["Stored Procedures", "Server-side routines supported by many SQL database systems.", "CREATE PROCEDURE ..."],
-  ["Triggers", "Database actions automatically invoked by defined events where supported.", "CREATE TRIGGER ..."],
-];
-
-const applications = [
-  ["Web & SaaS", "Users, authentication records, products, orders, subscriptions and application state."],
-  ["Banking & FinTech", "Accounts, transactions, ledgers, payments, compliance and reporting."],
-  ["E-commerce", "Catalogs, inventory, carts, orders, customers, pricing and fulfillment."],
-  ["Analytics", "Dashboards, KPIs, aggregations, cohort analysis and business reporting."],
-  ["Data Engineering", "ETL/ELT pipelines, staging tables, transformations and data quality checks."],
-  ["Data Science", "Feature extraction, dataset preparation, exploration and analytical workloads."],
-  ["Healthcare", "Structured records, scheduling, billing, inventory and operational reporting, subject to applicable privacy controls."],
-  ["Education", "Students, courses, assessments, attendance, learning activity and reporting."],
-  ["Logistics", "Routes, shipments, warehouses, drivers, inventory and delivery events."],
-  ["Gaming", "Players, inventories, scores, sessions, purchases and game telemetry."],
-];
-
-const timeline = [
-  ["1970", "Relational model", "E. F. Codd published the relational model that became foundational to modern relational database systems."],
-  ["1974", "SEQUEL", "IBM researchers Donald Chamberlin and Raymond Boyce published work on SEQUEL, the predecessor of SQL."],
-  ["1977–79", "Commercial era", "Relational Software, later Oracle, developed and commercially shipped a relational SQL implementation."],
-  ["1983", "DB2", "IBM shipped DB2, helping establish SQL-based relational databases in enterprise computing."],
-  ["1986–87", "Standardization", "ANSI standardized SQL in 1986; ISO followed with an SQL standard in 1987."],
-  ["1992", "SQL-92", "The SQL standard was substantially expanded, including richer query and data-definition capabilities."],
-  ["1999+", "Modern SQL", "Later revisions added features such as recursive queries, windowing and richer data capabilities."],
-  ["2023", "SQL:2023", "SQL:2023 is the current standard referenced by the University of Edinburgh's 2026 database course material."],
-];
-
-const roadmap = [
-  "Relational model",
-  "Tables & keys",
-  "SELECT",
-  "Filtering",
-  "Sorting",
-  "Grouping",
-  "JOINs",
-  "Subqueries",
-  "CTEs",
-  "Window functions",
-  "Transactions",
-  "Indexes",
-  "Design & normalization",
-  "Query optimization",
-  "Production SQL",
-];
-
-function TryItButton({ label = "Try it in SQLWhale" }: { label?: string }) {
-  return (
-    <div className="try-it-wrap">
-      <Link href="/run-query" className="try-it-button">
-        <span>{label}</span>
-        <strong>↗</strong>
-      </Link>
-    </div>
-  );
-}
 
 export default function LearnPage() {
-  const pageRef = useRef<HTMLElement | null>(null);
-  const [mobileLearnMenu, setMobileLearnMenu] = useState(false);
+  const [progress, setProgress] = useState<ProgressState>({
+    completedModules: [], completedCount: 0, progressPercent: 0, unlockedThrough: 1, assessment: null,
+  });
+  const [activeModuleId, setActiveModuleId] = useState(1);
+  const [view, setView] = useState<"modules" | "module" | "assessment" | "result">("modules");
+  const [loading, setLoading] = useState(true);
+  const [busy, setBusy] = useState(false);
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  const [message, setMessage] = useState("");
+  const [paper, setPaper] = useState<AssessmentPaper | null>(null);
+  const [mcqAnswers, setMcqAnswers] = useState<Record<string, number>>({});
+  const [longAnswers, setLongAnswers] = useState<Record<string, string>>({});
+  const [queryAnswers, setQueryAnswers] = useState<Record<string, string>>({});
+  const [result, setResult] = useState<any>(null);
+
+  const activeModule = modules.find((module) => module.id === activeModuleId) || modules[0];
+  const completedIds = progress.completedModules || [];
+
+  async function loadProgress() {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/learning/progress", { cache: "no-store", credentials: "include" });
+      const data = await response.json();
+      if (!response.ok) {
+        setSignedIn(response.status === 401 ? false : true);
+        setMessage(data.error || (response.status === 401 ? "Sign in to save your learning progress." : "The learning service returned an error."));
+        return;
+      }
+      setSignedIn(true);
+      setProgress(data);
+      const completedFromResponse: number[] = data.completedModules || [];
+      const nextModule = Math.min(10, data.unlockedThrough || 1);
+      setActiveModuleId((current) => completedFromResponse.includes(current) ? current : nextModule);
+      setMessage("");
+    } catch {
+      setMessage("Unable to connect to the learning service. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const root = pageRef.current;
-    if (!root) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
-        });
-      },
-      { threshold: 0.12 }
-    );
-
-    root.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    void loadProgress();
+    // Load persisted progress once when the page opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  async function openModule(moduleId: number) {
+    setActiveModuleId(moduleId);
+    setView("module");
+    setMessage("");
+  }
+
+  async function completeModule() {
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/learning/modules/" + activeModuleId + "/complete", {
+        method: "POST", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({}),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || "Unable to save module completion.");
+        return;
+      }
+      await loadProgress();
+      setView("modules");
+      setMessage("Module " + activeModuleId + " completed. Your next module is now unlocked.");
+      setActiveModuleId(Math.min(10, activeModuleId + 1));
+    } catch {
+      setMessage("Unable to save this module. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function openAssessment() {
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/learning/assessment", { credentials: "include", cache: "no-store" });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || "Finish every module to unlock the test.");
+        return;
+      }
+      setPaper(data.paper);
+      setMcqAnswers(data.attempt?.answers?.mcq || {});
+      setLongAnswers(data.attempt?.answers?.longAnswers || {});
+      setQueryAnswers(data.attempt?.answers?.queries || {});
+      setResult(null);
+      setView("assessment");
+    } catch {
+      setMessage("Unable to load the final assessment. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function submitAssessment() {
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/learning/assessment/submit", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers: { mcq: mcqAnswers, longAnswers, queries: queryAnswers } }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || "Unable to submit assessment.");
+        return;
+      }
+      setResult(data);
+      setView("result");
+      await loadProgress();
+    } catch {
+      setMessage("Assessment submission failed. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const allModulesDone = completedIds.length === 10;
+  const assessmentPassed = progress.assessment?.status === "passed";
+
   return (
-    <main ref={pageRef} className="learn-page">
+    <main className="learn-v2">
       <style jsx global>{`
-        :root {
-          --lw-bg: #07090b;
-          --lw-panel: #0d1114;
-          --lw-panel-2: #11171b;
-          --lw-text: #eef2f3;
-          --lw-muted: #879198;
-          --lw-line: rgba(255,255,255,.10);
-          --lw-accent: #8fe7bd;
-          --lw-accent-2: #7cc7ff;
-        }
-
-        * { box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-          margin: 0;
-          background: var(--lw-bg);
-          color: var(--lw-text);
-        }
-
-        .learn-page {
+        .learn-v2 {
+          --learn-bg: #07090d;
+          --learn-panel: #0d1219;
+          --learn-panel2: #111a23;
+          --learn-text: #f4f7fb;
+          --learn-muted: #9aa8b6;
+          --learn-line: rgba(255,255,255,.10);
+          --learn-green: #8fe7bd;
+          --learn-blue: #7cc7ff;
           min-height: 100vh;
-          overflow: hidden;
-          background:
-            radial-gradient(circle at 80% 10%, rgba(124,199,255,.10), transparent 30%),
-            radial-gradient(circle at 10% 25%, rgba(143,231,189,.07), transparent 28%),
-            var(--lw-bg);
+          color: var(--learn-text);
+          background: radial-gradient(ellipse at 15% 0%, rgba(124,199,255,.10), transparent 32%), radial-gradient(ellipse at 90% 20%, rgba(143,231,189,.08), transparent 28%), var(--learn-bg);
           font-family: Arial, Helvetica, sans-serif;
+          padding-bottom: 72px;
+        }
+        .learn-v2 * { box-sizing: border-box; }
+        .learn-v2 a { color: inherit; text-decoration: none; }
+        .learn-topbar { height: 70px; padding: 0 5vw; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--learn-line); position:sticky; top:0; z-index:20; background:rgba(7,9,13,.86); backdrop-filter:blur(18px); }
+        .learn-brand { display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:-.04em; }
+        .learn-logo { display:grid; place-items:center; width:36px; height:36px; border:1px solid rgba(143,231,189,.45); border-radius:11px; color:var(--learn-green); background:rgba(143,231,189,.06); font:700 11px monospace; }
+        .learn-toplinks { display:flex; gap:20px; align-items:center; color:var(--learn-muted); font:11px monospace; text-transform:uppercase; letter-spacing:.08em; }
+        .learn-toplinks a:hover { color:var(--learn-green); }
+        .learn-wrap { width:min(1180px, 90vw); margin:0 auto; }
+        .learn-hero { padding:68px 0 32px; display:grid; grid-template-columns:minmax(0,1fr) 230px; gap:36px; align-items:center; }
+        .learn-eyebrow { display:flex; align-items:center; gap:9px; text-transform:uppercase; color:var(--learn-green); font:700 10px monospace; letter-spacing:.19em; }
+        .learn-eyebrow:before { content:""; height:1px; width:28px; background:var(--learn-green); }
+        .learn-hero h1 { font-size:clamp(42px,6vw,76px); line-height:.98; letter-spacing:-.075em; margin:18px 0; max-width:790px; }
+        .learn-hero h1 span { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,.62); }
+        .learn-hero p { color:var(--learn-muted); font-size:16px; line-height:1.75; max-width:680px; margin:0; }
+        .learn-hero-side { padding:24px; border:1px solid var(--learn-line); border-radius:20px; background:linear-gradient(145deg,rgba(143,231,189,.07),rgba(124,199,255,.03)); }
+        .learn-hero-side strong { display:block; font-size:42px; letter-spacing:-.07em; }
+        .learn-hero-side span { color:var(--learn-muted); font:10px monospace; text-transform:uppercase; letter-spacing:.12em; }
+        .learn-hero-side .mini-bar { height:6px; background:rgba(255,255,255,.08); border-radius:99px; margin:16px 0 10px; overflow:hidden; }
+        .learn-hero-side .mini-bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,var(--learn-green),var(--learn-blue)); transition:width .3s ease; }
+        .learn-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:14px 0 28px; }
+        .learn-stat { border:1px solid var(--learn-line); background:rgba(255,255,255,.025); border-radius:15px; padding:17px 19px; }
+        .learn-stat span { display:block; color:var(--learn-muted); font:10px monospace; text-transform:uppercase; letter-spacing:.12em; }
+        .learn-stat strong { display:block; margin-top:8px; font-size:25px; letter-spacing:-.04em; }
+        .learn-stat small { color:var(--learn-green); font-size:11px; }
+        .learn-alert { border:1px solid rgba(124,199,255,.24); background:rgba(124,199,255,.055); padding:13px 16px; color:#d9e8f5; border-radius:12px; line-height:1.55; font-size:13px; margin:16px 0; }
+        .learn-alert.error { border-color:rgba(255,137,137,.28); background:rgba(255,100,100,.06); }
+        .learn-heading { display:flex; justify-content:space-between; align-items:end; gap:20px; margin:34px 0 16px; }
+        .learn-heading h2 { font-size:clamp(24px,3.4vw,36px); letter-spacing:-.055em; margin:0 0 7px; }
+        .learn-heading p { color:var(--learn-muted); font-size:13px; line-height:1.6; margin:0; }
+        .learn-module-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+        .learn-module-card { text-align:left; width:100%; min-height:144px; display:grid; grid-template-columns:48px minmax(0,1fr) 24px; gap:14px; padding:19px; border:1px solid var(--learn-line); border-radius:17px; background:rgba(255,255,255,.025); color:var(--learn-text); cursor:pointer; transition:border-color .2s,transform .2s,background .2s; }
+        .learn-module-card:hover:not(:disabled) { border-color:rgba(143,231,189,.5); background:rgba(143,231,189,.045); transform:translateY(-2px); }
+        .learn-module-card:disabled { cursor:not-allowed; opacity:.52; }
+        .learn-module-card.is-active { border-color:rgba(143,231,189,.65); background:linear-gradient(125deg,rgba(143,231,189,.08),rgba(124,199,255,.025)); }
+        .learn-module-number { width:44px; height:44px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--learn-line); color:var(--learn-muted); font:700 12px monospace; }
+        .learn-module-card.is-complete .learn-module-number { color:#07120d; background:var(--learn-green); border-color:var(--learn-green); }
+        .learn-module-copy { min-width:0; }
+        .learn-module-copy small { display:block; color:var(--learn-green); font:10px monospace; text-transform:uppercase; letter-spacing:.1em; margin:1px 0 8px; }
+        .learn-module-copy strong { display:block; font-size:16px; line-height:1.35; margin-bottom:7px; }
+        .learn-module-copy p { margin:0; color:var(--learn-muted); line-height:1.55; font-size:12px; }
+        .learn-module-status { color:var(--learn-muted); font-size:20px; }
+        .learn-panel { border:1px solid var(--learn-line); border-radius:20px; background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.015)); padding:clamp(20px,4vw,38px); margin-top:20px; }
+        .learn-panel-header { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:24px; }
+        .learn-panel-header h2 { margin:10px 0 8px; font-size:clamp(26px,4vw,42px); line-height:1.05; letter-spacing:-.06em; }
+        .learn-panel-header p { margin:0; color:var(--learn-muted); line-height:1.6; font-size:14px; }
+        .learn-tag { display:inline-flex; border:1px solid var(--learn-line); border-radius:99px; padding:7px 10px; color:var(--learn-green); font:10px monospace; text-transform:uppercase; letter-spacing:.08em; white-space:nowrap; }
+        .learn-outcomes { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 26px; }
+        .learn-outcomes span { color:#c5d0d9; border:1px solid var(--learn-line); border-radius:99px; padding:8px 11px; font-size:11px; }
+        .learn-lesson-list { display:grid; gap:12px; }
+        .learn-lesson { padding:20px; border:1px solid var(--learn-line); border-radius:14px; background:rgba(0,0,0,.18); }
+        .learn-lesson h3 { margin:0 0 9px; font-size:17px; letter-spacing:-.025em; }
+        .learn-lesson p { color:var(--learn-muted); margin:0 0 15px; line-height:1.7; font-size:13px; }
+        .learn-lesson pre { margin:0; padding:15px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:#05080b; border:1px solid rgba(255,255,255,.07); border-radius:10px; color:var(--learn-green); font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace; }
+        .learn-actions { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-top:22px; }
+        .learn-btn { display:inline-flex; justify-content:center; align-items:center; gap:9px; border:1px solid rgba(143,231,189,.48); border-radius:11px; padding:12px 16px; background:var(--learn-green); color:#06110b; font-weight:800; font-size:12px; cursor:pointer; transition:transform .2s,opacity .2s; }
+        .learn-btn:hover:not(:disabled) { transform:translateY(-2px); }
+        .learn-btn:disabled { opacity:.45; cursor:not-allowed; }
+        .learn-btn.secondary { color:var(--learn-text); background:rgba(255,255,255,.035); border-color:var(--learn-line); }
+        .learn-btn.link-btn { background:transparent; color:var(--learn-green); }
+        .learn-muted { color:var(--learn-muted); font-size:12px; line-height:1.6; }
+        .learn-assessment-intro { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:20px 0; }
+        .learn-assessment-intro div { border:1px solid var(--learn-line); border-radius:12px; padding:14px; background:rgba(255,255,255,.02); }
+        .learn-assessment-intro b { display:block; font-size:20px; }
+        .learn-assessment-intro span { color:var(--learn-muted); font-size:11px; line-height:1.5; }
+        .learn-question { padding:20px 0; border-top:1px solid var(--learn-line); }
+        .learn-question h3 { margin:0 0 13px; font-size:15px; line-height:1.5; }
+        .learn-question textarea { width:100%; min-height:120px; resize:vertical; border:1px solid var(--learn-line); border-radius:11px; outline:none; background:#080c11; color:var(--learn-text); padding:13px; font:13px/1.65 Arial,sans-serif; }
+        .learn-question textarea:focus { border-color:rgba(143,231,189,.6); }
+        .learn-question textarea.sql-answer { min-height:95px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; color:var(--learn-green); }
+        .learn-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+        .learn-option { display:flex; align-items:flex-start; gap:10px; padding:12px; border:1px solid var(--learn-line); border-radius:10px; color:#d8e0e6; background:rgba(255,255,255,.02); font-size:13px; cursor:pointer; }
+        .learn-option:has(input:checked) { border-color:rgba(143,231,189,.45); background:rgba(143,231,189,.06); }
+        .learn-option input { accent-color:#8fe7bd; margin-top:2px; }
+        .learn-result-score { font-size:clamp(56px,9vw,90px); font-weight:800; letter-spacing:-.08em; line-height:1; }
+        .learn-result-score.pass { color:var(--learn-green); }
+        .learn-result-score.fail { color:#ffadad; }
+        .learn-results-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:20px 0; }
+        .learn-result-item { border:1px solid var(--learn-line); border-radius:12px; padding:14px; }
+        .learn-result-item strong { display:block; font-size:24px; }
+        .learn-result-item span { color:var(--learn-muted); font-size:11px; }
+        .learn-result-list { list-style:none; padding:0; margin:15px 0; display:grid; gap:8px; }
+        .learn-result-list li { border:1px solid var(--learn-line); border-radius:10px; padding:12px; font-size:12px; line-height:1.5; }
+        .learn-result-list b { color:var(--learn-green); }
+        .learn-footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--learn-line); display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; color:var(--learn-muted); font:10px monospace; letter-spacing:.07em; text-transform:uppercase; }
+        @media (max-width:760px) {
+          .learn-topbar { height:62px; padding:0 16px; }
+          .learn-toplinks { gap:12px; font-size:9px; }
+          .learn-toplinks a:first-child { display:none; }
+          .learn-wrap { width:min(100% - 32px, 600px); }
+          .learn-hero { grid-template-columns:1fr; padding:42px 0 24px; gap:20px; }
+          .learn-hero-side { display:none; }
+          .learn-hero p { font-size:14px; }
+          .learn-stats { gap:8px; }
+          .learn-stat { padding:13px; }
+          .learn-stat strong { font-size:20px; }
+          .learn-stat span { font-size:9px; letter-spacing:.05em; }
+          .learn-module-grid { grid-template-columns:1fr; }
+          .learn-module-card { min-height:124px; padding:15px; grid-template-columns:42px minmax(0,1fr) 18px; gap:11px; }
+          .learn-module-number { width:39px; height:39px; }
+          .learn-heading { display:block; }
+          .learn-panel { padding:18px; }
+          .learn-panel-header { display:block; }
+          .learn-panel-header .learn-tag { margin-top:14px; }
+          .learn-assessment-intro { grid-template-columns:1fr; }
+          .learn-options { grid-template-columns:1fr; }
+          .learn-results-grid { grid-template-columns:1fr; }
+          .learn-actions { align-items:stretch; }
+          .learn-actions .learn-btn { width:100%; }
         }
-
-        .learn-page a { color: inherit; text-decoration: none; }
-
-        .learn-nav {
-          position: sticky;
-          top: 0;
-          z-index: 50;
-          height: 72px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 5vw;
-          border-bottom: 1px solid var(--lw-line);
-          background: rgba(7,9,11,.78);
-          backdrop-filter: blur(18px);
-        }
-
-        .learn-brand {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          font-weight: 800;
-          letter-spacing: -.04em;
-        }
-
-        .learn-mark {
-          width: 34px;
-          height: 34px;
-          border: 1px solid var(--lw-line);
-          display: grid;
-          place-items: center;
-          border-radius: 9px;
-          font: 700 11px/1 monospace;
-          color: var(--lw-accent);
-          background: #0b1111;
-        }
-
-        .learn-nav-links {
-          display: flex;
-          gap: 24px;
-          color: var(--lw-muted);
-          font: 11px/1 monospace;
-          text-transform: uppercase;
-          letter-spacing: .12em;
-        }
-
-        .learn-nav-links a:hover { color: #fff; }
-
-        .hero {
-          min-height: calc(100vh - 72px);
-          padding: 10vh 6vw 8vh;
-          display: grid;
-          grid-template-columns: 1.25fr .75fr;
-          gap: 7vw;
-          align-items: center;
-          position: relative;
-        }
-
-        .eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          color: var(--lw-muted);
-          font: 10px/1 monospace;
-          letter-spacing: .2em;
-          text-transform: uppercase;
-        }
-
-        .eyebrow::before {
-          content: "";
-          width: 34px;
-          height: 1px;
-          background: var(--lw-accent);
-        }
-
-        .hero h1 {
-          margin: 24px 0;
-          max-width: 950px;
-          font-size: clamp(64px, 10vw, 150px);
-          line-height: .84;
-          letter-spacing: -.085em;
-          font-weight: 800;
-        }
-
-        .hero h1 span {
-          color: transparent;
-          -webkit-text-stroke: 1px rgba(255,255,255,.55);
-        }
-
-        .hero-copy {
-          max-width: 620px;
-          color: var(--lw-muted);
-          font-size: clamp(17px, 2vw, 23px);
-          line-height: 1.55;
-        }
-
-        .hero-meta {
-          margin-top: 42px;
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-        }
-
-        .pill {
-          padding: 11px 14px;
-          border: 1px solid var(--lw-line);
-          color: #aab3b8;
-          background: rgba(255,255,255,.025);
-          font: 10px/1 monospace;
-          text-transform: uppercase;
-          letter-spacing: .13em;
-        }
-
-        .hero-visual {
-          min-height: 500px;
-          position: relative;
-          display: grid;
-          place-items: center;
-        }
-
-        .orb {
-          width: min(38vw, 440px);
-          aspect-ratio: 1;
-          border-radius: 50%;
-          border: 1px solid rgba(143,231,189,.30);
-          box-shadow: 0 0 100px rgba(143,231,189,.08), inset 0 0 70px rgba(124,199,255,.05);
-          animation: float 7s ease-in-out infinite;
-          position: relative;
-        }
-
-        .orb::before, .orb::after {
-          content: "";
-          position: absolute;
-          inset: 12%;
-          border-radius: 50%;
-          border: 1px dashed rgba(255,255,255,.15);
-          animation: spin 18s linear infinite;
-        }
-
-        .orb::after {
-          inset: 25%;
-          border-style: solid;
-          border-color: rgba(124,199,255,.18) transparent;
-          animation-direction: reverse;
-          animation-duration: 12s;
-        }
-
-        .orb-code {
-          position: absolute;
-          inset: 0;
-          display: grid;
-          place-items: center;
-          font: 700 clamp(13px, 1.5vw, 18px)/1.7 monospace;
-          color: var(--lw-accent);
-          text-align: center;
-        }
-
-        .section {
-          padding: 13vh 6vw;
-          border-top: 1px solid var(--lw-line);
-        }
-
-        .section-head {
-          display: flex;
-          justify-content: space-between;
-          gap: 40px;
-          align-items: end;
-          margin-bottom: 70px;
-        }
-
-        .section-head h2 {
-          margin: 12px 0 0;
-          max-width: 850px;
-          font-size: clamp(44px, 7vw, 100px);
-          line-height: .88;
-          letter-spacing: -.07em;
-        }
-
-        .section-head p {
-          max-width: 380px;
-          color: var(--lw-muted);
-          line-height: 1.7;
-        }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          border-top: 1px solid var(--lw-line);
-          border-left: 1px solid var(--lw-line);
-        }
-
-        .card {
-          min-height: 230px;
-          padding: 28px;
-          border-right: 1px solid var(--lw-line);
-          border-bottom: 1px solid var(--lw-line);
-          background: rgba(255,255,255,.018);
-          transition: transform .4s ease, background .4s ease;
-        }
-
-        .card:hover {
-          transform: translateY(-6px);
-          background: rgba(143,231,189,.035);
-        }
-
-        .number {
-          color: #4e5b61;
-          font: 11px/1 monospace;
-        }
-
-        .card h3 {
-          margin: 55px 0 12px;
-          font-size: 22px;
-          letter-spacing: -.03em;
-        }
-
-        .card p {
-          margin: 0;
-          color: var(--lw-muted);
-          line-height: 1.65;
-          font-size: 14px;
-        }
-
-        .timeline {
-          position: relative;
-          display: grid;
-          gap: 0;
-        }
-
-        .timeline::before {
-          content: "";
-          position: absolute;
-          left: 88px;
-          top: 0;
-          bottom: 0;
-          width: 1px;
-          background: var(--lw-line);
-        }
-
-        .time-row {
-          display: grid;
-          grid-template-columns: 140px 1fr;
-          gap: 70px;
-          padding: 38px 0;
-          border-bottom: 1px solid var(--lw-line);
-          position: relative;
-        }
-
-        .time-year {
-          color: var(--lw-accent);
-          font: 700 12px/1.4 monospace;
-          letter-spacing: .08em;
-        }
-
-        .time-content h3 {
-          margin: 0 0 10px;
-          font-size: 28px;
-          letter-spacing: -.04em;
-        }
-
-        .time-content p {
-          margin: 0;
-          max-width: 720px;
-          color: var(--lw-muted);
-          line-height: 1.7;
-        }
-
-        .query-section {
-          background: #090c0f;
-        }
-
-        .command-group {
-          margin-bottom: 80px;
-        }
-
-        .group-head {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid var(--lw-line);
-          padding-bottom: 18px;
-          margin-bottom: 0;
-        }
-
-        .group-head h3 {
-          margin: 0;
-          font-size: 28px;
-          letter-spacing: -.04em;
-        }
-
-        .tag {
-          color: var(--lw-accent);
-          font: 10px monospace;
-          letter-spacing: .16em;
-        }
-
-        .query-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .query-card {
-          padding: 26px 0;
-          border-bottom: 1px solid var(--lw-line);
-          display: grid;
-          grid-template-columns: 150px 1fr;
-          gap: 30px;
-        }
-
-        .query-card strong {
-          font: 700 14px monospace;
-          color: #fff;
-        }
-
-        .query-card p {
-          margin: 0 0 13px;
-          color: var(--lw-muted);
-          line-height: 1.55;
-          font-size: 14px;
-        }
-
-        pre {
-          margin: 0;
-          overflow-x: auto;
-          padding: 15px;
-          background: #050708;
-          border: 1px solid rgba(255,255,255,.07);
-          color: #bdeed6;
-          font: 12px/1.7 monospace;
-        }
-
-        .clauses {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          border-left: 1px solid var(--lw-line);
-          border-top: 1px solid var(--lw-line);
-        }
-
-        .clause {
-          padding: 24px;
-          border-right: 1px solid var(--lw-line);
-          border-bottom: 1px solid var(--lw-line);
-        }
-
-        .clause strong {
-          color: var(--lw-accent-2);
-          font: 700 13px monospace;
-        }
-
-        .clause p {
-          color: var(--lw-muted);
-          line-height: 1.6;
-          min-height: 55px;
-        }
-
-        .code-strip {
-          margin-top: 40px;
-          padding: 28px;
-          border: 1px solid var(--lw-line);
-          background: #050708;
-          overflow: auto;
-        }
-
-        .join-list, .advanced-list {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          border-top: 1px solid var(--lw-line);
-          border-left: 1px solid var(--lw-line);
-        }
-
-        .join-item, .advanced-item {
-          padding: 30px;
-          border-right: 1px solid var(--lw-line);
-          border-bottom: 1px solid var(--lw-line);
-        }
-
-        .join-item h3, .advanced-item h3 {
-          margin: 0 0 10px;
-          font-size: 22px;
-        }
-
-        .join-item p, .advanced-item p {
-          color: var(--lw-muted);
-          line-height: 1.65;
-        }
-
-        .application-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          border-top: 1px solid var(--lw-line);
-          border-left: 1px solid var(--lw-line);
-        }
-
-        .application {
-          min-height: 220px;
-          padding: 25px;
-          border-right: 1px solid var(--lw-line);
-          border-bottom: 1px solid var(--lw-line);
-        }
-
-        .application h3 {
-          margin: 50px 0 12px;
-          font-size: 19px;
-        }
-
-        .application p {
-          margin: 0;
-          color: var(--lw-muted);
-          line-height: 1.6;
-          font-size: 13px;
-        }
-
-        .roadmap {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 35px;
-        }
-
-        .roadmap span {
-          padding: 14px 17px;
-          border: 1px solid var(--lw-line);
-          background: rgba(255,255,255,.02);
-          color: #aab3b8;
-          font: 11px monospace;
-          transition: .3s ease;
-        }
-
-        .roadmap span:hover {
-          color: #fff;
-          border-color: rgba(143,231,189,.45);
-          transform: translateY(-3px);
-        }
-
-        .final {
-          min-height: 80vh;
-          display: grid;
-          place-items: center;
-          text-align: center;
-          padding: 10vh 6vw;
-          border-top: 1px solid var(--lw-line);
-        }
-
-        .final h2 {
-          margin: 18px auto;
-          max-width: 1000px;
-          font-size: clamp(55px, 9vw, 140px);
-          line-height: .86;
-          letter-spacing: -.08em;
-        }
-
-        .final h2 span {
-          color: transparent;
-          -webkit-text-stroke: 1px rgba(255,255,255,.5);
-        }
-
-        .final p {
-          max-width: 580px;
-          margin: 0 auto 32px;
-          color: var(--lw-muted);
-          line-height: 1.7;
-        }
-
-        .cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 14px;
-          padding: 15px 20px;
-          border: 1px solid rgba(143,231,189,.4);
-          color: var(--lw-accent);
-          font: 11px monospace;
-          text-transform: uppercase;
-          letter-spacing: .12em;
-          transition: .3s ease;
-        }
-
-        .cta:hover {
-          background: var(--lw-accent);
-          color: #07100c;
-          transform: translateY(-4px);
-        }
-
-        .reveal {
-          opacity: 0;
-          transform: translateY(55px);
-          transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1);
-        }
-
-        .reveal.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: .08s; }
-        .reveal-delay-2 { transition-delay: .16s; }
-        .reveal-delay-3 { transition-delay: .24s; }
-
-        .marquee {
-          border-top: 1px solid var(--lw-line);
-          border-bottom: 1px solid var(--lw-line);
-          overflow: hidden;
-          white-space: nowrap;
-          padding: 22px 0;
-          color: #4f5a60;
-          font: 700 12px monospace;
-          letter-spacing: .18em;
-        }
-
-        .marquee-track {
-          display: inline-block;
-          animation: marquee 28s linear infinite;
-        }
-
-        @keyframes marquee {
-          to { transform: translateX(-50%); }
-        }
-
-        @keyframes float {
-          0%,100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-18px) rotate(2deg); }
-        }
-
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 1000px) {
-          .hero { grid-template-columns: 1fr; }
-          .hero-visual { min-height: 360px; }
-          .orb { width: min(65vw, 400px); }
-          .grid { grid-template-columns: repeat(2, 1fr); }
-          .application-grid { grid-template-columns: repeat(2, 1fr); }
-          .clauses { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 720px) {
-          .learn-nav { padding: 0 16px; }
-          .learn-nav-links { display: none; }
-          .learn-mobile-menu-button { display: flex; }
-          .learn-mobile-menu {
-            position: absolute;
-            top: 72px;
-            left: 12px;
-            right: 12px;
-            display: grid;
-            gap: 4px;
-            padding: 10px;
-            border: 1px solid var(--lw-line);
-            border-radius: 12px;
-            background: rgba(9,12,15,.98);
-            box-shadow: 0 18px 40px rgba(0,0,0,.34);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-8px);
-            transition: opacity .2s ease, transform .2s ease;
-          }
-          .learn-mobile-menu.is-open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-          }
-          .learn-mobile-menu a {
-            padding: 12px 11px;
-            border: 1px solid transparent;
-            color: var(--lw-muted);
-            font: 10px/1 monospace;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-          }
-          .learn-mobile-menu a:hover {
-            color: #fff;
-            border-color: var(--lw-line);
-            background: rgba(255,255,255,.025);
-          }
-          .hero, .section { padding-left: 18px; padding-right: 18px; }
-          .hero { min-height: auto; gap: 30px; padding-top: 60px; }
-          .hero h1 { font-size: clamp(52px, 16vw, 88px); }
-          .hero-copy { font-size: 16px; }
-          .hero-visual { min-height: 320px; }
-          .orb { width: min(78vw, 320px); }
-          .section { padding-top: 72px; padding-bottom: 72px; }
-          .section-head h2 { font-size: clamp(38px, 13vw, 66px); }
-          .query-card, .join-item, .advanced-item, .clause, .card, .application { overflow-wrap: anywhere; }
-          pre { font-size: 11px; white-space: pre-wrap; word-break: break-word; }
-
-          .hero { padding-top: 80px; }
-          .section-head { display: block; margin-bottom: 45px; }
-          .grid, .query-grid, .join-list, .advanced-list,
-          .application-grid, .clauses { grid-template-columns: 1fr; }
-          .card { min-height: 190px; }
-          .query-card { grid-template-columns: 1fr; gap: 12px; padding: 20px 0; }
-          .group-head { align-items: flex-start; gap: 12px; }
-          .group-head h3 { font-size: 22px; }
-          .try-it-wrap { justify-content: stretch; }
-          .try-it-button { width: 100%; justify-content: space-between; }
-          .timeline::before { display: none; }
-          .time-row { grid-template-columns: 1fr; gap: 10px; }
-          .time-content h3 { font-size: 23px; }
-          .orb { width: 75vw; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          html { scroll-behavior: auto; }
-          *, *::before, *::after {
-            animation-duration: .001ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: .001ms !important;
-          }
-          .reveal {
-            opacity: 1;
-            transform: none;
-          }
-        }
-
-        .try-it-wrap {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 18px;
-        }
-
-        .try-it-button {
-          display: inline-flex;
-          align-items: center;
-          gap: 14px;
-          padding: 11px 15px;
-          border: 1px solid rgba(143,231,189,.34);
-          background: rgba(143,231,189,.035);
-          color: var(--lw-accent);
-          font: 700 10px/1 monospace;
-          text-transform: uppercase;
-          letter-spacing: .1em;
-          transition: transform .25s ease, background .25s ease, border-color .25s ease;
-        }
-
-        .try-it-button strong {
-          font-size: 14px;
-        }
-
-        .try-it-button:hover {
-          transform: translateY(-3px);
-          background: rgba(143,231,189,.10);
-          border-color: rgba(143,231,189,.65);
-        }
-
-        .learn-mobile-menu-button {
-          display: none;
-          width: 38px;
-          height: 38px;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          gap: 4px;
-          border: 1px solid var(--lw-line);
-          border-radius: 9px;
-          background: #0b1111;
-          color: var(--lw-text);
-          cursor: pointer;
-        }
-
-        .learn-mobile-menu-button span {
-          width: 14px;
-          height: 1px;
-          background: currentColor;
-          transition: transform .2s ease, opacity .2s ease;
-        }
-
-        .learn-mobile-menu-button.is-open span:nth-child(1) {
-          transform: translateY(5px) rotate(45deg);
-        }
-
-        .learn-mobile-menu-button.is-open span:nth-child(2) {
-          opacity: 0;
-        }
-
-        .learn-mobile-menu-button.is-open span:nth-child(3) {
-          transform: translateY(-5px) rotate(-45deg);
-        }
-
-        .learn-mobile-menu {
-          display: none;
-        }
-
-        .sql-essentials-grid pre {
-          white-space: pre-wrap;
-          word-break: break-word;
-        }
-
       `}</style>
 
-      <nav className="learn-nav">
+      <nav className="learn-topbar">
         <Link href="/" className="learn-brand">
-          <span className="learn-mark">SQL</span>
-          <span>SQLWhale / Learn</span>
+          <span className="learn-logo">SQL</span>
+          <span>SQLWhale <span style={{ color: "#8fe7bd" }}>/ Learn</span></span>
         </Link>
-
-        <div className="learn-nav-links">
-          <a href="#history">History</a>
-          <a href="#concepts">Concepts</a>
-          <a href="#essentials">SQL Basics</a>
-          <a href="#queries">Queries</a>
-          <a href="#joins">Joins</a>
-          <a href="#advanced">Advanced</a>
-          <a href="#applications">Applications</a>
-        </div>
-
-        <button
-          type="button"
-          className={"learn-mobile-menu-button " + (mobileLearnMenu ? "is-open" : "")}
-          onClick={() => setMobileLearnMenu((current) => !current)}
-          aria-label={mobileLearnMenu ? "Close Learn navigation" : "Open Learn navigation"}
-          aria-expanded={mobileLearnMenu}
-        >
-          <span /><span /><span />
-        </button>
-
-        <div className={"learn-mobile-menu " + (mobileLearnMenu ? "is-open" : "")}>
-          {[
-            ["#history", "History"],
-            ["#concepts", "Concepts"],
-            ["#essentials", "SQL Basics"],
-            ["#queries", "Queries"],
-            ["#joins", "Joins"],
-            ["#advanced", "Advanced"],
-            ["#applications", "Applications"],
-          ].map(([href, label]) => (
-            <a key={href} href={href} onClick={() => setMobileLearnMenu(false)}>{label}</a>
-          ))}
+        <div className="learn-toplinks">
+          <a href="#modules" onClick={() => setView("modules")}>Modules</a>
+          <Link href="/run-query">Query Lab ↗</Link>
         </div>
       </nav>
 
-      <section className="hero">
-        <div className="reveal">
-          <div className="eyebrow">SQL / KNOWLEDGE SYSTEM</div>
-          <h1>
-            Learn SQL.
-            <br />
-            <span>See the system.</span>
-          </h1>
-          <p className="hero-copy">
-            One interactive reference for SQL fundamentals, commands, clauses,
-            joins, functions, subqueries, CTEs, windows, transactions,
-            database design, applications and the history of the language.
-          </p>
-
-          <div className="hero-meta">
-            <span className="pill">Beginner → Advanced</span>
-            <span className="pill">Query Reference</span>
-            <span className="pill">Database Thinking</span>
-          </div>
-        </div>
-
-        <div className="hero-visual reveal reveal-delay-2">
-          <div className="orb">
-            <div className="orb-code">
-              SELECT<br />
-              FROM<br />
-              WHERE<br />
-              JOIN<br />
-              GROUP BY<br />
-              ORDER BY
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="marquee">
-        <div className="marquee-track">
-          SQL • DATA • TABLES • QUERIES • RELATIONS • JOINS • AGGREGATION •
-          TRANSACTIONS • INDEXES • SQL • DATA • TABLES • QUERIES • RELATIONS •
-          JOINS • AGGREGATION • TRANSACTIONS • INDEXES •
-        </div>
-      </div>
-
-      <section id="history" className="section">
-        <div className="section-head reveal">
+      <div className="learn-wrap">
+        <header className="learn-hero">
           <div>
-            <div className="eyebrow">01 / ORIGIN</div>
-            <h2>From relational theory to modern SQL.</h2>
+            <div className="learn-eyebrow">LEARN · PRACTISE · GET CERTIFIED</div>
+            <h1>Master SQL, <span>one module at a time.</span></h1>
+            <p>Follow a guided 10-module learning path. Complete each module to unlock the next one, build your progress in 10% steps, then prove your skills in the 50-mark final assessment.</p>
           </div>
-          <p>
-            SQL grew from the relational model and IBM research in the 1970s,
-            then became standardized and widely implemented across relational
-            database systems.
-          </p>
-        </div>
+          <div className="learn-hero-side">
+            <strong>{loading ? "—" : progress.progressPercent + "%"}</strong>
+            <span>Learning path complete</span>
+            <div className="mini-bar"><i style={{ width: progress.progressPercent + "%" }} /></div>
+            <span>{progress.completedCount} of 10 modules completed</span>
+          </div>
+        </header>
 
-        <div className="timeline">
-          {timeline.map(([year, title, text], index) => (
-            <article className={`time-row reveal reveal-delay-${(index % 3) + 1}`} key={year}>
-              <div className="time-year">{year}</div>
-              <div className="time-content">
-                <h3>{title}</h3>
-                <p>{text}</p>
+        <section className="learn-stats" aria-label="Learning statistics">
+          <div className="learn-stat"><span>Course progress</span><strong>{loading ? "…" : progress.progressPercent + "%"}</strong><small>10% per module</small></div>
+          <div className="learn-stat"><span>Modules completed</span><strong>{loading ? "…" : progress.completedCount + " / 10"}</strong><small>Sequential unlocks</small></div>
+          <div className="learn-stat"><span>Final assessment</span><strong>{assessmentPassed ? "Passed" : allModulesDone ? "Unlocked" : "Locked"}</strong><small>{assessmentPassed ? "Score: " + progress.assessment?.totalScore + " / 50" : "Pass mark: 40 / 50"}</small></div>
+        </section>
+
+        {!loading && signedIn === false && (
+          <div className="learn-alert error">
+            Sign in to save module progress and take the final assessment. <Link href="/login" style={{ textDecoration: "underline", fontWeight: 700 }}>Log in</Link> or <Link href="/signup" style={{ textDecoration: "underline", fontWeight: 700 }}>create an account</Link>.
+          </div>
+        )}
+        {message && <div className={"learn-alert" + (signedIn === false ? " error" : "")} role="status">{message}</div>}
+
+        {view !== "assessment" && view !== "result" && (
+          <section id="modules">
+            <div className="learn-heading">
+              <div><h2>Your SQL learning path</h2><p>Module 1 starts unlocked. Finish a module to unlock the next module.</p></div>
+              <span className="learn-tag">{progress.completedCount} / 10 complete</span>
+            </div>
+            <div className="learn-module-grid">
+              {modules.map((module) => {
+                const completed = completedIds.includes(module.id);
+                const unlocked = completed || module.id <= Math.max(1, progress.unlockedThrough);
+                return (
+                  <button
+                    key={module.id}
+                    type="button"
+                    className={"learn-module-card" + (completed ? " is-complete" : "") + (view === "module" && activeModuleId === module.id ? " is-active" : "")}
+                    disabled={!unlocked}
+                    onClick={() => void openModule(module.id)}
+                    aria-label={module.title + (completed ? ", completed" : unlocked ? ", unlocked" : ", locked")}
+                  >
+                    <span className="learn-module-number">{completed ? "✓" : String(module.id).padStart(2, "0")}</span>
+                    <span className="learn-module-copy">
+                      <small>{completed ? "Completed · " + (module.id * 10) + "% reached" : unlocked ? module.level + " · reach " + (module.id * 10) + "%" : "Locked module"}</small>
+                      <strong>{module.title}</strong>
+                      <p>{module.summary}</p>
+                    </span>
+                    <span className="learn-module-status">{completed ? "✓" : unlocked ? "→" : "⌑"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {view === "module" && (
+          <section className="learn-panel" aria-live="polite">
+            <div className="learn-panel-header">
+              <div>
+                <div className="learn-eyebrow">MODULE {String(activeModule.id).padStart(2, "0")} / 10</div>
+                <h2>{activeModule.title}</h2>
+                <p>{activeModule.summary}</p>
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="concepts" className="section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">02 / FOUNDATIONS</div>
-            <h2>Understand the objects before the queries.</h2>
-          </div>
-          <p>
-            SQL becomes easier when tables, keys, relationships, schemas and
-            constraints are treated as a system rather than isolated syntax.
-          </p>
-        </div>
-
-        <div className="grid">
-          {concepts.map(([number, title, text]) => (
-            <article className="card reveal" key={title}>
-              <div className="number">{number}</div>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="essentials" className="section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">03 / SQL ESSENTIALS</div>
-            <h2>The pieces that make SQL click.</h2>
-          </div>
-          <p>
-            Build a mental model before memorizing syntax. These fundamentals
-            explain how SQL statements are structured and how a relational
-            database interprets them.
-          </p>
-        </div>
-
-        <div className="grid sql-essentials-grid">
-          {sqlEssentials.map(([number, title, text, example]) => (
-            <article className="card reveal" key={title}>
-              <div className="number">{number}</div>
-              <h3>{title}</h3>
-              <p>{text}</p>
-              <pre style={{ marginTop: 18 }}>{example}</pre>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="queries" className="section query-section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">04 / QUERY LANGUAGE</div>
-            <h2>The SQL command map.</h2>
-          </div>
-          <p>
-            SQL statements are commonly discussed by the kind of work they
-            perform: reading data, changing rows, defining structure and
-            controlling access or transactions.
-          </p>
-        </div>
-
-        {commandGroups.map((group) => (
-          <div className="command-group reveal" key={group.title}>
-            <div className="group-head">
-              <h3>{group.title}</h3>
-              <span className="tag">{group.tag}</span>
+              <span className="learn-tag">{completedIds.includes(activeModule.id) ? "Completed" : activeModule.level}</span>
             </div>
-
-            <div className="query-grid">
-              {group.items.map(([name, description, example]) => (
-                <article className="query-card" key={name}>
-                  <strong>{name}</strong>
-                  <div>
-                    <p>{description}</p>
-                    <pre>{example}</pre>
-                  </div>
+            <div className="learn-outcomes">{activeModule.outcomes.map((outcome) => <span key={outcome}>✓ {outcome}</span>)}</div>
+            <div className="learn-lesson-list">
+              {activeModule.lessons.map((lesson, index) => (
+                <article className="learn-lesson" key={lesson.title}>
+                  <h3>{String(index + 1).padStart(2, "0")} · {lesson.title}</h3>
+                  <p>{lesson.body}</p>
+                  <pre>{lesson.example}</pre>
                 </article>
               ))}
             </div>
-            <TryItButton />
-          </div>
-        ))}
+            <div className="learn-actions">
+              <span className="learn-muted">Finish the reading, try the example in Query Lab, then mark this module complete to earn 10% progress.</span>
+              <div style={{ display: "flex", gap: 9, flexWrap: "wrap" }}>
+                <Link className="learn-btn secondary" href="/run-query">Practise SQL ↗</Link>
+                {completedIds.includes(activeModule.id) ? (
+                  <button className="learn-btn" onClick={() => setView("modules")}>Module completed ✓</button>
+                ) : (
+                  <button className="learn-btn" disabled={busy || signedIn !== true} onClick={() => void completeModule()}>{busy ? "Saving…" : "Complete module +10% →"}</button>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
-        <div className="reveal">
-          <div className="eyebrow">SELECT PIPELINE</div>
-          <div className="clauses" style={{ marginTop: 24 }}>
-            {clauses.map(([name, description, example]) => (
-              <article className="clause" key={name}>
-                <strong>{name}</strong>
-                <p>{description}</p>
-                <pre>{example}</pre>
-              </article>
+        {view === "modules" && (
+          <section className="learn-panel">
+            <div className="learn-panel-header">
+              <div>
+                <div className="learn-eyebrow">NEXT STEP</div>
+                <h2>{allModulesDone ? "You have unlocked the final test." : "Keep the momentum going."}</h2>
+                <p>{allModulesDone ? "All 10 modules are complete. Take the final assessment to check your SQL knowledge." : "Choose the next unlocked module above. Every completed module adds exactly 10% to your course progress."}</p>
+              </div>
+              <span className="learn-tag">{allModulesDone ? "50-mark test" : "Module " + Math.min(10, progress.unlockedThrough)}</span>
+            </div>
+            <div className="learn-actions">
+              <span className="learn-muted">Learning progress is saved to your SQLWhale account.</span>
+              {allModulesDone ? (
+                <button className="learn-btn" disabled={busy || signedIn !== true || assessmentPassed} onClick={() => void openAssessment()}>
+                  {assessmentPassed ? "Assessment passed ✓" : busy ? "Loading test…" : "Start final assessment →"}
+                </button>
+              ) : (
+                <button className="learn-btn" disabled={signedIn !== true} onClick={() => void openModule(Math.max(1, progress.unlockedThrough))}>
+                  Continue learning → 
+                </button>
+              )}
+            </div>
+            {progress.assessment && (
+              <p className="learn-muted" style={{ marginTop: 17 }}>
+                Latest assessment: {progress.assessment.status.replace("_", " ")} · {progress.assessment.totalScore}/50 · Attempt {progress.assessment.attempts}
+              </p>
+            )}
+          </section>
+        )}
+
+        {view === "assessment" && paper && (
+          <section className="learn-panel">
+            <div className="learn-panel-header">
+              <div>
+                <div className="learn-eyebrow">SQLWHALE / FINAL ASSESSMENT</div>
+                <h2>Show what you know.</h2>
+                <p>Answer all 18 questions. MCQs are auto-graded, long answers use a keyword rubric, and SQL queries are executed against the course dataset.</p>
+              </div>
+              <span className="learn-tag">Pass: 40 / 50</span>
+            </div>
+            <div className="learn-assessment-intro">
+              <div><b>10 marks</b><span>10 multiple-choice questions · 1 mark each</span></div>
+              <div><b>20 marks</b><span>4 long-answer questions · 5 marks each</span></div>
+              <div><b>20 marks</b><span>4 SQL queries · 5 marks each</span></div>
+            </div>
+            <h3 style={{ margin: "26px 0 5px", fontSize: 20 }}>Part A · Multiple choice</h3>
+            <p className="learn-muted">Choose one answer for every question.</p>
+            {paper.mcqs.map((question, index) => (
+              <div className="learn-question" key={question.id}>
+                <h3>{index + 1}. {question.question} <span className="learn-muted">(1 mark)</span></h3>
+                <div className="learn-options">
+                  {(question.options || []).map((option, optionIndex) => (
+                    <label className="learn-option" key={option}>
+                      <input type="radio" name={question.id} checked={Number(mcqAnswers[question.id]) === optionIndex} onChange={() => setMcqAnswers((current) => ({ ...current, [question.id]: optionIndex }))} />
+                      <span>{option}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
             ))}
-          </div>
-          <TryItButton />
-        </div>
+            <h3 style={{ margin: "30px 0 5px", fontSize: 20 }}>Part B · Long answers</h3>
+            <p className="learn-muted">Explain in your own words. Each question is worth 5 marks; include the key concepts and an example where useful.</p>
+            {paper.longQuestions.map((question, index) => (
+              <div className="learn-question" key={question.id}>
+                <h3>{index + 11}. {question.question} <span className="learn-muted">(5 marks)</span></h3>
+                <textarea value={longAnswers[question.id] || ""} onChange={(event) => setLongAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write your explanation here…" />
+              </div>
+            ))}
+            <h3 style={{ margin: "30px 0 5px", fontSize: 20 }}>Part C · SQL queries</h3>
+            <p className="learn-muted">Write a query for each task. Each query is checked against the course dataset and is worth 5 marks.</p>
+            {paper.queryQuestions.map((question, index) => (
+              <div className="learn-question" key={question.id}>
+                <h3>{index + 15}. {question.question} <span className="learn-muted">(5 marks)</span></h3>
+                <p className="learn-muted">Hint: {question.hint}</p>
+                <textarea className="sql-answer" value={queryAnswers[question.id] || ""} onChange={(event) => setQueryAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="SELECT …" />
+              </div>
+            ))}
+            <div className="learn-actions">
+              <button className="learn-btn secondary" onClick={() => setView("modules")}>Back to modules</button>
+              <button className="learn-btn" disabled={busy || signedIn !== true} onClick={() => void submitAssessment()}>{busy ? "Grading…" : "Submit assessment →"}</button>
+            </div>
+            <p className="learn-muted" style={{ marginTop: 14 }}>Passing requires at least 40/50 marks. You can retake the test if you do not pass.</p>
+          </section>
+        )}
 
-        <div className="code-strip reveal">
-          <pre>{`SELECT
-    d.name AS department,
-    COUNT(*) AS people,
-    AVG(e.salary) AS avg_salary
-FROM employees e
-JOIN departments d
-    ON e.department_id = d.id
-WHERE e.active = TRUE
-GROUP BY d.name
-HAVING AVG(e.salary) > 50000
-ORDER BY avg_salary DESC;`}</pre>
-        </div>
-      </section>
+        {view === "result" && result && (
+          <section className="learn-panel" aria-live="polite">
+            <div className="learn-panel-header">
+              <div>
+                <div className="learn-eyebrow">ASSESSMENT RESULT</div>
+                <h2>{result.status === "passed" ? "Congratulations — you passed!" : "Keep practising and try again."}</h2>
+                <p>{result.message}</p>
+              </div>
+              <span className="learn-tag">{result.status === "passed" ? "Passed" : "Not passed"}</span>
+            </div>
+            <div className={"learn-result-score " + (result.status === "passed" ? "pass" : "fail")}>{result.totalScore}<span style={{ fontSize: 24, color: "var(--learn-muted)", letterSpacing: "-.03em" }}> / 50</span></div>
+            <p className="learn-muted">Passing score: 40/50 · Attempt {result.attempt?.attempts || progress.assessment?.attempts || 1}</p>
+            <div className="learn-results-grid">
+              <div className="learn-result-item"><strong>{result.breakdown?.mcqScore ?? 0}/10</strong><span>Multiple choice</span></div>
+              <div className="learn-result-item"><strong>{result.breakdown?.longAnswerScore ?? 0}/20</strong><span>Long answers</span></div>
+              <div className="learn-result-item"><strong>{result.breakdown?.queryScore ?? 0}/20</strong><span>SQL queries</span></div>
+            </div>
+            <h3 style={{ marginTop: 24 }}>Long-answer feedback</h3>
+            <ul className="learn-result-list">
+              {(result.longResults || []).map((item: any) => <li key={item.id}><b>{item.id.toUpperCase()}: {item.score}/{item.maxScore}</b> — {item.feedback}</li>)}
+            </ul>
+            <h3 style={{ marginTop: 24 }}>SQL-query feedback</h3>
+            <ul className="learn-result-list">
+              {(result.queryResults || []).map((item: any) => <li key={item.id}><b>{item.id.toUpperCase()}: {item.score}/{item.maxScore}</b> — {item.feedback}</li>)}
+            </ul>
+            <div className="learn-actions">
+              <button className="learn-btn secondary" onClick={() => setView("modules")}>Back to learning path</button>
+              {result.status !== "passed" && <button className="learn-btn" onClick={() => { setResult(null); setView("assessment"); }}>Retake assessment →</button>}
+              {result.status === "passed" && <Link href="/run-query" className="learn-btn">Keep practising in Query Lab ↗</Link>}
+            </div>
+          </section>
+        )}
 
-      <section id="joins" className="section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">05 / RELATIONSHIPS</div>
-            <h2>JOINs: where tables become a data model.</h2>
-          </div>
-          <p>
-            A JOIN combines rows from multiple table expressions according to
-            a matching condition or join rule.
-          </p>
-        </div>
-
-        <div className="join-list">
-          {joins.map(([name, description, example]) => (
-            <article className="join-item reveal" key={name}>
-              <h3>{name}</h3>
-              <p>{description}</p>
-              <pre>{example}</pre>
-            </article>
-          ))}
-        </div>
-        <TryItButton />
-      </section>
-
-      <section className="section query-section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">06 / EXPRESSIONS</div>
-            <h2>Functions, NULLs and conditional logic.</h2>
-          </div>
-          <p>
-            Expressions let a query calculate, transform and classify values
-            while returning or updating data.
-          </p>
-        </div>
-
-        <div className="grid">
-          {functions.map(([name, description, example]) => (
-            <article className="card reveal" key={name}>
-              <div className="number">FUNC</div>
-              <h3>{name}</h3>
-              <p>{description}</p>
-              <pre style={{ marginTop: 18 }}>{example}</pre>
-            </article>
-          ))}
-        </div>
-        <TryItButton />
-      </section>
-
-      <section id="advanced" className="section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">07 / ADVANCED SQL</div>
-            <h2>When simple queries stop being enough.</h2>
-          </div>
-          <p>
-            Advanced SQL combines query composition, analytics, reusable
-            definitions, integrity and performance techniques.
-          </p>
-        </div>
-
-        <div className="advanced-list">
-          {advanced.map(([name, description, example]) => (
-            <article className="advanced-item reveal" key={name}>
-              <h3>{name}</h3>
-              <p>{description}</p>
-              <pre>{example}</pre>
-            </article>
-          ))}
-        </div>
-        <TryItButton />
-      </section>
-
-      <section className="section query-section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">08 / DESIGN</div>
-            <h2>Good SQL starts before the first SELECT.</h2>
-          </div>
-          <p>
-            Database design affects correctness, maintainability and query
-            performance. Learn normalization, keys, constraints and indexing
-            before optimizing syntax.
-          </p>
-        </div>
-
-        <div className="grid">
-          {[
-            ["Normalization", "Reduce inappropriate redundancy and update anomalies by structuring related data."],
-            ["1NF", "Atomic values and a tabular structure without repeating groups."],
-            ["2NF", "1NF plus removal of partial dependency on a composite key."],
-            ["3NF", "2NF plus removal of relevant transitive dependencies."],
-            ["Indexes", "Speed selected reads by maintaining additional access structures at storage cost."],
-            ["Transactions", "Use atomic units of work with COMMIT and ROLLBACK semantics."],
-            ["ACID", "Atomicity, consistency, isolation and durability are core transaction properties."],
-            ["Query Plans", "The database optimizer chooses an execution strategy based on statistics, indexes and other factors."],
-          ].map(([title, text], index) => (
-            <article className="card reveal" key={title}>
-              <div className="number">{String(index + 1).padStart(2, "0")}</div>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="applications" className="section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">09 / REAL WORLD</div>
-            <h2>SQL is the data layer behind many systems.</h2>
-          </div>
-          <p>
-            Relational databases are used across application development,
-            finance, commerce, analytics, engineering and many operational
-            systems.
-          </p>
-        </div>
-
-        <div className="application-grid">
-          {applications.map(([title, text], index) => (
-            <article className="application reveal" key={title}>
-              <div className="number">{String(index + 1).padStart(2, "0")}</div>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section query-section">
-        <div className="section-head reveal">
-          <div>
-            <div className="eyebrow">10 / LEARNING PATH</div>
-            <h2>Build from rows to real systems.</h2>
-          </div>
-          <p>
-            Use this sequence as a practical route from basic retrieval to
-            production database thinking.
-          </p>
-        </div>
-
-        <div className="roadmap reveal">
-          {roadmap.map((item, index) => (
-            <span key={item}>
-              {String(index + 1).padStart(2, "0")} / {item}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      <section className="final">
-        <div className="reveal">
-          <div className="eyebrow">NEXT / EXPERIENCE SQL</div>
-          <h2>
-            Don't just read SQL.
-            <br />
-            <span>Watch it execute.</span>
-          </h2>
-          <p>
-            SQLWhale turns query execution into a visual learning process.
-            Write a query, run it and follow what happens to the data.
-          </p>
-          <Link href="/run-query" className="cta">
-            Open SQLWhale Query Lab →
-          </Link>
-        </div>
-      </section>
+        <footer className="learn-footer"><span>SQLWhale · Learn by doing</span><span>10 modules · 50 marks · pass at 40</span></footer>
+      </div>
     </main>
   );
 }
