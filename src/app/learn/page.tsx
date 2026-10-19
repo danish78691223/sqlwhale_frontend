@@ -180,7 +180,7 @@ export default function LearnPage() {
 
   useEffect(() => {
     const syncLessonFromHash = () => {
-      const match = /^#module-(\\d+)$/.exec(window.location.hash);
+      const match = /^#module-(\d+)$/.exec(window.location.hash);
       const stored = window.localStorage.getItem("sqlwhale:lastLearnModule");
       const requestedId = match ? Number(match[1]) : stored ? Number(stored) : 1;
       const safeId = requestedId >= 1 && requestedId <= 10 ? requestedId : 1;
