@@ -53,7 +53,7 @@ export function SQLWhaleHero() {
         <div className={styles.videoShowcase}>
           <video
             className={styles.heroVideo}
-            src="/main-vid (1).mp4"
+            src="/main-vid (1).gif"
             autoPlay
             muted
             loop
