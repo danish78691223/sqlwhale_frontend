@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import LessonLayout from "@/components/learn/LessonLayout";
-import moduleOne from "@/content/learn/module-01";
 import { getModuleContent } from "@/content/learn/modules";
 import "./[moduleId]/lesson.css";
 
