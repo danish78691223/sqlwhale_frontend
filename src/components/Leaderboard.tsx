@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Award, LoaderCircle, Medal, Trophy } from "lucide-react";
+import { Award, Medal, Trophy } from "lucide-react";
 import { api } from "@/services/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type LeaderboardEntry = {
   rank: number;
@@ -28,6 +29,27 @@ function RankIcon({ rank }: { rank: number }) {
   if (rank === 2) return <Medal size={17} />;
   if (rank === 3) return <Award size={17} />;
   return <span>{rank}</span>;
+}
+
+function LeaderboardSkeleton() {
+  return (
+    <div className="sqlwhale-leaderboard-list" aria-label="Loading rankings" role="status">
+      {Array.from({ length: 5 }, (_, index) => (
+        <div className="sqlwhale-leaderboard-row" key={index}>
+          <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+          <div className="sqlwhale-leaderboard-user flex-1 space-y-2">
+            <Skeleton className="h-4 w-32 max-w-full" />
+            <Skeleton className="h-3 w-24 max-w-full" />
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <Skeleton className="h-5 w-10" />
+            <Skeleton className="h-3 w-12" />
+          </div>
+        </div>
+      ))}
+      <span className="sr-only">Loading rankings...</span>
+    </div>
+  );
 }
 
 export function LeaderboardSection() {
@@ -70,10 +92,7 @@ export function LeaderboardSection() {
       </div>
 
       {loading ? (
-        <div className="sqlwhale-leaderboard-empty">
-          <LoaderCircle size={18} className="sqlwhale-spin" />
-          Loading rankings...
-        </div>
+        <LeaderboardSkeleton />
       ) : !data || data.top10.length === 0 ? (
         <div className="sqlwhale-leaderboard-empty">
           <Trophy size={20} />
@@ -154,9 +173,20 @@ export function ProfileRankCard() {
       </div>
 
       {loading ? (
-        <div className="account-history-empty">
-          <LoaderCircle size={17} className="sqlwhale-spin" />
-          Loading your rank...
+        <div className="account-ranking-summary" role="status" aria-label="Loading your rank">
+          <div className="account-ranking-position space-y-2">
+            <Skeleton className="h-3 w-16" />
+            <Skeleton className="h-8 w-14" />
+          </div>
+          <div className="account-ranking-stat space-y-2">
+            <Skeleton className="h-3 w-12" />
+            <Skeleton className="h-6 w-10" />
+          </div>
+          <div className="account-ranking-stat space-y-2">
+            <Skeleton className="h-3 w-24" />
+            <Skeleton className="h-6 w-10" />
+          </div>
+          <span className="sr-only">Loading your rank...</span>
         </div>
       ) : currentUser ? (
         <div className="account-ranking-summary">
