@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import LessonLayout from "@/components/learn/LessonLayout";
 import moduleOne from "@/content/learn/module-01";
+import "./[moduleId]/lesson.css";
 
 type Lesson = { title: string; body: string; example: string };
 type LearningModule = {
