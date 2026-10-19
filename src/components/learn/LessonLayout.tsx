@@ -21,6 +21,11 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
   const score = useMemo(() => module.quiz.reduce((total, question, index) => total + (answers[index] === question.answer ? 1 : 0), 0), [answers, module.quiz]);
   const canAccess = module.id <= (progress.unlockedThrough || 1) || completed.includes(module.id);
   useEffect(() => {
+    let active = true;
+    fetch("/api/learning/progress", { credentials: "include", cache: "no-store" })
+      .then(async response => { if (!response.ok) return null; return response.json(); })
+      .then(data => { if (active && data) setProgress(data); })
+      .catch(() => { if (active) setError("Could not load saved progress. Sign in and refresh to sync your learning."); });
     const onScroll = () => {
       const root = document.documentElement;
       const max = root.scrollHeight - root.clientHeight;
@@ -29,7 +34,7 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
       if (bar) bar.style.width = `${percent}%`;
     };
     window.addEventListener("scroll", onScroll, { passive: true }); onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => { active = false; window.removeEventListener("scroll", onScroll); };
   }, []);
   async function refreshProgress() {
     const response = await fetch("/api/learning/progress", { credentials: "include", cache: "no-store" });
