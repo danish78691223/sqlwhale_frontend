@@ -68,7 +68,31 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
   return <main className="lesson-shell">
     <div className="lesson-reading-track"><div id="lesson-reading-progress"/></div>
     <div className="lesson-layout-grid">
-      <aside className="lesson-sidebar"><Link href="/learn" className="lesson-back"><ArrowLeft size={16}/> All modules</Link><p className="lesson-sidebar-label">YOUR LEARNING PATH</p>{MODULE_TITLES.map((title, index) => { const id=index+1; const unlocked=id <= (progress.unlockedThrough||1) || completed.includes(id); return <div key={title} className={`lesson-side-item ${id===module.id?"active":""} ${!unlocked?"locked":""}`}>{unlocked?<Link href={`/learn/${id}`}><span>{completed.includes(id)?<CheckCircle2 size={16}/>:<Circle size={16}/>}</span><span><small>MODULE {id}</small><strong>{title}</strong></span><em>{completed.includes(id)?"Done":`${id*10}%`}</Link>:<div><span><LockKeyhole size={15}/></span><span><small>MODULE {id}</small><strong>{title}</strong></span></div>}</div>})}<div className="lesson-sidebar-progress"><div><span>Course progress</span><strong>{progress.progressPercent || 0}%</strong></div><div className="lesson-progress-track"><i style={{width:`${progress.progressPercent||0}%`}}/></div></div></aside>
+      <aside className="lesson-sidebar">
+        <Link href="/learn" className="lesson-back"><ArrowLeft size={16}/> All modules</Link>
+        <p className="lesson-sidebar-label">YOUR LEARNING PATH</p>
+        {MODULE_TITLES.map((title, index) => {
+          const id = index + 1;
+          const unlocked = id <= (progress.unlockedThrough || 1) || completed.includes(id);
+          const status = completed.includes(id) ? "Done" : `${id * 10}%`;
+          return (
+            <div key={title} className={`lesson-side-item ${id === module.id ? "active" : ""} ${!unlocked ? "locked" : ""}`}>
+              {unlocked ? (
+                <Link href={`/learn/${id}`}>
+                  <span>{completed.includes(id) ? <CheckCircle2 size={16}/> : <Circle size={16}/>}</span>
+                  <span><small>MODULE {id}</small><strong>{title}</strong></span>
+                  <em>{status}</em>
+                </Link>
+              ) : (
+                <div>
+                  <span><LockKeyhole size={15}/></span>
+                  <span><small>MODULE {id}</small><strong>{title}</strong></span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        <div className="lesson-sidebar-progress"><div><span>Course progress</span><strong>{progress.progressPercent || 0}%</strong></div><div className="lesson-progress-track"><i style={{width:`${progress.progressPercent||0}%`}}/></div></div></aside>
       <article className="lesson-content">
         <div className="lesson-module-meta"><span>MODULE {String(module.id).padStart(2,"0")}</span><span>{module.difficulty}</span><span><Clock3 size={14}/>{module.estimatedTime}</span><span className="lesson-progress-badge">+10% progress</span></div>
         <h1>{module.title}</h1><p className="lesson-summary">{module.summary}</p>
