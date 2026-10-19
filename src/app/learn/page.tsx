@@ -442,8 +442,8 @@ export default function LearnPage() {
         {message && <div className={"learn-alert" + (signedIn === false ? " error" : "")} role="status">{message}</div>}
 
         {view !== "assessment" && view !== "result" && (
-          <section id="module-1" className="learn-unified-lesson">
-            <LessonLayout module={moduleOne} initialProgress={progress} />
+          <section id={`module-${lessonModuleId}`} className="learn-unified-lesson">
+            <LessonLayout module={getModuleContent(lessonModuleId) || moduleOne} initialProgress={progress} />
           </section>
         )}
 
