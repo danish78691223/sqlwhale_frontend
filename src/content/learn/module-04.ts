@@ -13,40 +13,40 @@ const moduleFour: LessonModule = {
     "Use OFFSET to skip rows for simple pagination.",
     "Understand the logical processing order of a SELECT query and common dialect differences."
   ],
-  analogy: "Imagine a teacher has a list of students. ORDER BY sorts the list by marks or name; LIMIT asks to see only the first five entries; OFFSET skips the first few entries to continue reading the list. Sorting changes the display order, not the stored records.",
+  analogy: "Imagine a teacher has a list of employees. ORDER BY sorts the list by salary or name; LIMIT asks to see only the first five entries; OFFSET skips the first few entries to continue reading the list. Sorting changes the display order, not the stored records.",
   sections: [
     {
       heading: "1. ORDER BY: put results in order",
       body: "ORDER BY sorts the rows returned by a query. ASC means ascending order (small to large, A to Z, oldest to newest) and is the default. DESC means descending order (large to small, Z to A, newest to oldest). Sorting a result does not permanently rearrange the table.",
       examples: [
         {
-          title: "Sort students by name",
+          title: "Sort employees by name",
           concept: "Use ASC to show names alphabetically.",
           analogy: "Like arranging a class register from A to Z.",
-          sql: "SELECT student_id, full_name\nFROM students\nORDER BY full_name ASC;",
+          sql: "SELECT employee_id, name\nFROM employees\nORDER BY name ASC;",
           explanation: [
-            { line: "SELECT student_id, full_name", meaning: "Choose the student ID and name for the result." },
-            { line: "FROM students", meaning: "Read records from the students table." },
-            { line: "ORDER BY full_name ASC;", meaning: "Sort names alphabetically. ASC is optional because ascending is the default." }
+            { line: "SELECT employee_id, name", meaning: "Choose the student ID and name for the result." },
+            { line: "FROM employees", meaning: "Read records from the employees table." },
+            { line: "ORDER BY name ASC;", meaning: "Sort names alphabetically. ASC is optional because ascending is the default." }
           ],
-          input: [{ name: "students", columns: ["student_id", "full_name"], rows: [[3, "Zoya Shaikh"], [1, "Aarav Patil"], [2, "Meera Khan"]] }],
-          output: { columns: ["student_id", "full_name"], rows: [[1, "Aarav Patil"], [2, "Meera Khan"], [3, "Zoya Shaikh"]] },
+          input: [{ name: "employees", columns: ["employee_id", "name"], rows: [[3, "Zoya Shaikh"], [1, "Aarav Patil"], [2, "Meera Khan"]] }],
+          output: { columns: ["employee_id", "name"], rows: [[1, "Aarav Patil"], [2, "Meera Khan"], [3, "Zoya Shaikh"]] },
           tryInLab: true
         },
         {
-          title: "Show highest marks first",
+          title: "Show highest salary first",
           concept: "DESC places larger values before smaller values.",
           analogy: "Like showing a leaderboard from the highest score down.",
-          sql: "SELECT student_id, full_name, marks\nFROM students\nORDER BY marks DESC;",
+          sql: "SELECT employee_id, amount\nFROM salary\nORDER BY amount DESC;",
           explanation: [
-            { line: "SELECT student_id, full_name, marks", meaning: "Display each student's ID, name and marks." },
-            { line: "FROM students", meaning: "Use students as the source table." },
-            { line: "ORDER BY marks DESC;", meaning: "Sort from the highest marks to the lowest." }
+            { line: "SELECT employee_id, name, salary", meaning: "Display each student's ID, name and salary." },
+            { line: "FROM employees", meaning: "Use employees as the source table." },
+            { line: "ORDER BY salary DESC;", meaning: "Sort from the highest salary to the lowest." }
           ],
-          input: [{ name: "students", columns: ["student_id", "full_name", "marks"], rows: [[1, "Aarav Patil", 78], [2, "Meera Khan", 92], [3, "Zoya Shaikh", 85]] }],
-          output: { columns: ["student_id", "full_name", "marks"], rows: [[2, "Meera Khan", 92], [3, "Zoya Shaikh", 85], [1, "Aarav Patil", 78]] },
+          input: [{ name: "salary", columns: ["employee_id", "amount"], rows: [[1, 50000], [2, 45000], [3, 55000], [4, 60000]] }],
+          output: { columns: ["employee_id", "amount"], rows: [[4, 60000], [3, 55000], [1, 50000], [2, 45000]] },
           tryInLab: true,
-          note: "The sample table illustrates the result. If your Query Lab seed data uses different student columns, inspect the available table schema before running this exact example."
+          note: "The salary table stores employee_id and amount. The Query Lab seed data includes these columns."
         },
         {
           title: "Sort by multiple columns",
@@ -106,7 +106,7 @@ const moduleFour: LessonModule = {
         {
           title: "Filter, sort and limit",
           concept: "The query first chooses its source rows, filters them, sorts the matches and then limits the result.",
-          analogy: "First collect the class list, keep students who meet the rule, rank them and then show only the first few.",
+          analogy: "First collect the class list, keep employees who meet the rule, rank them and then show only the first few.",
           sql: "SELECT employee_id, name\nFROM employees\nWHERE department_id = 1\nORDER BY name ASC\nLIMIT 5;",
           explanation: [
             { line: "FROM employees", meaning: "Identify the table that supplies the rows." },
@@ -123,9 +123,9 @@ const moduleFour: LessonModule = {
     }
   ],
   cheatSheet: [
-    { keyword: "ORDER BY", meaning: "Sort result rows.", example: "ORDER BY full_name ASC" },
-    { keyword: "ASC", meaning: "Ascending order; the default.", example: "ORDER BY marks ASC" },
-    { keyword: "DESC", meaning: "Descending order.", example: "ORDER BY marks DESC" },
+    { keyword: "ORDER BY", meaning: "Sort result rows.", example: "ORDER BY name ASC" },
+    { keyword: "ASC", meaning: "Ascending order; the default.", example: "ORDER BY salary ASC" },
+    { keyword: "DESC", meaning: "Descending order.", example: "ORDER BY salary DESC" },
     { keyword: "LIMIT", meaning: "Return at most a chosen number of rows in SQLite.", example: "LIMIT 10" },
     { keyword: "OFFSET", meaning: "Skip rows before returning the limited result.", example: "LIMIT 10 OFFSET 10" },
     { keyword: "Tie-breaker", meaning: "A second sort column used when values in the first sort column match.", example: "ORDER BY department_id, name" }
@@ -147,7 +147,7 @@ const moduleFour: LessonModule = {
   quiz: [
     { question: "Which clause sorts the rows returned by a query?", options: ["WHERE", "ORDER BY", "LIMIT", "FROM"], answer: 1, explanation: "ORDER BY sorts the result rows." },
     { question: "What is the default sort direction if ASC or DESC is omitted?", options: ["DESC", "Random", "ASC", "No rows"], answer: 2, explanation: "Ascending order is the default." },
-    { question: "Which query returns the three highest marks first?", options: ["SELECT * FROM students LIMIT 3 ORDER BY marks DESC;", "SELECT * FROM students ORDER BY marks DESC LIMIT 3;", "SELECT * FROM students WHERE LIMIT 3;", "SELECT * FROM students ORDER BY marks LIMIT DESC 3;"], answer: 1, explanation: "Sort the marks descending, then limit the output to three rows." },
+    { question: "Which query returns the three highest salary first?", options: ["SELECT * FROM employees LIMIT 3 ORDER BY salary DESC;", "SELECT * FROM employees ORDER BY salary DESC LIMIT 3;", "SELECT * FROM employees WHERE LIMIT 3;", "SELECT * FROM employees ORDER BY salary LIMIT DESC 3;"], answer: 1, explanation: "Sort the salary descending, then limit the output to three rows." },
     { question: "What does LIMIT 2 OFFSET 2 do in SQLite?", options: ["Returns two rows, skipping the first two rows", "Skips two rows and returns all remaining rows", "Returns only the first two rows", "Deletes two rows"], answer: 0, explanation: "OFFSET skips two rows and LIMIT returns the next two." },
     { question: "Which is the simplified logical processing order for a basic query?", options: ["SELECT, WHERE, FROM, LIMIT", "LIMIT, SELECT, FROM, WHERE", "FROM, WHERE, SELECT, ORDER BY, LIMIT", "ORDER BY, FROM, SELECT, WHERE"], answer: 2, explanation: "The simplified logical model starts with FROM, filters with WHERE, produces the SELECT list, then sorts and limits." }
   ]
