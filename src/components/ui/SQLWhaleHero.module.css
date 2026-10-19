@@ -471,3 +471,44 @@
     max-width: 100%;
   }
 }
+
+
+/* Replace the animated SQL mockup with the uploaded product video. */
+.videoShowcase {
+  display: block;
+  width: min(100%, 656px);
+  max-width: 656px;
+  justify-self: end;
+  overflow: hidden;
+  border-radius: 22px;
+  background: #07070b;
+  line-height: 0;
+}
+
+.heroVideo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  border: 0;
+  border-radius: inherit;
+  background: #07070b;
+}
+
+@media (max-width: 1023px) {
+  .videoShowcase {
+    width: min(100%, 680px);
+    max-width: 680px;
+    justify-self: stretch;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .videoShowcase {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
+  }
+}
