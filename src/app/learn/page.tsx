@@ -180,7 +180,7 @@ export default function LearnPage() {
 
   useEffect(() => {
     const syncLessonFromHash = () => {
-      const match = /^#module-(\\d+)$/.exec(window.location.hash);
+      const match = /^#module-(\d+)$/.exec(window.location.hash);
       const requestedId = match ? Number(match[1]) : 1;
       setLessonModuleId(requestedId >= 1 && requestedId <= 10 ? requestedId : 1);
     };
