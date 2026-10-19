@@ -8,5 +8,5 @@ export default async function LessonPage({ params }: Props) {
   if (!/^\d+$/.test(moduleId) || Number(moduleId) < 1 || Number(moduleId) > 10) {
     notFound();
   }
-  redirect(\`/learn#module-\${Number(moduleId)}\`);
+  redirect("/learn#module-" + Number(moduleId));
 }
