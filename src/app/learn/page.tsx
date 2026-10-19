@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LessonLayout from "@/components/learn/LessonLayout";
+import moduleOne from "@/content/learn/module-01";
 
 type Lesson = { title: string; body: string; example: string };
 type LearningModule = {
@@ -427,34 +429,8 @@ export default function LearnPage() {
         {message && <div className={"learn-alert" + (signedIn === false ? " error" : "")} role="status">{message}</div>}
 
         {view !== "assessment" && view !== "result" && (
-          <section id="modules">
-            <div className="learn-heading">
-              <div><h2>Your SQL learning path</h2><p>Module 1 starts unlocked. Finish a module to unlock the next module.</p></div>
-              <span className="learn-tag">{progress.completedCount} / 10 complete</span>
-            </div>
-            <div className="learn-module-grid">
-              {modules.map((module) => {
-                const completed = completedIds.includes(module.id);
-                const unlocked = completed || module.id <= Math.max(1, progress.unlockedThrough);
-                return (
-                  <Link
-                    key={module.id}
-                    className={"learn-module-card" + (completed ? " is-complete" : "") + (view === "module" && activeModuleId === module.id ? " is-active" : "")}
-                    aria-disabled={!unlocked}
-                    href={unlocked ? `/learn/${module.id}` : "/learn"}
-                    aria-label={module.title + (completed ? ", completed" : unlocked ? ", unlocked" : ", locked")}
-                  >
-                    <span className="learn-module-number">{completed ? "✓" : String(module.id).padStart(2, "0")}</span>
-                    <span className="learn-module-copy">
-                      <small>{completed ? "Completed · " + (module.id * 10) + "% reached" : unlocked ? module.level + " · reach " + (module.id * 10) + "%" : "Locked module"}</small>
-                      <strong>{module.title}</strong>
-                      <p>{module.summary}</p>
-                    </span>
-                    <span className="learn-module-status">{completed ? "✓" : unlocked ? "→" : "⌑"}</span>
-                  </Link>
-                );
-              })}
-            </div>
+          <section id="modules" className="learn-unified-lesson">
+            <LessonLayout module={moduleOne} initialProgress={progress} />
           </section>
         )}
 
