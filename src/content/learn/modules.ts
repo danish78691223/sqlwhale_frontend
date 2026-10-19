@@ -1,4 +1,5 @@
 import moduleOne from "./module-01";
+import moduleTwo from "./module-02";
 import type { LessonModule } from "./types";
 
 export const MODULE_TITLES = [
@@ -29,6 +30,7 @@ export const moduleSummaries = [
 
 export function getModuleContent(id: number): LessonModule | null {
   if (id === 1) return moduleOne;
+  if (id === 2) return moduleTwo;
   return null;
 }
 export type { LessonModule } from "./types";
