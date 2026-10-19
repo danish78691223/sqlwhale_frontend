@@ -308,7 +308,7 @@ export default function LearnPage() {
         .learn-module-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
         .learn-module-card { text-align:left; width:100%; min-height:144px; display:grid; grid-template-columns:48px minmax(0,1fr) 24px; gap:14px; padding:19px; border:1px solid var(--learn-line); border-radius:17px; background:rgba(255,255,255,.025); color:var(--learn-text); cursor:pointer; transition:border-color .2s,transform .2s,background .2s; }
         .learn-module-card:hover:not(:disabled) { border-color:rgba(143,231,189,.5); background:rgba(143,231,189,.045); transform:translateY(-2px); }
-        .learn-module-card:disabled { cursor:not-allowed; opacity:.52; }
+        .learn-module-card[aria-disabled="true"] { cursor:not-allowed; opacity:.52; pointer-events:none; text-decoration:none; }
         .learn-module-card.is-active { border-color:rgba(143,231,189,.65); background:linear-gradient(125deg,rgba(143,231,189,.08),rgba(124,199,255,.025)); }
         .learn-module-number { width:44px; height:44px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--learn-line); color:var(--learn-muted); font:700 12px monospace; }
         .learn-module-card.is-complete .learn-module-number { color:#07120d; background:var(--learn-green); border-color:var(--learn-green); }
@@ -437,12 +437,11 @@ export default function LearnPage() {
                 const completed = completedIds.includes(module.id);
                 const unlocked = completed || module.id <= Math.max(1, progress.unlockedThrough);
                 return (
-                  <button
+                  <Link
                     key={module.id}
-                    type="button"
                     className={"learn-module-card" + (completed ? " is-complete" : "") + (view === "module" && activeModuleId === module.id ? " is-active" : "")}
-                    disabled={!unlocked}
-                    onClick={() => void openModule(module.id)}
+                    aria-disabled={!unlocked}
+                    href={unlocked ? `/learn/${module.id}` : "/learn"}
                     aria-label={module.title + (completed ? ", completed" : unlocked ? ", unlocked" : ", locked")}
                   >
                     <span className="learn-module-number">{completed ? "✓" : String(module.id).padStart(2, "0")}</span>
@@ -452,7 +451,7 @@ export default function LearnPage() {
                       <p>{module.summary}</p>
                     </span>
                     <span className="learn-module-status">{completed ? "✓" : unlocked ? "→" : "⌑"}</span>
-                  </button>
+                  </Link>
                 );
               })}
             </div>
