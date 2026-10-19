@@ -139,6 +139,7 @@ export default function LearnPage() {
     completedModules: [], completedCount: 0, progressPercent: 0, unlockedThrough: 1, assessment: null,
   });
   const [activeModuleId, setActiveModuleId] = useState(1);
+  const [lessonModuleId, setLessonModuleId] = useState(1);
   const [view, setView] = useState<"modules" | "module" | "assessment" | "result">("modules");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -175,6 +176,17 @@ export default function LearnPage() {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const syncLessonFromHash = () => {
+      const match = /^#module-(\\d+)$/.exec(window.location.hash);
+      const requestedId = match ? Number(match[1]) : 1;
+      setLessonModuleId(requestedId >= 1 && requestedId <= 10 ? requestedId : 1);
+    };
+    syncLessonFromHash();
+    window.addEventListener("hashchange", syncLessonFromHash);
+    return () => window.removeEventListener("hashchange", syncLessonFromHash);
+  }, []);
 
   useEffect(() => {
     void loadProgress();
