@@ -7,6 +7,8 @@ export type LessonExample = {
   input: { name: string; columns: string[]; rows: (string | number | null)[][] }[];
   output: { columns: string[]; rows: (string | number | null)[][] };
   note?: string;
+  download?: string;
+  tryInLab?: boolean;
 };
 export type PracticeExercise = { question: string; hint: string; answer: string; explanation: string };
 export type QuizQuestion = { question: string; options: string[]; answer: number; explanation: string };
