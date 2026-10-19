@@ -1,20 +1,14 @@
 import moduleOne from "./module-01";
 import moduleTwo from "./module-02";
+import moduleThree from "./module-03";
 import type { LessonModule } from "./types";
 
 export const MODULE_TITLES = [
-  "SQL & Database Foundations",
-  "SELECT & Expressions",
-  "Filtering with WHERE",
-  "Sorting, Limiting & Query Order",
-  "Aggregate Functions & GROUP BY",
-  "JOINs & Relationships",
-  "Subqueries, CTEs & Set Operations",
-  "Data Modification & Integrity",
-  "Database Design & Performance",
+  "SQL & Database Foundations", "SELECT & Expressions", "Filtering with WHERE",
+  "Sorting, Limiting & Query Order", "Aggregate Functions & GROUP BY", "JOINs & Relationships",
+  "Subqueries, CTEs & Set Operations", "Data Modification & Integrity", "Database Design & Performance",
   "Advanced SQL & Final Revision",
 ] as const;
-
 export const moduleSummaries = [
   "Understand databases, tables, records and relationships.",
   "Choose columns, rename output and calculate values.",
@@ -27,10 +21,10 @@ export const moduleSummaries = [
   "Design reliable schemas and reason about query performance.",
   "Use advanced SQL patterns, review security and complete the final revision.",
 ] as const;
-
 export function getModuleContent(id: number): LessonModule | null {
   if (id === 1) return moduleOne;
   if (id === 2) return moduleTwo;
+  if (id === 3) return moduleThree;
   return null;
 }
 export type { LessonModule } from "./types";
