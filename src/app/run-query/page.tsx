@@ -35,6 +35,16 @@ export default function RunQueryPage() {
   } = useSQLQuery();
 
   const [query, setQuery] = useState(DEFAULT_QUERY);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const prefilled = params.get("query") ?? params.get("sql");
+    if (prefilled && prefilled.trim()) {
+      setQuery(prefilled);
+      setExecutedQuery(null);
+      setAnimationComplete(false);
+    }
+  }, []);
   const sqlEditorRef = useRef<SQLEditorHandle>(null);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
