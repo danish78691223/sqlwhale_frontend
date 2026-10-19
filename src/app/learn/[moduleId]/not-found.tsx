@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function ModuleNotFound() { return <main className="lesson-shell"><div className="lesson-locked"><h1>Lesson not found</h1><p>This module number does not exist in the SQLWhale learning path.</p><Link href="/learn">Back to all modules</Link></div></main>; }

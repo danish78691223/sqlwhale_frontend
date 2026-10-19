@@ -1,0 +1,1 @@
+export default function ModuleLoading() { return <main className="lesson-shell" aria-busy="true"><div className="lesson-loading"><span/><span/><span/><p>Loading your lesson…</p></div></main>; }
