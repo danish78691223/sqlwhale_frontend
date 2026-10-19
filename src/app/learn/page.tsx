@@ -156,14 +156,15 @@ export default function LearnPage() {
       const response = await fetch("/api/learning/progress", { cache: "no-store", credentials: "include" });
       const data = await response.json();
       if (!response.ok) {
-        setSignedIn(false);
-        setMessage(data.error || "Sign in to save your learning progress.");
+        setSignedIn(response.status === 401 ? false : true);
+        setMessage(data.error || (response.status === 401 ? "Sign in to save your learning progress." : "The learning service returned an error."));
         return;
       }
       setSignedIn(true);
       setProgress(data);
+      const completedFromResponse: number[] = data.completedModules || [];
       const nextModule = Math.min(10, data.unlockedThrough || 1);
-      setActiveModuleId((current) => completedIds.includes(current) ? current : nextModule);
+      setActiveModuleId((current) => completedFromResponse.includes(current) ? current : nextModule);
       setMessage("");
     } catch {
       setMessage("Unable to connect to the learning service. Please try again.");
@@ -446,7 +447,7 @@ export default function LearnPage() {
                   >
                     <span className="learn-module-number">{completed ? "✓" : String(module.id).padStart(2, "0")}</span>
                     <span className="learn-module-copy">
-                      <small>{completed ? "Completed · 10%" : unlocked ? module.level + " · " + (module.id * 10 - 10) + "% to go" : "Locked module"}</small>
+                      <small>{completed ? "Completed · " + (module.id * 10) + "% reached" : unlocked ? module.level + " · reach " + (module.id * 10) + "%" : "Locked module"}</small>
                       <strong>{module.title}</strong>
                       <p>{module.summary}</p>
                     </span>
