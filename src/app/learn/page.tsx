@@ -441,7 +441,7 @@ export default function LearnPage() {
                     key={module.id}
                     type="button"
                     className={"learn-module-card" + (completed ? " is-complete" : "") + (view === "module" && activeModuleId === module.id ? " is-active" : "")}
-                    disabled={!unlocked || signedIn === false}
+                    disabled={!unlocked}
                     onClick={() => void openModule(module.id)}
                     aria-label={module.title + (completed ? ", completed" : unlocked ? ", unlocked" : ", locked")}
                   >
