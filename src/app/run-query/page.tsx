@@ -285,8 +285,10 @@ export default function RunQueryPage() {
       // Android browsers can report a desktop-sized CSS viewport when
       // "Desktop site" is enabled. Detect the physical/touch device as well
       // so the mobile composition still applies in that mode.
-      const mobileLayout =
-        touchDevice && (screenW <= 1400 || window.innerWidth <= 900);
+      // Touch-enabled desktop browsers (including Chrome on some Windows
+      // devices) must keep the desktop three-column workspace. Force the
+      // mobile composition only when the actual viewport is narrow.
+      const mobileLayout = touchDevice && window.innerWidth <= 900;
 
       document.documentElement.classList.toggle("sqlwhale-force-mobile", mobileLayout);
     };
