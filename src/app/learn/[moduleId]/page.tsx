@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./lesson.css";
 import { notFound } from "next/navigation";
 import moduleOne from "@/content/learn/module-01";
 import LessonLayout from "@/components/learn/LessonLayout";
