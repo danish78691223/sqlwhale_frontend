@@ -17,6 +17,3 @@ export default async function LessonPage({params}:Props) {
   if(moduleId!=="1") return <LockedModule moduleId={Number(moduleId)}/>;
   return <LessonLayout module={moduleOne} initialProgress={{completedModules:[],completedCount:0,progressPercent:0,unlockedThrough:1}}/>;
 }
-function LockedModule({moduleId}:{moduleId:number}) {
-  return <div className="lesson-locked-page"><div className="lesson-locked"><span>MODULE {String(moduleId).padStart(2,"0")}</span><h1>This module is locked</h1><p>Finish the previous module and pass its quiz to unlock this lesson. Your saved progress determines which lessons you can open.</p><a href="/learn">Return to learning path</a></div></div>;
-}
