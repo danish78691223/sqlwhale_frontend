@@ -485,6 +485,15 @@ export default function RunQueryPage() {
     return () => window.clearTimeout(timer);
   }, [data, query]);
 
+  const handleEditorRun = (sql: string, showWhatHappened = false) => {
+    // On phones, take the user straight to the output after either Run or
+    // Show what happened. Desktop keeps its existing workspace layout.
+    if (typeof window !== "undefined" && window.innerWidth <= 800) {
+      setActiveMobileView("results");
+    }
+    void handleRun(sql, showWhatHappened);
+  };
+
   const handleClear = () => {
     setQuery("");
     setExecutedQuery(null);
@@ -1016,7 +1025,7 @@ export default function RunQueryPage() {
           initialQuery={query}
           loading={loading || taskSubmitting}
           darkMode={darkMode}
-          onRun={handleRun}
+          onRun={handleEditorRun}
           onClear={handleClear}
           onCursorTargetChange={setActiveSqlTarget}
           onQueryTableChange={handleQueryTableChange}
