@@ -2,33 +2,44 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/services/api";
+import { authApi, api } from "@/services/api";
 import { Award, Download, ShieldCheck } from "lucide-react";
 
 export default function CertificatePage() {
   const router = useRouter();
   const [learner, setLearner] = useState("");
+  const [certificateId, setCertificateId] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
     authApi.get("/auth/me")
-      .then((response) => {
+      .then(async (response) => {
         if (!active) return;
-        const accountName = response.data?.authenticated ? response.data?.user?.name?.trim() : "";
-        if (!accountName) {
+        if (!response.data?.authenticated) {
           router.replace("/login");
           return;
         }
-        setLearner(accountName);
+        const certificateResponse = await api.get("/certificate/mine");
+        if (!active) return;
+        const certificate = certificateResponse.data?.certificate;
+        if (!certificate?.certificateId || !certificate?.learnerName) throw new Error("Certificate data unavailable");
+        setLearner(certificate.learnerName);
+        setCertificateId(certificate.certificateId);
       })
-      .catch(() => { if (active) router.replace("/login"); })
+      .catch((requestError) => {
+        if (!active) return;
+        if (requestError?.response?.status === 401) router.replace("/login");
+        else setError("Unable to load your certificate ID. Please refresh the page.");
+      })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [router]);
 
   if (loading) return <main className="cert-page"><p style={{ textAlign: "center" }}>Loading your SQLWhale account...</p></main>;
-  if (!learner) return null;
+  if (error) return <main className="cert-page"><p role="alert" style={{ textAlign: "center" }}>{error}</p></main>;
+  if (!learner || !certificateId) return null;
   return (
     <main className="cert-page">
       <div className="cert-intro">
@@ -64,7 +75,7 @@ export default function CertificatePage() {
           <div className="cert-bottom">
             <div className="cert-signature"><span className="cert-signature-script">SQLWhale</span><span className="cert-small-line" /><span>ISSUED BY SQLWHALE</span></div>
             <div className="cert-seal"><ShieldCheck size={25} strokeWidth={1.35} /><span>SQLWHALE</span><small>ACADEMY</small></div>
-            <div className="cert-identity"><strong>DEMO · NOT ISSUED</strong><span className="cert-small-line" /><span>CERTIFICATE ID · SQLW-DEMO-001</span></div>
+            <div className="cert-identity"><strong>DEMO · NOT ISSUED</strong><span className="cert-small-line" /><span>CERTIFICATE ID · {certificateId}</span></div>
           </div>
           <div className="cert-footnote">LEARN · PRACTICE · UNDERSTAND</div>
         </div>
