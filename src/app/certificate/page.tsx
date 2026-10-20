@@ -26,7 +26,7 @@ export default function CertificatePage() {
         const certificate = certificateResponse.data?.certificate;
         if (!certificate?.certificateId || !certificate?.learnerName) throw new Error("Certificate data unavailable");
         setLearner(certificate.learnerName);
-        setCertificateId(certificate.certificateId);
+        setCertificateId(certificate.certificateId.replace(/^SQLW-DEMO-/, ""));
       })
       .catch((requestError) => {
         if (!active) return;
