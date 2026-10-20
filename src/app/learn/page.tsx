@@ -416,7 +416,11 @@ export default function LearnPage() {
         .learn-stat { padding: 11px 14px; border-radius: 12px; }
         .learn-stat strong { margin-top: 4px; font-size: 21px; }
         .learn-alert { margin: 8px 0; padding: 9px 12px; font-size: 12px; }
-        .learn-unified-lesson { height: max(440px, calc(100dvh - 360px)); min-height: 440px; width: 100%; }
+        /* Fit the workspace inside the remaining visible viewport below the hero and progress cards. */
+        .learn-unified-lesson { height: max(360px, calc(100dvh - 470px)); min-height: 360px; width: 100%; }
+        .learn-unified-lesson .lesson-layout-grid { min-height: 0; }
+        .learn-unified-lesson .lesson-sidebar,
+        .learn-unified-lesson .lesson-content { min-height: 0; }
         .learn-unified-lesson .lesson-layout-grid { min-height: 0; }
         .learn-unified-lesson .lesson-sidebar { min-height: 0; align-self: stretch; }
         .learn-unified-lesson .lesson-content { min-height: 0; align-self: stretch; }
