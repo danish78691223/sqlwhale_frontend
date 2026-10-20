@@ -1,11 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { authApi } from "@/services/api";
 import { Award, Download, ShieldCheck } from "lucide-react";
 
 export default function CertificatePage() {
-  const [name, setName] = useState("Alex Morgan");
-  const learner = name.trim() || "Your Name";
+  const router = useRouter();
+  const [learner, setLearner] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    authApi.get("/auth/me")
+      .then((response) => {
+        if (!active) return;
+        const accountName = response.data?.authenticated ? response.data?.user?.name?.trim() : "";
+        if (!accountName) {
+          router.replace("/login");
+          return;
+        }
+        setLearner(accountName);
+      })
+      .catch(() => { if (active) router.replace("/login"); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [router]);
+
+  if (loading) return <main className="cert-page"><p style={{ textAlign: "center" }}>Loading your SQLWhale account...</p></main>;
+  if (!learner) return null;
   return (
     <main className="cert-page">
       <div className="cert-intro">
@@ -13,8 +36,6 @@ export default function CertificatePage() {
         <h1>A milestone worth framing.</h1>
         <p>A first look at the SQLWhale course completion certificate. This is a design preview, not an issued credential.</p>
         <div className="cert-actions">
-          <label htmlFor="cert-name">Learner name</label>
-          <input id="cert-name" value={name} maxLength={60} onChange={(e) => setName(e.target.value)} placeholder="Enter a name" />
           <button type="button" onClick={() => window.print()}><Download size={17} /> Print / Save PDF</button>
         </div>
       </div>
