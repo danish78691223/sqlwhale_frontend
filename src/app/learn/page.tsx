@@ -406,17 +406,6 @@ export default function LearnPage() {
         }
       `}</style>
 
-      <nav className="learn-topbar">
-        <Link href="/" className="learn-brand">
-          <span className="learn-logo">SQL</span>
-          <span>SQLWhale <span style={{ color: "#8fe7bd" }}>/ Learn</span></span>
-        </Link>
-        <div className="learn-toplinks">
-          <a href="#modules" onClick={() => setView("modules")}>Modules</a>
-          <Link href="/run-query">Query Lab ↗</Link>
-        </div>
-      </nav>
-
       <div className="learn-wrap">
         <header className="learn-hero">
           <div>
@@ -482,36 +471,6 @@ export default function LearnPage() {
                 )}
               </div>
             </div>
-          </section>
-        )}
-
-        {view === "modules" && (
-          <section className="learn-panel">
-            <div className="learn-panel-header">
-              <div>
-                <div className="learn-eyebrow">NEXT STEP</div>
-                <h2>{allModulesDone ? "You have unlocked the final test." : "Keep the momentum going."}</h2>
-                <p>{allModulesDone ? "All 10 modules are complete. Take the final assessment to check your SQL knowledge." : "Choose the next unlocked module above. Every completed module adds exactly 10% to your course progress."}</p>
-              </div>
-              <span className="learn-tag">{allModulesDone ? "50-mark test" : "Module " + Math.min(10, progress.unlockedThrough)}</span>
-            </div>
-            <div className="learn-actions">
-              <span className="learn-muted">Learning progress is saved to your SQLWhale account.</span>
-              {allModulesDone ? (
-                <button className="learn-btn" disabled={busy || signedIn !== true || assessmentPassed} onClick={() => void openAssessment()}>
-                  {assessmentPassed ? "Assessment passed ✓" : busy ? "Loading test…" : "Start final assessment →"}
-                </button>
-              ) : (
-                <button className="learn-btn" disabled={signedIn !== true} onClick={() => void openModule(Math.max(1, progress.unlockedThrough))}>
-                  Continue learning → 
-                </button>
-              )}
-            </div>
-            {progress.assessment && (
-              <p className="learn-muted" style={{ marginTop: 17 }}>
-                Latest assessment: {progress.assessment.status.replace("_", " ")} · {progress.assessment.totalScore}/50 · Attempt {progress.assessment.attempts}
-              </p>
-            )}
           </section>
         )}
 
