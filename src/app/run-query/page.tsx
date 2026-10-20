@@ -567,7 +567,7 @@ export default function RunQueryPage() {
           aria-modal="true"
           aria-labelledby="sqlwhale-desktop-notice-title"
         >
-          <div className="sqlwhale-desktop-notice-card">
+          <div >
             <div className="sqlwhale-desktop-notice-icon" aria-hidden="true"><AppleEmoji name="desktop_computer" size={30} /></div>
             <h2 id="sqlwhale-desktop-notice-title">Turn on Desktop Mode</h2>
             <p>
