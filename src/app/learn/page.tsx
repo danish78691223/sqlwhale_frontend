@@ -416,7 +416,10 @@ export default function LearnPage() {
         .learn-stat { padding: 11px 14px; border-radius: 12px; }
         .learn-stat strong { margin-top: 4px; font-size: 21px; }
         .learn-alert { margin: 8px 0; padding: 9px 12px; font-size: 12px; }
-        .learn-unified-lesson { height: calc(100vh - 410px); min-height: 380px; width: 100%; }
+        .learn-unified-lesson { height: max(440px, calc(100dvh - 360px)); min-height: 440px; width: 100%; }
+        .learn-unified-lesson .lesson-layout-grid { min-height: 0; }
+        .learn-unified-lesson .lesson-sidebar { min-height: 0; align-self: stretch; }
+        .learn-unified-lesson .lesson-content { min-height: 0; align-self: stretch; }
         .learn-unified-lesson .lesson-shell { height: 100%; min-height: 0; padding: 14px; overflow: hidden; }
         .learn-unified-lesson .lesson-reading-track { display: none; }
         .learn-unified-lesson .lesson-theme-toggle { position: absolute; top: 10px; right: 12px; z-index: 5; }
