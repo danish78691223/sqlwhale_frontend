@@ -64,8 +64,6 @@ export default function RunQueryPage() {
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourRect, setTourRect] = useState<DOMRect | null>(null);
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
-  const [showDesktopNotice, setShowDesktopNotice] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
   const [offlineAlertDismissed, setOfflineAlertDismissed] = useState(false);
 
@@ -135,28 +133,6 @@ export default function RunQueryPage() {
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("focus", handleOnline);
-    };
-  }, []);
-
-  useEffect(() => {
-    const detectMobileDevice = () => {
-      const userAgent = navigator.userAgent || "";
-      const mobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent);
-      const touchDevice = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
-      const smallViewport = window.matchMedia("(max-width: 768px)").matches;
-
-      const mobile = mobileUserAgent || (touchDevice && smallViewport);
-      setIsMobileDevice(mobile);
-      setShowDesktopNotice(mobile);
-    };
-
-    detectMobileDevice();
-    window.addEventListener("resize", detectMobileDevice);
-    window.addEventListener("orientationchange", detectMobileDevice);
-
-    return () => {
-      window.removeEventListener("resize", detectMobileDevice);
-      window.removeEventListener("orientationchange", detectMobileDevice);
     };
   }, []);
 
@@ -560,30 +536,6 @@ export default function RunQueryPage() {
 
   return (
     <>
-      {isMobileDevice && showDesktopNotice && (
-        <div
-          className="sqlwhale-desktop-notice"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="sqlwhale-desktop-notice-title"
-        >
-          <div >
-            <div className="sqlwhale-desktop-notice-icon" aria-hidden="true"><AppleEmoji name="desktop_computer" size={30} /></div>
-            <h2 id="sqlwhale-desktop-notice-title">Turn on Desktop Mode</h2>
-            <p>
-              SQLWhale works better on desktop. On your mobile browser, open the browser menu and turn on <strong>Desktop site</strong> or <strong>Desktop mode</strong>, then refresh SQLWhale.
-            </p>
-            <button
-              type="button"
-              className="sqlwhale-desktop-notice-close"
-              onClick={() => setShowDesktopNotice(false)}
-            >
-              Got it
-            </button>
-          </div>
-        </div>
-      )}
-
       <main className="sqlwhale-run-page" data-mobile-view={activeMobileView}>
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
