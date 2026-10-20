@@ -271,6 +271,7 @@ export default function RunQueryPage() {
 
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
+  const [activeMobileView, setActiveMobileView] = useState<"schema" | "editor" | "results" | "learn">("schema");
   const [feedbackUser, setFeedbackUser] = useState<any>(null);
   const [subscriptionStatus, setSubscriptionStatus] = useState<any>(null);
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
@@ -583,7 +584,7 @@ export default function RunQueryPage() {
         </div>
       )}
 
-      <main className="sqlwhale-run-page">
+      <main className="sqlwhale-run-page" data-mobile-view={activeMobileView}>
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
           <Link
@@ -1072,6 +1073,21 @@ export default function RunQueryPage() {
           availableTables={tables.map((table) => table.name)}
         />
       </section>
+
+      <nav className="sqlwhale-mobile-workflow-nav" aria-label="SQL learning workspace">
+        <button type="button" className={activeMobileView === "schema" ? "is-active" : ""} aria-current={activeMobileView === "schema" ? "page" : undefined} onClick={() => setActiveMobileView("schema")}>
+          <Database size={19} aria-hidden="true" /><span>Schema</span>
+        </button>
+        <button type="button" className={activeMobileView === "editor" ? "is-active" : ""} aria-current={activeMobileView === "editor" ? "page" : undefined} onClick={() => setActiveMobileView("editor")}>
+          <span className="sqlwhale-mobile-code-icon" aria-hidden="true">&lt;/&gt;</span><span>Write SQL</span>
+        </button>
+        <button type="button" className={activeMobileView === "results" ? "is-active" : ""} aria-current={activeMobileView === "results" ? "page" : undefined} onClick={() => setActiveMobileView("results")}>
+          <CirclePlay size={19} aria-hidden="true" /><span>Results</span>
+        </button>
+        <button type="button" className={activeMobileView === "learn" ? "is-active" : ""} aria-current={activeMobileView === "learn" ? "page" : undefined} onClick={() => setActiveMobileView("learn")}>
+          <ListTodo size={19} aria-hidden="true" /><span>Learn</span>
+        </button>
+      </nav>
 
       {editTable && (
         <EditTableCanvas
