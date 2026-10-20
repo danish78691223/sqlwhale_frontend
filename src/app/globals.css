@@ -20760,3 +20760,80 @@ html.sqlwhale-force-mobile .sqlwhale-run-page {
   }
   .sqlwhale-run-page .sqlwhale-query-editor { height:calc(100dvh - 148px) !important; }
 }
+
+
+/* Mobile SQL editor interaction and Monaco sizing fix */
+@media (max-width: 800px) {
+  .sqlwhale-run-page[data-mobile-view="editor"] .sqlwhale-query-editor {
+    position:relative !important;
+    z-index:20 !important;
+    isolation:isolate !important;
+    display:block !important;
+    height:calc(100dvh - 170px) !important;
+    min-height:320px !important;
+    max-height:none !important;
+    overflow:hidden !important;
+    touch-action:pan-y !important;
+    pointer-events:auto !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sqlwhale-query-editor,
+  .sqlwhale-run-page[data-mobile-view="editor"] .sqlwhale-query-editor * {
+    pointer-events:auto;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-section,
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-card {
+    display:flex !important;
+    flex-direction:column !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-header {
+    flex:0 0 auto !important;
+    flex-wrap:wrap !important;
+    gap:8px !important;
+    padding:10px !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-actions {
+    flex-wrap:wrap !important;
+    gap:6px !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-hint,
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-footer {
+    flex:0 0 auto !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sql-editor-container {
+    position:relative !important;
+    flex:1 1 0 !important;
+    width:100% !important;
+    min-width:0 !important;
+    min-height:160px !important;
+    height:auto !important;
+    overflow:hidden !important;
+    touch-action:pan-y !important;
+    pointer-events:auto !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .monaco-editor,
+  .sqlwhale-run-page[data-mobile-view="editor"] .monaco-editor .overflow-guard,
+  .sqlwhale-run-page[data-mobile-view="editor"] .monaco-editor .view-lines,
+  .sqlwhale-run-page[data-mobile-view="editor"] .monaco-editor textarea,
+  .sqlwhale-run-page[data-mobile-view="editor"] .monaco-editor .inputarea {
+    pointer-events:auto !important;
+    touch-action:pan-y !important;
+  }
+
+  .sqlwhale-run-page[data-mobile-view="editor"] .sqlwhale-mobile-workflow-nav {
+    z-index:1000 !important;
+  }
+}
