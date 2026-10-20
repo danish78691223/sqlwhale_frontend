@@ -180,8 +180,9 @@ export default function LearnPage() {
   useEffect(() => {
     const syncLessonFromHash = () => {
       const match = /^#module-(\d+)$/.exec(window.location.hash);
-      const stored = window.localStorage.getItem("sqlwhale:lastLearnModule");
-      const requestedId = match ? Number(match[1]) : stored ? Number(stored) : 1;
+      // A module remembered in localStorage may belong to a different signed-in account.
+      // Only honor an explicit URL hash; otherwise always start at Module 1.
+      const requestedId = match ? Number(match[1]) : 1;
       const safeId = requestedId >= 1 && requestedId <= 10 ? requestedId : 1;
       setLessonModuleId(safeId);
       window.localStorage.setItem("sqlwhale:lastLearnModule", String(safeId));
