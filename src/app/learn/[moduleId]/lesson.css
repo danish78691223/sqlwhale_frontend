@@ -60,3 +60,71 @@
   .lesson-content { grid-column: 1; grid-row: 3; }
 }
 @media (max-width: 650px) { .learn-dashboard-stats { grid-template-columns: 1fr; } }
+
+
+/* High-contrast lesson typography: white in dark mode, black in light mode. */
+.lesson-shell {
+  --lesson-text: #ffffff;
+  --lesson-muted: #f1f5f9;
+  color: #ffffff;
+}
+.lesson-shell .lesson-outcomes li,
+.lesson-shell .lesson-explanation span,
+.lesson-shell .lesson-data-table td,
+.lesson-shell .lesson-cheat-table td,
+.lesson-shell .lesson-tip p,
+.lesson-shell .lesson-exercise p,
+.lesson-shell .lesson-bottom-nav span {
+  color: #ffffff;
+}
+.lesson-shell .lesson-content p,
+.lesson-shell .lesson-content li,
+.lesson-shell .lesson-content label,
+.lesson-shell .lesson-content td,
+.lesson-shell .lesson-content th,
+.lesson-shell .lesson-content summary,
+.lesson-shell .lesson-sidebar,
+.lesson-shell .lesson-bottom-nav {
+  color: #ffffff;
+}
+.lesson-theme-light {
+  --lesson-text: #000000;
+  --lesson-muted: #111111;
+  color: #000000;
+}
+.lesson-theme-light .lesson-content p,
+.lesson-theme-light .lesson-content li,
+.lesson-theme-light .lesson-content label,
+.lesson-theme-light .lesson-content td,
+.lesson-theme-light .lesson-content th,
+.lesson-theme-light .lesson-content summary,
+.lesson-theme-light .lesson-sidebar,
+.lesson-theme-light .lesson-bottom-nav,
+.lesson-theme-light .lesson-outcomes li,
+.lesson-theme-light .lesson-explanation span,
+.lesson-theme-light .lesson-data-table td,
+.lesson-theme-light .lesson-cheat-table td,
+.lesson-theme-light .lesson-tip p,
+.lesson-theme-light .lesson-exercise p,
+.lesson-theme-light .lesson-bottom-nav span,
+.lesson-theme-light .lesson-summary,
+.lesson-theme-light .lesson-block > p,
+.lesson-theme-light .lesson-analogy p,
+.lesson-theme-light .lesson-complete-card p,
+.lesson-theme-light .lesson-locked p {
+  color: #000000;
+}
+.lesson-theme-light .lesson-module-meta,
+.lesson-theme-light .lesson-sidebar-label,
+.lesson-theme-light .lesson-sidebar-progress > div:first-child {
+  color: #000000;
+}
+.lesson-theme-light .lesson-code,
+.lesson-theme-light .lesson-answer pre,
+.lesson-theme-light .lesson-explanation code,
+.lesson-theme-light .lesson-cheat-table code {
+  color: #000000;
+}
+.lesson-theme-light .lesson-primary-button {
+  color: #000000;
+}
