@@ -404,6 +404,53 @@ export default function LearnPage() {
           .learn-actions { align-items:stretch; }
           .learn-actions .learn-btn { width:100%; }
         }
+
+        /* Full-screen learning workspace: the sidebar and lesson scroll independently. */
+        .learn-wrap { width: calc(100% -  24px); max-width: none; }
+        .learn-hero { padding: 22px 0 14px; grid-template-columns: minmax(0, 1fr) 180px; gap: 20px; }
+        .learn-hero h1 { font-size: clamp(32px, 3.5vw, 54px); line-height: 1.02; margin: 10px 0; max-width: 100%; }
+        .learn-hero p { font-size: 13px; line-height: 1.55; max-width: 900px; }
+        .learn-hero-side { padding: 15px 18px; border-radius: 15px; }
+        .learn-hero-side strong { font-size: 34px; }
+        .learn-stats { gap: 10px; margin: 4px 0 12px; }
+        .learn-stat { padding: 11px 14px; border-radius: 12px; }
+        .learn-stat strong { margin-top: 4px; font-size: 21px; }
+        .learn-alert { margin: 8px 0; padding: 9px 12px; font-size: 12px; }
+        .learn-unified-lesson { height: calc(100vh - 410px); min-height: 380px; width: 100%; }
+        .learn-unified-lesson .lesson-shell { height: 100%; min-height: 0; padding: 14px; overflow: hidden; }
+        .learn-unified-lesson .lesson-reading-track { display: none; }
+        .learn-unified-lesson .lesson-theme-toggle { position: absolute; top: 10px; right: 12px; z-index: 5; }
+        .learn-unified-lesson .lesson-layout-grid { height: 100%; max-width: none; margin: 0; grid-template-columns: minmax(250px, 22%) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+        .learn-unified-lesson .lesson-sidebar { position: relative; top: auto; height: 100%; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; border-radius: 12px; padding: 12px; }
+        .learn-unified-lesson .lesson-content { min-width: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 6px 12px 12px; scrollbar-gutter: stable; }
+        .learn-unified-lesson .lesson-content h1 { padding-right: 110px; font-size: clamp(30px, 3vw, 48px); }
+        .learn-unified-lesson .lesson-summary { font-size: 13px; line-height: 1.6; margin-bottom: 18px; }
+        .learn-unified-lesson .lesson-block, .learn-unified-lesson .lesson-analogy, .learn-unified-lesson .lesson-complete-card { padding: 18px; margin: 12px 0; }
+        .learn-unified-lesson .lesson-block h2 { font-size: 22px; }
+        .learn-unified-lesson .lesson-bottom-nav { position: sticky; bottom: -12px; background: var(--lesson-bg); padding: 14px 0 12px; border-top: 1px solid var(--lesson-line); z-index: 3; }
+        .learn-footer { display: none; }
+        @media (max-width: 900px) {
+          .learn-wrap { width: calc(100% - 24px); }
+          .learn-hero { grid-template-columns: minmax(0, 1fr) 150px; padding: 18px 0 12px; }
+          .learn-hero-side { display: block; padding: 12px; }
+          .learn-hero-side strong { font-size: 28px; }
+          .learn-unified-lesson { height: auto; min-height: 70vh; }
+          .learn-unified-lesson .lesson-shell { height: auto; min-height: 70vh; overflow: visible; }
+          .learn-unified-lesson .lesson-layout-grid { height: auto; grid-template-columns: minmax(0, 1fr); }
+          .learn-unified-lesson .lesson-sidebar { height: auto; max-height: 240px; }
+          .learn-unified-lesson .lesson-content { height: auto; max-height: none; overflow: visible; }
+          .learn-unified-lesson .lesson-theme-toggle { position: static; margin: 0 0 12px auto; }
+          .learn-unified-lesson .lesson-content h1 { padding-right: 0; }
+        }
+        @media (max-width: 600px) {
+          .learn-hero { grid-template-columns: minmax(0, 1fr); }
+          .learn-hero-side { display: none; }
+          .learn-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+          .learn-stat { padding: 9px; }
+          .learn-stat span { font-size: 8px; }
+          .learn-stat strong { font-size: 17px; }
+          .learn-stat small { font-size: 9px; }
+        }
       `}</style>
 
       <div className="learn-wrap">
