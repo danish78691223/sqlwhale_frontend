@@ -5,6 +5,7 @@ import moduleFour from "./module-04";
 import moduleFive from "./module-05";
 import moduleSix from "./module-06";
 import moduleSeven from "./module-07";
+import moduleEight from "./module-08";
 import type { LessonModule } from "./types";
 
 export const MODULE_TITLES = [
@@ -33,6 +34,7 @@ export function getModuleContent(id: number): LessonModule | null {
   if (id === 5) return moduleFive;
   if (id === 6) return moduleSix;
   if (id === 7) return moduleSeven;
+  if (id === 8) return moduleEight;
   return null;
 }
 export type { LessonModule } from "./types";
