@@ -293,7 +293,7 @@ export default function LearnPage() {
           color: var(--learn-text);
           background: radial-gradient(ellipse at 15% 0%, rgba(124,199,255,.10), transparent 32%), radial-gradient(ellipse at 90% 20%, rgba(143,231,189,.08), transparent 28%), var(--learn-bg);
           font-family: Arial, Helvetica, sans-serif;
-          padding-bottom: 72px;
+          padding-bottom: 12px;
         }
         .learn-v2 * { box-sizing: border-box; }
         .learn-v2 a { color: inherit; text-decoration: none; }
@@ -417,7 +417,7 @@ export default function LearnPage() {
         .learn-stat strong { margin-top: 4px; font-size: 21px; }
         .learn-alert { margin: 8px 0; padding: 9px 12px; font-size: 12px; }
         /* Fit the workspace inside the remaining visible viewport below the hero and progress cards. */
-        .learn-unified-lesson { height: max(360px, calc(100dvh - 470px)); min-height: 360px; width: 100%; }
+        .learn-unified-lesson { height: calc(100dvh - 112px); min-height: 480px; width: 100%; margin-top: 0; }
         .learn-unified-lesson .lesson-layout-grid { min-height: 0; }
         .learn-unified-lesson .lesson-sidebar,
         .learn-unified-lesson .lesson-content { min-height: 0; }
@@ -426,10 +426,21 @@ export default function LearnPage() {
         .learn-unified-lesson .lesson-content { min-height: 0; align-self: stretch; }
         .learn-unified-lesson .lesson-shell { height: 100%; min-height: 0; padding: 14px; overflow: hidden; }
         .learn-unified-lesson .lesson-reading-track { display: none; }
-        .learn-unified-lesson .lesson-theme-toggle { position: absolute; top: 10px; right: 12px; z-index: 5; }
-        .learn-unified-lesson .lesson-layout-grid { height: 100%; max-width: none; margin: 0; grid-template-columns: minmax(250px, 22%) minmax(0, 1fr); gap: 14px; align-items: stretch; }
-        .learn-unified-lesson .lesson-sidebar { position: relative; top: auto; height: 100%; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; border-radius: 12px; padding: 12px; }
-        .learn-unified-lesson .lesson-content { min-width: 0; height: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 6px 12px 12px; scrollbar-gutter: stable; }
+        .learn-unified-lesson .lesson-theme-toggle { position: absolute; top: 8px; right: 12px; z-index: 5; }
+        body:has(.learn-v2) .sqlwhale-site-nav { top: 8px; max-width: 860px; }
+        body:has(.learn-v2) .sqlwhale-site-nav-inner { min-height: 48px; padding-top: 3px; padding-bottom: 3px; }
+        body:has(.learn-v2) .sqlwhale-site-brand { width: 38px; height: 38px; flex-basis: 38px; }
+        body:has(.learn-v2) .sqlwhale-site-brand img { width: 32px; height: 32px; }
+        body:has(.learn-v2) .sqlwhale-site-account { min-height: 34px; }
+        body:has(.learn-v2) .sqlwhale-site-nav-spacer { height: 66px; flex-basis: 66px; }
+        .learn-dashboard-stats { grid-column: 2; grid-row: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; min-width: 0; }
+        .learn-dashboard-stats .learn-stat { min-width: 0; padding: 12px 14px; }
+        .learn-dashboard-stats .learn-stat strong { font-size: 22px; }
+        .learn-dashboard-stats .learn-stat span { font-size: 10px; }
+        .learn-dashboard-stats .learn-stat small { font-size: 11px; }
+        .learn-unified-lesson .lesson-layout-grid { height: 100%; max-width: none; margin: 0; grid-template-columns: minmax(280px, 23%) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 12px 16px; align-items: stretch; }
+        .learn-unified-lesson .lesson-sidebar { position: relative; top: auto; grid-column: 1; grid-row: 1 / span 2; height: 100%; max-height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; border-radius: 12px; padding: 12px; }
+        .learn-unified-lesson .lesson-content { grid-column: 2; grid-row: 2; min-width: 0; height: 100%; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 6px 12px 12px; scrollbar-gutter: stable; }
         .learn-unified-lesson .lesson-content h1 { padding-right: 110px; font-size: clamp(30px, 3vw, 48px); }
         .learn-unified-lesson .lesson-summary { font-size: 13px; line-height: 1.6; margin-bottom: 18px; }
         .learn-unified-lesson .lesson-block, .learn-unified-lesson .lesson-analogy, .learn-unified-lesson .lesson-complete-card { padding: 18px; margin: 12px 0; }
@@ -443,9 +454,10 @@ export default function LearnPage() {
           .learn-hero-side strong { font-size: 28px; }
           .learn-unified-lesson { height: auto; min-height: 70vh; }
           .learn-unified-lesson .lesson-shell { height: auto; min-height: 70vh; overflow: visible; }
-          .learn-unified-lesson .lesson-layout-grid { height: auto; grid-template-columns: minmax(0, 1fr); }
-          .learn-unified-lesson .lesson-sidebar { height: auto; max-height: 240px; }
-          .learn-unified-lesson .lesson-content { height: auto; max-height: none; overflow: visible; }
+          .learn-unified-lesson .lesson-layout-grid { height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; }
+          .learn-unified-lesson .lesson-sidebar { grid-column: 1; grid-row: 1; height: auto; max-height: 300px; }
+          .learn-dashboard-stats { grid-column: 1; grid-row: 2; }
+          .learn-unified-lesson .lesson-content { grid-column: 1; grid-row: 3; height: auto; max-height: none; overflow: visible; }
           .learn-unified-lesson .lesson-theme-toggle { position: static; margin: 0 0 12px auto; }
           .learn-unified-lesson .lesson-content h1 { padding-right: 0; }
         }
@@ -461,25 +473,7 @@ export default function LearnPage() {
       `}</style>
 
       <div className="learn-wrap">
-        <header className="learn-hero">
-          <div>
-            <div className="learn-eyebrow">LEARN · PRACTISE · GET CERTIFIED</div>
-            <h1>Master SQL, <span>one module at a time.</span></h1>
-            <p>Follow a guided 10-module learning path. Complete each module to unlock the next one, build your progress in 10% steps, then prove your skills in the 50-mark final assessment.</p>
-          </div>
-          <div className="learn-hero-side">
-            <strong>{loading ? "—" : progress.progressPercent + "%"}</strong>
-            <span>Learning path complete</span>
-            <div className="mini-bar"><i style={{ width: progress.progressPercent + "%" }} /></div>
-            <span>{progress.completedCount} of 10 modules completed</span>
-          </div>
-        </header>
 
-        <section className="learn-stats" aria-label="Learning statistics">
-          <div className="learn-stat"><span>Course progress</span><strong>{loading ? "…" : progress.progressPercent + "%"}</strong><small>10% per module</small></div>
-          <div className="learn-stat"><span>Modules completed</span><strong>{loading ? "…" : progress.completedCount + " / 10"}</strong><small>Sequential unlocks</small></div>
-          <div className="learn-stat"><span>Final assessment</span><strong>{assessmentPassed ? "Passed" : allModulesDone ? "Unlocked" : "Locked"}</strong><small>{assessmentPassed ? "Score: " + progress.assessment?.totalScore + " / 50" : "Pass mark: 40 / 50"}</small></div>
-        </section>
 
         {!loading && signedIn === false && (
           <div className="learn-alert error">
@@ -490,7 +484,7 @@ export default function LearnPage() {
 
         {view !== "assessment" && view !== "result" && (
           <section id={`module-${lessonModuleId}`} className="learn-unified-lesson">
-            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} onModuleSelect={(id) => { setLessonModuleId(id); setActiveModuleId(id); setView("modules"); setMessage(""); window.history.pushState(null, "", `/learn#module-${id}`); window.scrollTo({ top: 0, behavior: "smooth" }); }} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
+            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} dashboard={{ loading, progressPercent: progress.progressPercent, completedCount: progress.completedCount, assessmentPassed, allModulesDone, assessmentScore: progress.assessment?.totalScore }} onModuleSelect={(id) => { setLessonModuleId(id); setActiveModuleId(id); setView("modules"); setMessage(""); window.history.pushState(null, "", `/learn#module-${id}`); window.scrollTo({ top: 0, behavior: "smooth" }); }} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
           </section>
         )}
 
