@@ -9,6 +9,10 @@ export default function CertificatePage() {
   const router = useRouter();
   const [learner, setLearner] = useState("");
   const [certificateId, setCertificateId] = useState("");
+  const [eligible, setEligible] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [completedCount, setCompletedCount] = useState(0);
+  const [totalModules, setTotalModules] = useState(0);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -24,9 +28,13 @@ export default function CertificatePage() {
         const certificateResponse = await api.get("/certificate/mine");
         if (!active) return;
         const certificate = certificateResponse.data?.certificate;
-        if (!certificate?.certificateId || !certificate?.learnerName) throw new Error("Certificate data unavailable");
+        if (!certificate?.learnerName) throw new Error("Certificate data unavailable");
         setLearner(certificate.learnerName);
-        setCertificateId(certificate.certificateId.replace(/^SQLW-DEMO-/, ""));
+        setEligible(certificateResponse.data.eligible === true);
+        setSubscribed(certificateResponse.data.subscribed === true);
+        setCompletedCount(certificateResponse.data.completedCount ?? 0);
+        setTotalModules(certificateResponse.data.totalModules ?? 0);
+        setCertificateId(certificateResponse.data.eligible && certificate.certificateId ? certificate.certificateId.replace(/^SQLW-DEMO-/, "") : "XXXXXXX");
       })
       .catch((requestError) => {
         if (!active) return;
@@ -39,15 +47,16 @@ export default function CertificatePage() {
 
   if (loading) return <main className="cert-page"><p style={{ textAlign: "center" }}>Loading your SQLWhale account...</p></main>;
   if (error) return <main className="cert-page"><p role="alert" style={{ textAlign: "center" }}>{error}</p></main>;
-  if (!learner || !certificateId) return null;
+  if (!learner) return null;
   return (
     <main className="cert-page">
       <div className="cert-intro">
         <span className="cert-tag"><Award size={14} /> CERTIFICATE STUDIO · PREVIEW</span>
         <h1>A milestone worth framing.</h1>
-        <p>A first look at the SQLWhale course completion certificate. This is a design preview, not an issued credential.</p>
+        <p>{eligible ? "You have met the current requirements for your SQLWhale certificate." : "Complete every current Learn module and maintain an active Premium subscription to unlock your certificate."}</p>
+        <p className="cert-eligibility" role="status">{completedCount} / {totalModules} modules completed · {subscribed ? "Premium active" : "Premium required"} · {eligible ? "Certificate unlocked" : "Certificate locked"}</p>
         <div className="cert-actions">
-          <button type="button" onClick={() => window.print()}><Download size={17} /> Print / Save PDF</button>
+          <button type="button" disabled={!eligible} onClick={() => { if (eligible) window.print(); }}><Download size={17} /> {eligible ? "Print / Save PDF" : "Complete requirements to download"}</button>
         </div>
       </div>
 
@@ -75,12 +84,12 @@ export default function CertificatePage() {
           <div className="cert-bottom">
             <div className="cert-signature"><span className="cert-signature-script">SQLWhale</span><span className="cert-small-line" /><span>ISSUED BY SQLWHALE</span></div>
             <div className="cert-seal"><ShieldCheck size={25} strokeWidth={1.35} /><span>SQLWHALE</span><small>ACADEMY</small></div>
-            <div className="cert-identity"><strong>DEMO · NOT ISSUED</strong><span className="cert-small-line" /><span>CERTIFICATE ID · {certificateId}</span></div>
+            <div className="cert-identity"><strong>{eligible ? "CERTIFICATE ISSUED" : "LOCKED · PREVIEW ONLY"}</strong><span className="cert-small-line" /><span>CERTIFICATE ID · {certificateId}</span></div>
           </div>
           <div className="cert-footnote">LEARN · PRACTICE · UNDERSTAND</div>
         </div>
       </div>
-      <p className="cert-disclaimer">Preview only. Completion checks, real certificate IDs, issuance dates, and verification will be added later.</p>
+      <p className="cert-disclaimer">{eligible ? "Certificate access requires an active subscription and completion of every currently available module." : "The original certificate ID is hidden until all requirements are met. New modules must also be completed."}</p>
       <style jsx global>{`
         .cert-page,.cert-page *{box-sizing:border-box}
         .cert-page{min-height:100vh;padding:75px 22px 90px;background:#f3f2ee;color:#18252d;font-family:Arial,Helvetica,sans-serif}
@@ -89,6 +98,8 @@ export default function CertificatePage() {
         .cert-intro h1{font-size:clamp(30px,4.5vw,48px);letter-spacing:-.05em;margin:17px 0 9px;color:#18252d}
         .cert-intro p{font-size:14px;color:#66717a;line-height:1.7;margin:0 auto;max-width:650px}
         .cert-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:11px;margin-top:23px}
+        .cert-eligibility{margin-top:9px!important;font-weight:700;color:#485b63!important}
+        .cert-actions button:disabled{background:#9aa3a7;cursor:not-allowed;opacity:.75}
         .cert-actions label{font-size:12px;font-weight:700;color:#55636a}
         .cert-actions input{height:43px;min-width:230px;padding:0 14px;border:1px solid #d5d8d8;border-radius:9px;background:#fff;color:#18252d;outline-color:#0d858c}
         .cert-actions button{height:43px;padding:0 17px;border:0;border-radius:9px;background:#102b36;color:#fff;display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:700;cursor:pointer}
