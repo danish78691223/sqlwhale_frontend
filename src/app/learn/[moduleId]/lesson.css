@@ -148,3 +148,51 @@
   .lesson-shell { height: calc(100vh - 205px); }
   .lesson-layout-grid { grid-template-columns: minmax(230px, 20vw) minmax(0, 1fr); }
 }
+
+
+/* Compact the intro and metrics so the lesson panel fits below the existing navbar. */
+.learn-wrap:has(.learn-unified-lesson) .learn-hero {
+  padding: 14px 0 10px;
+  grid-template-columns: minmax(0, 1fr) 170px;
+  gap: 20px;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-hero h1 {
+  max-width: 900px;
+  margin: 8px 0;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.04;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-hero p {
+  max-width: 1000px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-hero-side {
+  padding: 12px 16px;
+  border-radius: 12px;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-hero-side strong { font-size: 28px; }
+.learn-wrap:has(.learn-unified-lesson) .learn-stats {
+  gap: 10px;
+  margin: 6px 0 12px;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-stat {
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-stat strong {
+  margin-top: 4px;
+  font-size: 20px;
+}
+.learn-wrap:has(.learn-unified-lesson) .learn-alert { margin: 8px 0; }
+@media (max-width: 760px) {
+  .learn-wrap:has(.learn-unified-lesson) .learn-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px 0 10px;
+  }
+  .learn-wrap:has(.learn-unified-lesson) .learn-hero-side { display: none; }
+  .learn-wrap:has(.learn-unified-lesson) .learn-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .learn-wrap:has(.learn-unified-lesson) .learn-stat { padding: 9px; }
+  .learn-wrap:has(.learn-unified-lesson) .learn-stat span { font-size: 9px; }
+  .learn-wrap:has(.learn-unified-lesson) .learn-stat strong { font-size: 16px; }
+}
