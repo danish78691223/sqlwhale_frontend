@@ -7,7 +7,7 @@ import { MODULE_TITLES } from "@/content/learn/modules";
 import SqlExample from "./SqlExample";
 
 type Progress = { completedModules?: number[]; completedCount?: number; progressPercent?: number; unlockedThrough?: number };
-export default function LessonLayout({ module, initialProgress }: { module: LessonModule; initialProgress: Progress }) {
+export default function LessonLayout({ module, initialProgress, onModuleSelect }: { module: LessonModule; initialProgress: Progress; onModuleSelect?: (id: number) => void }) {
   const [progress, setProgress] = useState(initialProgress);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,6 +20,9 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
   const completed = progress.completedModules || [];
   const score = useMemo(() => module.quiz.reduce((total, question, index) => total + (answers[index] === question.answer ? 1 : 0), 0), [answers, module.quiz]);
   const canAccess = module.id <= (progress.unlockedThrough || 1) || completed.includes(module.id);
+  useEffect(() => {
+    setAnswers({}); setChecked(false); setQuizPassed(false); setError(""); setSuccess(""); setShowAnswers({});
+  }, [module.id]);
   useEffect(() => {
     let active = true;
     fetch("/api/learning/progress", { credentials: "include", cache: "no-store" })
@@ -78,7 +81,7 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
           return (
             <div key={title} className={`lesson-side-item ${id === module.id ? "active" : ""} ${!unlocked ? "locked" : ""}`}>
               {unlocked ? (
-                <Link href={`/learn#module-${id}`}>
+                <Link href={`/learn#module-${id}`} onClick={(event) => { event.preventDefault(); onModuleSelect?.(id); }}>
                   <span>{completed.includes(id) ? <CheckCircle2 size={16}/> : <Circle size={16}/>}</span>
                   <span><small>MODULE {id}</small><strong>{title}</strong></span>
                   <em>{status}</em>
@@ -105,7 +108,7 @@ export default function LessonLayout({ module, initialProgress }: { module: Less
         <section className="lesson-block lesson-quiz"><div className="lesson-quiz-heading"><div><span>KNOWLEDGE CHECK</span><h2>Module quiz</h2><p>Answer all five questions. You need 3/5 to pass.</p></div><div className="lesson-quiz-score">{checked?`${score}/5`:"5 Qs"}</div></div>{module.quiz.map((question,index)=><fieldset className="lesson-question" key={question.question}><legend>{index+1}. {question.question}</legend>{question.options.map((option,optionIndex)=><label key={option} className={checked&&optionIndex===question.answer?"correct":checked&&answers[index]===optionIndex?"incorrect":""}><input type="radio" name={`quiz-${index}`} value={optionIndex} checked={answers[index]===optionIndex} disabled={checked} onChange={()=>setAnswers(prev=>({...prev,[index]:optionIndex}))}/><span>{option}</span></label>)}{checked&&<p className="lesson-quiz-explanation">{question.explanation}</p>}</fieldset>)}{!checked?<button type="button" className="lesson-primary-button" onClick={submitQuiz} disabled={loading||Object.keys(answers).length!==5}>{loading?"Checking answers…":"Submit quiz"}</button>:<button type="button" className="lesson-secondary-button" onClick={()=>{setAnswers({});setChecked(false);setQuizPassed(false);setError("");setSuccess("");}}>Retry quiz</button>}</section>
         {error&&<div className="lesson-status error" role="alert">{error}</div>}{success&&<div className="lesson-status success" role="status">{success}</div>}
         <section className="lesson-complete-card"><div><h2>Ready to finish this module?</h2><p>Pass the quiz first. Your progress is saved to your SQLWhale account.</p></div><button type="button" className="lesson-primary-button" disabled={!quizPassed||saving||completed.includes(module.id)} onClick={markComplete}>{saving?"Saving progress…":completed.includes(module.id)?"Module completed":quizPassed?"Mark module as completed":"Pass the quiz to continue"}</button></section>
-        <nav className="lesson-bottom-nav" aria-label="Module navigation"><Link href="/learn"><ArrowLeft size={16}/> All modules</Link>{module.id<10&&(completed.includes(module.id)?<Link href={`/learn#module-${module.id+1}`}>Next module <ArrowRight size={16}/></Link>:<span aria-disabled="true"><LockKeyhole size={15}/> Next module locked</span>)}</nav>
+        <nav className="lesson-bottom-nav" aria-label="Module navigation"><Link href="/learn"><ArrowLeft size={16}/> All modules</Link>{module.id<10&&(completed.includes(module.id)?<Link href={`/learn#module-${module.id+1}`} onClick={(event) => { event.preventDefault(); onModuleSelect?.(module.id + 1); }}>Next module <ArrowRight size={16}/></Link>:<span aria-disabled="true"><LockKeyhole size={15}/> Next module locked</span>)}</nav>
       </article>
     </div>
   </main>;
