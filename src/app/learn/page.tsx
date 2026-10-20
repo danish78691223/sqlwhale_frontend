@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LessonLayout from "@/components/learn/LessonLayout";
 import { getModuleContent } from "@/content/learn/modules";
 import "./[moduleId]/lesson.css";
@@ -20,15 +20,14 @@ type ProgressState = {
   completedCount: number;
   progressPercent: number;
   unlockedThrough: number;
-  assessment?: { status: string; attempts: number; totalScore: number } | null;
+  assessment?: { status: string; attempts: number; totalScore: number; startedAt?: string | null; durationSeconds?: number } | null;
 };
-type Question = { id: string; question: string; options?: string[]; hint?: string };
+type Question = { id: string; question: string; options?: string[]; hint?: string; level?: string; explanation?: string };
 type AssessmentPaper = {
   mcqs: Question[];
-  longQuestions: Question[];
-  queryQuestions: Question[];
   totalMarks: number;
   passMarks: number;
+  durationSeconds: number;
 };
 
 const modules: LearningModule[] = [
@@ -129,7 +128,7 @@ const modules: LearningModule[] = [
     lessons: [
       { title: "CASE expressions", body: "CASE evaluates conditions in order and returns the first matching result. It can label rows without changing stored values.", example: "SELECT employee_id,\n  CASE WHEN amount >= 55000 THEN 'High' ELSE 'Standard' END AS salary_band\nFROM salary;" },
       { title: "Window functions", body: "A window function calculates across related rows while keeping each row in the output. PARTITION BY creates groups for the calculation and ORDER BY defines its order.", example: "SELECT employee_id, amount,\n  RANK() OVER (ORDER BY amount DESC) AS salary_rank\nFROM salary;" },
-      { title: "Prepare for the final test", body: "Review SELECT, filtering, sorting, aggregation, joins, subqueries, safe data changes, design and performance. The final test contains 10 MCQs, 4 long answers and 4 SQL queries.", example: "SELECT d.department_name, COUNT(e.employee_id) AS team_size\nFROM departments AS d\nLEFT JOIN employees AS e ON e.department_id = d.department_id\nGROUP BY d.department_id, d.department_name;" },
+      { title: "Prepare for the final test", body: "Review SELECT, filtering, sorting, aggregation, joins, subqueries, safe data changes, design and performance. The final assessment contains 50 SQL multiple-choice questions.", example: "SELECT d.department_name, COUNT(e.employee_id) AS team_size\nFROM departments AS d\nLEFT JOIN employees AS e ON e.department_id = d.department_id\nGROUP BY d.department_id, d.department_name;" },
     ],
   },
 ];
@@ -140,16 +139,18 @@ export default function LearnPage() {
   });
   const [activeModuleId, setActiveModuleId] = useState(1);
   const [lessonModuleId, setLessonModuleId] = useState(1);
-  const [view, setView] = useState<"modules" | "module" | "assessment" | "result">("modules");
+  const [view, setView] = useState<"modules" | "module" | "instructions" | "assessment" | "result">("modules");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [message, setMessage] = useState("");
   const [paper, setPaper] = useState<AssessmentPaper | null>(null);
   const [mcqAnswers, setMcqAnswers] = useState<Record<string, number>>({});
-  const [longAnswers, setLongAnswers] = useState<Record<string, string>>({});
-  const [queryAnswers, setQueryAnswers] = useState<Record<string, string>>({});
+  const [acceptedNotices, setAcceptedNotices] = useState(false);
+  const [attemptStartedAt, setAttemptStartedAt] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(3000);
   const [result, setResult] = useState<any>(null);
+  const submitAssessmentRef = useRef<() => Promise<void>>(async () => undefined);
 
   const activeModule = modules.find((module) => module.id === activeModuleId) || modules[0];
   const completedIds = progress.completedModules || [];
@@ -234,15 +235,32 @@ export default function LearnPage() {
       const response = await fetch("/api/learning/assessment", { credentials: "include", cache: "no-store" });
       const data = await response.json();
       if (!response.ok) {
-        setMessage(data.error || "Finish every module to unlock the test.");
+        setMessage(data.error || "Finish every module to unlock the assessment.");
+        return;
+      }
+      if (data.alreadyPassed) {
+        setMessage("You have already passed the final assessment with " + data.attempt?.totalScore + "/50.");
+        await loadProgress();
         return;
       }
       setPaper(data.paper);
-      setMcqAnswers(data.attempt?.answers?.mcq || {});
-      setLongAnswers(data.attempt?.answers?.longAnswers || {});
-      setQueryAnswers(data.attempt?.answers?.queries || {});
       setResult(null);
-      setView("assessment");
+      setAcceptedNotices(false);
+      const startedAt = data.attempt?.startedAt as string | undefined;
+      const active = data.attempt?.status === "in_progress" && startedAt &&
+        Date.now() < new Date(startedAt).getTime() + (data.paper?.durationSeconds || 3000) * 1000;
+      if (active) {
+        const answers = data.attempt?.answers?.mcq || {};
+        setMcqAnswers(answers);
+        setAttemptStartedAt(startedAt!);
+        setTimeLeft(Math.max(0, Math.ceil((new Date(startedAt!).getTime() + (data.paper.durationSeconds || 3000) * 1000 - Date.now()) / 1000)));
+        setView("assessment");
+      } else {
+        setMcqAnswers({});
+        setAttemptStartedAt(null);
+        setTimeLeft(data.paper?.durationSeconds || 3000);
+        setView("instructions");
+      }
     } catch {
       setMessage("Unable to load the final assessment. Please try again.");
     } finally {
@@ -250,14 +268,57 @@ export default function LearnPage() {
     }
   }
 
+  async function startAssessment() {
+    if (!acceptedNotices || busy) return;
+    setBusy(true);
+    setMessage("");
+    try {
+      const response = await fetch("/api/learning/assessment/start", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" }, body: JSON.stringify({}),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.error || "Unable to start the assessment.");
+        return;
+      }
+      setAttemptStartedAt(data.startedAt);
+      setTimeLeft(Math.max(0, Math.ceil((new Date(data.startedAt).getTime() + (data.durationSeconds || 3000) * 1000 - Date.now()) / 1000)));
+      setMcqAnswers(data.answers || {});
+      setView("assessment");
+      setAcceptedNotices(false);
+    } catch {
+      setMessage("Unable to start the assessment. Please check your connection.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function selectAssessmentAnswer(questionId: string, optionIndex: number) {
+    setMcqAnswers(current => ({ ...current, [questionId]: optionIndex }));
+    try {
+      const response = await fetch("/api/learning/assessment/answer", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ questionId, answer: optionIndex }),
+      });
+      const data = await response.json();
+      if (!response.ok) setMessage(data.error || "This answer could not be saved.");
+      else setMessage("");
+    } catch {
+      setMessage("Connection interrupted. Your latest answer may not have been saved.");
+    }
+  }
+
   async function submitAssessment() {
+    if (busy || !attemptStartedAt) return;
     setBusy(true);
     setMessage("");
     try {
       const response = await fetch("/api/learning/assessment/submit", {
         method: "POST", credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: { mcq: mcqAnswers, longAnswers, queries: queryAnswers } }),
+        body: JSON.stringify({ answers: { mcq: mcqAnswers } }),
       });
       const data = await response.json();
       if (!response.ok) {
@@ -265,6 +326,7 @@ export default function LearnPage() {
         return;
       }
       setResult(data);
+      setAttemptStartedAt(null);
       setView("result");
       await loadProgress();
     } catch {
@@ -273,6 +335,20 @@ export default function LearnPage() {
       setBusy(false);
     }
   }
+
+  submitAssessmentRef.current = submitAssessment;
+
+  useEffect(() => {
+    if (view !== "assessment" || !attemptStartedAt) return;
+    const updateTimer = () => {
+      const remaining = Math.max(0, Math.ceil((new Date(attemptStartedAt).getTime() + 3000000 - Date.now()) / 1000));
+      setTimeLeft(remaining);
+      if (remaining === 0) void submitAssessmentRef.current();
+    };
+    updateTimer();
+    const timer = window.setInterval(updateTimer, 1000);
+    return () => window.clearInterval(timer);
+  }, [view, attemptStartedAt]);
 
   const allModulesDone = completedIds.length === 10;
   const assessmentPassed = progress.assessment?.status === "passed";
@@ -378,6 +454,20 @@ export default function LearnPage() {
         .learn-result-list { list-style:none; padding:0; margin:15px 0; display:grid; gap:8px; }
         .learn-result-list li { border:1px solid var(--learn-line); border-radius:10px; padding:12px; font-size:12px; line-height:1.5; }
         .learn-result-list b { color:var(--learn-green); }
+        .learn-notice-list { margin: 0; padding-left: 22px; display: grid; gap: 12px; color: var(--learn-muted); font-size: 13px; line-height: 1.7; }
+        .learn-agreement { display:flex; gap:12px; align-items:flex-start; margin:24px 0 6px; padding:16px; border:1px solid var(--learn-line); border-radius:12px; background:rgba(143,231,189,.045); font-size:13px; line-height:1.6; cursor:pointer; }
+        .learn-agreement input { width:17px; height:17px; margin-top:2px; accent-color:var(--learn-green); flex-shrink:0; }
+        .learn-exam-sticky { position:sticky; top:76px; z-index:10; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 0; margin-bottom:12px; background:rgba(13,18,25,.96); border-bottom:1px solid var(--learn-line); backdrop-filter:blur(12px); }
+        .learn-exam-sticky h2 { margin:8px 0 4px; }
+        .learn-timer { border:1px solid rgba(143,231,189,.35); background:rgba(143,231,189,.08); border-radius:12px; padding:10px 14px; min-width:120px; text-align:center; }
+        .learn-timer span { display:block; font:10px monospace; letter-spacing:.1em; color:var(--learn-muted); }
+        .learn-timer strong { display:block; font-size:26px; color:var(--learn-green); font-variant-numeric:tabular-nums; }
+        .learn-timer.urgent { border-color:rgba(255,130,130,.65); background:rgba(255,110,110,.08); }
+        .learn-timer.urgent strong { color:#ffadad; }
+        .learn-review-correct { border-color:rgba(143,231,189,.25)!important; }
+        .learn-review-incorrect { border-color:rgba(255,173,173,.25)!important; }
+        .learn-result-list li p { margin:8px 0 0; color:var(--learn-muted); }
+        @media (max-width:600px) { .learn-exam-sticky { top:70px; align-items:flex-start; } .learn-timer { min-width:95px; padding:8px; } .learn-timer strong { font-size:22px; } }
         .learn-footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--learn-line); display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; color:var(--learn-muted); font:10px monospace; letter-spacing:.07em; text-transform:uppercase; }
         @media (max-width:760px) {
           .learn-topbar { height:62px; padding:0 16px; }
@@ -482,9 +572,9 @@ export default function LearnPage() {
         )}
         {message && <div className={"learn-alert" + (signedIn === false ? " error" : "")} role="status">{message}</div>}
 
-        {view !== "assessment" && view !== "result" && (
+        {view !== "assessment" && view !== "result" && view !== "instructions" && (
           <section id={`module-${lessonModuleId}`} className="learn-unified-lesson">
-            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} dashboard={{ loading, progressPercent: progress.progressPercent, completedCount: progress.completedCount, assessmentPassed, allModulesDone, assessmentScore: progress.assessment?.totalScore }} onModuleSelect={(id) => { setLessonModuleId(id); setActiveModuleId(id); setView("modules"); setMessage(""); window.history.pushState(null, "", `/learn#module-${id}`); window.scrollTo({ top: 0, behavior: "smooth" }); }} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
+            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} dashboard={{ loading, progressPercent: progress.progressPercent, completedCount: progress.completedCount, assessmentPassed, allModulesDone, assessmentScore: progress.assessment?.totalScore, assessmentStatus: progress.assessment?.status }} onStartAssessment={() => void openAssessment()} onModuleSelect={(id) => { setLessonModuleId(id); setActiveModuleId(id); setView("modules"); setMessage(""); window.history.pushState(null, "", `/learn#module-${id}`); window.scrollTo({ top: 0, behavior: "smooth" }); }} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
           </section>
         )}
 
@@ -522,58 +612,77 @@ export default function LearnPage() {
           </section>
         )}
 
-        {view === "assessment" && paper && (
-          <section className="learn-panel">
+        {view === "instructions" && paper && (
+          <section className="learn-panel" aria-labelledby="assessment-instructions-title">
             <div className="learn-panel-header">
               <div>
                 <div className="learn-eyebrow">SQLWHALE / FINAL ASSESSMENT</div>
-                <h2>Show what you know.</h2>
-                <p>Answer all 18 questions. MCQs are auto-graded, long answers use a keyword rubric, and SQL queries are executed against the course dataset.</p>
+                <h2 id="assessment-instructions-title">Before you begin</h2>
+                <p>Read the assessment instructions carefully. Your timer starts only after you agree and press Start Assessment.</p>
               </div>
-              <span className="learn-tag">Pass: 40 / 50</span>
+              <span className="learn-tag">10 modules complete</span>
             </div>
             <div className="learn-assessment-intro">
-              <div><b>10 marks</b><span>10 multiple-choice questions · 1 mark each</span></div>
-              <div><b>20 marks</b><span>4 long-answer questions · 5 marks each</span></div>
-              <div><b>20 marks</b><span>4 SQL queries · 5 marks each</span></div>
+              <div><b>50 marks</b><span>Total marks · 50 MCQs · 1 mark each</span></div>
+              <div><b>35 marks</b><span>Passing marks · 70% score required</span></div>
+              <div><b>50 minutes</b><span>One timed attempt at a time</span></div>
             </div>
-            <h3 style={{ margin: "26px 0 5px", fontSize: 20 }}>Part A · Multiple choice</h3>
-            <p className="learn-muted">Choose one answer for every question.</p>
+            <h3 style={{ margin: "24px 0 10px", fontSize: 18 }}>Important notices</h3>
+            <ul className="learn-notice-list">
+              <li>The assessment contains 50 multiple-choice questions covering Beginner, Intermediate, and Advanced SQL.</li>
+              <li>You have 50 minutes. The timer begins when you start and continues if you refresh or leave the page.</li>
+              <li>Each question carries 1 mark. There is no negative marking, and unanswered questions receive 0 marks.</li>
+              <li>Your selected answers are saved as you answer. When time ends, the assessment is submitted automatically using saved answers.</li>
+              <li>Do not refresh repeatedly or open multiple exam sessions. You can submit early using the Submit Assessment button.</li>
+              <li>You must score at least 35 out of 50 to pass. Results and answer explanations are shown after submission.</li>
+            </ul>
+            <label className="learn-agreement">
+              <input type="checkbox" checked={acceptedNotices} onChange={(event) => setAcceptedNotices(event.target.checked)} />
+              <span><strong>I agree</strong> — I have read the notices and understand the time limit, marking scheme, and submission rules.</span>
+            </label>
+            <div className="learn-actions">
+              <button className="learn-btn secondary" disabled={busy} onClick={() => setView("modules")}>Back to modules</button>
+              <button className="learn-btn" disabled={!acceptedNotices || busy || signedIn !== true} onClick={() => void startAssessment()}>{busy ? "Starting…" : "Start Assessment →"}</button>
+            </div>
+          </section>
+        )}
+
+        {view === "assessment" && paper && (
+          <section className="learn-panel">
+            <div className="learn-exam-sticky">
+              <div>
+                <div className="learn-eyebrow">SQLWHALE / FINAL ASSESSMENT</div>
+                <h2>SQL Skills Assessment</h2>
+                <p className="learn-muted">{Object.keys(mcqAnswers).length} of 50 questions answered · 1 mark each</p>
+              </div>
+              <div className={"learn-timer" + (timeLeft <= 300 ? " urgent" : "")} aria-live="polite">
+                <span>TIME REMAINING</span>
+                <strong>{String(Math.floor(timeLeft / 60)).padStart(2, "0")}:{String(timeLeft % 60).padStart(2, "0")}</strong>
+              </div>
+            </div>
+            <div className="learn-assessment-intro">
+              <div><b>{paper.totalMarks} marks</b><span>Total marks</span></div>
+              <div><b>{paper.passMarks} marks</b><span>Passing marks</span></div>
+              <div><b>50 minutes</b><span>Time limit</span></div>
+            </div>
+            <p className="learn-muted">Choose one option for every question. You can leave questions unanswered and return to them before submitting.</p>
             {paper.mcqs.map((question, index) => (
-              <div className="learn-question" key={question.id}>
-                <h3>{index + 1}. {question.question} <span className="learn-muted">(1 mark)</span></h3>
+              <div className="learn-question" key={question.id} id={"question-" + question.id}>
+                <h3>{index + 1}. {question.question} <span className="learn-muted">(1 mark · {question.level || "SQL"})</span></h3>
                 <div className="learn-options">
                   {(question.options || []).map((option, optionIndex) => (
                     <label className="learn-option" key={option}>
-                      <input type="radio" name={question.id} checked={Number(mcqAnswers[question.id]) === optionIndex} onChange={() => setMcqAnswers((current) => ({ ...current, [question.id]: optionIndex }))} />
+                      <input type="radio" name={question.id} checked={Number(mcqAnswers[question.id]) === optionIndex} disabled={busy || timeLeft <= 0} onChange={() => void selectAssessmentAnswer(question.id, optionIndex)} />
                       <span>{option}</span>
                     </label>
                   ))}
                 </div>
               </div>
             ))}
-            <h3 style={{ margin: "30px 0 5px", fontSize: 20 }}>Part B · Long answers</h3>
-            <p className="learn-muted">Explain in your own words. Each question is worth 5 marks; include the key concepts and an example where useful.</p>
-            {paper.longQuestions.map((question, index) => (
-              <div className="learn-question" key={question.id}>
-                <h3>{index + 11}. {question.question} <span className="learn-muted">(5 marks)</span></h3>
-                <textarea value={longAnswers[question.id] || ""} onChange={(event) => setLongAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="Write your explanation here…" />
-              </div>
-            ))}
-            <h3 style={{ margin: "30px 0 5px", fontSize: 20 }}>Part C · SQL queries</h3>
-            <p className="learn-muted">Write a query for each task. Each query is checked against the course dataset and is worth 5 marks.</p>
-            {paper.queryQuestions.map((question, index) => (
-              <div className="learn-question" key={question.id}>
-                <h3>{index + 15}. {question.question} <span className="learn-muted">(5 marks)</span></h3>
-                <p className="learn-muted">Hint: {question.hint}</p>
-                <textarea className="sql-answer" value={queryAnswers[question.id] || ""} onChange={(event) => setQueryAnswers((current) => ({ ...current, [question.id]: event.target.value }))} placeholder="SELECT …" />
-              </div>
-            ))}
             <div className="learn-actions">
-              <button className="learn-btn secondary" onClick={() => setView("modules")}>Back to modules</button>
-              <button className="learn-btn" disabled={busy || signedIn !== true} onClick={() => void submitAssessment()}>{busy ? "Grading…" : "Submit assessment →"}</button>
+              <span className="learn-muted">{50 - Object.keys(mcqAnswers).length} questions unanswered</span>
+              <button className="learn-btn" disabled={busy} onClick={() => void submitAssessment()}>{busy ? "Submitting…" : "Submit Assessment →"}</button>
             </div>
-            <p className="learn-muted" style={{ marginTop: 14 }}>Passing requires at least 40/50 marks. You can retake the test if you do not pass.</p>
           </section>
         )}
 
@@ -588,29 +697,33 @@ export default function LearnPage() {
               <span className="learn-tag">{result.status === "passed" ? "Passed" : "Not passed"}</span>
             </div>
             <div className={"learn-result-score " + (result.status === "passed" ? "pass" : "fail")}>{result.totalScore}<span style={{ fontSize: 24, color: "var(--learn-muted)", letterSpacing: "-.03em" }}> / 50</span></div>
-            <p className="learn-muted">Passing score: 40/50 · Attempt {result.attempt?.attempts || progress.assessment?.attempts || 1}</p>
+            <p className="learn-muted">Passing marks: 35/50 · Attempt {result.attempt?.attempts || progress.assessment?.attempts || 1} · Duration: {Math.floor((result.elapsedSeconds || 0) / 60)}m {(result.elapsedSeconds || 0) % 60}s</p>
             <div className="learn-results-grid">
-              <div className="learn-result-item"><strong>{result.breakdown?.mcqScore ?? 0}/10</strong><span>Multiple choice</span></div>
-              <div className="learn-result-item"><strong>{result.breakdown?.longAnswerScore ?? 0}/20</strong><span>Long answers</span></div>
-              <div className="learn-result-item"><strong>{result.breakdown?.queryScore ?? 0}/20</strong><span>SQL queries</span></div>
+              <div className="learn-result-item"><strong>{result.totalScore}/50</strong><span>MCQ score</span></div>
+              <div className="learn-result-item"><strong>35/50</strong><span>Passing marks</span></div>
+              <div className="learn-result-item"><strong>{result.status === "passed" ? "Passed" : "Not passed"}</strong><span>Final status</span></div>
             </div>
-            <h3 style={{ marginTop: 24 }}>Long-answer feedback</h3>
+            <h3 style={{ marginTop: 24 }}>Answer review</h3>
+            <p className="learn-muted">Correct answers and brief explanations are available below.</p>
             <ul className="learn-result-list">
-              {(result.longResults || []).map((item: any) => <li key={item.id}><b>{item.id.toUpperCase()}: {item.score}/{item.maxScore}</b> — {item.feedback}</li>)}
-            </ul>
-            <h3 style={{ marginTop: 24 }}>SQL-query feedback</h3>
-            <ul className="learn-result-list">
-              {(result.queryResults || []).map((item: any) => <li key={item.id}><b>{item.id.toUpperCase()}: {item.score}/{item.maxScore}</b> — {item.feedback}</li>)}
+              {(result.review || []).map((item: any, index: number) => (
+                <li key={item.id} className={item.correct ? "learn-review-correct" : "learn-review-incorrect"}>
+                  <b>Q{index + 1}. {item.correct ? "Correct" : "Incorrect"} · {item.selectedAnswer === null ? "Unanswered" : "Your answer: " + item.options?.[item.selectedAnswer]}</b>
+                  <p>{item.question}</p>
+                  <p><strong>Correct answer:</strong> {item.options?.[item.correctAnswer]}</p>
+                  <p>{item.explanation}</p>
+                </li>
+              ))}
             </ul>
             <div className="learn-actions">
               <button className="learn-btn secondary" onClick={() => setView("modules")}>Back to learning path</button>
-              {result.status !== "passed" && <button className="learn-btn" onClick={() => { setResult(null); setView("assessment"); }}>Retake assessment →</button>}
+              {result.status !== "passed" && <button className="learn-btn" onClick={() => { setResult(null); void openAssessment(); }}>Retake assessment →</button>}
               {result.status === "passed" && <Link href="/run-query" className="learn-btn">Keep practising in Query Lab ↗</Link>}
             </div>
           </section>
         )}
 
-        <footer className="learn-footer"><span>SQLWhale · Learn by doing</span><span>10 modules · 50 marks · pass at 40</span></footer>
+        <footer className="learn-footer"><span>SQLWhale · Learn by doing</span><span>10 modules · 50 marks · pass at 35</span></footer>
       </div>
     </main>
   );
