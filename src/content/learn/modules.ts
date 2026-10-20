@@ -3,6 +3,7 @@ import moduleTwo from "./module-02";
 import moduleThree from "./module-03";
 import moduleFour from "./module-04";
 import moduleFive from "./module-05";
+import moduleSix from "./module-06";
 import type { LessonModule } from "./types";
 
 export const MODULE_TITLES = [
@@ -29,6 +30,7 @@ export function getModuleContent(id: number): LessonModule | null {
   if (id === 3) return moduleThree;
   if (id === 4) return moduleFour;
   if (id === 5) return moduleFive;
+  if (id === 6) return moduleSix;
   return null;
 }
 export type { LessonModule } from "./types";
