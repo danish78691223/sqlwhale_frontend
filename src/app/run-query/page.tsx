@@ -485,13 +485,26 @@ export default function RunQueryPage() {
     return () => window.clearTimeout(timer);
   }, [data, query]);
 
-  const handleEditorRun = (sql: string, showWhatHappened = false) => {
-    // On phones, take the user straight to the output after either Run or
-    // Show what happened. Desktop keeps its existing workspace layout.
-    if (typeof window !== "undefined" && window.innerWidth <= 800) {
+  const handleEditorRun = async (sql: string, showWhatHappened = false) => {
+    // On mobile, show the database canvas first for queries that reference
+    // tables or create one, then switch to the results after execution/schema
+    // refresh finishes. Desktop behavior remains unchanged.
+    const isMobile = typeof window !== "undefined" && window.innerWidth <= 800;
+    const referencesTable =
+      /\\b(?:FROM|JOIN)\\s+[\\w"`]+/i.test(sql) ||
+      /^\\s*CREATE\\s+TABLE\\b/i.test(sql);
+
+    if (isMobile && referencesTable) {
+      setActiveMobileView("schema");
+      await handleRun(sql, showWhatHappened);
+      setActiveMobileView("results");
+      return;
+    }
+
+    if (isMobile) {
       setActiveMobileView("results");
     }
-    void handleRun(sql, showWhatHappened);
+    await handleRun(sql, showWhatHappened);
   };
 
   const handleClear = () => {
