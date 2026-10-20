@@ -48,3 +48,103 @@
  .lesson-module-meta > span { padding: 6px 8px; }
  .lesson-complete-card { align-items: stretch; flex-direction: column; }
 }
+
+
+/* Full-monitor Learn workspace: follow the supplied wireframe while keeping the site navbar intact. */
+.learn-wrap:has(.learn-unified-lesson) {
+  width: min(98vw, 1920px);
+  max-width: none;
+}
+.learn-unified-lesson {
+  width: 100%;
+  margin-inline: auto;
+}
+.lesson-shell {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 0;
+  height: calc(100vh - 245px);
+  padding: 20px clamp(12px, 1.4vw, 26px) 16px;
+  overflow: hidden;
+  border: 1px solid var(--lesson-line);
+  border-radius: 4px;
+}
+.lesson-layout-grid {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  min-height: 0;
+  grid-template-columns: minmax(250px, 21vw) minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+.lesson-sidebar {
+  position: relative;
+  top: auto;
+  height: 100%;
+  max-height: none;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 8px;
+}
+.lesson-content {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 clamp(12px, 1.2vw, 24px) 20px;
+  scrollbar-gutter: stable;
+}
+.lesson-theme-toggle {
+  position: absolute;
+  top: 16px;
+  right: clamp(16px, 2vw, 32px);
+}
+.lesson-shell { position: relative; }
+.lesson-reading-track { position: absolute; top: 0; left: 0; right: 0; }
+.lesson-bottom-nav {
+  position: sticky;
+  bottom: -20px;
+  z-index: 3;
+  margin-top: 20px;
+  padding: 14px 4px;
+  background: var(--lesson-bg);
+  border-top: 1px solid var(--lesson-line);
+}
+.lesson-theme-light .lesson-bottom-nav { background: #f5f8fb; }
+@media (max-width: 900px) {
+  .learn-wrap:has(.learn-unified-lesson) { width: min(96vw, 760px); }
+  .lesson-shell {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding: 18px 12px 28px;
+  }
+  .lesson-layout-grid {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lesson-sidebar {
+    position: relative;
+    height: auto;
+    max-height: 280px;
+  }
+  .lesson-content {
+    height: auto;
+    overflow: visible;
+    padding: 0 4px 12px;
+  }
+  .lesson-theme-toggle {
+    position: static;
+    margin: 0 0 14px auto;
+    display: flex;
+    width: fit-content;
+  }
+  .lesson-bottom-nav { position: static; }
+}
+@media (max-height: 760px) and (min-width: 901px) {
+  .lesson-shell { height: calc(100vh - 205px); }
+  .lesson-layout-grid { grid-template-columns: minmax(230px, 20vw) minmax(0, 1fr); }
+}
