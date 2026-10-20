@@ -486,17 +486,23 @@ export default function RunQueryPage() {
   }, [data, query]);
 
   const handleEditorRun = async (sql: string, showWhatHappened = false) => {
-    // On mobile, show the database canvas first for queries that reference
-    // tables or create one, then switch to the results after execution/schema
-    // refresh finishes. Desktop behavior remains unchanged.
+    // On mobile, show the database canvas first so learners can see the
+    // referenced tables highlighted before moving to the query results.
     const isMobile = typeof window !== "undefined" && window.innerWidth <= 800;
     const referencesTable =
-      /\\b(?:FROM|JOIN)\\s+[\\w"`]+/i.test(sql) ||
-      /^\\s*CREATE\\s+TABLE\\b/i.test(sql);
+      /\b(?:FROM|JOIN)\s+[\w"`]+/i.test(sql) ||
+      /^\s*CREATE\s+TABLE\b/i.test(sql);
 
     if (isMobile && referencesTable) {
       setActiveMobileView("schema");
       await handleRun(sql, showWhatHappened);
+
+      // Let the canvas table-reveal animation finish before opening Results.
+      const tableReferences = [...sql.matchAll(/\b(?:FROM|JOIN)\s+[\w"`]+/gi)].length;
+      const canvasPreviewMs = tableReferences > 0
+        ? 820 + tableReferences * 650
+        : 900;
+      await new Promise((resolve) => window.setTimeout(resolve, canvasPreviewMs));
       setActiveMobileView("results");
       return;
     }
