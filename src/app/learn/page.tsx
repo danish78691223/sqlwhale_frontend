@@ -447,7 +447,7 @@ export default function LearnPage() {
 
         {view !== "assessment" && view !== "result" && (
           <section id={`module-${lessonModuleId}`} className="learn-unified-lesson">
-            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
+            {getModuleContent(lessonModuleId) ? <LessonLayout module={getModuleContent(lessonModuleId)!} initialProgress={progress} onModuleSelect={(id) => { setLessonModuleId(id); setActiveModuleId(id); setView("modules"); setMessage(""); window.history.pushState(null, "", `/learn#module-${id}`); window.scrollTo({ top: 0, behavior: "smooth" }); }} /> : <div className="learn-panel"><h2>Module {lessonModuleId} lesson is being prepared</h2><p className="learn-muted">Your saved progress is safe. This lesson will appear here when its content is published.</p><Link className="learn-btn secondary" href="/learn">Return to all modules</Link></div>}
           </section>
         )}
 
