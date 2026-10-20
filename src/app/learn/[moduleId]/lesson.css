@@ -46,3 +46,17 @@
  .lesson-module-meta > span { padding: 6px 8px; }
  .lesson-complete-card { align-items: stretch; flex-direction: column; }
 }
+
+
+/* Learn full-viewport workspace: sidebar spans dashboard and lesson content. */
+.lesson-layout-grid { grid-template-rows: auto minmax(0, 1fr); }
+.lesson-sidebar { grid-column: 1; grid-row: 1 / span 2; }
+.learn-dashboard-stats { grid-column: 2; grid-row: 1; }
+.lesson-content { grid-column: 2; grid-row: 2; min-height: 0; }
+@media (max-width: 1050px) {
+  .lesson-layout-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
+  .lesson-sidebar { grid-column: 1; grid-row: 1; }
+  .learn-dashboard-stats { grid-column: 1; grid-row: 2; }
+  .lesson-content { grid-column: 1; grid-row: 3; }
+}
+@media (max-width: 650px) { .learn-dashboard-stats { grid-template-columns: 1fr; } }
