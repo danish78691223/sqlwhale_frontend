@@ -7,8 +7,8 @@ import { MODULE_TITLES } from "@/content/learn/modules";
 import SqlExample from "./SqlExample";
 
 type Progress = { completedModules?: number[]; completedCount?: number; progressPercent?: number; unlockedThrough?: number };
-type DashboardSummary = { loading: boolean; progressPercent: number; completedCount: number; assessmentPassed: boolean; allModulesDone: boolean; assessmentScore?: number };
-export default function LessonLayout({ module, initialProgress, dashboard, onModuleSelect }: { module: LessonModule; initialProgress: Progress; dashboard: DashboardSummary; onModuleSelect?: (id: number) => void }) {
+type DashboardSummary = { loading: boolean; progressPercent: number; completedCount: number; assessmentPassed: boolean; allModulesDone: boolean; assessmentScore?: number; assessmentStatus?: string };
+export default function LessonLayout({ module, initialProgress, dashboard, onModuleSelect, onStartAssessment }: { module: LessonModule; initialProgress: Progress; dashboard: DashboardSummary; onModuleSelect?: (id: number) => void; onStartAssessment?: () => void }) {
   const [progress, setProgress] = useState(initialProgress);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   useEffect(() => { const saved = window.localStorage.getItem("sqlwhale-learn-theme"); if (saved === "light" || saved === "dark") setTheme(saved); }, []);
@@ -104,7 +104,7 @@ export default function LessonLayout({ module, initialProgress, dashboard, onMod
       <section className="learn-dashboard-stats" aria-label="Learning statistics">
         <div className="learn-stat"><span>Course progress</span><strong>{dashboard.loading ? "…" : dashboard.progressPercent + "%"}</strong><small>10% per module</small></div>
         <div className="learn-stat"><span>Modules completed</span><strong>{dashboard.loading ? "…" : dashboard.completedCount + " / 10"}</strong><small>Sequential unlocks</small></div>
-        <div className="learn-stat"><span>Final assessment</span><strong>{dashboard.assessmentPassed ? "Passed" : dashboard.allModulesDone ? "Unlocked" : "Locked"}</strong><small>{dashboard.assessmentPassed ? "Score: " + dashboard.assessmentScore + " / 50" : "Pass mark: 40 / 50"}</small></div>
+        <div className="learn-stat"><span>Final assessment</span><strong>{dashboard.assessmentPassed ? "Passed" : dashboard.allModulesDone ? "Unlocked" : "Locked"}</strong><small>{dashboard.assessmentPassed ? "Score: " + dashboard.assessmentScore + " / 50" : "Total marks: 50 · Passing: 35"}</small>{dashboard.allModulesDone && !dashboard.assessmentPassed && <button type="button" className="lesson-secondary-button" style={{ marginTop: 10, width: "100%" }} disabled={dashboard.loading} onClick={onStartAssessment}>{dashboard.assessmentStatus === "in_progress" ? "Resume Assessment →" : dashboard.assessmentStatus === "failed" ? "Retake Assessment →" : "Start Assessment →"}</button>}</div>
       </section>
       <article className="lesson-content">
         <div className="lesson-module-meta"><span>MODULE {String(module.id).padStart(2,"0")}</span><span>{module.difficulty}</span><span><Clock3 size={14}/>{module.estimatedTime}</span><span className="lesson-progress-badge">+10% progress</span></div>
