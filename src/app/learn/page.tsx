@@ -336,7 +336,9 @@ export default function LearnPage() {
     }
   }
 
-  submitAssessmentRef.current = submitAssessment;
+  useEffect(() => {
+    submitAssessmentRef.current = submitAssessment;
+  });
 
   useEffect(() => {
     if (view !== "assessment" || !attemptStartedAt) return;
