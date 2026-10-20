@@ -9,6 +9,9 @@ import SqlExample from "./SqlExample";
 type Progress = { completedModules?: number[]; completedCount?: number; progressPercent?: number; unlockedThrough?: number };
 export default function LessonLayout({ module, initialProgress, onModuleSelect }: { module: LessonModule; initialProgress: Progress; onModuleSelect?: (id: number) => void }) {
   const [progress, setProgress] = useState(initialProgress);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  useEffect(() => { const saved = window.localStorage.getItem("sqlwhale-learn-theme"); if (saved === "light" || saved === "dark") setTheme(saved); }, []);
+  useEffect(() => { document.documentElement.dataset.learnTheme = theme; window.localStorage.setItem("sqlwhale-learn-theme", theme); }, [theme]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -67,8 +70,9 @@ export default function LessonLayout({ module, initialProgress, onModuleSelect }
     } catch (e) { setError(e instanceof Error ? e.message : "Unable to save completion."); }
     finally { setSaving(false); }
   }
-  if (!canAccess) return <main className="lesson-shell"><div className="lesson-locked"><LockKeyhole size={36}/><h1>Module locked</h1><p>Complete the previous module and pass its quiz to unlock this lesson.</p><Link href="/learn">Back to learning path</Link></div></main>;
-  return <main className="lesson-shell">
+  if (!canAccess) return <main className={`lesson-shell ${theme === "light" ? "lesson-theme-light" : ""}`}><button type="button" className="lesson-theme-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>{theme === "dark" ? "☀ Light mode" : "☾ Dark mode"}</button><div className="lesson-locked"><LockKeyhole size={36}/><h1>Module locked</h1><p>Complete the previous module and pass its quiz to unlock this lesson.</p><Link href="/learn">Back to learning path</Link></div></main>;
+  return <main className={`lesson-shell ${theme === "light" ? "lesson-theme-light" : ""}`}>
+    <button type="button" className="lesson-theme-toggle" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>{theme === "dark" ? "☀ Light mode" : "☾ Dark mode"}</button>
     <div className="lesson-reading-track"><div id="lesson-reading-progress"/></div>
     <div className="lesson-layout-grid">
       <aside className="lesson-sidebar">
