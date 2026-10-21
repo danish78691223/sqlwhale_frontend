@@ -29,7 +29,7 @@ export function SQLWhaleHero() {
               transition={{ type: "spring", bounce: 0, duration: 0.22 }}
             >
               <Link
-                href="/run-query"
+                href="/learn"
                 className={styles.primary + " cursor-target"}
                 data-cursor-label="Start learning"
               >
@@ -39,7 +39,7 @@ export function SQLWhaleHero() {
             </motion.div>
 
             <motion.a
-              href="#how-it-works"
+              href="/run-query"
               whileTap={reducedMotion ? undefined : { scale: 0.965 }}
               transition={{ type: "spring", bounce: 0, duration: 0.22 }}
               className={styles.secondary + " cursor-target"}
