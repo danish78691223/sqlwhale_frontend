@@ -9,6 +9,7 @@ export default function CertificatePage() {
   const router = useRouter();
   const [learner, setLearner] = useState("");
   const [certificateId, setCertificateId] = useState("");
+  const [issuedAt, setIssuedAt] = useState<string | null>(null);
   const [eligible, setEligible] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [completedCount, setCompletedCount] = useState(0);
@@ -35,6 +36,7 @@ export default function CertificatePage() {
         setCompletedCount(certificateResponse.data.completedCount ?? 0);
         setTotalModules(certificateResponse.data.totalModules ?? 0);
         setCertificateId(certificateResponse.data.eligible && certificate.certificateId ? certificate.certificateId.replace(/^SQLW-DEMO-/, "") : "XXXXXXX");
+        setIssuedAt(certificateResponse.data.eligible && certificate.createdAt ? certificate.createdAt : null);
       })
       .catch((requestError) => {
         if (!active) return;
@@ -48,7 +50,9 @@ export default function CertificatePage() {
   if (loading) return <main className="cert-page"><p style={{ textAlign: "center" }}>Loading your SQLWhale account...</p></main>;
   if (error) return <main className="cert-page"><p role="alert" style={{ textAlign: "center" }}>{error}</p></main>;
   if (!learner) return null;
-  const issueDate = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+  const issueDate = issuedAt
+    ? new Date(issuedAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+    : "DATE NOT AVAILABLE";
 
   return (
     <main className="cert-page">
