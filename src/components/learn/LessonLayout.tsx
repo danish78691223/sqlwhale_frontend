@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Clock3, LockKeyhole, Sparkles, Award } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Clock3, LockKeyhole, Sparkles, Award, ShieldCheck } from "lucide-react";
 import type { LessonModule } from "@/content/learn/types";
 import { MODULE_TITLES } from "@/content/learn/modules";
 import SqlExample from "./SqlExample";
@@ -100,7 +100,7 @@ export default function LessonLayout({ module, initialProgress, dashboard, onMod
             </div>
           );
         })}
-        <div className="lesson-sidebar-progress"><div><span>Course progress</span><strong>{progress.progressPercent || 0}%</strong></div><div className="lesson-progress-track"><i style={{width:`${progress.progressPercent||0}%`}}/></div></div></aside>
+        <div className="lesson-sidebar-progress"><div><span>Course progress</span><strong>{progress.progressPercent || 0}%</strong></div><div className="lesson-progress-track"><i style={{width:`${progress.progressPercent||0}%`}}/></div></div><Link href="/verify-certificate" className="lesson-verify-certificate" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 14, padding: "12px 11px", border: "1px solid rgba(96, 165, 250, 0.35)", borderRadius: 12, background: "rgba(59, 130, 246, 0.12)", color: "var(--lesson-text, inherit)", textDecoration: "none" }}><ShieldCheck size={18} color="#60a5fa" /><span style={{ display: "flex", flexDirection: "column", flex: 1, gap: 3 }}><strong style={{ fontSize: 12 }}>Verify Certificate</strong><small style={{ fontSize: 10, opacity: 0.72 }}>Check certificate authenticity</small></span><ArrowRight size={15} /></Link></aside>
       <section className="learn-dashboard-stats" aria-label="Learning statistics">
         <div className="learn-stat"><span>Course progress</span><strong>{dashboard.loading ? "…" : dashboard.progressPercent + "%"}</strong><small>10% per module</small></div>
         <div className="learn-stat"><span>Modules completed</span><strong>{dashboard.loading ? "…" : dashboard.completedCount + " / 10"}</strong><small>Sequential unlocks</small></div>
