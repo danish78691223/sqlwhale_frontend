@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SQLwhale",
+  title: "SQLWhale",
+  applicationName: "SQLWhale",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, title: "SQLWhale", statusBarStyle: "default" },
   description: "Created By WEBXWHALE",
   icons: {
     icon: '/favicon.ico', // public folder me rakhi image ka path
