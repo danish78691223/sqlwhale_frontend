@@ -80,9 +80,9 @@ export default function CertificatePage() {
             <p className="cert-description">For successfully completing the learning journey and demonstrating<br className="cert-desktop-break" /> foundational SQL and database skills through SQLWhale.</p>
           </section>
           <footer className="cert-footer">
-            <div className="cert-signature-block cert-founder"><div className="cert-signature-script">Danish Khan</div><span className="cert-signature-line" /><strong>Founder, Danish Khan</strong></div>
+            <div className="cert-signature-block cert-founder"><div className="cert-signature-script">Danish Khan</div><strong>Founder, Danish Khan</strong><span className="cert-signature-line" /></div>
             <div className="cert-medal" aria-label="SQL skills certified"><div className="cert-laurel cert-laurel-left">❧</div><div className="cert-medal-face"><div className="cert-medal-icon">♟</div><strong>SQL SKILLS</strong><strong>CERTIFIED</strong><span>★ ★ ★ ★ ★</span></div><div className="cert-ribbon cert-ribbon-left" /><div className="cert-ribbon cert-ribbon-right" /><div className="cert-laurel cert-laurel-right">❧</div></div>
-            <div className="cert-signature-block cert-cofounder"><div className="cert-signature-script">Ismail Shaikh</div><span className="cert-signature-line" /><strong>Founder, Ismail Shaikh</strong></div>
+            <div className="cert-signature-block cert-cofounder"><div className="cert-signature-script">Ismail Shaikh</div><strong>Founder, Ismail Shaikh</strong><span className="cert-signature-line" /></div>
           </footer>
           <div className="cert-metadata cert-meta-id"><div className="cert-meta-icon">▤</div><span className="cert-meta-separator" /><div><small>CERTIFICATE ID:</small><strong>{eligible ? `SQLW-${certificateId}` : "SQLW-XXXXXXXX"}</strong></div></div>
           <div className="cert-metadata cert-meta-date"><div className="cert-meta-icon">▦</div><span className="cert-meta-separator" /><div><small>ISSUE DATE:</small><strong>{eligible ? issueDate : "AWAITING ELIGIBILITY"}</strong></div></div>
