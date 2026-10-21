@@ -12,7 +12,7 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#ffffff",
     theme_color: "#102b36",
     icons: [
-      { src: "/sqlwhale-logo-main.png", sizes: "any", type: "image/png", purpose: "any" },
+      { src: "/icon", sizes: "512x512", type: "image/png", purpose: "any maskable" },
     ],
   };
 }
