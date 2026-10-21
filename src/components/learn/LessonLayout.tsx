@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Clock3, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Clock3, LockKeyhole, Sparkles, Award } from "lucide-react";
 import type { LessonModule } from "@/content/learn/types";
 import { MODULE_TITLES } from "@/content/learn/modules";
 import SqlExample from "./SqlExample";
@@ -104,7 +104,8 @@ export default function LessonLayout({ module, initialProgress, dashboard, onMod
       <section className="learn-dashboard-stats" aria-label="Learning statistics">
         <div className="learn-stat"><span>Course progress</span><strong>{dashboard.loading ? "…" : dashboard.progressPercent + "%"}</strong><small>10% per module</small></div>
         <div className="learn-stat"><span>Modules completed</span><strong>{dashboard.loading ? "…" : dashboard.completedCount + " / 10"}</strong><small>Sequential unlocks</small></div>
-        <div className="learn-stat"><span>Final assessment</span><strong>{dashboard.assessmentPassed ? "Passed" : dashboard.allModulesDone ? "Unlocked" : "Locked"}</strong><small>{dashboard.assessmentPassed ? "Score: " + dashboard.assessmentScore + " / 50" : "Total marks: 50 · Passing: 35"}</small>{dashboard.allModulesDone && !dashboard.assessmentPassed && <button type="button" className="lesson-secondary-button" style={{ marginTop: 10, width: "100%" }} disabled={dashboard.loading} onClick={onStartAssessment}>{dashboard.assessmentStatus === "in_progress" ? "Resume Assessment →" : dashboard.assessmentStatus === "failed" ? "Retake Assessment →" : "Start Assessment →"}</button>}</div>
+        <div className="learn-stat"><span>Final assessment</span><strong>{dashboard.assessmentPassed ? "Passed" : dashboard.allModulesDone ? "Unlocked" : "Locked"}</strong><small>{dashboard.assessmentPassed ? "Score: " + dashboard.assessmentScore + " / 50" : "Total marks: 50 · Passing: 35"}</small>{dashboard.allModulesDone && !dashboard.assessmentPassed && <button type="button" className="lesson-secondary-button" style={{ marginTop: 10, width: "100%" }} disabled={dashboard.loading} onClick={onStartAssessment}>{dashboard.assessmentStatus === "in_progress" ? "Resume Assessment →" : dashboard.assessmentStatus === "failed" ? "Retake Assessment →" : "Start Assessment →"}</button>}
+        {dashboard.assessmentPassed && <Link href="/certificate" className="lesson-secondary-button" style={{ marginTop: 10, width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none" }}><Award size={16} /> Get Certificate →</Link>}</div>
       </section>
       <article className="lesson-content">
         <div className="lesson-module-meta"><span>MODULE {String(module.id).padStart(2,"0")}</span><span>{module.difficulty}</span><span><Clock3 size={14}/>{module.estimatedTime}</span><span className="lesson-progress-badge">+10% progress</span></div>
