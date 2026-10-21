@@ -48,7 +48,7 @@ export default function VerifyCertificatePage() {
       }
     } catch (requestError: any) {
       const data = requestError?.response?.data;
-      if (requestError?.response?.status === 404 || data?.valid === false) {
+      if ([400, 404].includes(requestError?.response?.status)) {
         setState("invalid");
         setMessage(data?.message || data?.error || "No officially issued certificate was found for this ID.");
       } else {
