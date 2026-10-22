@@ -21141,8 +21141,8 @@ html.sqlwhale-force-mobile .sqlwhale-run-page {
 /* Keep the entire Schema pane dark while its first-load/retry message is shown. */
 html.dark .sqlwhale-run-page .sqlwhale-schema-workspace:has(.sqlwhale-schema-loading),
 html.dark .sqlwhale-run-page .sqlwhale-schema-loading {
-  background: #0c1726 !important;
-  background-color: #0c1726 !important;
+  background: var(--run-surface, #222222) !important;
+  background-color: var(--run-surface, #222222) !important;
 }
 html.dark .sqlwhale-run-page .sqlwhale-schema-loading .sqlwhale-schema-shimmer {
   background-image: linear-gradient(100deg,#8298b5 20%,#f5f8ff 50%,#8298b5 80%);
