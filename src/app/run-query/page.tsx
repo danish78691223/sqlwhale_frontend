@@ -795,7 +795,7 @@ export default function RunQueryPage() {
           {tablesLoading ? (
             <div className="sqlwhale-schema-loading" aria-live="polite">
               <p className="sqlwhale-schema-shimmer">{schemaRetrying ? "Retrying…" : "holy crap fetching schema please wait.."}</p>
-              <DatabaseCanvasSkeleton />
+
             </div>
           ) : tablesError ? (
             <div className="output-error-state">
