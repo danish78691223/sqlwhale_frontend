@@ -135,6 +135,17 @@ export default function DatabaseCanvasSkeleton() {
           border-radius: 999px;
         }
 
+        :global(html.dark) .database-canvas-skeleton { background: #0c1726; }
+        :global(html.dark) .database-canvas-skeleton-grid { opacity: 0.4; }
+        :global(html.dark) .database-table-skeleton { background: #172638; border-color: #304157; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+        :global(html.dark) .database-table-skeleton-header { border-bottom-color: #304157; }
+        :global(html.dark) .database-table-skeleton-icon,
+        :global(html.dark) .database-table-skeleton-title,
+        :global(html.dark) .database-table-skeleton-menu,
+        :global(html.dark) .database-table-skeleton-key,
+        :global(html.dark) .database-table-skeleton-column,
+        :global(html.dark) .database-table-skeleton-type { background: #35475e; }
+
         @keyframes databaseSkeletonPulse {
           0%, 100% { opacity: 0.55; }
           50% { opacity: 1; }
