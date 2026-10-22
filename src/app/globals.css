@@ -20837,3 +20837,291 @@ html.sqlwhale-force-mobile .sqlwhale-run-page {
     z-index:1000 !important;
   }
 }
+
+
+/* =========================================================
+   SQLWhale homepage — responsive overflow hardening
+   Scoped to the landing page; preserves desktop styling.
+   ========================================================= */
+.sqlwhale-home,
+.sqlwhale-home * {
+  box-sizing: border-box;
+}
+
+.sqlwhale-home {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.sqlwhale-home .home-section,
+.sqlwhale-home .scroll-reveal,
+.sqlwhale-home .agency-intro-section,
+.sqlwhale-home .agency-system-section,
+.sqlwhale-home .agency-visual-section,
+.sqlwhale-home .agency-method-section,
+.sqlwhale-home .agency-final-section,
+.sqlwhale-home .sqlwhale-leaderboard-section {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-section,
+.sqlwhale-home .agency-intro-section,
+.sqlwhale-home .agency-system-section,
+.sqlwhale-home .agency-visual-section,
+.sqlwhale-home .agency-method-section,
+.sqlwhale-home .agency-final-section {
+  padding-inline: clamp(16px, 4.2vw, 72px);
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-head,
+.sqlwhale-home .sqlwhale-leaderboard-list,
+.sqlwhale-home .sqlwhale-leaderboard-row,
+.sqlwhale-home .sqlwhale-leaderboard-user,
+.sqlwhale-home .sqlwhale-leaderboard-points,
+.sqlwhale-home .sqlwhale-about-hero-layout,
+.sqlwhale-home .agency-visual-layout,
+.sqlwhale-home .agency-method-heading,
+.sqlwhale-home .agency-method-row {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-row {
+  grid-template-columns: 36px minmax(0, 1fr) minmax(48px, auto);
+  gap: clamp(8px, 2vw, 14px);
+  width: 100%;
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-user strong,
+.sqlwhale-home .sqlwhale-leaderboard-user span {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-points {
+  min-width: 0;
+  text-align: right;
+}
+
+.sqlwhale-home .sqlwhale-leaderboard-points strong,
+.sqlwhale-home .sqlwhale-leaderboard-points span {
+  display: block;
+  white-space: nowrap;
+}
+
+.sqlwhale-home .sqlwhale-about-hero-layout,
+.sqlwhale-home .agency-visual-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+.sqlwhale-home .sqlwhale-about-hero-copy,
+.sqlwhale-home .agency-visual-copy,
+.sqlwhale-home .agency-method-heading,
+.sqlwhale-home .agency-final-section > .scroll-reveal {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sqlwhale-home .sqlwhale-about-hero-copy h2,
+.sqlwhale-home .agency-system-section .copy h2,
+.sqlwhale-home .agency-visual-copy h2,
+.sqlwhale-home .agency-method-heading h2,
+.sqlwhale-home .agency-final-section > .scroll-reveal > h2 {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.sqlwhale-home .agency-visual-layout > *,
+.sqlwhale-home .sqlwhale-about-hero-layout > *,
+.sqlwhale-home .agency-method-list > *,
+.sqlwhale-home .agency-method-row > * {
+  min-width: 0;
+}
+
+.sqlwhale-home .agency-method-row {
+  grid-template-columns: 36px minmax(0, 1fr) 30px;
+}
+
+.sqlwhale-home .agency-method-row p {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.sqlwhale-home .agency-beam-canvas,
+.sqlwhale-home .sqlwhale-beam-canvas,
+.sqlwhale-home .sqlwhale-about-hero-cards,
+.sqlwhale-home .sqlwhale-about-hero-cards .card-swap-container {
+  max-width: 100%;
+}
+
+.sqlwhale-home img,
+.sqlwhale-home video,
+.sqlwhale-home canvas,
+.sqlwhale-home svg {
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .sqlwhale-home .sqlwhale-about-hero-layout,
+  .sqlwhale-home .agency-visual-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sqlwhale-home .sqlwhale-about-hero-cards {
+    width: 100% !important;
+    margin-inline: 0;
+    overflow: hidden;
+  }
+
+  .sqlwhale-home .agency-visual-layout {
+    gap: 28px;
+  }
+
+  .sqlwhale-home .sqlwhale-beam-canvas {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .sqlwhale-home .sqlwhale-leaderboard-section,
+  .sqlwhale-home .agency-intro-section,
+  .sqlwhale-home .agency-system-section,
+  .sqlwhale-home .agency-visual-section,
+  .sqlwhale-home .agency-method-section,
+  .sqlwhale-home .agency-final-section {
+    padding-inline: 16px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-head {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-head > div:first-child {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-head h2 {
+    font-size: clamp(28px, 8.5vw, 40px);
+    line-height: 1.03;
+    letter-spacing: -.045em;
+    overflow-wrap: normal;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-head p {
+    font-size: 13px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-scale {
+    width: 100%;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-scale span {
+    padding: 6px 8px;
+    font-size: 8px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-row {
+    grid-template-columns: 34px minmax(0, 1fr) 48px;
+    gap: 8px;
+    padding: 9px 8px;
+    min-height: 64px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-user strong {
+    font-size: 12px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-user span {
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-points strong {
+    font-size: 15px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-points span {
+    font-size: 8px;
+  }
+
+  .sqlwhale-home .sqlwhale-about-hero-copy h2,
+  .sqlwhale-home .agency-system-section .copy h2,
+  .sqlwhale-home .agency-visual-copy h2,
+  .sqlwhale-home .agency-method-heading h2,
+  .sqlwhale-home .agency-final-section > .scroll-reveal > h2 {
+    font-size: clamp(27px, 8.2vw, 40px);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+  }
+
+  .sqlwhale-home .agency-method-row {
+    grid-template-columns: 30px minmax(0, 1fr) 24px;
+    gap: 10px;
+    padding-block: 19px;
+  }
+
+  .sqlwhale-home .agency-method-row h3 {
+    font-size: clamp(17px, 5vw, 21px);
+    overflow-wrap: anywhere;
+  }
+
+  .sqlwhale-home .agency-method-row p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .sqlwhale-home .agency-beam-canvas,
+  .sqlwhale-home .sqlwhale-beam-canvas {
+    min-height: 320px;
+    height: auto;
+  }
+
+  .sqlwhale-home .sqlwhale-about-hero-cards {
+    height: 390px !important;
+  }
+
+  .sqlwhale-home .sqlwhale-about-hero-cards .card-swap-container {
+    transform: scale(.72) !important;
+    transform-origin: top center !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .sqlwhale-home .sqlwhale-leaderboard-row {
+    grid-template-columns: 30px minmax(0, 1fr) 44px;
+    gap: 7px;
+    padding-inline: 7px;
+  }
+
+  .sqlwhale-home .sqlwhale-rank-badge {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+  }
+
+  .sqlwhale-home .sqlwhale-leaderboard-head h2 {
+    font-size: clamp(27px, 8vw, 32px);
+  }
+
+  .sqlwhale-home .agency-method-row {
+    grid-template-columns: 25px minmax(0, 1fr) 22px;
+    gap: 8px;
+  }
+
+  .sqlwhale-home .sqlwhale-about-hero-cards .card-swap-container {
+    transform: scale(.64) !important;
+  }
+}
