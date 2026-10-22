@@ -48,6 +48,7 @@ export default function RunQueryPage() {
   const sqlEditorRef = useRef<SQLEditorHandle>(null);
   const [tables, setTables] = useState<DatabaseTable[]>([]);
   const [tablesLoading, setTablesLoading] = useState(true);
+  const [schemaRetrying, setSchemaRetrying] = useState(false);
   const [tablesError, setTablesError] = useState<string | null>(null);
   const [animationRunId, setAnimationRunId] = useState(0);
   const [animationComplete, setAnimationComplete] = useState(false);
@@ -191,6 +192,7 @@ export default function RunQueryPage() {
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   const refreshDatabaseTables = useCallback(async () => {
+    setSchemaRetrying(true);
     setTablesLoading(true);
     try {
       setTablesError(null);
@@ -206,6 +208,7 @@ export default function RunQueryPage() {
       return false;
     } finally {
       setTablesLoading(false);
+      setSchemaRetrying(false);
     }
   }, []);
 
@@ -791,7 +794,7 @@ export default function RunQueryPage() {
         >
           {tablesLoading ? (
             <div className="sqlwhale-schema-loading" aria-live="polite">
-              <p className="sqlwhale-schema-shimmer">Retrying&hellip;</p>
+              <p className="sqlwhale-schema-shimmer">{schemaRetrying ? "Retrying…" : "holy crap fetching schema please wait.."}</p>
               <DatabaseCanvasSkeleton />
             </div>
           ) : tablesError ? (
