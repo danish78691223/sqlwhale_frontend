@@ -191,6 +191,7 @@ export default function RunQueryPage() {
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   const refreshDatabaseTables = useCallback(async () => {
+    setTablesLoading(true);
     try {
       setTablesError(null);
       const databaseTables = await getAllTableDetails();
@@ -203,6 +204,8 @@ export default function RunQueryPage() {
           : "Unable to refresh database schema."
       );
       return false;
+    } finally {
+      setTablesLoading(false);
     }
   }, []);
 
@@ -787,12 +790,18 @@ export default function RunQueryPage() {
           }}
         >
           {tablesLoading ? (
-            <DatabaseCanvasSkeleton />
+            <div className="sqlwhale-schema-loading" aria-live="polite">
+              <p className="sqlwhale-schema-shimmer">Retrying&hellip;</p>
+              <DatabaseCanvasSkeleton />
+            </div>
           ) : tablesError ? (
             <div className="output-error-state">
               <div className="output-error-icon"><X size={19} strokeWidth={2.2} /></div>
               <h3>Schema unavailable</h3>
               <p>{tablesError}</p>
+              <button type="button" className="sqlwhale-schema-retry" onClick={() => void refreshDatabaseTables()}>
+                <LoaderCircle size={17} aria-hidden="true" /> Retry loading schema
+              </button>
             </div>
           ) : (
             <DatabaseCanvas
