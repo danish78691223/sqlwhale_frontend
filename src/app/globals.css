@@ -21125,3 +21125,11 @@ html.sqlwhale-force-mobile .sqlwhale-run-page {
     transform: scale(.64) !important;
   }
 }
+
+/* Schema retry feedback (shadcn-style shimmer without introducing an unused dependency). */
+.sqlwhale-schema-retry{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:10px 16px;border:1px solid #5e8ff0;border-radius:10px;background:#1862fd;color:#fff;font-weight:650;cursor:pointer;touch-action:manipulation}
+.sqlwhale-schema-retry:hover{background:#124ecb}
+.sqlwhale-schema-loading{position:relative;width:100%;height:100%;min-height:280px}
+.sqlwhale-schema-shimmer{position:absolute;z-index:5;top:18px;left:50%;transform:translateX(-50%);margin:0;font-weight:650;background:linear-gradient(100deg,#8994a5 25%,#fff 48%,#8994a5 72%);background-size:220% 100%;color:transparent;background-clip:text;-webkit-background-clip:text;animation:sqlwhale-schema-shimmer 1.5s linear infinite}
+@keyframes sqlwhale-schema-shimmer{to{background-position-x:-220%}}
+@media(prefers-reduced-motion:reduce){.sqlwhale-schema-shimmer{animation:none;color:#8994a5}}
