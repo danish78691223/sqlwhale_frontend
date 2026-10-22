@@ -790,10 +790,11 @@ export default function RunQueryPage() {
             inset: 0,
             zIndex: 1,
             pointerEvents: "auto",
+            ...(tablesLoading ? { backgroundColor: darkMode ? "#222222" : "#ffffff" } : {}),
           }}
         >
           {tablesLoading ? (
-            <div className="sqlwhale-schema-loading" aria-live="polite">
+            <div className="sqlwhale-schema-loading" aria-live="polite" style={{ backgroundColor: darkMode ? "#222222" : "#ffffff" }}>
               <p className="sqlwhale-schema-shimmer">{schemaRetrying ? "Retrying…" : "holy crap fetching schema please wait.."}</p>
 
             </div>
