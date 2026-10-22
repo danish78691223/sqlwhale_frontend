@@ -21147,3 +21147,13 @@ html.dark .sqlwhale-run-page .sqlwhale-schema-loading {
 html.dark .sqlwhale-run-page .sqlwhale-schema-loading .sqlwhale-schema-shimmer {
   background-image: linear-gradient(100deg,#8298b5 20%,#f5f8ff 50%,#8298b5 80%);
 }
+
+/* Schema is a full React Flow canvas: match its canvas AND pane to Query Output. */
+html.dark .sqlwhale-run-page .sqlwhale-schema-workspace,
+html.dark .sqlwhale-run-page .sqlwhale-schema-workspace .database-canvas,
+html.dark .sqlwhale-run-page .sqlwhale-schema-workspace .react-flow,
+html.dark .sqlwhale-run-page .sqlwhale-schema-workspace .react-flow__renderer,
+html.dark .sqlwhale-run-page .sqlwhale-schema-workspace .react-flow__pane {
+  background: var(--run-surface, #222222) !important;
+  background-color: var(--run-surface, #222222) !important;
+}
