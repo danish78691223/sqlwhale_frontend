@@ -276,6 +276,37 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
                 {startingTaskId === selectedTask.id ? "Preparing task..." : activeTaskId === selectedTask.id ? "Task already started" : "Start Task"}
               </button>
             )}
+            <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 14 }}>
+              <button
+                type="button"
+                className="sqlwhale-task-start"
+                onClick={() => void handleRevealAnswer(selectedTask)}
+                disabled={revealingTaskId === selectedTask.id || Boolean(revealedAnswers[selectedTask.id])}
+                style={{ width: "100%", opacity: revealedAnswers[selectedTask.id] ? 0.7 : 1, justifyContent: "center" }}
+              >
+                {revealingTaskId === selectedTask.id ? (
+                  <RefreshCw size={15} className="sqlwhale-spin" />
+                ) : (
+                  <Eye size={15} />
+                )}
+                {revealedAnswers[selectedTask.id] ? "Answer Revealed" : revealingTaskId === selectedTask.id ? "Revealing..." : "Reveal Answer"}
+              </button>
+              {revealError[selectedTask.id] && (
+                <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
+                  <strong><LockKeyhole size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: 5 }} />Answer unavailable</strong>
+                  <span>{revealError[selectedTask.id]}</span>
+                  {revealError[selectedTask.id].includes("Sign in") && (
+                    <a href="/login" style={{ display: "inline-block", marginTop: 8, fontWeight: 700, textDecoration: "underline" }}>Sign in to SQLWhale</a>
+                  )}
+                </div>
+              )}
+              {revealedAnswers[selectedTask.id] && (
+                <div className="sqlwhale-task-check is-correct" style={{ marginTop: 10, textAlign: "left" }}>
+                  <strong>Expected SQL answer</strong>
+                  <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", margin: "10px 0 0", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, lineHeight: 1.65 }}>{revealedAnswers[selectedTask.id]}</pre>
+                </div>
+              )}
+            </div>
             {startErrors[selectedTask.id] && <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 12 }}>{startErrors[selectedTask.id]}</div>}
           </section>
         </div>
