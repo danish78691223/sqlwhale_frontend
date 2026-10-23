@@ -1,0 +1,7 @@
+.sqlwhale-bell-toggle{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 19px;border:0;border-radius:22px;background:#27272a;color:#f5f5f5;font:500 13.5px/1.2 inherit;cursor:pointer;transition:background-color .2s,color .2s,transform .16s;white-space:nowrap}
+.sqlwhale-bell-toggle[data-on="true"]{background:#f5f5f5;color:#18181b}
+.sqlwhale-bell-toggle:active{transform:scale(.97)}
+.sqlwhale-bell-toggle:disabled{opacity:.55;cursor:wait}
+.sqlwhale-bell-glyph{position:relative;display:inline-flex;transform-origin:50% 16%}
+.sqlwhale-bell-count{position:absolute;top:-8px;right:-9px;background:#ef4444;color:white;border-radius:8px;font-size:10px;padding:1px 4px}
+@media(prefers-reduced-motion:reduce){.sqlwhale-bell-toggle{transition:none}}
