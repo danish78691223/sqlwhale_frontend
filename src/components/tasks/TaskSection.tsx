@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, ClipboardList, RefreshCw, Eye, LockKeyhole } from "lucide-react";
 import { api } from "@/services/api";
 import CallChip from "@/components/tasks/CallChip";
+import AnimatedList from "@/components/tasks/AnimatedList";
 
 type Task = {
   id: string;
@@ -213,103 +214,26 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
         </div>
       ) : (
         <div className="sqlwhale-task-list">
-          {tasks.map((task, index) => (
-            <article className={"sqlwhale-task-card" + (task.locked ? " is-locked" : "")} key={task.id} onClick={() => setSelectedTask(task)} role="button" tabIndex={0} aria-label={`View task ${task.title}`} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedTask(task); } }} style={{ cursor: "pointer" }}>
-              <div className="sqlwhale-task-card-top">
-                <div className="sqlwhale-task-icon">
-                  <ClipboardList size={16} />
-                </div>
-                <span className={"sqlwhale-task-difficulty " + task.difficulty.toLowerCase()}>
-                  {task.difficulty}
-                </span>
-                <span className="sqlwhale-task-order" style={{ marginLeft: "auto", fontSize: 10, letterSpacing: ".08em", opacity: .72 }}>TASK {task.order ?? index + 1}</span>
-              </div>
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-              {task.completed ? (
-                <div className="sqlwhale-task-completed">
-                  <CheckCircle2 size={15} />
-                  Task Completed
-                </div>
-              ) : task.locked ? (
-                <div className="sqlwhale-task-locked" aria-label="Task locked until the previous task is completed" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%", minHeight: 42, padding: "10px 12px", border: "1px solid rgba(255,255,255,.12)", borderRadius: 10, color: "#9ca3af", background: "rgba(255,255,255,.035)", fontSize: 12, textAlign: "center" }}>
-                  <LockKeyhole size={15} />
-                  <span>Complete previous task to unlock</span>
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  className="sqlwhale-task-start"
-                  onClick={(event) => { event.stopPropagation(); setSelectedTask(task); }}
-                  disabled={activeTaskId === task.id || startingTaskId === task.id}
-                >
-                  <CheckCircle2 size={15} />
-                  {startingTaskId === task.id ? "Preparing..." : activeTaskId === task.id ? "Task Started" : "Start Task"}
-                </button>
-              )}
-              {startErrors[task.id] && (
-                <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
-                  <span>{startErrors[task.id]}</span>
-                </div>
-              )}
-              {!task.locked && activeTaskId === task.id && (
-                <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 12 }}>
-                  <button
-                    type="button"
-                    className="sqlwhale-task-start"
-                    onClick={(event) => { event.stopPropagation(); void handleRevealAnswer(task); }}
-                    disabled={revealingTaskId === task.id || Boolean(revealedAnswers[task.id])}
-                    style={{ width: "100%", opacity: revealedAnswers[task.id] ? 0.7 : 1 }}
-                  >
-                    {revealingTaskId === task.id ? (
-                      <CallChip
-                        icon="terminal"
-                        name="sqlwhale"
-                        argument="revealing answer"
-                        status="running"
-                        expectedMs={2500}
-                        size={34}
-                        radius={10}
-                        color="currentColor"
-                        surfaceColor="#27272a"
-                        progressColor="currentColor"
-                        progressOpacity={0.08}
-                        doneColor="#22c55e"
-                        errorColor="#ef4444"
-                        washOpacity={0.14}
-                        shake={6}
-                        showTimer
-                      />
-                    ) : (
-                      <Eye size={15} />
-                    )}
-                    {revealedAnswers[task.id] ? "Answer Revealed" : revealingTaskId === task.id ? "" : "Reveal Answer"}
-                  </button>
-                  {revealError[task.id] && (
-                    <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 10 }}>
-                      <strong><LockKeyhole size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: 5 }} />Answer unavailable</strong>
-                      <span>{revealError[task.id]}</span>
-                      {(revealError[task.id].includes("Sign in")) && (
-                        <a href="/login" style={{ display: "inline-block", marginTop: 8, fontWeight: 700, textDecoration: "underline" }}>Sign in to SQLWhale</a>
-                      )}
-                    </div>
-                  )}
-                  {revealedAnswers[task.id] && (
-                    <div className="sqlwhale-task-check is-correct" style={{ marginTop: 10, textAlign: "left" }}>
-                      <strong>Expected SQL answer</strong>
-                      <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", margin: "10px 0 0", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, lineHeight: 1.65 }}>{revealedAnswers[task.id]}</pre>
-                    </div>
-                  )}
-                </div>
-              )}
-              {activeTaskId === task.id && taskCheck && (
-                <div className={"sqlwhale-task-check " + (taskCheck.correct ? "is-correct" : "is-incorrect")}>
-                  <strong>{taskCheck.correct ? "✓ Task Completed" : "✕ Incorrect Query"}</strong>
-                  <span>{taskCheck.message}</span>
-                </div>
-              )}
-            </article>
-          ))}
+          <AnimatedList
+            items={tasks.map((task, index) => ({
+              id: task.id,
+              title: task.title,
+              description: task.description,
+              meta: task.completed ? "Completed" : task.locked ? "Locked" : task.difficulty,
+              icon: task.completed ? <CheckCircle2 size={18} /> : task.locked ? <LockKeyhole size={18} /> : <ClipboardList size={18} />,
+              taskOrder: task.order ?? index + 1
+            }))}
+            onItemSelect={(_item, index) => {
+              const task = tasks[index];
+              if (task) setSelectedTask(task);
+            }}
+            animation="pop"
+            theme="dark"
+            width="100%"
+            maxHeight={520}
+            gap={8}
+            radius={12}
+          />
         </div>
       )}
       {selectedTask && (
