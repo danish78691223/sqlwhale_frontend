@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { Code, Figma, File, FileArchive, Folder, Image, Music, FileText, FileText, Table, Video, Presentation } from 'lucide-react';
+import { Code, Figma, FileArchive, Folder, Image, Music, FileText, Table, Video, Presentation } from 'lucide-react';
 
 import './AnimatedList.css';
 
