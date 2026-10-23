@@ -170,7 +170,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
             size={34}
             radius={10}
             color="currentColor"
-            surfaceColor="#27272a"
+            surfaceColor="#222222"
             progressColor="currentColor"
             progressOpacity={0.08}
             doneColor="#22c55e"
@@ -191,7 +191,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
             size={34}
             radius={10}
             color="currentColor"
-            surfaceColor="#27272a"
+            surfaceColor="#222222"
             progressColor="currentColor"
             progressOpacity={0.08}
             doneColor="#22c55e"
