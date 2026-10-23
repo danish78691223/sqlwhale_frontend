@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { Code, Figma, FileArchive, Folder, Image, Music, FileText, Table, Video, Presentation } from 'lucide-react';
+import { Code, FileArchive, Folder, Image, Music, FileText, Table, Video, Presentation } from 'lucide-react';
 
 import './AnimatedList.css';
 
@@ -56,8 +56,8 @@ const DEFAULT_ITEMS = [
   { icon: glyph(Video), title: 'Product tour.mp4', description: '148 MB', meta: '1h' },
   { icon: glyph(FileText), title: 'Pricing notes', description: '1,240 words', meta: '3h' },
   { icon: glyph(Code), title: 'landing-page.tsx', description: '12 KB', meta: '5h' },
-  { icon: glyph(Figma), title: 'Onboarding flow', description: '38 frames', meta: '8h' },
-  { icon: glyph(MusicFileText), title: 'Ambient loop.wav', description: '9.1 MB', meta: '1d' },
+  { icon: glyph(Image), title: 'Onboarding flow', description: '38 frames', meta: '8h' },
+  { icon: glyph(Music), title: 'Ambient loop.wav', description: '9.1 MB', meta: '1d' },
   { icon: glyph(Table), title: 'Q3 forecast', description: '4 sheets', meta: '1d' },
   { icon: glyph(FileText), title: 'Brand guidelines.pdf', description: '6.8 MB', meta: '2d' },
   { icon: glyph(Presentation), title: 'Investor update', description: '22 slides', meta: '3d' },
