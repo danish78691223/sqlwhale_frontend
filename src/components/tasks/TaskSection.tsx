@@ -250,7 +250,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
             aria-modal="true"
             aria-labelledby="sqlwhale-task-modal-title"
             onClick={(event) => event.stopPropagation()}
-            style={{ width: "min(100%, 520px)", maxHeight: "min(82vh, 680px)", overflowY: "auto", borderRadius: 20, padding: 24, background: "var(--sqlwhale-panel, #fff)", color: "var(--sqlwhale-text, #111827)", border: "1px solid rgba(148,163,184,.28)", boxShadow: "0 24px 80px rgba(0,0,0,.28)" }}
+            style={{ width: "min(100%, 520px)", maxHeight: "min(82vh, 680px)", overflowY: "auto", borderRadius: 20, padding: 24, background: "#222222", color: "#f5f5f5", border: "1px solid rgba(255,255,255,.12)", boxShadow: "0 24px 80px rgba(0,0,0,.45)" }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
               <span className="sqlwhale-task-icon"><ClipboardList size={18} /></span>
