@@ -1,21 +1,7 @@
 'use client';
 
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  CodeIcon,
-  FigmaIcon,
-  File01Icon,
-  FileZipIcon,
-  Folder01Icon,
-  Image01Icon,
-  MusicNote01Icon,
-  Note01Icon,
-  Pdf01Icon,
-  Presentation01Icon,
-  Table01Icon,
-  Video01Icon
-} from '@hugeicons/core-free-icons';
+import { Code, Figma, File, FileArchive, Folder, Image, Music, FileText, FileText, Table, Video, Presentation } from 'lucide-react';
 
 import './AnimatedList.css';
 
@@ -62,24 +48,24 @@ const THEMES = {
   }
 };
 
-const glyph = icon => <HugeiconsIcon icon={icon} size={18} strokeWidth={1.8} />;
+const glyph = Icon => <Icon size={18} strokeWidth={1.8} />;
 
 const DEFAULT_ITEMS = [
-  { icon: glyph(Folder01Icon), title: 'Brand assets', description: '24 files', meta: '2m' },
-  { icon: glyph(Image01Icon), title: 'Launch hero.png', description: '2.4 MB', meta: '18m' },
-  { icon: glyph(Video01Icon), title: 'Product tour.mp4', description: '148 MB', meta: '1h' },
-  { icon: glyph(Note01Icon), title: 'Pricing notes', description: '1,240 words', meta: '3h' },
-  { icon: glyph(CodeIcon), title: 'landing-page.tsx', description: '12 KB', meta: '5h' },
-  { icon: glyph(FigmaIcon), title: 'Onboarding flow', description: '38 frames', meta: '8h' },
-  { icon: glyph(MusicNote01Icon), title: 'Ambient loop.wav', description: '9.1 MB', meta: '1d' },
-  { icon: glyph(Table01Icon), title: 'Q3 forecast', description: '4 sheets', meta: '1d' },
-  { icon: glyph(Pdf01Icon), title: 'Brand guidelines.pdf', description: '6.8 MB', meta: '2d' },
-  { icon: glyph(Presentation01Icon), title: 'Investor update', description: '22 slides', meta: '3d' },
-  { icon: glyph(FileZipIcon), title: 'Icon set.zip', description: '1.2 MB', meta: '4d' },
-  { icon: glyph(Image01Icon), title: 'Moodboard.jpg', description: '3.6 MB', meta: '5d' },
-  { icon: glyph(File01Icon), title: 'Release notes', description: 'Version 2.4', meta: '1w' },
-  { icon: glyph(Folder01Icon), title: 'Archive', description: '118 files', meta: '2w' },
-  { icon: glyph(Video01Icon), title: 'Teaser cut.mov', description: '86 MB', meta: '3w' }
+  { icon: glyph(Folder), title: 'Brand assets', description: '24 files', meta: '2m' },
+  { icon: glyph(Image), title: 'Launch hero.png', description: '2.4 MB', meta: '18m' },
+  { icon: glyph(Video), title: 'Product tour.mp4', description: '148 MB', meta: '1h' },
+  { icon: glyph(FileText), title: 'Pricing notes', description: '1,240 words', meta: '3h' },
+  { icon: glyph(Code), title: 'landing-page.tsx', description: '12 KB', meta: '5h' },
+  { icon: glyph(Figma), title: 'Onboarding flow', description: '38 frames', meta: '8h' },
+  { icon: glyph(MusicFileText), title: 'Ambient loop.wav', description: '9.1 MB', meta: '1d' },
+  { icon: glyph(Table), title: 'Q3 forecast', description: '4 sheets', meta: '1d' },
+  { icon: glyph(FileText), title: 'Brand guidelines.pdf', description: '6.8 MB', meta: '2d' },
+  { icon: glyph(Presentation), title: 'Investor update', description: '22 slides', meta: '3d' },
+  { icon: glyph(FileArchive), title: 'Icon set.zip', description: '1.2 MB', meta: '4d' },
+  { icon: glyph(Image), title: 'Moodboard.jpg', description: '3.6 MB', meta: '5d' },
+  { icon: glyph(FileText), title: 'Release notes', description: 'Version 2.4', meta: '1w' },
+  { icon: glyph(Folder), title: 'Archive', description: '118 files', meta: '2w' },
+  { icon: glyph(Video), title: 'Teaser cut.mov', description: '86 MB', meta: '3w' }
 ];
 
 const HIDDEN = {
