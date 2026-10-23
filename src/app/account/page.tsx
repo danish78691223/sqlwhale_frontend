@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authApi, api } from "@/services/api";
 import { ProfileRankCard } from "@/components/Leaderboard";
+import PushNotificationSettings from "@/components/PushNotificationSettings";
 
 type User = {
   id: number;
@@ -376,6 +377,8 @@ export default function AccountPage() {
             </div>
           )}
         </section>
+
+        <PushNotificationSettings />
 
         <div className="account-actions">
           <Link href="/run-query" className="account-primary-action">
