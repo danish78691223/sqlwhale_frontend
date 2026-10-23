@@ -223,13 +223,13 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
               icon: task.completed ? <CheckCircle2 size={18} /> : task.locked ? <LockKeyhole size={18} /> : <ClipboardList size={18} />,
               taskOrder: task.order ?? index + 1
             }))}
-            onItemSelect={(_item, index) => {
+            onItemSelect={(_item: { id: string; title: string; description: string; meta: string; icon: React.ReactNode; taskOrder: number }, index: number) => {
               const task = tasks[index];
               if (task) setSelectedTask(task);
             }}
             animation="pop"
             theme="dark"
-            width="100%"
+            width={420}
             maxHeight={520}
             gap={8}
             radius={12}
