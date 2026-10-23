@@ -14081,6 +14081,20 @@ body.sqlwhale-tour-active .sqlwhale-schema-workspace{
     box-sizing:border-box !important;
   }
 
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-task-list {
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+  }
+
+  .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-task-list > .animated-list {
+    display:block !important;
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+  }
+
   .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-side-placeholder,
   .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-task-section,
   .sqlwhale-main-workspace > .sqlwhale-query-side-panel .sqlwhale-query-builder {
