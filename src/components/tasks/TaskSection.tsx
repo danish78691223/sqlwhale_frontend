@@ -227,12 +227,15 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
               const task = tasks[index];
               if (task) setSelectedTask(task);
             }}
+            renderItem={undefined}
             animation="pop"
             theme="dark"
+            accentColor={undefined}
             width={420}
             maxHeight={520}
             gap={8}
             radius={12}
+            style={{}}
           />
         </div>
       )}
