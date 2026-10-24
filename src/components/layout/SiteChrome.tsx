@@ -124,37 +124,8 @@ export default function SiteChrome() {
 
   const accountHref = authLoading ? "/login" : user ? "/account" : "/login";
 
-  if (pathname === "/" || pathname === "/subscribe") {
-    return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} />;
-  }
-
-  return (
-    <>
-      <header className="sqlwhale-site-nav">
-        <div className="sqlwhale-site-nav-inner">
-          <Link href="/" className="sqlwhale-site-brand" aria-label="SQLWhale Home">
-            <Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={42} height={42} priority />
-          </Link>
-          <nav className="sqlwhale-site-links" aria-label="Primary navigation">
-            {links.map((item) => (
-              <Link key={item.href} href={item.href} className={pathname === item.href ? "is-active" : ""}>{item.label}</Link>
-            ))}
-          </nav>
-          <Link href={accountHref} className="sqlwhale-site-account" title={user?.email || "Login"}>
-            {authLoading ? "Login" : user ? "Profile" : "Login"}
-          </Link>
-          <button className={`sqlwhale-site-menu-button ${menuOpen ? "is-open" : ""}`} type="button" onClick={() => setMenuOpen(v => !v)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>
-            <span /><span /><span />
-          </button>
-        </div>
-        <nav className={`sqlwhale-site-mobile-menu ${menuOpen ? "is-open" : ""}`} aria-label="Mobile navigation">
-          {links.map((item, index) => <Link key={item.href} href={item.href}><span>{String(index + 1).padStart(2, "0")}</span>{item.label}</Link>)}
-          <Link href={accountHref}><span>06</span>{authLoading ? "Login" : user ? "Profile" : "Login"}</Link>
-        </nav>
-      </header>
-      <div className="sqlwhale-site-nav-spacer" aria-hidden="true" />
-    </>
-  );
+  // Use the homepage navbar everywhere except /run-query, which returns null above.
+  return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} />;
 }
 
 export function SiteFooter() {
