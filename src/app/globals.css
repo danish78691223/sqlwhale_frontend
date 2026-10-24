@@ -21348,3 +21348,13 @@ html.dark .sqlwhale-run-page .sqlwhale-schema-workspace .react-flow__pane {
     column-gap: 9px;
   }
 }
+/* Keep the subscribed Premium pill on-brand even against global button styles */
+button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed,
+button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed:hover,
+button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed:focus-visible {
+  background: #171718 !important;
+  color: #ffd400 !important;
+}
+button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
+  color: #ffd400;
+}
