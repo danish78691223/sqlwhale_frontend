@@ -642,13 +642,13 @@ export default function RunQueryPage() {
               <button
                 type="button"
                 className={`sqlwhale-run-diamond-badge run-nav-subscription-badge ${isSubscribed ? "is-subscribed" : "needs-subscription"}`}
-                aria-label={isSubscribed ? "View subscription details" : "Upgrade subscription"}
-                title={isSubscribed ? "Subscription details" : "Upgrade to Premium"}
+                aria-label={isSubscribed ? "View subscription details" : "View pricing"}
+                title={isSubscribed ? "Subscription details" : "Pricing"}
                 onClick={handleSubscriptionBadgeClick}
               >
                 {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
                 <i className="ri-vip-diamond-fill" aria-hidden="true" />
-                <span className="run-subscription-label">{isSubscribed ? "Premium" : "Subscribe"}</span>
+                <span className="run-subscription-label">{isSubscribed ? "Premium" : "Pricing"}</span>
               </button>
             </nav>
 
@@ -729,7 +729,7 @@ export default function RunQueryPage() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Diamond size={18} strokeWidth={1.8} aria-hidden="true" />
-                <span>Subscribe</span>
+                <span>Pricing</span>
                 <span className="run-mobile-arrow">→</span>
               </Link>
             )}
