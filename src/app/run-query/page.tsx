@@ -709,6 +709,31 @@ export default function RunQueryPage() {
               <span className="run-mobile-arrow">→</span>
             </Link>
 
+            {isSubscribed ? (
+              <button
+                type="button"
+                className="run-mobile-nav-link"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setSubscriptionDialogOpen(true);
+                }}
+              >
+                <Diamond size={18} strokeWidth={1.8} aria-hidden="true" />
+                <span>Premium</span>
+                <span className="run-mobile-arrow">→</span>
+              </button>
+            ) : (
+              <Link
+                href="/subscribe"
+                className="run-mobile-nav-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Diamond size={18} strokeWidth={1.8} aria-hidden="true" />
+                <span>Subscribe</span>
+                <span className="run-mobile-arrow">→</span>
+              </Link>
+            )}
+
             <button
               type="button"
               className="run-mobile-nav-link run-mobile-feedback-button"
