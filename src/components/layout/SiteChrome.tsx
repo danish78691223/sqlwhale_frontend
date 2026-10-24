@@ -17,7 +17,7 @@ const homeNavLeft = [
 ];
 const homeNavRight = [
   { label: "Run Query", href: "/run-query", icon: Play },
-  { label: "Subscribe", href: "/subscribe", icon: CreditCard },
+  { label: "Pricing", href: "/subscribe", icon: CreditCard },
 ];
 
 function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; accountLabel: string }) {
