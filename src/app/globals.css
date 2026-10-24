@@ -20028,11 +20028,30 @@ html.sqlwhale-force-mobile .sqlwhale-query-editor .sql-editor-card {
   border-radius: 9px;
   background: #ffd400;
 }
+.run-nav-subscription-badge {
+  width: auto;
+  min-width: 42px;
+  height: 30px;
+  padding: 0 10px;
+  gap: 6px;
+}
 .run-nav-subscription-badge i {
   display: block;
   color: #fff;
   font-size: 17px;
   line-height: 1;
+}
+.run-nav-subscription-badge .run-subscription-label {
+  color: #171718;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.run-nav-subscription-badge.is-subscribed {
+  background: #171718;
+}
+.run-nav-subscription-badge.is-subscribed .run-subscription-label {
+  color: #ffd400;
 }
 
 
