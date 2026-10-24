@@ -8,15 +8,6 @@ import { authApi } from "@/services/api";
 import { ArrowUpRight, BookOpen, CreditCard, Home, Menu, Play, UserRound, X, ExternalLink } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "Run Query", href: "/run-query" },
-  { label: "About", href: "/#about" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "Contact", href: "/contact" },
-  { label: "Subscribe", href: "/subscribe" },
-];
-
 type SessionUser = { name?: string; email?: string; role?: string };
 
 const homeNavLeft = [
@@ -101,7 +92,6 @@ function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; a
 
 export default function SiteChrome() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<SessionUser | null>(null);
 
@@ -117,8 +107,6 @@ export default function SiteChrome() {
       .finally(() => { if (live) setAuthLoading(false); });
     return () => { live = false; };
   }, [pathname]);
-
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   if (pathname === "/run-query") return null;
 
