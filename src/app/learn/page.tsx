@@ -471,46 +471,6 @@ export default function LearnPage() {
         .learn-result-list li p { margin:8px 0 0; color:var(--learn-muted); }
         @media (max-width:600px) { .learn-exam-sticky { top:70px; align-items:flex-start; } .learn-timer { min-width:95px; padding:8px; } .learn-timer strong { font-size:22px; } }
 
-        /* Course overview inspired by modern interactive learning catalogs. */
-        .course-overview { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr); gap:26px; align-items:stretch; padding:clamp(22px,4vw,42px); margin:22px 0 24px; border:1px solid rgba(143,231,189,.2); border-radius:24px; background:linear-gradient(120deg,rgba(143,231,189,.075),rgba(124,199,255,.055) 52%,rgba(255,255,255,.02)); position:relative; overflow:hidden; }
-        .course-overview:after { content:"SQL"; position:absolute; right:24%; bottom:-50px; font:900 clamp(110px,20vw,230px)/1 Arial,sans-serif; letter-spacing:-.11em; color:rgba(143,231,189,.035); pointer-events:none; }
-        .course-overview-main,.course-overview-card { position:relative; z-index:1; min-width:0; }
-        .course-badge { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(143,231,189,.32); background:rgba(143,231,189,.08); color:var(--learn-green); padding:7px 11px; border-radius:999px; font:700 10px/1.3 monospace; text-transform:uppercase; letter-spacing:.1em; }
-        .course-overview h1 { margin:18px 0 12px; max-width:720px; font-size:clamp(34px,5vw,64px); line-height:1.02; letter-spacing:-.065em; }
-        .course-overview h1 span { color:var(--learn-green); -webkit-text-stroke:0; }
-        .course-overview-copy { max-width:650px; color:var(--learn-muted); line-height:1.75; font-size:14px; margin:0; }
-        .course-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; align-items:center; }
-        .course-start-btn { display:inline-flex; justify-content:center; align-items:center; gap:9px; min-height:46px; padding:13px 18px; color:#06110b!important; background:var(--learn-green); border:1px solid var(--learn-green); border-radius:12px; font-weight:800; font-size:13px; transition:transform .2s,filter .2s; }
-        .course-start-btn:hover { transform:translateY(-2px); filter:brightness(1.04); }
-        .course-secondary-btn { display:inline-flex; justify-content:center; align-items:center; gap:8px; min-height:46px; border:1px solid var(--learn-line); background:rgba(255,255,255,.03); border-radius:12px; padding:12px 16px; font-size:12px; font-weight:700; }
-        .course-promise { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:18px; color:var(--learn-muted); font-size:11px; }
-        .course-promise span { display:inline-flex; align-items:center; gap:7px; }
-        .course-promise b { color:var(--learn-green); font-size:14px; }
-        .course-overview-card { align-self:stretch; padding:20px; border:1px solid var(--learn-line); border-radius:18px; background:rgba(7,9,13,.55); backdrop-filter:blur(8px); }
-        .course-card-label { color:var(--learn-muted); font:700 10px monospace; text-transform:uppercase; letter-spacing:.14em; }
-        .course-card-title { margin:10px 0 16px; font-size:18px; letter-spacing:-.03em; }
-        .course-meta-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-        .course-meta { padding:12px; border:1px solid var(--learn-line); border-radius:12px; background:rgba(255,255,255,.025); }
-        .course-meta strong { display:block; font-size:18px; margin-bottom:5px; }
-        .course-meta span { color:var(--learn-muted); font-size:10px; line-height:1.5; }
-        .course-certificate-note { margin-top:13px; padding:12px; border-radius:12px; background:rgba(124,199,255,.07); border:1px solid rgba(124,199,255,.18); font-size:11px; line-height:1.6; color:#d5e8f6; }
-        .course-section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:32px 0 14px; }
-        .course-section-heading h2 { margin:0 0 6px; font-size:clamp(23px,3vw,32px); letter-spacing:-.05em; }
-        .course-section-heading p { margin:0; color:var(--learn-muted); font-size:12px; line-height:1.6; }
-        .course-module-outline { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-        .course-outline-item { display:flex; align-items:flex-start; gap:13px; min-width:0; padding:15px; border:1px solid var(--learn-line); border-radius:14px; background:rgba(255,255,255,.025); transition:transform .2s,border-color .2s,background .2s; }
-        .course-outline-item:hover { transform:translateY(-2px); border-color:rgba(143,231,189,.35); background:rgba(143,231,189,.035); }
-        .course-outline-number { display:grid; place-items:center; flex:0 0 36px; width:36px; height:36px; border:1px solid var(--learn-line); border-radius:11px; color:var(--learn-green); background:rgba(143,231,189,.055); font:700 11px monospace; }
-        .course-outline-copy { min-width:0; flex:1; }
-        .course-outline-copy strong { display:block; font-size:13px; line-height:1.4; margin:1px 0 6px; }
-        .course-outline-copy p { margin:0; color:var(--learn-muted); font-size:11px; line-height:1.55; }
-        .course-outline-state { color:var(--learn-muted); font-size:11px; white-space:nowrap; }
-        .course-bottom-cta { margin:24px 0 38px; padding:22px; display:flex; align-items:center; justify-content:space-between; gap:18px; border:1px solid var(--learn-line); border-radius:18px; background:rgba(255,255,255,.025); }
-        .course-bottom-cta strong { display:block; font-size:16px; margin-bottom:6px; }
-        .course-bottom-cta p { margin:0; color:var(--learn-muted); font-size:12px; line-height:1.6; }
-        .course-free-label { display:inline-flex; padding:5px 8px; border-radius:7px; color:var(--learn-green); border:1px solid rgba(143,231,189,.22); font:700 9px monospace; letter-spacing:.08em; text-transform:uppercase; }
-        @media (max-width:760px) { .course-overview { grid-template-columns:minmax(0,1fr); gap:18px; padding:22px; border-radius:18px; margin-top:14px; } .course-overview h1 { font-size:clamp(34px,10vw,48px); } .course-overview-copy { font-size:13px; } .course-overview-card { padding:16px; } .course-module-outline { grid-template-columns:minmax(0,1fr); } .course-section-heading { display:block; } .course-section-heading .course-free-label { margin-top:10px; } .course-bottom-cta { align-items:stretch; flex-direction:column; padding:18px; } .course-actions a { flex:1 1 160px; } }
-
         .learn-footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--learn-line); display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; color:var(--learn-muted); font:10px monospace; letter-spacing:.07em; text-transform:uppercase; }
         @media (max-width:760px) {
           .learn-topbar { height:62px; padding:0 16px; }
@@ -606,49 +566,6 @@ export default function LearnPage() {
       `}</style>
 
       <div className="learn-wrap">
-        {view !== "assessment" && view !== "result" && view !== "instructions" && (
-          <section className="course-overview" aria-labelledby="sql-course-title">
-            <div className="course-overview-main">
-              <span className="course-badge">SQLWhale Learning Path · 100% Free</span>
-              <h1 id="sql-course-title">Learn SQL by <span>doing.</span></h1>
-              <p className="course-overview-copy">Go from SQL fundamentals to advanced queries with structured lessons, practical examples, quick quizzes and hands-on practice in Query Lab. Start for free—no course enrollment payment required.</p>
-              <div className="course-actions">
-                <a className="course-start-btn" href="#module-1" onClick={(event) => { event.preventDefault(); setLessonModuleId(1); setActiveModuleId(1); setView("modules"); setMessage(""); window.history.replaceState(null, "", "/learn#module-1"); window.setTimeout(() => document.getElementById("module-1")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }}>Start learning <span aria-hidden="true">→</span></a>
-                <Link className="course-secondary-btn" href="/run-query">Try SQL in Query Lab ↗</Link>
-              </div>
-              <div className="course-promise" aria-label="Course benefits"><span><b>✓</b> Lessons free for every learner</span><span><b>✓</b> Practice at your own pace</span><span><b>✓</b> Premium needed only for certificate</span></div>
-            </div>
-            <aside className="course-overview-card" aria-label="Course information">
-              <div className="course-card-label">COURSE OVERVIEW</div>
-              <div className="course-card-title">SQL Fundamentals & Database Mastery</div>
-              <div className="course-meta-grid">
-                <div className="course-meta"><strong>10</strong><span>Structured modules</span></div>
-                <div className="course-meta"><strong>Beginner →</strong><span>Advanced concepts</span></div>
-                <div className="course-meta"><strong>50</strong><span>Final assessment questions</span></div>
-                <div className="course-meta"><strong>Free</strong><span>All learning content</span></div>
-              </div>
-              <div className="course-certificate-note"><strong>Certificate pathway:</strong> Complete the course and assessment, then activate Premium to access certificate issuance.</div>
-            </aside>
-          </section>
-        )}
-        {view !== "assessment" && view !== "result" && view !== "instructions" && (
-          <>
-            <div className="course-section-heading"><div><h2>Your SQL learning path</h2><p>Follow the modules in order, or revisit any lesson whenever you need a refresher.</p></div><span className="course-free-label">All lessons are free</span></div>
-            <section className="course-module-outline" aria-label="Course curriculum">
-              {modules.map((module) => {
-                const completed = completedIds.includes(module.id);
-                return (
-                  <a key={module.id} className="course-outline-item" href={`#module-${module.id}`} onClick={(event) => { event.preventDefault(); setLessonModuleId(module.id); setActiveModuleId(module.id); setView("modules"); setMessage(""); window.history.replaceState(null, "", `/learn#module-${module.id}`); window.setTimeout(() => document.getElementById(`module-${module.id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }}>
-                    <span className="course-outline-number">{completed ? "✓" : String(module.id).padStart(2,"0")}</span>
-                    <span className="course-outline-copy"><strong>{module.title}</strong><p>{module.summary}</p></span><span className="course-outline-state">{completed ? "Completed" : module.level}</span>
-                  </a>
-                );
-              })}
-            </section>
-            <div className="course-bottom-cta"><div><strong>Learn first. Get certified when you’re ready.</strong><p>Every lesson and practice activity is available without a Premium subscription. Premium is only for certificate access.</p></div><a className="course-start-btn" href="#module-1" onClick={(event) => { event.preventDefault(); setLessonModuleId(1); setActiveModuleId(1); setView("modules"); setMessage(""); window.history.replaceState(null, "", "/learn#module-1"); window.setTimeout(() => document.getElementById("module-1")?.scrollIntoView({ behavior: "smooth", block: "start" }), 0); }}>Start learning →</a></div>
-          </>
-        )}
-
         {!loading && signedIn === false && (
           <div className="learn-alert error">
             Sign in to save module progress and take the final assessment. <Link href="/login" style={{ textDecoration: "underline", fontWeight: 700 }}>Log in</Link> or <Link href="/signup" style={{ textDecoration: "underline", fontWeight: 700 }}>create an account</Link>.
