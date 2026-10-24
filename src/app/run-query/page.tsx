@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond, Plus } from "lucide-react";
+import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond, Plus, BookOpen } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -625,6 +625,11 @@ export default function RunQueryPage() {
                 Profile
               </Link>
 
+              <Link href="/learn" className="run-nav-link">
+                <BookOpen className="run-nav-icon" size={16} strokeWidth={1.8} aria-hidden="true" />
+                Learn
+              </Link>
+
               <button
                 type="button"
                 className="run-nav-link run-feedback-button"
@@ -643,6 +648,7 @@ export default function RunQueryPage() {
               >
                 {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
                 <i className="ri-vip-diamond-fill" aria-hidden="true" />
+                <span className="run-subscription-label">{isSubscribed ? "Premium" : "Subscribe"}</span>
               </button>
             </nav>
 
@@ -690,6 +696,16 @@ export default function RunQueryPage() {
             >
               <UserRound size={18} strokeWidth={1.8} aria-hidden="true" />
               <span>Profile</span>
+              <span className="run-mobile-arrow">→</span>
+            </Link>
+
+            <Link
+              href="/learn"
+              className="run-mobile-nav-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <BookOpen size={18} strokeWidth={1.8} aria-hidden="true" />
+              <span>Learn</span>
               <span className="run-mobile-arrow">→</span>
             </Link>
 
