@@ -2,32 +2,118 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { authApi } from "@/services/api";
 
 export default function LoginPage() {
-  const [email,setEmail]=useState(""); const [password,setPassword]=useState("");
-  const [loading,setLoading]=useState(false); const [error,setError]=useState(""); const [showPassword,setShowPassword]=useState(false);
-  async function login(){
-    setError(""); setLoading(true);
-    try{await authApi.post("/auth/login",{email,password});window.location.assign("/");}
-    catch(err:any){setError(err?.response?.data?.error||"Unable to login to SQLWhale.");}
-    finally{setLoading(false);}
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  async function login(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await authApi.post("/auth/login", { email, password, rememberMe });
+      window.location.assign("/");
+    } catch (err: any) {
+      setError(err?.response?.data?.error || "Unable to login to SQLWhale.");
+    } finally {
+      setLoading(false);
+    }
   }
-  return <main className="auth-page sqlwhale-light-auth"><div className="auth-shell auth-simple-shell">
-    <Link href="/" className="auth-brand"><span className="auth-logo-wrap"><Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={46} height={46} priority/></span><span className="auth-brand-text"><strong>SQL</strong>Whale</span></Link>
-    <section className="auth-card auth-simple-card">
-      <div className="auth-eyebrow"><span/> SQLWHALE ACCOUNT</div>
-      <h1>Welcome back</h1><p className="auth-intro">Login to your SQLWhale account.</p>
-      {error?<div className="auth-error" role="alert">{error}</div>:null}
-      <div className="local-auth-form">
-        <label>Email<input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
-        <label>Password<div className="password-field-wrap"><input type={showPassword ? "text" : "password"} autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="Your password"/><button type="button" className="password-toggle-button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"} aria-pressed={showPassword}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">{showPassword ? <><path d="M3 3l18 18" strokeLinecap="round"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.1A10.7 10.7 0 0 1 12 4.9c5.2 0 9 5.1 9 7.1a11.4 11.4 0 0 1-3.2 4.5"/><path d="M6.6 6.7C4.4 8.2 3 10.4 3 12c0 2 3.8 7.1 9 7.1 1.1 0 2.1-.2 3-.5"/></> : <><path d="M2.8 12s3.5-6.5 9.2-6.5S21.2 12 21.2 12 17.7 18.5 12 18.5 2.8 12 2.8 12Z"/><circle cx="12" cy="12" r="2.8"/></>}</svg></button></div></label>
-        <button type="button" className="auth-primary-button" onClick={login} disabled={loading}>{loading?"Logging in...":"Login"}</button>
-        <div style={{display:"flex",justifyContent:"flex-end",marginTop:12}}><Link href="/forgot-password" style={{fontSize:13,color:"#7c3aed",fontWeight:600}}>Forgot password?</Link></div>
-      </div>
-      <p className="auth-switch">Don't have a SQLWhale account? <Link href="/signup">Create one</Link></p>
-    </section>
-    <Link href="/" className="auth-back">← Back to SQLWhale</Link>
-  </div></main>;
+
+  return (
+    <main className="sqlwhale-login-page">
+      <section className="sqlwhale-login-layout" aria-label="Sign in to SQLWhale">
+        <div className="sqlwhale-login-art">
+          <Image
+            src="/whale-login.png"
+            alt="SQLWhale"
+            fill
+            priority
+            sizes="(max-width: 767px) 100vw, 50vw"
+            className="sqlwhale-login-art-image"
+          />
+          <div className="sqlwhale-login-art-shade" />
+          <Link href="/" className="sqlwhale-login-art-brand" aria-label="SQLWhale home">
+            <Image src="/sqlwhale-logo-main.png" alt="" width={38} height={38} priority />
+            <span>SQL<span>Whale</span></span>
+          </Link>
+          <div className="sqlwhale-login-art-copy">
+            <span className="sqlwhale-login-kicker">LEARN SQL BY SEEING IT</span>
+            <h2>Make every query<br />make sense.</h2>
+            <p>See the tables. Understand the result. Build real SQL confidence.</p>
+          </div>
+        </div>
+
+        <div className="sqlwhale-login-panel">
+          <Link href="/" className="sqlwhale-login-mobile-brand" aria-label="SQLWhale home">
+            <Image src="/sqlwhale-logo-main.png" alt="" width={38} height={38} priority />
+            <span>SQL<span>Whale</span></span>
+          </Link>
+          <form className="sqlwhale-login-form" onSubmit={login}>
+            <span className="sqlwhale-login-kicker">YOUR SQL JOURNEY CONTINUES</span>
+            <h1>Sign in</h1>
+            <p className="sqlwhale-login-intro">Welcome back! Sign in to continue learning.</p>
+
+            {error && <div className="sqlwhale-login-error" role="alert">{error}</div>}
+
+            <label className="sqlwhale-login-field">
+              <span>Email address</span>
+              <input
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="you@example.com"
+                required
+              />
+            </label>
+
+            <label className="sqlwhale-login-field">
+              <span>Password</span>
+              <div className="sqlwhale-login-password">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </label>
+
+            <div className="sqlwhale-login-options">
+              <label className="sqlwhale-login-remember">
+                <input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
+                <span>Remember me</span>
+              </label>
+              <Link href="/forgot-password">Forgot password?</Link>
+            </div>
+
+            <button type="submit" className="sqlwhale-login-submit" disabled={loading}>
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+
+            <p className="sqlwhale-login-signup">Don’t have an account? <Link href="/signup">Create an account</Link></p>
+          </form>
+          <Link href="/" className="sqlwhale-login-back">← Back to SQLWhale</Link>
+        </div>
+      </section>
+    </main>
+  );
 }
