@@ -21358,3 +21358,247 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed:focus
 button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   color: #ffd400;
 }
+
+/* SQLWhale sign-in redesign */
+.sqlwhale-login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background: #f4f8fa;
+  color: #172b33;
+}
+.sqlwhale-login-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: min(100%, 1120px);
+  min-height: min(700px, calc(100vh - 56px));
+  overflow: hidden;
+  border: 1px solid #e2eaed;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 24px 80px rgba(17, 53, 65, .12);
+}
+.sqlwhale-login-art {
+  position: relative;
+  min-height: 650px;
+  overflow: hidden;
+  background: #09232d;
+}
+.sqlwhale-login-art-image {
+  object-fit: cover;
+  object-position: center;
+}
+.sqlwhale-login-art-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 22, 30, .16) 5%, rgba(4, 22, 30, .2) 40%, rgba(4, 22, 30, .88) 100%);
+}
+.sqlwhale-login-art-brand,
+.sqlwhale-login-mobile-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.05em;
+}
+.sqlwhale-login-art-brand {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  left: 30px;
+}
+.sqlwhale-login-art-brand > span > span,
+.sqlwhale-login-mobile-brand > span > span { color: #54d5dc; }
+.sqlwhale-login-art-brand img,
+.sqlwhale-login-mobile-brand img { object-fit: contain; }
+.sqlwhale-login-art-copy {
+  position: absolute;
+  z-index: 1;
+  right: 36px;
+  bottom: 44px;
+  left: 36px;
+  color: #fff;
+}
+.sqlwhale-login-kicker {
+  display: inline-block;
+  color: #159da5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.sqlwhale-login-art-copy .sqlwhale-login-kicker { color: #7ce9ed; }
+.sqlwhale-login-art-copy h2 {
+  margin: 14px 0 12px;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+.sqlwhale-login-art-copy p {
+  max-width: 360px;
+  margin: 0;
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.sqlwhale-login-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 54px clamp(28px, 5vw, 72px) 28px;
+}
+.sqlwhale-login-form { width: 100%; max-width: 390px; }
+.sqlwhale-login-form h1 {
+  margin: 14px 0 8px;
+  color: #172b33;
+  font-size: clamp(34px, 4vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -.05em;
+}
+.sqlwhale-login-intro {
+  margin: 0 0 30px;
+  color: #73868d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.sqlwhale-login-error {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #f2caca;
+  border-radius: 10px;
+  background: #fff5f5;
+  color: #a53f3f;
+  font-size: 13px;
+}
+.sqlwhale-login-field {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  color: #2b454e;
+  font-size: 13px;
+  font-weight: 650;
+}
+.sqlwhale-login-field > input,
+.sqlwhale-login-password {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #d7e3e7;
+  border-radius: 12px;
+  background: #fbfdfe;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.sqlwhale-login-field > input {
+  padding: 0 15px;
+  outline: none;
+  color: #172b33;
+  font: inherit;
+  font-weight: 400;
+}
+.sqlwhale-login-field input::placeholder { color: #a0afb4; }
+.sqlwhale-login-field > input:focus,
+.sqlwhale-login-password:focus-within {
+  border-color: #159da5;
+  box-shadow: 0 0 0 3px rgba(21,157,165,.1);
+}
+.sqlwhale-login-password {
+  display: flex;
+  align-items: center;
+  padding: 0 13px 0 15px;
+}
+.sqlwhale-login-password input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #172b33;
+  font: inherit;
+  font-weight: 400;
+}
+.sqlwhale-login-password button {
+  border: 0;
+  background: transparent;
+  color: #168f99;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.sqlwhale-login-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 12px;
+}
+.sqlwhale-login-remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b8087;
+  cursor: pointer;
+}
+.sqlwhale-login-remember input {
+  width: 15px;
+  height: 15px;
+  accent-color: #159da5;
+}
+.sqlwhale-login-options > a,
+.sqlwhale-login-signup a {
+  color: #138f98;
+  font-weight: 700;
+  text-decoration: none;
+}
+.sqlwhale-login-options > a:hover,
+.sqlwhale-login-signup a:hover { text-decoration: underline; }
+.sqlwhale-login-submit {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 28px;
+  border: 0;
+  border-radius: 12px;
+  background: #159da5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(21,157,165,.2);
+  transition: transform .18s ease, background .18s ease;
+}
+.sqlwhale-login-submit:hover:not(:disabled) { transform: translateY(-1px); background: #118b93; }
+.sqlwhale-login-submit:disabled { opacity: .65; cursor: wait; }
+.sqlwhale-login-signup {
+  margin: 24px 0 0;
+  color: #7a8d93;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.sqlwhale-login-back {
+  margin-top: auto;
+  padding-top: 40px;
+  color: #8a9ba0;
+  font-size: 12px;
+  text-decoration: none;
+}
+.sqlwhale-login-back:hover { color: #138f98; }
+.sqlwhale-login-mobile-brand { display: none; }
+@media (max-width: 767px) {
+  .sqlwhale-login-page { display: block; padding: 0; background: #fff; }
+  .sqlwhale-login-layout { display: block; min-height: 100vh; border: 0; border-radius: 0; box-shadow: none; }
+  .sqlwhale-login-art { display: none; }
+  .sqlwhale-login-panel { min-height: 100vh; justify-content: center; padding: 32px 24px 24px; }
+  .sqlwhale-login-mobile-brand { display: inline-flex; margin-bottom: 42px; color: #172b33; }
+  .sqlwhale-login-form { max-width: 420px; }
+  .sqlwhale-login-form h1 { font-size: 36px; }
+  .sqlwhale-login-back { margin-top: 36px; padding-top: 0; }
+}
+@media (max-width: 380px) {
+  .sqlwhale-login-panel { padding-right: 18px; padding-left: 18px; }
+  .sqlwhale-login-options { align-items: flex-start; }
+}
