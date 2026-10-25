@@ -44,11 +44,6 @@ export default function LoginPage() {
             <Image src="/sqlwhale-logo-main.png" alt="" width={38} height={38} priority />
             <span>SQL<span>Whale</span></span>
           </Link>
-          <div className="sqlwhale-login-art-copy">
-            <span className="sqlwhale-login-kicker">LEARN SQL BY SEEING IT</span>
-            <h2>Make every query<br />make sense.</h2>
-            <p>See the tables. Understand the result. Build real SQL confidence.</p>
-          </div>
         </div>
 
         <div className="sqlwhale-login-panel">
