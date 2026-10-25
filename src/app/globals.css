@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 /* Global page canvas: prevent browser-default white gutters around the dark homepage. */
 html,
@@ -21360,6 +21362,12 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
 }
 
 /* SQLWhale sign-in redesign */
+.sqlwhale-login-page,
+.sqlwhale-login-page * {
+  font-family: "Google Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "GRAD" 0;
+}
 .sqlwhale-login-page {
   min-height: 100vh;
   display: grid;
