@@ -21396,7 +21396,7 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   background: #09232d;
 }
 .sqlwhale-login-art-image {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 .sqlwhale-login-art-shade {
