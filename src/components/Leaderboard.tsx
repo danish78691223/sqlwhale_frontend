@@ -82,7 +82,7 @@ export function LeaderboardSection() {
         <div>
           <div className="agency-section-index">06 / SQLWHALE RANKINGS</div>
           <h2>Top 10 <em>SQL learners.</em></h2>
-          <p>Earn points by completing SQL tasks and climb the leaderboard.</p>
+          <p>Earn Chai Points by completing SQL tasks and climb the leaderboard.</p>
         </div>
         <div className="sqlwhale-leaderboard-scale">
           <span>EASY <b>10</b></span>
@@ -123,7 +123,7 @@ export function LeaderboardSection() {
               </div>
               <div className="sqlwhale-leaderboard-points">
                 <strong>{entry.points}</strong>
-                <span>POINTS</span>
+                <span>CHAI POINTS</span>
               </div>
             </div>
           ))}
@@ -195,7 +195,7 @@ export function ProfileRankCard() {
             <strong>#{currentUser.rank}</strong>
           </div>
           <div className="account-ranking-stat">
-            <span>POINTS</span>
+            <span>CHAI POINTS</span>
             <strong>{currentUser.points}</strong>
           </div>
           <div className="account-ranking-stat">
