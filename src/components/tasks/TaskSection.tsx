@@ -45,9 +45,9 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
       const incomingTasks: Task[] = response.data.tasks || [];
       // The backend is the source of truth; retain a fallback for older API deployments.
       let nextUnlocked = true;
-      const normalizedTasks = incomingTasks.map((task) => {
+      const normalizedTasks = incomingTasks.map((task, index) => {
         const unlocked = typeof task.unlocked === "boolean" ? task.unlocked : nextUnlocked;
-        const normalized = { ...task, unlocked, locked: !unlocked };
+        const normalized = { ...task, order: task.order ?? index + 1, unlocked, locked: !unlocked };
         if (!task.completed) nextUnlocked = false;
         return normalized;
       });
