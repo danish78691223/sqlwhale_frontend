@@ -1081,6 +1081,10 @@ export default function RunQueryPage() {
 `);
               setExecutedQuery(null);
               setAnimationComplete(false);
+              // After starting a task, take mobile users straight to the SQL editor.
+              if (typeof window !== "undefined" && window.innerWidth <= 800) {
+                setActiveMobileView("editor");
+              }
             }}
           />
         )}
