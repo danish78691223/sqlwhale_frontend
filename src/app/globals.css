@@ -21630,3 +21630,23 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   .sqlwhale-signup-page .sqlwhale-login-mobile-brand { margin-bottom: 24px; }
   .sqlwhale-signup-form .sqlwhale-login-form h1 { font-size: 34px; }
 }
+
+/* Responsive SQL task completion celebration */
+.sqlwhale-task-celebration-backdrop { position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; background: rgba(7,10,18,.76); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.sqlwhale-task-celebration { position: relative; display: flex; flex-direction: column; align-items: center; width: min(100%,460px); max-height: calc(100dvh - 48px); overflow-y: auto; padding: 28px 32px 30px; border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: #171718; color: #f8fafc; text-align: center; box-shadow: 0 28px 100px rgba(0,0,0,.5); animation: sqlwhale-celebration-in .28s cubic-bezier(.2,.8,.2,1) both; }
+.sqlwhale-task-celebration-close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(255,255,255,.09); color: inherit; font-size: 25px; cursor: pointer; }
+.sqlwhale-task-celebration-image { display: block; width: min(100%,300px); height: auto; max-height: 220px; object-fit: contain; margin: 0 auto 8px; }
+.sqlwhale-task-celebration-eyebrow { margin: 4px 0 8px; color: #ffd400; font-size: 11px; font-weight: 800; letter-spacing: .16em; }
+.sqlwhale-task-celebration h2 { margin: 0; font-size: clamp(27px,4vw,36px); line-height: 1.12; font-weight: 800; letter-spacing: -.04em; }
+.sqlwhale-task-celebration-description { margin: 10px 0 20px; color: #b9bdc7; font-size: 14px; line-height: 1.55; }
+.sqlwhale-task-celebration-points { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; max-width: 230px; padding: 13px 16px; border: 1px solid rgba(255,212,0,.28); border-radius: 15px; background: rgba(255,212,0,.08); color: #ffd400; }
+.sqlwhale-task-celebration-star { font-size: 28px; line-height: 1; }
+.sqlwhale-task-celebration-points span:last-child { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.sqlwhale-task-celebration-points strong { font-size: 25px; line-height: 1; }
+.sqlwhale-task-celebration-points small { font-size: 9px; font-weight: 800; letter-spacing: .12em; }
+.sqlwhale-task-celebration-next { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; margin-top: 22px; padding: 12px 18px; border: 0; border-radius: 13px; background: #ffd400; color: #171718; font-size: 15px; font-weight: 800; cursor: pointer; transition: transform .18s ease,filter .18s ease; }
+.sqlwhale-task-celebration-next:hover { transform: translateY(-1px); filter: brightness(1.04); }
+.sqlwhale-task-celebration-next:focus-visible,.sqlwhale-task-celebration-close:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+@keyframes sqlwhale-celebration-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 600px) { .sqlwhale-task-celebration-backdrop { align-items: center; padding: 14px; } .sqlwhale-task-celebration { width: 100%; max-height: calc(100dvh - 28px); padding: 22px 20px; border-radius: 22px; } .sqlwhale-task-celebration-image { width: min(100%,240px); max-height: 170px; } .sqlwhale-task-celebration-description { margin-bottom: 16px; font-size: 13px; } .sqlwhale-task-celebration-next { min-height: 48px; margin-top: 18px; } }
+@media (prefers-reduced-motion: reduce) { .sqlwhale-task-celebration { animation: none; } .sqlwhale-task-celebration-next { transition: none; } }
