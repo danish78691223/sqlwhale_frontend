@@ -1171,9 +1171,9 @@ export default function RunQueryPage() {
             <p className="sqlwhale-task-celebration-eyebrow">TASK {taskCompletion.taskNumber} COMPLETE</p>
             <h2 id="sqlwhale-task-celebration-title">Congratulations!</h2>
             <p className="sqlwhale-task-celebration-description">You solved the task. Keep the momentum going!</p>
-            <div className="sqlwhale-task-celebration-points" aria-label={taskCompletion.points === null ? "Points were not reported by the task checker" : `${taskCompletion.points} points earned`}>
+            <div className="sqlwhale-task-celebration-points" aria-label={taskCompletion.points === null ? "Chai Points were not reported by the task checker" : `${taskCompletion.points} points earned`}>
               <span className="sqlwhale-task-celebration-star">✦</span>
-              <span>{taskCompletion.points === null ? <><strong>—</strong><small>POINTS NOT REPORTED</small></> : <><strong>+{taskCompletion.points}</strong><small>POINTS EARNED</small></>}</span>
+              <span>{taskCompletion.points === null ? <><strong>—</strong><small>CHAI POINTS NOT REPORTED</small></> : <><strong>+{taskCompletion.points}</strong><small>CHAI POINTS EARNED</small></>}</span>
             </div>
             <button type="button" className="sqlwhale-task-celebration-next" onClick={() => { setTaskCompletion(null); setTaskOpen(true); setBuilderOpen(false); if (window.innerWidth <= 800) setActiveMobileView("schema"); }}>
               Next Task <ArrowRight size={18} aria-hidden="true" />
