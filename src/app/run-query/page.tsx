@@ -59,6 +59,8 @@ export default function RunQueryPage() {
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [activeTaskNumber, setActiveTaskNumber] = useState<number | null>(null);
+  const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number; title: string } | null>(null);
 
   // Restore an unfinished task draft on mobile after the page/app is reopened.
   useEffect(() => {
@@ -432,6 +434,8 @@ export default function RunQueryPage() {
         });
 
         if (correct) {
+          const earnedPoints = Number(check.data?.pointsAwarded ?? check.data?.earnedPoints ?? check.data?.points ?? 0);
+          setTaskCompletion({ taskId: activeTaskId, taskNumber: activeTaskNumber ?? 1, points: Number.isFinite(earnedPoints) ? earnedPoints : 0, title: check.data?.taskTitle || "SQL Task" });
           setActiveTaskId(null);
           if (typeof window !== "undefined") {
             localStorage.removeItem("sqlwhale-mobile-task-draft");
@@ -1100,6 +1104,8 @@ export default function RunQueryPage() {
 -- Write your SQL below.
 `;
               setActiveTaskId(task.id);
+              setActiveTaskNumber(task.order ?? 1);
+              setTaskCompletion(null);
               setTaskCheck(null);
               setQuery(taskDraft);
               setExecutedQuery(null);
@@ -1154,6 +1160,25 @@ export default function RunQueryPage() {
           <ListTodo size={19} aria-hidden="true" /><span>Learn</span>
         </button>
       </nav>
+
+      {taskCompletion && (
+        <div className="sqlwhale-task-celebration-backdrop" role="presentation">
+          <section className="sqlwhale-task-celebration" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-task-celebration-title">
+            <button type="button" className="sqlwhale-task-celebration-close" onClick={() => setTaskCompletion(null)} aria-label="Close congratulations">×</button>
+            <Image src="/tsk-compleate.png" alt="Task completed" width={360} height={240} priority className="sqlwhale-task-celebration-image" />
+            <p className="sqlwhale-task-celebration-eyebrow">TASK {taskCompletion.taskNumber} COMPLETE</p>
+            <h2 id="sqlwhale-task-celebration-title">Congratulations!</h2>
+            <p className="sqlwhale-task-celebration-description">You solved the task. Keep the momentum going!</p>
+            <div className="sqlwhale-task-celebration-points" aria-label={`${taskCompletion.points} points earned`}>
+              <span className="sqlwhale-task-celebration-star">✦</span>
+              <span><strong>+{taskCompletion.points}</strong><small>POINTS EARNED</small></span>
+            </div>
+            <button type="button" className="sqlwhale-task-celebration-next" onClick={() => { setTaskCompletion(null); setTaskOpen(true); setBuilderOpen(false); if (window.innerWidth <= 800) setActiveMobileView("schema"); }}>
+              Next Task <ArrowRight size={18} aria-hidden="true" />
+            </button>
+          </section>
+        </div>
+      )}
 
       {editTable && (
         <EditTableCanvas
