@@ -17,6 +17,7 @@ interface SQLEditorProps {
   onCursorTargetChange?: (target: { table?: string; column: string } | null) => void;
   onQueryTableChange?: (tables: string[]) => void;
   onTableDoubleClick?: (tableName: string) => void;
+  onDraftChange?: (query: string) => void;
   availableTables?: string[];
 }
 
@@ -90,6 +91,7 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
   onCursorTargetChange,
   onQueryTableChange,
   onTableDoubleClick,
+  onDraftChange,
   availableTables = [],
 }: SQLEditorProps, ref) {
   const [query, setQuery] = useState(initialQuery);
@@ -219,6 +221,7 @@ const SQLEditor = forwardRef<SQLEditorHandle, SQLEditorProps>(function SQLEditor
     editor.onDidChangeModelContent(() => {
       updateQueryTableTargets();
       updateCursorTarget();
+      onDraftChange?.(editor.getValue());
     });
 
     updateQueryTableTargets();
