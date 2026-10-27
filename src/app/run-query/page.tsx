@@ -60,7 +60,7 @@ export default function RunQueryPage() {
   const [taskOpen, setTaskOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [activeTaskNumber, setActiveTaskNumber] = useState<number | null>(null);
-  const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number; title: string } | null>(null);
+  const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number | null; title: string } | null>(null);
 
   // Restore an unfinished task draft on mobile after the page/app is reopened.
   useEffect(() => {
@@ -434,8 +434,10 @@ export default function RunQueryPage() {
         });
 
         if (correct) {
-          const earnedPoints = Number(check.data?.pointsAwarded ?? check.data?.earnedPoints ?? check.data?.points ?? 0);
-          setTaskCompletion({ taskId: activeTaskId, taskNumber: activeTaskNumber ?? 1, points: Number.isFinite(earnedPoints) ? earnedPoints : 0, title: check.data?.taskTitle || "SQL Task" });
+          const pointsValue = check.data?.pointsAwarded ?? check.data?.earnedPoints ?? check.data?.points;
+          const parsedPoints = pointsValue === null || pointsValue === undefined || pointsValue === "" ? null : Number(pointsValue);
+          const earnedPoints = parsedPoints !== null && Number.isFinite(parsedPoints) ? parsedPoints : null;
+          setTaskCompletion({ taskId: activeTaskId, taskNumber: activeTaskNumber ?? 1, points: earnedPoints, title: check.data?.taskTitle || "SQL Task" });
           setActiveTaskId(null);
           if (typeof window !== "undefined") {
             localStorage.removeItem("sqlwhale-mobile-task-draft");
@@ -1169,9 +1171,9 @@ export default function RunQueryPage() {
             <p className="sqlwhale-task-celebration-eyebrow">TASK {taskCompletion.taskNumber} COMPLETE</p>
             <h2 id="sqlwhale-task-celebration-title">Congratulations!</h2>
             <p className="sqlwhale-task-celebration-description">You solved the task. Keep the momentum going!</p>
-            <div className="sqlwhale-task-celebration-points" aria-label={`${taskCompletion.points} points earned`}>
+            <div className="sqlwhale-task-celebration-points" aria-label={taskCompletion.points === null ? "Points were not reported by the task checker" : `${taskCompletion.points} points earned`}>
               <span className="sqlwhale-task-celebration-star">✦</span>
-              <span><strong>+{taskCompletion.points}</strong><small>POINTS EARNED</small></span>
+              <span>{taskCompletion.points === null ? <><strong>—</strong><small>POINTS NOT REPORTED</small></> : <><strong>+{taskCompletion.points}</strong><small>POINTS EARNED</small></>}</span>
             </div>
             <button type="button" className="sqlwhale-task-celebration-next" onClick={() => { setTaskCompletion(null); setTaskOpen(true); setBuilderOpen(false); if (window.innerWidth <= 800) setActiveMobileView("schema"); }}>
               Next Task <ArrowRight size={18} aria-hidden="true" />
