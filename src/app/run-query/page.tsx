@@ -59,6 +59,25 @@ export default function RunQueryPage() {
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+
+  // Restore an unfinished task draft on mobile after the page/app is reopened.
+  useEffect(() => {
+    if (window.innerWidth > 800) return;
+    try {
+      const saved = localStorage.getItem("sqlwhale-mobile-task-draft");
+      if (!saved) return;
+      const draft = JSON.parse(saved) as { taskId?: string; query?: string };
+      if (draft.taskId && typeof draft.query === "string") {
+        setActiveTaskId(draft.taskId);
+        setQuery(draft.query);
+        setTaskOpen(false);
+        setActiveMobileView("editor");
+      }
+    } catch {
+      localStorage.removeItem("sqlwhale-mobile-task-draft");
+    }
+  }, []);
+
   const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
   const [taskSubmitting, setTaskSubmitting] = useState(false);
   const [setupTaskSuccessMessage, setSetupTaskSuccessMessage] = useState<string | null>(null);
@@ -414,6 +433,9 @@ export default function RunQueryPage() {
 
         if (correct) {
           setActiveTaskId(null);
+          if (typeof window !== "undefined") {
+            localStorage.removeItem("sqlwhale-mobile-task-draft");
+          }
         }
 
         if (check.data?.sqlResponse) {
@@ -1074,15 +1096,17 @@ export default function RunQueryPage() {
             activeTaskId={activeTaskId}
             taskCheck={taskCheck}
             onStartTask={(task) => {
+              const taskDraft = `-- Task: ${task.title}
+-- Write your SQL below.
+`;
               setActiveTaskId(task.id);
               setTaskCheck(null);
-              setQuery(`-- Task: ${task.title}
--- Write your SQL below.
-`);
+              setQuery(taskDraft);
               setExecutedQuery(null);
               setAnimationComplete(false);
-              // After starting a task, take mobile users straight to the SQL editor.
+              // Keep the unfinished task and its draft when mobile users leave and return.
               if (typeof window !== "undefined" && window.innerWidth <= 800) {
+                localStorage.setItem("sqlwhale-mobile-task-draft", JSON.stringify({ taskId: task.id, query: taskDraft }));
                 setActiveMobileView("editor");
               }
             }}
@@ -1107,7 +1131,11 @@ export default function RunQueryPage() {
           onCursorTargetChange={setActiveSqlTarget}
           onQueryTableChange={handleQueryTableChange}
           onTableDoubleClick={setFocusedTableName}
-          
+          onDraftChange={(draftQuery) => {
+            if (typeof window !== "undefined" && window.innerWidth <= 800 && activeTaskId) {
+              localStorage.setItem("sqlwhale-mobile-task-draft", JSON.stringify({ taskId: activeTaskId, query: draftQuery }));
+            }
+          }}
           availableTables={tables.map((table) => table.name)}
         />
       </section>
