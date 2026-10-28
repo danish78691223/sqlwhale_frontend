@@ -1163,13 +1163,13 @@ export default function RunQueryPage() {
         </button>
       </nav>
 
-      {taskCompletion && (
+      {taskCompletion && animationComplete && !loading && !taskSubmitting && (
         <div className="sqlwhale-task-celebration-backdrop" role="presentation">
           <section className="sqlwhale-task-celebration" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-task-celebration-title">
-            <button type="button" className="sqlwhale-task-celebration-close" onClick={() => setTaskCompletion(null)} aria-label="Close congratulations">×</button>
+            <button type="button" className="sqlwhale-task-celebration-close" onClick={() => setTaskCompletion(null)} aria-label="Close task celebration">×</button>
             <Image src="/tsk-compleate.png" alt="Task completed" width={360} height={240} priority className="sqlwhale-task-celebration-image" />
             <p className="sqlwhale-task-celebration-eyebrow">TASK {taskCompletion.taskNumber} COMPLETE</p>
-            <h2 id="sqlwhale-task-celebration-title">Congratulations!</h2>
+            <h2 id="sqlwhale-task-celebration-title">Whale done!</h2>
             <p className="sqlwhale-task-celebration-description">You solved the task. Keep the momentum going!</p>
             <div className="sqlwhale-task-celebration-points" aria-label={taskCompletion.points === null ? "Chai Points were not reported by the task checker" : `${taskCompletion.points} points earned`}>
               <span className="sqlwhale-task-celebration-star">✦</span>
