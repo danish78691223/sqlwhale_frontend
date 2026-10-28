@@ -62,19 +62,6 @@ export default function RunQueryPage() {
   const [activeTaskNumber, setActiveTaskNumber] = useState<number | null>(null);
   const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number | null; title: string } | null>(null);
 
-  // Never leave a correctly completed task without its celebration if a visual
-  // animation cannot finish (for example, an unsupported query shape).
-  useEffect(() => {
-    if (!taskCompletion || taskSubmitting || loading || !data) return;
-    if (animationComplete) return;
-
-    const fallbackTimer = window.setTimeout(() => {
-      setAnimationComplete(true);
-    }, 10000);
-
-    return () => window.clearTimeout(fallbackTimer);
-  }, [taskCompletion, taskSubmitting, loading, data, animationComplete]);
-
   // Restore an unfinished task draft on mobile after the page/app is reopened.
   useEffect(() => {
     if (window.innerWidth > 800) return;
@@ -95,6 +82,20 @@ export default function RunQueryPage() {
 
   const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
   const [taskSubmitting, setTaskSubmitting] = useState(false);
+
+  // Never leave a correctly completed task without its celebration if a visual
+  // animation cannot finish (for example, an unsupported query shape).
+  useEffect(() => {
+    if (!taskCompletion || taskSubmitting || loading || !data) return;
+    if (animationComplete) return;
+
+    const fallbackTimer = window.setTimeout(() => {
+      setAnimationComplete(true);
+    }, 10000);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, [taskCompletion, taskSubmitting, loading, data, animationComplete]);
+
   const [setupTaskSuccessMessage, setSetupTaskSuccessMessage] = useState<string | null>(null);
   const [showProductTour, setShowProductTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
