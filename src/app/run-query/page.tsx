@@ -62,6 +62,19 @@ export default function RunQueryPage() {
   const [activeTaskNumber, setActiveTaskNumber] = useState<number | null>(null);
   const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number | null; title: string } | null>(null);
 
+  // Never leave a correctly completed task without its celebration if a visual
+  // animation cannot finish (for example, an unsupported query shape).
+  useEffect(() => {
+    if (!taskCompletion || taskSubmitting || loading || !data) return;
+    if (animationComplete) return;
+
+    const fallbackTimer = window.setTimeout(() => {
+      setAnimationComplete(true);
+    }, 10000);
+
+    return () => window.clearTimeout(fallbackTimer);
+  }, [taskCompletion, taskSubmitting, loading, data, animationComplete]);
+
   // Restore an unfinished task draft on mobile after the page/app is reopened.
   useEffect(() => {
     if (window.innerWidth > 800) return;
