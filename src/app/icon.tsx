@@ -16,7 +16,7 @@ async function hasPremiumAccess() {
     if (!cookie) return false;
 
     const apiBase = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api")
-      .replace(/\\/+$/, "");
+      .replace(/\/+$/, "");
     const response = await fetch(`${apiBase}/auth/me`, {
       headers: { cookie },
       cache: "no-store",
