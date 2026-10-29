@@ -41,21 +41,16 @@ async function hasPremiumAccess() {
 }
 
 export default async function Icon() {
-  const [logo, premium] = await Promise.all([
-    readFile(path.join(process.cwd(), "public", "sqlwhale-logo-main.png")),
-    hasPremiumAccess(),
-  ]);
+  const premium = await hasPremiumAccess();
+  const logo = await readFile(
+    path.join(process.cwd(), "public", premium ? "Whale-Pro.png" : "sqlwhale-logo-main.png"),
+  );
   const logoDataUrl = "data:image/png;base64," + logo.toString("base64");
 
   return new ImageResponse(
     (
       <div style={{ display: "flex", position: "relative", width: "100%", height: "100%", backgroundColor: "#102638", alignItems: "center", justifyContent: "center" }}>
         <img src={logoDataUrl} width={390} height={390} style={{ objectFit: "contain" }} alt="SQLWhale" />
-        {premium && (
-          <div style={{ position: "absolute", right: 18, bottom: 22, display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 17px", borderRadius: 13, backgroundColor: "#f6c945", color: "#102638", fontSize: 31, fontWeight: 900, letterSpacing: 1.5, border: "4px solid #102638" }}>
-            PRO
-          </div>
-        )}
       </div>
     ),
     { ...size, headers: { "Cache-Control": "private, no-store, max-age=0" } },
