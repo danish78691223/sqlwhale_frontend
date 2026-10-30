@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: "SQLWhale", statusBarStyle: "default" },
   description: "Created By WEBXWHALE",
   icons: {
-    icon: [{ url: "/icon?v=6", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/icon?v=6", type: "image/png", sizes: "512x512" }],
+    icon: [{ url: "/icon?v=7", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/icon?v=7", type: "image/png", sizes: "512x512" }],
   },
 };
 
