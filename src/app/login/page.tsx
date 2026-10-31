@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { authApi } from "@/services/api";
 
 export default function LoginPage() {
@@ -12,6 +12,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [retryAfter, setRetryAfter] = useState(0);
+
+  useEffect(() => {
+    if (retryAfter <= 0) return;
+    const timer = window.setInterval(() => {
+      setRetryAfter((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [retryAfter > 0]);
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -19,9 +28,14 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await authApi.post("/auth/login", { email, password, rememberMe });
+      setRetryAfter(0);
       window.location.assign("/");
     } catch (err: any) {
-      setError(err?.response?.data?.error || "Unable to login to SQLWhale.");
+      const response = err?.response?.data;
+      if (response?.code === "LOGIN_RATE_LIMITED") {
+        setRetryAfter(Math.max(1, Number(response.retryAfter) || 900));
+      }
+      setError(response?.error || "Unable to login to SQLWhale.");
     } finally {
       setLoading(false);
     }
@@ -100,8 +114,8 @@ export default function LoginPage() {
               <Link href="/forgot-password">Forgot password?</Link>
             </div>
 
-            <button type="submit" className="sqlwhale-login-submit" disabled={loading}>
-              {loading ? "Signing in..." : "Sign in"}
+            <button type="submit" className="sqlwhale-login-submit" disabled={loading || retryAfter > 0}>
+              {loading ? "Signing in..." : retryAfter > 0 ? `Try again in ${Math.floor(retryAfter / 60)}:${String(retryAfter % 60).padStart(2, "0")}` : "Sign in"}
             </button>
 
             <p className="sqlwhale-login-signup">Don’t have an account? <Link href="/signup">Create an account</Link></p>
