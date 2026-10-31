@@ -612,7 +612,7 @@ export default function RunQueryPage() {
 
   return (
     <>
-      <main className="sqlwhale-run-page" data-mobile-view={activeMobileView}>
+      <main className="sqlwhale-run-page" data-mobile-view={taskOpen ? "learn" : activeMobileView}>
       <header className="sqlwhale-run-navbar">
         <div className="sqlwhale-run-navbar-inner">
           <Link
@@ -1067,7 +1067,11 @@ export default function RunQueryPage() {
             data-sqlwhale-tour="task"
             data-sqlwhale-task-toggle
             onClick={() => {
-              setTaskOpen((current) => !current);
+              setTaskOpen((current) => {
+                const next = !current;
+                if (next) setActiveMobileView("learn");
+                return next;
+              });
               setBuilderOpen(false);
             }}
             aria-expanded={taskOpen}
@@ -1163,13 +1167,13 @@ export default function RunQueryPage() {
       </section>
 
       <nav className="sqlwhale-mobile-workflow-nav" aria-label="SQL learning workspace">
-        <button type="button" className={activeMobileView === "schema" ? "is-active" : ""} aria-current={activeMobileView === "schema" ? "page" : undefined} onClick={() => setActiveMobileView("schema")}>
+        <button type="button" className={activeMobileView === "schema" ? "is-active" : ""} aria-current={activeMobileView === "schema" ? "page" : undefined} onClick={() => { setTaskOpen(false); setBuilderOpen(false); setActiveMobileView("schema"); }}>
           <Database size={19} aria-hidden="true" /><span>Schema</span>
         </button>
-        <button type="button" className={activeMobileView === "editor" ? "is-active" : ""} aria-current={activeMobileView === "editor" ? "page" : undefined} onClick={() => setActiveMobileView("editor")}>
+        <button type="button" className={activeMobileView === "editor" ? "is-active" : ""} aria-current={activeMobileView === "editor" ? "page" : undefined} onClick={() => { setTaskOpen(false); setBuilderOpen(false); setActiveMobileView("editor"); }}>
           <span className="sqlwhale-mobile-code-icon" aria-hidden="true">&lt;/&gt;</span><span>Write SQL</span>
         </button>
-        <button type="button" className={activeMobileView === "results" ? "is-active" : ""} aria-current={activeMobileView === "results" ? "page" : undefined} onClick={() => setActiveMobileView("results")}>
+        <button type="button" className={activeMobileView === "results" ? "is-active" : ""} aria-current={activeMobileView === "results" ? "page" : undefined} onClick={() => { setTaskOpen(false); setBuilderOpen(false); setActiveMobileView("results"); }}>
           <CirclePlay size={19} aria-hidden="true" /><span>Results</span>
         </button>
         <button type="button" className={taskOpen ? "is-active" : ""} aria-pressed={taskOpen} onClick={() => { setTaskOpen(true); setBuilderOpen(false); setActiveMobileView("learn"); }}>
