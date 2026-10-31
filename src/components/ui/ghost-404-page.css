@@ -1,0 +1,53 @@
+.sqlwhale-not-found {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  min-height: min(760px, calc(100vh - 100px));
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 64px 20px;
+  background: #07070b;
+  color: #f5f5f7;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.sqlwhale-not-found *,
+.sqlwhale-not-found *::before,
+.sqlwhale-not-found *::after { box-sizing: border-box; }
+.sqlwhale-not-found__glow { position: absolute; z-index: -1; pointer-events: none; border-radius: 50%; filter: blur(90px); }
+.sqlwhale-not-found__glow--blue { top: 12%; left: 50%; width: 290px; height: 290px; transform: translateX(-50%); background: rgba(24,98,253,.12); }
+.sqlwhale-not-found__glow--cyan { right: 10%; bottom: 5%; width: 220px; height: 220px; background: rgba(34,211,238,.07); }
+.sqlwhale-not-found__content { position: relative; z-index: 1; display: flex; width: 100%; max-width: 660px; flex-direction: column; align-items: center; }
+.sqlwhale-not-found__eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 30px; padding: 9px 15px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(255,255,255,.04); color: rgba(255,255,255,.62); font-size: 11px; font-weight: 700; letter-spacing: .18em; }
+.sqlwhale-not-found__dot { width: 7px; height: 7px; border-radius: 50%; background: #4b83ff; box-shadow: 0 0 12px rgba(75,131,255,.8); }
+.sqlwhale-not-found__digits { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 0 0 30px; }
+.sqlwhale-not-found__digit { color: #f5f5f7; font-size: clamp(100px, 17vw, 144px); font-weight: 800; line-height: .95; letter-spacing: -.09em; user-select: none; }
+.sqlwhale-not-found__ghost { flex: 0 0 auto; }
+.sqlwhale-not-found__ghost img { display: block; width: clamp(82px, 12vw, 120px); height: clamp(82px, 12vw, 120px); object-fit: contain; user-select: none; }
+.sqlwhale-not-found__title { margin: 0 0 14px; color: #fff; font-size: clamp(28px, 5vw, 46px); font-weight: 750; line-height: 1.15; letter-spacing: -.04em; }
+.sqlwhale-not-found__description { max-width: 500px; margin: 0 0 34px; color: rgba(245,245,247,.58); font-size: 16px; line-height: 1.75; }
+.sqlwhale-not-found__actions { display: flex; width: 100%; align-items: center; justify-content: center; gap: 12px; }
+.sqlwhale-not-found__button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 0 25px; border: 1px solid transparent; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform .2s ease, background .2s ease, border-color .2s ease; }
+.sqlwhale-not-found__button:hover { transform: translateY(-2px); }
+.sqlwhale-not-found__button--primary { background: #1862fd; color: #fff; box-shadow: 0 8px 30px rgba(24,98,253,.22); }
+.sqlwhale-not-found__button--primary:hover { background: #3477ff; }
+.sqlwhale-not-found__button--secondary { border-color: rgba(255,255,255,.16); background: rgba(255,255,255,.04); color: rgba(255,255,255,.88); }
+.sqlwhale-not-found__button--secondary:hover { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.08); }
+.sqlwhale-not-found__editor { margin: 42px 0 0; color: rgba(255,255,255,.4); font-size: 13px; }
+.sqlwhale-not-found__editor a { color: #82aaff; text-decoration: underline; text-decoration-color: rgba(130,170,255,.4); text-underline-offset: 4px; transition: color .2s ease; }
+.sqlwhale-not-found__editor a:hover { color: #fff; }
+@media (max-width: 560px) {
+  .sqlwhale-not-found { min-height: min(700px, calc(100vh - 80px)); padding: 54px 18px; }
+  .sqlwhale-not-found__eyebrow { margin-bottom: 25px; }
+  .sqlwhale-not-found__digits { gap: 10px; margin-bottom: 25px; }
+  .sqlwhale-not-found__description { margin-bottom: 28px; font-size: 15px; }
+  .sqlwhale-not-found__actions { max-width: 340px; flex-direction: column; }
+  .sqlwhale-not-found__button { width: 100%; }
+  .sqlwhale-not-found__editor { margin-top: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-not-found__button { transition: none; }
+}
