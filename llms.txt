@@ -1,0 +1,90 @@
+
+# SQLWhale
+
+> SQLWhale is an interactive SQL learning platform designed to help students and beginners understand SQL by writing queries, visualizing database structures and relationships, and seeing query results.
+
+## About SQLWhale
+
+SQLWhale helps learners move beyond memorizing SQL syntax. Its learning experience combines hands-on query writing with visual representations of database tables and relationships.
+
+The learning philosophy is: Learn SQL. See the process. Understand the result.
+
+## Who Is SQLWhale For?
+
+- Students learning SQL for college or computer science courses.
+- Beginners starting their SQL journey.
+- Aspiring data analysts and data engineers.
+- Learners who struggle to understand SQL through text-based tutorials.
+- Developers who want to strengthen their SQL fundamentals.
+
+## Main Features
+
+- Interactive SQL Editor: Write and execute SQL queries directly in the browser.
+- Database Canvas: Explore database tables and their structures visually.
+- Query Output: Execute queries and inspect their results.
+- Visual Relationships: Understand connections between database tables.
+- Structured Learning: Progress through lessons covering SQL fundamentals and advanced concepts.
+- Interactive Practice: Learn by writing and running SQL queries.
+
+## Learning Topics
+
+- SQL Fundamentals
+- SELECT statements
+- Filtering with WHERE
+- Sorting with ORDER BY
+- LIMIT
+- Aggregate Functions
+- GROUP BY and HAVING
+- SQL JOINs
+- Subqueries
+- Common Table Expressions (CTEs)
+- Data Modification
+- Database Design and Performance
+- Advanced SQL Concepts
+
+## How SQLWhale Works
+
+1. Choose a database table.
+2. Write an SQL query.
+3. Execute the query.
+4. Explore the database relationships.
+5. Inspect the query results.
+6. Understand how SQL works through practice.
+
+## Official Website and Resources
+
+- [SQLWhale Homepage](https://sqlwhalefrontend.vercel.app/): Official product homepage.
+- [SQL Learning](https://sqlwhalefrontend.vercel.app/learn): Structured SQL learning modules.
+- [SQL Query Editor](https://sqlwhalefrontend.vercel.app/run-query): Interactive SQL environment.
+
+## Product Identity
+
+- Product name: SQLWhale
+- Category: Interactive SQL Learning Platform
+- Industry: Education Technology
+- Product type: Web Application
+- Primary audience: SQL students and beginners
+- Official parent company: WebXWhale
+- Parent company website: https://webxwhale.com
+
+## Frequently Asked Questions
+
+### What is SQLWhale?
+
+SQLWhale is an interactive platform for learning SQL through query execution, database visualization and hands-on practice.
+
+### Is SQLWhale suitable for beginners?
+
+Yes. Its structured learning modules introduce SQL concepts progressively.
+
+### How is SQLWhale different from traditional SQL tutorials?
+
+SQLWhale combines query writing, database visualization and query results in one learning experience instead of relying entirely on text-based explanations.
+
+### Can I practice SQL online?
+
+Yes. SQLWhale provides an in-browser SQL editor where learners can write and execute queries.
+
+### Who develops SQLWhale?
+
+SQLWhale is a product developed by WebXWhale.
