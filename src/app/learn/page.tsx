@@ -1,19 +1,53 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight, BookOpen, GraduationCap, Trophy, CheckCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MODULE_TITLES, moduleSummaries } from "@/content/learn/modules";
+import { authApi } from "@/services/api";
 
 const outcomes = ["Understand relational databases, tables, rows and keys","Write SQL queries using SELECT, WHERE and ORDER BY","Summarise data with aggregate functions and GROUP BY","Combine tables with JOINs and build subqueries","Modify data safely and understand database integrity","Learn database design, indexes and advanced SQL"];
 
 export default function LearnOverviewPage() {
   const router = useRouter();
+  const [accountKey, setAccountKey] = useState<string | null>(null);
+
   useEffect(() => {
-    try { if (window.localStorage.getItem("sqlwhale:course-started") === "true") router.replace("/learn/course"); } catch {}
+    let active = true;
+    authApi.get("/auth/me")
+      .then((response) => {
+        if (!active) return;
+        const user = response.data?.authenticated ? response.data.user : null;
+        // Course-start state must be isolated per signed-in account, never shared by the browser.
+        const identity = user?.id ?? user?._id ?? user?.userId ?? user?.email ?? null;
+        if (!identity) {
+          setAccountKey(null);
+          return;
+        }
+        const key = String(identity).trim().toLowerCase();
+        setAccountKey(key);
+        try {
+          if (window.localStorage.getItem(`sqlwhale:course-started:${key}`) === "true") {
+            router.replace("/learn/course");
+          }
+        } catch {
+          // If storage is unavailable, keep the overview visible.
+        }
+      })
+      .catch(() => {
+        if (active) setAccountKey(null);
+      });
+    return () => { active = false; };
   }, [router]);
+
   function startCourse() {
-    try { window.localStorage.setItem("sqlwhale:course-started", "true"); } catch {}
+    if (accountKey) {
+      try {
+        window.localStorage.setItem(`sqlwhale:course-started:${accountKey}`, "true");
+      } catch {
+        // Continue to the course even if storage is unavailable.
+      }
+    }
     router.push("/learn/course");
   }
   return (
