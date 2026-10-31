@@ -16,6 +16,7 @@ const homeNavLeft = [
   { label: "How It Works", href: "/#how-it-works", icon: BookOpen },
 ];
 const homeNavRight = [
+  { label: "Learn", href: "/learn", icon: BookOpen },
   { label: "Run Query", href: "/run-query", icon: Play },
   { label: "Pricing", href: "/subscribe", icon: CreditCard },
 ];
