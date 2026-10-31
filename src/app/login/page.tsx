@@ -13,14 +13,34 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [retryAfter, setRetryAfter] = useState(0);
+  const [cooldownUntil, setCooldownUntil] = useState(0);
+
+  // Restore the server-issued cooldown after refresh. The backend remains the
+  // authority; this only keeps the login UI consistent across page reloads.
+  useEffect(() => {
+    const storedUntil = Number(window.localStorage.getItem("sqlwhale-login-cooldown-until") || 0);
+    if (storedUntil > Date.now()) {
+      setCooldownUntil(storedUntil);
+      setRetryAfter(Math.ceil((storedUntil - Date.now()) / 1000));
+    } else {
+      window.localStorage.removeItem("sqlwhale-login-cooldown-until");
+    }
+  }, []);
 
   useEffect(() => {
-    if (retryAfter <= 0) return;
-    const timer = window.setInterval(() => {
-      setRetryAfter((seconds) => Math.max(0, seconds - 1));
-    }, 1000);
+    if (cooldownUntil <= 0) return;
+    const updateRemaining = () => {
+      const remaining = Math.max(0, Math.ceil((cooldownUntil - Date.now()) / 1000));
+      setRetryAfter(remaining);
+      if (remaining === 0) {
+        window.localStorage.removeItem("sqlwhale-login-cooldown-until");
+        setCooldownUntil(0);
+      }
+    };
+    updateRemaining();
+    const timer = window.setInterval(updateRemaining, 1000);
     return () => window.clearInterval(timer);
-  }, [retryAfter > 0]);
+  }, [cooldownUntil]);
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,11 +49,17 @@ export default function LoginPage() {
     try {
       await authApi.post("/auth/login", { email, password, rememberMe });
       setRetryAfter(0);
+      setCooldownUntil(0);
+      window.localStorage.removeItem("sqlwhale-login-cooldown-until");
       window.location.assign("/");
     } catch (err: any) {
       const response = err?.response?.data;
       if (response?.code === "LOGIN_RATE_LIMITED") {
-        setRetryAfter(Math.max(1, Number(response.retryAfter) || 900));
+        const seconds = Math.max(1, Number(response.retryAfter) || 900);
+        const until = Date.now() + seconds * 1000;
+        window.localStorage.setItem("sqlwhale-login-cooldown-until", String(until));
+        setCooldownUntil(until);
+        setRetryAfter(seconds);
       }
       setError(response?.error || "Unable to login to SQLWhale.");
     } finally {
