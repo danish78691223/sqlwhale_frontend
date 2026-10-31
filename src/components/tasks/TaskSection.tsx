@@ -24,9 +24,10 @@ interface TaskSectionProps {
   onStartTask: (task: Task) => void;
   activeTaskId?: string | null;
   taskCheck?: TaskCheck | null;
+  darkMode: boolean;
 }
 
-export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: TaskSectionProps) {
+export default function TaskSection({ onStartTask, activeTaskId, taskCheck, darkMode }: TaskSectionProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -229,7 +230,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck }: Ta
             }}
             renderItem={undefined}
             animation="pop"
-            theme="dark"
+            theme={darkMode ? "dark" : "light"}
             accentColor={undefined}
             width={1200}
             maxHeight={520}
