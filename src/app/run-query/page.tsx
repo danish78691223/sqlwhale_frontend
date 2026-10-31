@@ -1172,8 +1172,8 @@ export default function RunQueryPage() {
         <button type="button" className={activeMobileView === "results" ? "is-active" : ""} aria-current={activeMobileView === "results" ? "page" : undefined} onClick={() => setActiveMobileView("results")}>
           <CirclePlay size={19} aria-hidden="true" /><span>Results</span>
         </button>
-        <button type="button" className={activeMobileView === "learn" ? "is-active" : ""} aria-current={activeMobileView === "learn" ? "page" : undefined} onClick={() => { window.location.href = "/learn"; }}>
-          <ListTodo size={19} aria-hidden="true" /><span>Learn</span>
+        <button type="button" className={taskOpen ? "is-active" : ""} aria-pressed={taskOpen} onClick={() => { setTaskOpen(true); setBuilderOpen(false); setActiveMobileView("schema"); }}>
+          <ListTodo size={19} aria-hidden="true" /><span>Task</span>
         </button>
       </nav>
 
