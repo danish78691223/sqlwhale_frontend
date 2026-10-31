@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
-import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond, Plus, BookOpen } from "lucide-react";
+import { WifiOff, X, Home, UserRound, MessageSquare, Sun, Moon, Database, LoaderCircle, CirclePlay, ArrowRight, Wrench, ListTodo, Diamond, BookOpen } from "lucide-react";
 
 import SQLEditor, { type SQLEditorHandle } from "@/components/sql-editor/SQLEditor";
 import SQLQueryBuilder from "@/components/query-builder/SQLQueryBuilder";
@@ -291,7 +291,6 @@ export default function RunQueryPage() {
   const [activeMobileView, setActiveMobileView] = useState<"schema" | "editor" | "results" | "learn">("schema");
   const [feedbackUser, setFeedbackUser] = useState<any>(null);
   const [subscriptionStatus, setSubscriptionStatus] = useState<any>(null);
-  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false);
 
   const [darkMode, setDarkMode] =
     useState(false);
@@ -346,22 +345,6 @@ export default function RunQueryPage() {
     subscriptionStatus?.subscribed ||
     (subscriptionStatus?.currentPlan && subscriptionStatus.currentPlan !== "Starter" && subscriptionStatus.currentPlan !== "Free")
   );
-
-  const handleSubscriptionBadgeClick = () => {
-    if (!isSubscribed) {
-      window.location.href = "/subscribe";
-      return;
-    }
-    setSubscriptionDialogOpen(true);
-  };
-
-  const subscriptionExpiry = subscriptionStatus?.currentPeriodEnd
-    ? new Date(subscriptionStatus.currentPeriodEnd).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
-    : null;
 
   useEffect(() => {
     const savedTheme =
@@ -778,33 +761,6 @@ export default function RunQueryPage() {
           </div>
         </div>
       </header>
-
-      {subscriptionDialogOpen && (
-        <div className="sqlwhale-subscription-overlay" role="presentation" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) setSubscriptionDialogOpen(false);
-        }}>
-          <section className="sqlwhale-subscription-dialog" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-subscription-title">
-            <button type="button" className="sqlwhale-subscription-close" onClick={() => setSubscriptionDialogOpen(false)} aria-label="Close subscription details">
-              <X size={17} />
-            </button>
-            <span className="sqlwhale-subscription-icon"><Diamond size={18} fill="white" color="white" /></span>
-            <p className="sqlwhale-subscription-eyebrow">YOUR SUBSCRIPTION</p>
-            <h2 id="sqlwhale-subscription-title">{subscriptionStatus?.currentPlan || "SQLWhale Premium"}</h2>
-            <p className="sqlwhale-subscription-status">
-              <span className="sqlwhale-subscription-status-dot" />
-              {subscriptionStatus?.subscriptionStatus || "Active"}
-            </p>
-            <div className="sqlwhale-subscription-detail">
-              <span>Access valid until</span>
-              <strong>{subscriptionExpiry || "Expiry date not available"}</strong>
-            </div>
-            {subscriptionStatus?.cancelAtCycleEnd && <p className="sqlwhale-subscription-note">Your subscription is set to end on the date shown above.</p>}
-            {subscriptionStatus?.activationPending && <p className="sqlwhale-subscription-note">Your subscription activation is still being confirmed.</p>}
-            <button type="button" className="sqlwhale-subscription-done" onClick={() => setSubscriptionDialogOpen(false)}>Done</button>
-            <Link href="/account" className="sqlwhale-subscription-account" onClick={() => setSubscriptionDialogOpen(false)}>Manage account <ArrowRight size={13} /></Link>
-          </section>
-        </div>
-      )}
 
       {!isOnline && !offlineAlertDismissed && (
         <div className="sqlwhale-offline-alert-wrap" aria-live="assertive" aria-atomic="true">
