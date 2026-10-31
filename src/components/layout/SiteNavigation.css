@@ -355,3 +355,12 @@ body:has(.learn-v2) .sqlwhale-notch-account {
     color: #087d59;
   }
 }
+
+
+/* Remove the dark band behind the fixed navbar on the learning workspace. */
+body:has(.learn-v2) {
+  background: #f5f8fb;
+}
+body:has(.learn-v2) .sqlwhale-notch-spacer {
+  background: #f5f8fb;
+}
