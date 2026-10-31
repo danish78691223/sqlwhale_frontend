@@ -681,17 +681,12 @@ export default function RunQueryPage() {
                 Feedback
               </button>
 
-              <button
-                type="button"
-                className={`sqlwhale-run-diamond-badge run-nav-subscription-badge ${isSubscribed ? "is-subscribed" : "needs-subscription"}`}
-                aria-label={isSubscribed ? "View subscription details" : "Upgrade subscription"}
-                title={isSubscribed ? "Subscription details" : "Upgrade to Premium"}
-                onClick={handleSubscriptionBadgeClick}
-              >
-                {!isSubscribed && <Plus className="subscription-badge-plus" size={9} strokeWidth={2.8} aria-hidden="true" />}
-                <i className="ri-vip-diamond-fill" aria-hidden="true" />
-                <span className="run-subscription-label">{isSubscribed ? "Premium" : "Subscribe"}</span>
-              </button>
+              {!isSubscribed && (
+                <Link href="/subscribe" className="run-nav-pro-link" aria-label="Upgrade to SQLWhale Pro" title="Explore SQLWhale Pro">
+                  <Diamond size={15} fill="currentColor" aria-hidden="true" />
+                  <span>Pro</span>
+                </Link>
+              )}
             </nav>
 
             <button
@@ -751,27 +746,14 @@ export default function RunQueryPage() {
               <span className="run-mobile-arrow">→</span>
             </Link>
 
-            {isSubscribed ? (
-              <button
-                type="button"
-                className="run-mobile-nav-link"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setSubscriptionDialogOpen(true);
-                }}
-              >
-                <Diamond size={18} strokeWidth={1.8} aria-hidden="true" />
-                <span>Premium</span>
-                <span className="run-mobile-arrow">→</span>
-              </button>
-            ) : (
+            {!isSubscribed && (
               <Link
                 href="/subscribe"
                 className="run-mobile-nav-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Diamond size={18} strokeWidth={1.8} aria-hidden="true" />
-                <span>Subscribe</span>
+                <span>SQLWhale Pro</span>
                 <span className="run-mobile-arrow">→</span>
               </Link>
             )}
@@ -1117,6 +1099,7 @@ export default function RunQueryPage() {
 
         {taskOpen && (
           <TaskSection
+            darkMode={darkMode}
             activeTaskId={activeTaskId}
             taskCheck={taskCheck}
             onStartTask={(task) => {
