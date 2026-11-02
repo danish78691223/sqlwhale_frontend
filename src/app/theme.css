@@ -332,3 +332,43 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
     top:148px!important;
   }
 }
+
+
+/* Final sticky-sidebar correction: make the grid-column wrapper sticky, not its inner nav. */
+@media (min-width:701px){
+  .account-shell>.account-sidebar-column{
+    position:sticky!important;
+    top:150px!important;
+    grid-column:1!important;
+    grid-row:2 / -1!important;
+    align-self:start!important;
+    height:calc(100vh - 170px)!important;
+    min-height:360px!important;
+    max-height:calc(100vh - 170px)!important;
+    overflow:visible!important;
+    z-index:25!important;
+  }
+  .account-shell>.account-sidebar-column>.account-section-nav{
+    position:relative!important;
+    top:auto!important;
+    width:100%!important;
+    height:100%!important;
+    max-height:100%!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    box-sizing:border-box!important;
+  }
+}
+@media (max-width:700px){
+  .account-shell>.account-sidebar-column{
+    position:static!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+  }
+  .account-shell>.account-sidebar-column>.account-section-nav{
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+}
