@@ -21811,4 +21811,90 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   }
 }
 
+/* Account page: reserve a genuine sidebar column in the shell grid.
+   All account content remains in column 2; the sidebar occupies column 1. */
+@media (min-width: 1100px) {
+  .account-page {
+    overflow: visible !important;
+  }
+
+  .account-shell {
+    display: grid !important;
+    grid-template-columns: 250px minmax(0, 1fr) !important;
+    grid-auto-flow: row !important;
+    align-items: start !important;
+    column-gap: 24px !important;
+    row-gap: 18px !important;
+    width: min(1460px, 100%) !important;
+    margin-inline: auto !important;
+  }
+
+  .account-shell > .account-heading {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin-bottom: 10px !important;
+  }
+
+  .account-shell > .account-sidebar-column {
+    grid-column: 1 !important;
+    grid-row: 2 / span 20 !important;
+    position: sticky !important;
+    top: 150px !important;
+    align-self: start !important;
+    width: 250px !important;
+    height: min(620px, calc(100dvh - 170px)) !important;
+    max-height: calc(100dvh - 170px) !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    z-index: 4 !important;
+  }
+
+  .account-shell > .account-sidebar-column > .account-section-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .account-shell > :not(.account-heading):not(.account-sidebar-column) {
+    grid-column: 2 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+  }
+
+  .account-shell > .account-section-intro {
+    grid-row: 2 !important;
+  }
+}
+
+@media (max-width: 1099px) {
+  .account-shell {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .account-sidebar-column {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .account-sidebar-column > .account-section-nav {
+    position: static !important;
+    width: 100% !important;
+    max-height: 420px !important;
+    overflow-y: auto !important;
+  }
+}
+
 
