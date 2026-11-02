@@ -37,10 +37,6 @@ async function hasPremiumAccess() {
 
 export default async function manifest(): Promise<MetadataRoute.Manifest> {
   const premium = await hasPremiumAccess();
-  const icon = premium
-    ? "/Whale-Pro.png?v=7"
-    : "/sqlwhale-logo-main.png?v=7";
-
   return {
     name: "SQLWhale — Learn SQL Visually",
     short_name: "SQLWhale",
