@@ -34,11 +34,11 @@ async function proxy(
   target.search = request.nextUrl.search;
 
   const headers = new Headers();
-  const cookie = request.headers.get("cookie");
+  const cookieHeader = request.cookies.getAll().map(({ name, value }) => name + "=" + value).join("; ");
   const contentType = request.headers.get("content-type");
   const authorization = request.headers.get("authorization");
 
-  if (cookie) headers.set("cookie", cookie);
+  if (cookieHeader) headers.set("cookie", cookieHeader);
   if (contentType) headers.set("content-type", contentType);
   if (authorization) headers.set("authorization", authorization);
 
