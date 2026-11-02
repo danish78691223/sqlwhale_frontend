@@ -250,3 +250,27 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
  .account-nav-user{grid-column:1/-1!important;margin-top:4px}
  .account-nav-user strong,.account-nav-user small{max-width:calc(100vw - 110px)}
 }
+
+
+/* Keep the profile navigation anchored while the content column scrolls. */
+@media (min-width:701px){
+  .account-shell{align-items:start!important}
+  .account-section-nav{
+    position:sticky!important;
+    top:148px!important;
+    align-self:start!important;
+    max-height:calc(100vh - 170px)!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    z-index:20!important;
+  }
+}
+@media (max-width:700px){
+  .account-section-nav{
+    position:relative!important;
+    top:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+}
