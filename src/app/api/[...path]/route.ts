@@ -29,7 +29,10 @@ async function proxy(
   target.search = request.nextUrl.search;
 
   const headers = new Headers();
-  for (const name of ["cookie", "content-type", "authorization"]) {
+  // Forward the parsed first-party session cookie explicitly for authenticated API routes.
+  const cookieHeader = request.cookies.getAll().map(({ name, value }) => name + "=" + value).join("; ");
+  if (cookieHeader) headers.set("cookie", cookieHeader);
+  for (const name of ["content-type", "authorization"]) {
     const value = request.headers.get(name);
     if (value) headers.set(name, value);
   }
