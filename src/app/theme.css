@@ -318,3 +318,17 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
   .account-sidebar-column{width:100%!important;min-width:0!important}
   .account-sidebar-column>.account-section-nav{position:relative!important;top:auto!important;max-height:none!important;overflow:visible!important}
 }
+
+
+/* The sticky wrapper must span the full profile content grid, not only the first row. */
+@media (min-width:701px){
+  .account-sidebar-column{
+    grid-row:2 / span 20!important;
+    align-self:stretch!important;
+    min-height:100%!important;
+  }
+  .account-sidebar-column>.account-section-nav{
+    position:sticky!important;
+    top:148px!important;
+  }
+}
