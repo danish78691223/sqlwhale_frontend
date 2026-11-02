@@ -198,6 +198,7 @@ export default function AccountPage() {
           <p>Your separate SQLWhale account is ready.</p>
         </div>
 
+        <aside className="account-sidebar-column">
         <nav className="account-section-nav" aria-label="Profile sections">
           <div className="account-nav-brand">
             <span className="account-nav-brand-mark">S</span>
@@ -224,6 +225,7 @@ export default function AccountPage() {
             <span><strong>{user.name}</strong><small>{user.email}</small></span>
           </div>
         </nav>
+        </aside>
 
         <div className="account-section-intro" id="account-overview">
           <div><span className="account-card-label">ACCOUNT OVERVIEW</span><h2>Your profile at a glance</h2></div>
