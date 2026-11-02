@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { authApi } from "@/services/api";
 import { ArrowUpRight, BookOpen, CreditCard, Home, Menu, Play, UserRound, X, ExternalLink } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import ThemeToggle from "./ThemeToggle";
 
 type SessionUser = { name?: string; email?: string; role?: string };
 
@@ -21,7 +22,7 @@ const homeNavRight = [
   { label: "Pricing", href: "/subscribe", icon: CreditCard },
 ];
 
-function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; accountLabel: string }) {
+function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { accountHref: string; accountLabel: string; theme: "dark" | "light"; onToggleTheme: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => { setMobileOpen(false); }, [accountHref, accountLabel]);
@@ -46,6 +47,7 @@ function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; a
           </Link>
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-right" aria-label="Product navigation">
             {homeNavRight.map(navLink)}
+            <ThemeToggle theme={theme} onToggle={onToggleTheme} />
             <Link href={accountHref} className="sqlwhale-notch-account">
               {accountLabel}<ArrowUpRight size={14} aria-hidden="true" />
             </Link>
@@ -84,6 +86,7 @@ function HomeNotchNavbar({ accountHref, accountLabel }: { accountHref: string; a
               <span>{accountLabel}</span>
               <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
             </Link>
+            <div className="sqlwhale-notch-mobile-theme"><span>Appearance</span><ThemeToggle theme={theme} onToggle={onToggleTheme} /></div>
           </motion.nav>
         )}
       </AnimatePresence>
@@ -95,6 +98,25 @@ export default function SiteChrome() {
   const pathname = usePathname();
   const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<SessionUser | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("sqlwhale-theme");
+    const initial = saved === "light" ? "light" : "dark";
+    setTheme(initial);
+    document.documentElement.dataset.theme = initial;
+    document.documentElement.classList.toggle("dark", initial === "dark");
+  }, []);
+
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      document.documentElement.classList.toggle("dark", next === "dark");
+      window.localStorage.setItem("sqlwhale-theme", next);
+      return next;
+    });
+  };
 
   useEffect(() => {
     let live = true;
@@ -114,7 +136,7 @@ export default function SiteChrome() {
   const accountHref = authLoading ? "/login" : user ? "/account" : "/login";
 
   // Use the homepage navbar everywhere except /run-query, which returns null above.
-  return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} />;
+  return <HomeNotchNavbar accountHref={accountHref} accountLabel={authLoading ? "Login" : user ? "Profile" : "Login"} theme={theme} onToggleTheme={toggleTheme} />;
 }
 
 export function SiteFooter() {
