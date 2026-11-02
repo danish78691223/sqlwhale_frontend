@@ -246,7 +246,7 @@ export default function AccountPage() {
           <div className="account-nav-group">
             <span className="account-nav-group-label">PREFERENCES</span>
             <a href="#account-notifications" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Bell size={16} /></span><span>Notifications</span></a>
-            <a href="#account-actions" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Settings size={16} /></span><span>Account settings</span></a>
+            <a href="#account-actions" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Settings size={16} /></span><span>Account actions</span></a>
           </div>
           <div className="account-nav-user">
             <span className="account-nav-user-avatar">{(user.name || "U").trim().charAt(0).toUpperCase()}</span>
