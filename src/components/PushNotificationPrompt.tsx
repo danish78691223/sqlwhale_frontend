@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import api from "@/services/api";
+import api, { authApi } from "@/services/api";
 import BellToggle from "./BellToggle";
 
 const DISMISSED = "sqlwhale-push-prompt-dismissed-v1";
@@ -18,16 +18,21 @@ export default function PushNotificationPrompt() {
   const [error, setError] = useState("");
   useEffect(() => {
     if (pathname?.startsWith("/admin") || pathname === "/push-key-setup") return;
-    if (typeof window === "undefined" || localStorage.getItem(DISMISSED) || !("Notification" in window) || !("serviceWorker" in navigator) || !("PushManager" in window) || Notification.permission === "denied") return;
+    if (typeof window === "undefined" || !("Notification" in window) || !("serviceWorker" in navigator) || !("PushManager" in window) || Notification.permission === "denied") return;
     let cancelled = false;
     async function check() {
       try {
+        const [auth, config] = await Promise.all([authApi.get("/auth/me"), api.get("/push/config")]);
+        if (!auth.data?.authenticated || !config.data?.enabled) return;
         const registration = await navigator.serviceWorker.register("/sw.js");
         const existing = await registration.pushManager.getSubscription();
-        if (existing) { if (!cancelled) setEnabled(true); return; }
-        const [auth, config] = await Promise.all([api.get("/auth/me"), api.get("/push/config")]);
-        if (!cancelled && auth.data?.user && config.data?.enabled) setVisible(true);
-      } catch { /* Do not interrupt browsing if offline or logged out. */ }
+        if (existing) {
+          await api.post("/push/subscribe", { subscription: existing.toJSON(), dailyEnabled: true, announcementsEnabled: true });
+          if (!cancelled) setEnabled(true);
+          return;
+        }
+        if (!localStorage.getItem(DISMISSED) && !cancelled) setVisible(true);
+      } catch { /* Account settings can retry device registration without interrupting browsing. */ }
     }
     void check();
     return () => { cancelled = true; };
@@ -36,11 +41,13 @@ export default function PushNotificationPrompt() {
   async function accept() {
     setBusy(true); setError("");
     try {
+      const auth = await authApi.get("/auth/me");
+      if (!auth.data?.authenticated) throw new Error("Please sign in to SQLWhale before enabling notifications.");
       const config = await api.get("/push/config");
       if (!config.data?.enabled || !config.data?.publicKey) throw new Error("Notifications are temporarily unavailable.");
       const permission = await Notification.requestPermission();
       if (permission !== "granted") { decline(); return; }
-      const registration = await navigator.serviceWorker.ready;
+      const registration = await navigator.serviceWorker.register("/sw.js");
       let subscription = await registration.pushManager.getSubscription();
       if (!subscription) subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: decodeKey(config.data.publicKey) });
       await api.post("/push/subscribe", { subscription: subscription.toJSON(), dailyEnabled: true, announcementsEnabled: true });
