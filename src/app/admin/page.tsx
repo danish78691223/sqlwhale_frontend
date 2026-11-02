@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight, Bell } from "lucide-react";
 
 type User = {
   id: string;
@@ -445,6 +445,11 @@ export default function AdminPage() {
           {activeSection === "overview" && (
             <>
               <div className="sqlwhale-admin-overview-grid">
+                <Link href="/admin/notifications" className="sqlwhale-admin-overview-card">
+                  <span className="sqlwhale-admin-overview-icon"><Bell size={18} /></span>
+                  <div><span>PUSH NOTIFICATIONS</span><strong>Send</strong><small>Test your device and broadcast announcements</small></div>
+                  <ChevronRight size={17} />
+                </Link>
                 <button type="button" className="sqlwhale-admin-overview-card" onClick={() => selectSection("tasks")}>
                   <span className="sqlwhale-admin-overview-icon"><ClipboardList size={18} /></span>
                   <div><span>MANAGE TASKS</span><strong>{tasks.length}</strong><small>Create, edit and publish SQL challenges</small></div>
