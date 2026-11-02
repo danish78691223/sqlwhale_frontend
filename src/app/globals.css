@@ -21759,3 +21759,56 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   }
 }
 
+/* Definitive desktop account layout: reserve a real left rail instead of overlaying content. */
+@media (min-width: 1100px) {
+  .account-page {
+    overflow: clip;
+  }
+
+  .account-shell {
+    display: grid !important;
+    grid-template-columns: 250px minmax(0, 1fr) !important;
+    column-gap: 24px !important;
+    align-items: start !important;
+    width: min(1460px, 100%) !important;
+  }
+
+  .account-shell > .account-heading {
+    grid-column: 1 / -1 !important;
+  }
+
+  .account-shell > .account-sidebar-column {
+    grid-column: 1 !important;
+    grid-row: 2 / span 20 !important;
+    position: sticky !important;
+    top: 145px !important;
+    left: auto !important;
+    z-index: 5 !important;
+    width: 250px !important;
+    height: calc(100dvh - 165px) !important;
+    max-height: 620px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    align-self: start !important;
+  }
+
+  .account-shell > .account-sidebar-column .account-section-nav {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .account-shell > .account-sidebar-column ~ * {
+    grid-column: 2 !important;
+    min-width: 0;
+  }
+}
+
+
