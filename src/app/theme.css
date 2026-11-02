@@ -424,3 +424,64 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
     overflow:visible!important;
   }
 }
+
+
+/* Keep the sidebar's grid column reserved while pinning the visible panel.
+   This prevents the fixed panel from covering the profile cards. */
+@media (min-width:701px){
+  .account-shell>.account-sidebar-column{
+    position:relative!important;
+    grid-column:1!important;
+    grid-row:2 / -1!important;
+    width:232px!important;
+    min-width:232px!important;
+    height:1px!important;
+    min-height:1px!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:visible!important;
+    z-index:auto!important;
+  }
+  .account-shell>.account-sidebar-column>.account-section-nav{
+    position:fixed!important;
+    top:150px!important;
+    left:max(18px,calc((100vw - 1290px)/2))!important;
+    width:232px!important;
+    height:min(560px,calc(100vh - 170px))!important;
+    max-height:calc(100vh - 170px)!important;
+    margin:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    box-sizing:border-box!important;
+    z-index:80!important;
+  }
+}
+@media (max-width:1100px) and (min-width:701px){
+  .account-shell>.account-sidebar-column{
+    width:190px!important;
+    min-width:190px!important;
+  }
+  .account-shell>.account-sidebar-column>.account-section-nav{
+    left:18px!important;
+    width:190px!important;
+  }
+}
+@media (max-width:700px){
+  .account-shell>.account-sidebar-column{
+    position:static!important;
+    width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:0!important;
+  }
+  .account-shell>.account-sidebar-column>.account-section-nav{
+    position:relative!important;
+    top:auto!important;
+    left:auto!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    overflow:visible!important;
+  }
+}
