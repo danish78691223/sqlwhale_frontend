@@ -199,12 +199,13 @@ export default function AccountPage() {
         </div>
 
         <nav className="account-section-nav" aria-label="Profile sections">
-          <a href="#account-overview">Overview</a>
-          <a href="#account-learning">Learning progress</a>
-          <a href="#account-tasks">Completed tasks</a>
-          <a href="#account-history">Query history</a>
-          <a href="#account-notifications">Notifications</a>
-          <a href="#account-actions">Account settings</a>
+          <a href="#account-overview"><span className="account-nav-icon">⌂</span><span>Overview</span></a>
+          <a href="#account-learning"><span className="account-nav-icon">▥</span><span>Learning progress</span></a>
+          <a href="#account-tasks"><span className="account-nav-icon">✓</span><span>Completed tasks</span></a>
+          <a href="#account-history"><span className="account-nav-icon">⌘</span><span>Query history</span></a>
+          <a href="#account-ranking"><span className="account-nav-icon">♛</span><span>Leaderboard</span></a>
+          <a href="#account-notifications"><span className="account-nav-icon">♧</span><span>Notifications</span></a>
+          <a href="#account-actions"><span className="account-nav-icon">⚙</span><span>Account settings</span></a>
         </nav>
 
         <div className="account-section-intro" id="account-overview">
