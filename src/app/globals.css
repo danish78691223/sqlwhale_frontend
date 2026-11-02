@@ -21726,16 +21726,21 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   }
 
   .account-shell > .account-sidebar-column {
-    grid-column: 1 !important;
+    /* Sidebar remains a grid item in column 1; never detach it from the shell. */
+    grid-column: 1 / 2 !important;
     grid-row: 2 / span 20 !important;
     position: sticky !important;
     top: 150px !important;
+    left: auto !important;
+    right: auto !important;
     align-self: start !important;
+    justify-self: stretch !important;
     width: 250px !important;
     height: min(620px, calc(100dvh - 170px)) !important;
     max-height: calc(100dvh - 170px) !important;
     min-height: 0 !important;
     margin: 0 !important;
+    transform: none !important;
     z-index: 4 !important;
   }
 
