@@ -198,6 +198,20 @@ export default function AccountPage() {
           <p>Your separate SQLWhale account is ready.</p>
         </div>
 
+        <nav className="account-section-nav" aria-label="Profile sections">
+          <a href="#account-overview">Overview</a>
+          <a href="#account-learning">Learning progress</a>
+          <a href="#account-tasks">Completed tasks</a>
+          <a href="#account-history">Query history</a>
+          <a href="#account-notifications">Notifications</a>
+          <a href="#account-actions">Account settings</a>
+        </nav>
+
+        <div className="account-section-intro" id="account-overview">
+          <div><span className="account-card-label">ACCOUNT OVERVIEW</span><h2>Your profile at a glance</h2></div>
+          <p>Manage your SQLWhale account and jump directly to the information you need.</p>
+        </div>
+
         <div className="account-layout">
           <section className="account-card account-profile-card">
             <div className="account-card-header">
@@ -248,9 +262,9 @@ export default function AccountPage() {
           </section>
         </div>
 
-        <ProfileRankCard />
+        <section className="account-rank-anchor" id="account-ranking" aria-label="Leaderboard ranking"><ProfileRankCard /></section>
 
-        <section className="account-dashboard-section">
+        <section className="account-dashboard-section" id="account-learning">
           <div className="account-history-header">
             <div>
               <span className="account-card-label">LEARNING DASHBOARD</span>
@@ -308,7 +322,7 @@ export default function AccountPage() {
           ) : null}
         </section>
 
-        <section className="account-dashboard-section account-completed-tasks-section">
+        <section className="account-dashboard-section account-completed-tasks-section" id="account-tasks">
           <div className="account-history-header">
             <div>
               <span className="account-card-label">TASK PROGRESS</span>
@@ -338,7 +352,7 @@ export default function AccountPage() {
           )}
         </section>
 
-        <section className="account-history-card">
+        <section className="account-history-card" id="account-history">
           <div className="account-history-header">
             <div>
               <span className="account-card-label">QUERY HISTORY</span>
@@ -378,9 +392,15 @@ export default function AccountPage() {
           )}
         </section>
 
-        <PushNotificationSettings />
+        <section className="account-notifications-section" id="account-notifications">
+          <div className="account-history-header">
+            <div><span className="account-card-label">PREFERENCES</span><h2>Notifications</h2></div>
+            <span className="account-history-count">Device settings</span>
+          </div>
+          <PushNotificationSettings />
+        </section>
 
-        <div className="account-actions">
+        <div className="account-actions" id="account-actions">
           <Link href="/run-query" className="account-primary-action">
             Start Learning SQL <span>↗</span>
           </Link>
