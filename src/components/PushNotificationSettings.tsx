@@ -91,26 +91,77 @@ export default function PushNotificationSettings() {
   }
 
   async function updatePreference(nextDaily: boolean, nextAnnouncements: boolean) {
-    setDaily(nextDaily); setAnnouncements(nextAnnouncements);
+    const previous = { daily, announcements };
+    setDaily(nextDaily);
+    setAnnouncements(nextAnnouncements);
     if (!enabled) return;
+    setBusy(true);
+    setMessage("");
     try {
       const registration = await navigator.serviceWorker.ready;
       const subscription = await registration.pushManager.getSubscription();
-      if (subscription) await api.post("/push/subscribe", { subscription: subscription.toJSON(), dailyEnabled: nextDaily, announcementsEnabled: nextAnnouncements });
+      if (subscription) {
+        await api.post("/push/subscribe", {
+          subscription: subscription.toJSON(),
+          dailyEnabled: nextDaily,
+          announcementsEnabled: nextAnnouncements,
+        });
+        setMessage("Notification preferences saved.");
+      }
     } catch (error: any) {
-      setMessage(error?.response?.data?.error || "Could not save notification preferences.");
+      setDaily(previous.daily);
+      setAnnouncements(previous.announcements);
+      setMessage(error?.response?.data?.error || "Could not save notification preferences. Your previous settings were restored.");
+    } finally {
+      setBusy(false);
     }
   }
 
-  return <section style={{ border: "1px solid #555", borderRadius: 12, padding: 16, margin: "16px 0" }}>
-    <h3 style={{ fontWeight: 700, marginBottom: 8 }}>Push notifications</h3>
-    <p style={{ opacity: .75, fontSize: 13, marginBottom: 12 }}>Get SQL practice reminders and announcements, even when SQLWhale is closed. Permission is optional.</p>
-    {!supported ? <p>Push notifications are not supported in this browser. Install SQLWhale as a PWA or use a supported browser.</p> : <>
-      <label style={{ display: "block", marginBottom: 8 }}><input type="checkbox" checked={daily} onChange={e => void updatePreference(e.target.checked, announcements)} /> Daily SQL reminders</label>
-      <label style={{ display: "block", marginBottom: 12 }}><input type="checkbox" checked={announcements} onChange={e => void updatePreference(daily, e.target.checked)} /> Product announcements</label>
-      <button type="button" disabled={busy} onClick={() => void (enabled ? disable() : enable())} style={{ background: "#1862fd", color: "white", borderRadius: 8, padding: "9px 14px", cursor: busy ? "wait" : "pointer", opacity: busy ? .7 : 1 }}>{busy ? "Please wait…" : enabled ? "Disable notifications" : "Enable notifications"}</button>
-      {enabled && deviceCount !== null ? <p style={{ marginTop: 8, fontSize: 12, opacity: .75 }}>Registered devices on your account: {deviceCount}</p> : null}
-      {message && <p role="status" style={{ marginTop: 10, fontSize: 13 }}>{message}</p>}
-    </>}
-  </section>;
+  return (
+    <section className="account-notification-settings" aria-labelledby="push-settings-title">
+      <div className="account-notification-heading">
+        <div>
+          <h3 id="push-settings-title">Push notifications</h3>
+          <p>Get SQL practice reminders and product announcements on this device. Permission is optional.</p>
+        </div>
+        <span className={"account-notification-state " + (enabled ? "is-enabled" : "")}>
+          <i /> {enabled ? "Enabled" : "Not enabled"}
+        </span>
+      </div>
+
+      {!supported ? (
+        <p className="account-notification-status" role="status">
+          Push notifications are not supported in this browser. Install SQLWhale as a PWA or use a supported browser.
+        </p>
+      ) : (
+        <>
+          <div className="account-notification-options">
+            <label className="account-notification-option">
+              <input type="checkbox" checked={daily} disabled={busy} onChange={(event) => void updatePreference(event.target.checked, announcements)} />
+              <span>Daily SQL reminders</span>
+            </label>
+            <label className="account-notification-option">
+              <input type="checkbox" checked={announcements} disabled={busy} onChange={(event) => void updatePreference(daily, event.target.checked)} />
+              <span>Product announcements</span>
+            </label>
+          </div>
+          <div className="account-notification-actions">
+            <button
+              type="button"
+              className="account-notification-button"
+              disabled={busy}
+              onClick={() => void (enabled ? disable() : enable())}
+              aria-busy={busy}
+            >
+              {busy ? "Please wait…" : enabled ? "Disable on this device" : "Enable notifications"}
+            </button>
+            {enabled && deviceCount !== null ? (
+              <span className="account-notification-device-count">{deviceCount} registered device{deviceCount === 1 ? "" : "s"}</span>
+            ) : null}
+          </div>
+          {message ? <p role="status" className="account-notification-status">{message}</p> : null}
+        </>
+      )}
+    </section>
+  );
 }
