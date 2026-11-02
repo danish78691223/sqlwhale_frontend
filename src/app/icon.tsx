@@ -47,8 +47,9 @@ export default async function Icon() {
 
   return new ImageResponse(
     (
-      <div style={{ display: "flex", position: "relative", width: "100%", height: "100%", backgroundColor: "#102638", alignItems: "center", justifyContent: "center" }}>
-        <img src={logoDataUrl} width={390} height={390} style={{ objectFit: "contain" }} alt="SQLWhale" />
+      <div style={{ display: "flex", position: "relative", width: "100%", height: "100%", overflow: "hidden", background: "linear-gradient(145deg, #071923 0%, #103b49 52%, #10152e 100%)", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ display: "flex", position: "absolute", width: 440, height: 440, borderRadius: 220, background: "radial-gradient(circle, rgba(45,212,191,.20) 0%, rgba(45,212,191,0) 70%)" }} />
+        <img src={logoDataUrl} width={340} height={340} style={{ objectFit: "contain", position: "relative" }} alt="SQLWhale" />
       </div>
     ),
     { ...size, headers: { "Cache-Control": "private, no-store, max-age=0" } },
