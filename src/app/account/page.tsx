@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Activity, Bell, BookOpen, CheckCircle2, Code2, LayoutDashboard, LogOut, Menu, RefreshCw, Settings, Trophy, X, Zap } from "lucide-react";
+import "./account.css";
 import { authApi, api } from "@/services/api";
 import { ProfileRankCard } from "@/components/Leaderboard";
 import PushNotificationSettings from "@/components/PushNotificationSettings";
@@ -54,6 +56,21 @@ export default function AccountPage() {
   const [dashboardLoading, setDashboardLoading] = useState(true);
   const [completedTasks, setCompletedTasks] = useState<Array<{id:string;title:string;difficulty:string;completedAt:string}>>([]);
   const [completedTasksLoading, setCompletedTasksLoading] = useState(true);
+  const [activityNotice, setActivityNotice] = useState("");
+
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSidebarOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [sidebarOpen]);
 
   useEffect(() => {
     let mounted = true;
@@ -66,6 +83,7 @@ export default function AccountPage() {
           if (mounted) {
             setHistoryLoading(false);
             setDashboardLoading(false);
+            setCompletedTasksLoading(false);
             router.replace("/login");
           }
           return;
@@ -88,18 +106,23 @@ export default function AccountPage() {
           });
 
         try {
-          const [historyResponse, dashboardResponse, completedTasksResponse] = await Promise.all([
+          // Account panels are independent; one failed endpoint must not blank the others.
+          const [historyResult, dashboardResult, tasksResult] = await Promise.allSettled([
             authApi.get("/auth/query-history?limit=50"),
             authApi.get("/auth/learning-dashboard"),
             authApi.get("/auth/task-completions"),
           ]);
           if (mounted) {
-            setHistory(historyResponse.data?.history || []);
-            setDashboard(dashboardResponse.data?.stats || null);
-            setCompletedTasks(completedTasksResponse.data?.completions || []);
+            if (historyResult.status === "fulfilled") setHistory(historyResult.value.data?.history || []);
+            else console.error("Unable to load query history:", historyResult.reason);
+            if (dashboardResult.status === "fulfilled") setDashboard(dashboardResult.value.data?.stats || null);
+            else console.error("Unable to load learning dashboard:", dashboardResult.reason);
+            if (tasksResult.status === "fulfilled") setCompletedTasks(tasksResult.value.data?.completions || []);
+            else console.error("Unable to load completed tasks:", tasksResult.reason);
+            if ([historyResult, dashboardResult, tasksResult].some((result) => result.status === "rejected")) {
+              setActivityNotice("Some account activity could not be refreshed. Other sections are still available.");
+            }
           }
-        } catch (historyError) {
-          console.error("Unable to load account activity:", historyError);
         } finally {
           if (mounted) {
             setHistoryLoading(false);
@@ -111,6 +134,7 @@ export default function AccountPage() {
         if (mounted) {
           setHistoryLoading(false);
           setDashboardLoading(false);
+          setCompletedTasksLoading(false);
           router.replace("/login");
         }
       } finally {
@@ -175,7 +199,8 @@ export default function AccountPage() {
   if (!user) return null;
 
   function formatDate(value: string) {
-    const date = new Date(value + (value.endsWith("Z") ? "" : "Z"));
+    const date = new Date(value.endsWith("Z") ? value : value + "Z");
+    if (Number.isNaN(date.getTime())) return "—";
     return date.toLocaleString([], {
       day: "2-digit",
       month: "short",
@@ -194,27 +219,27 @@ export default function AccountPage() {
 
       <section className="account-shell">
         <aside className={"account-sidebar-column " + (sidebarOpen ? "is-open" : "")}>
-        <button type="button" className="account-sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close profile menu">×</button>
-        <nav className="account-section-nav" aria-label="Profile sections">
+        <button type="button" className="account-sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close profile menu"><X size={17} /></button>
+        <nav className="account-section-nav" aria-label="Account sections">
           <div className="account-nav-brand">
-            <span className="account-nav-brand-mark">S</span>
+            <span className="account-nav-brand-mark"><Code2 size={19} /></span>
             <span><strong>SQLWhale</strong><small>PERSONAL WORKSPACE</small></span>
           </div>
           <div className="account-nav-group">
-            <span className="account-nav-group-label">GENERAL</span>
-            <a href="#account-overview"><span className="account-nav-icon">⌂</span><span>Overview</span></a>
-            <a href="#account-learning"><span className="account-nav-icon">▥</span><span>Learning progress</span></a>
-            <a href="#account-tasks"><span className="account-nav-icon">✓</span><span>Completed tasks</span></a>
+            <span className="account-nav-group-label">WORKSPACE</span>
+            <a href="#account-overview" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><LayoutDashboard size={16} /></span><span>Overview</span></a>
+            <a href="#account-learning" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><BookOpen size={16} /></span><span>Learning progress</span></a>
+            <a href="#account-tasks" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><CheckCircle2 size={16} /></span><span>Completed tasks</span></a>
           </div>
           <div className="account-nav-group">
             <span className="account-nav-group-label">ACTIVITY</span>
-            <a href="#account-history"><span className="account-nav-icon">⌘</span><span>Query history</span></a>
-            <a href="#account-ranking"><span className="account-nav-icon">♛</span><span>Leaderboard</span></a>
+            <a href="#account-history" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Activity size={16} /></span><span>Query history</span></a>
+            <a href="#account-ranking" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Trophy size={16} /></span><span>Leaderboard</span></a>
           </div>
           <div className="account-nav-group">
             <span className="account-nav-group-label">PREFERENCES</span>
-            <a href="#account-notifications"><span className="account-nav-icon">♧</span><span>Notifications</span></a>
-            <a href="#account-actions"><span className="account-nav-icon">⚙</span><span>Account settings</span></a>
+            <a href="#account-notifications" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Bell size={16} /></span><span>Notifications</span></a>
+            <a href="#account-actions" onClick={() => setSidebarOpen(false)}><span className="account-nav-icon"><Settings size={16} /></span><span>Account settings</span></a>
           </div>
           <div className="account-nav-user">
             <span className="account-nav-user-avatar">{(user.name || "U").trim().charAt(0).toUpperCase()}</span>
@@ -224,12 +249,14 @@ export default function AccountPage() {
         </aside>
         <div className="account-main-content">
         <div className="account-heading">
-          <div className="account-heading-top"><div className="account-eyebrow"><span /> YOUR SQLWHALE ACCOUNT</div><button type="button" className="account-mobile-menu-button" onClick={() => setSidebarOpen(true)} aria-label="Open profile menu">☰ <span>Menu</span></button></div>
+          <div className="account-heading-top"><div className="account-eyebrow"><span /> YOUR SQLWHALE ACCOUNT</div><button type="button" className="account-mobile-menu-button" onClick={() => setSidebarOpen(true)} aria-label="Open account menu" aria-expanded={sidebarOpen}><Menu size={15} /> <span>Menu</span></button></div>
           <h1>Welcome, <em>{user.name}</em>.</h1>
           <p>Your separate SQLWhale account is ready.</p>
         </div>
 
 
+
+        {activityNotice ? <div className="account-activity-notice" role="status">{activityNotice}</div> : null}
 
         <div className="account-section-intro" id="account-overview">
           <div><span className="account-card-label">ACCOUNT OVERVIEW</span><h2>Your profile at a glance</h2></div>
@@ -257,22 +284,16 @@ export default function AccountPage() {
               </div>
               <div>
                 <span>SQLWHALE PLAN</span>
-                <strong
-                  className={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "account-plan-premium" : "account-plan-starter"}
-                  style={(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium"
-                    ? { display: "inline-flex", alignItems: "center", color: "#047857", background: "#d1fae5", border: "1px solid #a7f3d0", borderRadius: 999, padding: "6px 11px", fontSize: 13 }
-                    : { display: "inline-flex", alignItems: "center", color: "#4b5563", background: "#f3f4f6", border: "1px solid #e5e7eb", borderRadius: 999, padding: "6px 11px", fontSize: 13 }}
-                >
-                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
+                <strong className={"account-plan-pill " + ((planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "is-premium" : "is-starter")}>                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
                 </strong>
-                {planStatus?.subscriptionStatus ? <small style={{ display: "block", marginTop: 6, opacity: .75 }}>Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
-                {planStatus?.currentPeriodEnd ? <small style={{ display: "block", marginTop: 4, opacity: .75 }}>Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
-                {planStatus?.activationPending ? <small style={{ display: "block", marginTop: 6, color: "#b45309" }}>Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
-                <button type="button" onClick={() => void refreshPlanStatus()} disabled={refreshingPlan} style={{ display: "inline-flex", marginTop: 10, padding: "7px 10px", border: "1px solid rgba(128,128,128,.35)", borderRadius: 9, background: "transparent", cursor: refreshingPlan ? "wait" : "pointer", fontSize: 12, fontWeight: 650 }}>
-                  {refreshingPlan ? "Checking Razorpay…" : "Refresh plan status ↻"}
+                {planStatus?.subscriptionStatus ? <small className="account-subscription-note">Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
+                {planStatus?.currentPeriodEnd ? <small className="account-subscription-note">Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
+                {planStatus?.activationPending ? <small className="account-subscription-note is-pending">Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
+                <button type="button" className="account-plan-refresh" onClick={() => void refreshPlanStatus()} disabled={refreshingPlan}>
+                  <><RefreshCw size={13} className={refreshingPlan ? "account-spin" : ""} /> {refreshingPlan ? "Checking Razorpay…" : "Refresh plan status"}</>
                 </button>
-                {planRefreshMessage ? <small role="status" style={{ display: "block", marginTop: 6, color: planRefreshMessage.toLowerCase().includes("unable") ? "#b91c1c" : "#047857" }}>{planRefreshMessage}</small> : null}
-                {(planStatus?.currentPlan || user.currentPlan || "Starter") === "Starter" ? <Link href="/subscribe" style={{ display: "inline-block", marginTop: 8 }}>Upgrade to Premium ↗</Link> : null}
+                {planRefreshMessage ? <small role="status" className={"account-plan-message " + (planRefreshMessage.toLowerCase().includes("unable") ? "is-error" : "")}>{planRefreshMessage}</small> : null}
+                {(planStatus?.currentPlan || user.currentPlan || "Starter") === "Starter" ? <Link href="/subscribe" className="account-upgrade-link">Upgrade to Premium <Zap size={13} /></Link> : null}
               </div>
             </div>
           </section>
@@ -318,7 +339,7 @@ export default function AccountPage() {
               <div className="account-learning-highlights">
                 <div>
                   <span>LAST ACTIVITY</span>
-                  <strong>{dashboard.lastActivity ? new Date(dashboard.lastActivity + "Z").toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" }) : "No activity yet"}</strong>
+                  <strong>{dashboard.lastActivity ? new Date(dashboard.lastActivity.endsWith("Z") ? dashboard.lastActivity : dashboard.lastActivity + "Z").toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" }) : "No activity yet"}</strong>
                 </div>
                 <div>
                   <span>LEARNING STREAK</span>
@@ -333,7 +354,7 @@ export default function AccountPage() {
                     <strong>{dashboard.completedConcepts} / {dashboard.totalConcepts}</strong>
                   </div>
                   <div className="account-progress-track">
-                    <span style={{ width: `${dashboard.progressPercent}%` }} />
+                    <span style={{ width: `${Math.min(100, Math.max(0, Number(dashboard.progressPercent) || 0))}%` }} />
                   </div>
                 </div>
                 <div className="account-progress-note">
@@ -434,7 +455,7 @@ export default function AccountPage() {
             onClick={handleLogout}
             disabled={loggingOut}
           >
-            {loggingOut ? "Signing out..." : "Logout"}
+            <><LogOut size={15} /> {loggingOut ? "Signing out..." : "Logout"}</>
           </button>
         </div>
 
