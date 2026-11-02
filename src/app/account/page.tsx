@@ -199,13 +199,30 @@ export default function AccountPage() {
         </div>
 
         <nav className="account-section-nav" aria-label="Profile sections">
-          <a href="#account-overview"><span className="account-nav-icon">⌂</span><span>Overview</span></a>
-          <a href="#account-learning"><span className="account-nav-icon">▥</span><span>Learning progress</span></a>
-          <a href="#account-tasks"><span className="account-nav-icon">✓</span><span>Completed tasks</span></a>
-          <a href="#account-history"><span className="account-nav-icon">⌘</span><span>Query history</span></a>
-          <a href="#account-ranking"><span className="account-nav-icon">♛</span><span>Leaderboard</span></a>
-          <a href="#account-notifications"><span className="account-nav-icon">♧</span><span>Notifications</span></a>
-          <a href="#account-actions"><span className="account-nav-icon">⚙</span><span>Account settings</span></a>
+          <div className="account-nav-brand">
+            <span className="account-nav-brand-mark">S</span>
+            <span><strong>SQLWhale</strong><small>PERSONAL WORKSPACE</small></span>
+          </div>
+          <div className="account-nav-group">
+            <span className="account-nav-group-label">GENERAL</span>
+            <a href="#account-overview"><span className="account-nav-icon">⌂</span><span>Overview</span></a>
+            <a href="#account-learning"><span className="account-nav-icon">▥</span><span>Learning progress</span></a>
+            <a href="#account-tasks"><span className="account-nav-icon">✓</span><span>Completed tasks</span></a>
+          </div>
+          <div className="account-nav-group">
+            <span className="account-nav-group-label">ACTIVITY</span>
+            <a href="#account-history"><span className="account-nav-icon">⌘</span><span>Query history</span></a>
+            <a href="#account-ranking"><span className="account-nav-icon">♛</span><span>Leaderboard</span></a>
+          </div>
+          <div className="account-nav-group">
+            <span className="account-nav-group-label">PREFERENCES</span>
+            <a href="#account-notifications"><span className="account-nav-icon">♧</span><span>Notifications</span></a>
+            <a href="#account-actions"><span className="account-nav-icon">⚙</span><span>Account settings</span></a>
+          </div>
+          <div className="account-nav-user">
+            <span className="account-nav-user-avatar">{(user.name || "U").trim().charAt(0).toUpperCase()}</span>
+            <span><strong>{user.name}</strong><small>{user.email}</small></span>
+          </div>
         </nav>
 
         <div className="account-section-intro" id="account-overview">
