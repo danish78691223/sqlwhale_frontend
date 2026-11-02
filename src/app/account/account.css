@@ -117,3 +117,16 @@
 .account-sidebar-overlay{z-index:13001!important}
 }
 @media(prefers-reduced-motion:reduce){.account-spin{animation:none!important}}
+
+.account-notification-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:13px}
+.account-notification-heading h3{margin:0 0 5px;color:#111827;font-size:14px;font-weight:800}
+.account-notification-heading p{max-width:540px;margin:0;color:#64748b;font-size:11px;line-height:1.6}
+.account-notification-state{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;padding:5px 8px;border:1px solid #e2e8f0;border-radius:999px;background:#f8fafc;color:#64748b;font-size:9px;font-weight:800}
+.account-notification-state i{width:6px;height:6px;border-radius:50%;background:#94a3b8}
+.account-notification-state.is-enabled{border-color:#a7f3d0;background:#ecfdf5;color:#047857}
+.account-notification-state.is-enabled i{background:#10b981}
+.account-notification-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.account-notification-device-count{color:#64748b;font-size:10px}
+.account-notification-status{margin:10px 0 0!important;color:#64748b!important;font-size:11px!important;line-height:1.5!important}
+.account-notification-option:has(input:disabled){opacity:.65}
+@media(max-width:540px){.account-notification-heading{flex-direction:column}.account-notification-state{align-self:flex-start}}
