@@ -24,7 +24,8 @@ export default function PushNotificationPrompt() {
       try {
         const [auth, config] = await Promise.all([authApi.get("/auth/me"), api.get("/push/config")]);
         if (!auth.data?.authenticated || !config.data?.enabled) return;
-        const registration = await navigator.serviceWorker.register("/sw.js");
+        const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
+        void registration.update().catch(() => {});
         const existing = await registration.pushManager.getSubscription();
         if (existing) {
           await api.post("/push/subscribe", { subscription: existing.toJSON(), dailyEnabled: true, announcementsEnabled: true });
@@ -47,7 +48,7 @@ export default function PushNotificationPrompt() {
       if (!config.data?.enabled || !config.data?.publicKey) throw new Error("Notifications are temporarily unavailable.");
       const permission = await Notification.requestPermission();
       if (permission !== "granted") { decline(); return; }
-      const registration = await navigator.serviceWorker.register("/sw.js");
+      const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
       let subscription = await registration.pushManager.getSubscription();
       if (!subscription) subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: decodeKey(config.data.publicKey) });
       await api.post("/push/subscribe", { subscription: subscription.toJSON(), dailyEnabled: true, announcementsEnabled: true });
