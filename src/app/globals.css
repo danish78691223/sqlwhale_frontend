@@ -22124,3 +22124,19 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   .account-page .account-mobile-menu-button{display:inline-flex!important}
   .account-page .account-sidebar-overlay{display:block!important;position:fixed!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;background:rgba(15,23,42,.42)!important;z-index:13001!important}
 }
+
+
+/* ACCOUNT SIDEBAR — final container + inner navigation alignment */
+@media (min-width: 801px) {
+.account-page .account-shell{display:grid!important;grid-template-columns:250px minmax(0,1fr)!important;align-items:start!important;column-gap:28px!important;width:min(1500px,calc(100% - 48px))!important;max-width:1500px!important;margin:0 auto!important;padding:24px 0 48px!important}
+.account-page .account-shell>aside.account-sidebar-column{position:sticky!important;display:block!important;grid-column:1!important;grid-row:1!important;top:100px!important;left:auto!important;right:auto!important;inset-inline:auto!important;width:250px!important;min-width:250px!important;max-width:250px!important;height:calc(100dvh - 120px)!important;min-height:0!important;max-height:calc(100dvh - 120px)!important;box-sizing:border-box!important;margin:0!important;padding:14px!important;overflow:hidden!important;transform:none!important;border:1px solid #26364b!important;border-radius:15px!important;background:#101c2b!important;box-shadow:0 12px 30px rgba(0,0,0,.18)!important;z-index:5!important}
+.account-page .account-shell>aside.account-sidebar-column>nav.account-section-nav{position:relative!important;inset:auto!important;display:flex!important;flex-direction:column!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:none!important;height:100%!important;min-height:0!important;max-height:100%!important;margin:0!important;padding:0!important;transform:none!important;overflow-x:hidden!important;overflow-y:auto!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.account-page .account-shell>.account-main-content{position:relative!important;display:block!important;grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+}
+@media (min-width:801px) and (max-width:1100px){.account-page .account-shell{grid-template-columns:220px minmax(0,1fr)!important;column-gap:18px!important;width:calc(100% - 32px)!important}.account-page .account-shell>aside.account-sidebar-column{width:220px!important;min-width:220px!important;max-width:220px!important}}
+@media (max-width:800px){
+.account-page .account-shell{display:block!important;width:100%!important;padding:18px 14px 36px!important}
+.account-page .account-shell>aside.account-sidebar-column{position:fixed!important;display:block!important;inset:0 auto 0 0!important;width:min(300px,88vw)!important;min-width:0!important;max-width:300px!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;box-sizing:border-box!important;margin:0!important;padding:22px 15px!important;overflow:hidden!important;transform:translateX(-105%)!important;border:1px solid #26364b!important;border-radius:0 15px 15px 0!important;background:#101c2b!important;z-index:13002!important}
+.account-page .account-shell>aside.account-sidebar-column.is-open{transform:translateX(0)!important}
+.account-page .account-shell>aside.account-sidebar-column>nav.account-section-nav{position:relative!important;inset:auto!important;width:100%!important;height:100%!important;max-height:100%!important;margin:0!important;padding:0!important;transform:none!important;overflow-x:hidden!important;overflow-y:auto!important;background:transparent!important}
+}
