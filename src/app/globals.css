@@ -22100,3 +22100,27 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
   .account-notifications-section,
   .account-rank-anchor { padding:15px !important; }
 }
+
+
+/* FINAL ACCOUNT SIDEBAR GRID FIX: desktop rail and content must occupy separate columns. */
+@media (min-width: 801px) {
+  .account-page .account-shell{display:grid!important;grid-template-columns:252px minmax(0,1fr)!important;grid-auto-flow:row!important;align-items:start!important;column-gap:28px!important;row-gap:0!important;width:min(1500px,calc(100% - 48px))!important;max-width:1500px!important;margin:0 auto!important;padding:28px 0 52px!important}
+  .account-page .account-shell>.account-sidebar-column{position:sticky!important;inset:auto!important;top:100px!important;grid-column:1!important;grid-row:1!important;align-self:start!important;justify-self:stretch!important;width:252px!important;height:calc(100dvh - 120px)!important;max-height:calc(100dvh - 120px)!important;min-height:0!important;margin:0!important;padding:16px 12px!important;transform:none!important;overflow:hidden!important;z-index:2!important}
+  .account-page .account-shell>.account-main-content{position:relative!important;display:block!important;grid-column:2!important;grid-row:1!important;align-self:start!important;justify-self:stretch!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+  .account-page .account-section-nav{width:100%!important;height:100%!important;max-height:100%!important;min-height:0!important;overflow-x:hidden!important;overflow-y:auto!important}
+  .account-page .account-sidebar-close,.account-page .account-mobile-menu-button,.account-page .account-sidebar-overlay{display:none!important}
+}
+@media (min-width:801px) and (max-width:1100px){
+  .account-page .account-shell{grid-template-columns:220px minmax(0,1fr)!important;column-gap:18px!important;width:calc(100% - 32px)!important}
+  .account-page .account-shell>.account-sidebar-column{width:220px!important}
+  .account-page .account-layout{grid-template-columns:1fr!important}
+}
+@media (max-width:800px){
+  .account-page .account-shell{display:block!important;width:100%!important;padding:18px 14px 36px!important}
+  .account-page .account-shell>.account-main-content{display:block!important;width:100%!important;min-width:0!important;margin:0!important;padding:0!important}
+  .account-page .account-shell>.account-sidebar-column{position:fixed!important;inset:0 auto 0 0!important;display:block!important;width:min(300px,88vw)!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;margin:0!important;padding:22px 15px!important;transform:translateX(-105%)!important;transition:transform .24s cubic-bezier(.22,1,.36,1)!important;overflow:hidden!important;z-index:13002!important}
+  .account-page .account-shell>.account-sidebar-column.is-open{transform:translateX(0)!important}
+  .account-page .account-sidebar-close{display:grid!important}
+  .account-page .account-mobile-menu-button{display:inline-flex!important}
+  .account-page .account-sidebar-overlay{display:block!important;position:fixed!important;inset:0!important;width:100%!important;height:100%!important;border:0!important;background:rgba(15,23,42,.42)!important;z-index:13001!important}
+}
