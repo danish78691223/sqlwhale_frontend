@@ -57,6 +57,7 @@ export default function AccountPage() {
   const [completedTasks, setCompletedTasks] = useState<Array<{id:string;title:string;difficulty:string;completedAt:string}>>([]);
   const [completedTasksLoading, setCompletedTasksLoading] = useState(true);
   const [activityNotice, setActivityNotice] = useState("");
+  const [activityErrors, setActivityErrors] = useState({ history: false, dashboard: false, tasks: false });
 
   useEffect(() => {
     if (!sidebarOpen) return;
@@ -119,7 +120,13 @@ export default function AccountPage() {
             else console.error("Unable to load learning dashboard:", dashboardResult.reason);
             if (tasksResult.status === "fulfilled") setCompletedTasks(tasksResult.value.data?.completions || []);
             else console.error("Unable to load completed tasks:", tasksResult.reason);
-            if ([historyResult, dashboardResult, tasksResult].some((result) => result.status === "rejected")) {
+            const errors = {
+              history: historyResult.status === "rejected",
+              dashboard: dashboardResult.status === "rejected",
+              tasks: tasksResult.status === "rejected",
+            };
+            setActivityErrors(errors);
+            if (Object.values(errors).some(Boolean)) {
               setActivityNotice("Some account activity could not be refreshed. Other sections are still available.");
             }
           }
@@ -324,6 +331,8 @@ export default function AccountPage() {
 
           {dashboardLoading ? (
             <div className="account-history-empty">Loading your learning stats...</div>
+          ) : activityErrors.dashboard ? (
+            <div className="account-history-empty" role="alert">Learning statistics are temporarily unavailable. Your other account sections remain accessible.</div>
           ) : dashboard ? (
             <>
               <div className="account-stat-grid">
@@ -377,6 +386,8 @@ export default function AccountPage() {
           </div>
           {completedTasksLoading ? (
             <div className="account-history-empty">Loading completed tasks...</div>
+          ) : activityErrors.tasks ? (
+            <div className="account-history-empty" role="alert">Completed tasks could not be loaded. Please revisit this page to retry.</div>
           ) : completedTasks.length === 0 ? (
             <div className="account-history-empty">No tasks completed yet. Start a SQL task from Run Query.</div>
           ) : (
@@ -408,6 +419,8 @@ export default function AccountPage() {
 
           {historyLoading ? (
             <div className="account-history-empty">Loading query history...</div>
+          ) : activityErrors.history ? (
+            <div className="account-history-empty" role="alert">Query history could not be loaded. Please revisit this page to retry.</div>
           ) : history.length === 0 ? (
             <div className="account-history-empty">
               No queries yet. Run your first SQL query and it will appear here.
