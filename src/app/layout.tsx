@@ -7,6 +7,7 @@ import FeedbackWidget from "../components/FeedbackWidget";
 import MaintenanceGate from "../components/MaintenanceGate";
 import CookieConsent from "../components/CookieConsent";
 import PushNotificationPrompt from "../components/PushNotificationPrompt";
+import PwaUpdater from "../components/PwaUpdater";
 import "../components/PushNotificationPrompt.css";
 import SiteChrome, { SiteFooter } from "../components/layout/SiteChrome";
 
@@ -27,8 +28,8 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true, title: "SQLWhale", statusBarStyle: "default" },
   description: "Created By WEBXWHALE",
   icons: {
-    icon: [{ url: "/icon?v=7", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/icon?v=7", type: "image/png", sizes: "512x512" }],
+    icon: [{ url: "/icon?v=8", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/icon?v=8", type: "image/png", sizes: "512x512" }],
   },
 };
 
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><MaintenanceGate><SiteChrome />{children}<SiteFooter /></MaintenanceGate><FeedbackWidget /><CookieConsent /><PushNotificationPrompt /></body>
+      <body className="min-h-full flex flex-col"><MaintenanceGate><SiteChrome />{children}<SiteFooter /></MaintenanceGate><FeedbackWidget /><CookieConsent /><PwaUpdater /><PushNotificationPrompt /></body>
     </html>
   );
 }
