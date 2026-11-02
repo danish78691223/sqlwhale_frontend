@@ -28,7 +28,8 @@ export default function PushNotificationSettings() {
           if (!cancelled) setMessage("Sign in to your SQLWhale account to enable push notifications.");
           return;
         }
-        const registration = await navigator.serviceWorker.register("/sw.js");
+        const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
+        void registration.update().catch(() => {});
         const subscription = await registration.pushManager.getSubscription();
         if (!subscription) {
           if (!cancelled) setEnabled(false);
@@ -61,7 +62,7 @@ export default function PushNotificationSettings() {
       if (!data.enabled || !data.publicKey) throw new Error("Push is not configured on the server yet.");
       const permission = await Notification.requestPermission();
       if (permission !== "granted") throw new Error("Notification permission was not granted. Allow notifications in browser settings.");
-      const registration = await navigator.serviceWorker.register("/sw.js");
+      const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
       let subscription = await registration.pushManager.getSubscription();
       if (!subscription) subscription = await registration.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: decodeKey(data.publicKey) });
       await api.post("/push/subscribe", { subscription: subscription.toJSON(), dailyEnabled: daily, announcementsEnabled: announcements });
