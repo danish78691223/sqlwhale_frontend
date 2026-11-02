@@ -34,6 +34,7 @@ export default function AccountPage() {
   const [refreshingPlan, setRefreshingPlan] = useState(false);
   const [planRefreshMessage, setPlanRefreshMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [history, setHistory] = useState<QueryHistoryItem[]>([]);
   const [historyLoading, setHistoryLoading] = useState(true);
@@ -193,12 +194,13 @@ export default function AccountPage() {
 
       <section className="account-shell">
         <div className="account-heading">
-          <div className="account-eyebrow"><span /> YOUR SQLWHALE ACCOUNT</div>
+          <div className="account-heading-top"><div className="account-eyebrow"><span /> YOUR SQLWHALE ACCOUNT</div><button type="button" className="account-mobile-menu-button" onClick={() => setSidebarOpen(true)} aria-label="Open profile menu">☰ <span>Menu</span></button></div>
           <h1>Welcome, <em>{user.name}</em>.</h1>
           <p>Your separate SQLWhale account is ready.</p>
         </div>
 
-        <aside className="account-sidebar-column">
+        <aside className={"account-sidebar-column " + (sidebarOpen ? "is-open" : "")}>
+        <button type="button" className="account-sidebar-close" onClick={() => setSidebarOpen(false)} aria-label="Close profile menu">×</button>
         <nav className="account-section-nav" aria-label="Profile sections">
           <div className="account-nav-brand">
             <span className="account-nav-brand-mark">S</span>
@@ -226,6 +228,7 @@ export default function AccountPage() {
           </div>
         </nav>
         </aside>
+        {sidebarOpen ? <button type="button" className="account-sidebar-overlay" onClick={() => setSidebarOpen(false)} aria-label="Close profile menu" /> : null}
 
         <div className="account-section-intro" id="account-overview">
           <div><span className="account-card-label">ACCOUNT OVERVIEW</span><h2>Your profile at a glance</h2></div>
