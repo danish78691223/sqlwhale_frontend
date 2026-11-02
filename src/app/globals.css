@@ -21686,3 +21686,15 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
 @media (max-width: 760px) {
   .run-nav-pro-link { display: none; }
 }
+
+
+/* Admin dashboard typography and four-column desktop overview refinement */
+.sqlwhale-admin-overview-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.sqlwhale-admin-overview-card{min-height:116px;padding:17px}
+.sqlwhale-admin-overview-card>div>span{font-size:9px}
+.sqlwhale-admin-overview-card small{font-size:11px;line-height:1.45}
+.sqlwhale-admin-page-header p{font-size:13px}
+.sqlwhale-admin-quick-grid span{font-size:10px}
+.sqlwhale-admin-quick-grid strong{font-size:17px}
+@media(max-width:1200px){.sqlwhale-admin-overview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.sqlwhale-admin-overview-grid{grid-template-columns:1fr}}
