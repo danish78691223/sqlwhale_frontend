@@ -1,0 +1,44 @@
+.sqlwhale-notifications-page{min-height:calc(100vh - 76px);padding:54px 24px 76px;background:radial-gradient(ellipse at 50% 0%,rgba(37,99,235,.08),transparent 38%),#f5f7fb;color:#0f172a}
+.sqlwhale-notifications-wrap{width:min(1120px,100%);margin:0 auto}
+.sqlwhale-notifications-back{display:inline-flex;align-items:center;gap:8px;margin-bottom:26px;color:#64748b;text-decoration:none;font-size:13px;font-weight:650;transition:color .18s}
+.sqlwhale-notifications-back:hover{color:#2563eb}
+.sqlwhale-notifications-hero{display:flex;align-items:center;gap:18px;margin-bottom:30px}
+.sqlwhale-notifications-hero-icon{display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border:1px solid #dbeafe;border-radius:17px;background:linear-gradient(145deg,#eff6ff,#e0eaff);color:#2563eb;box-shadow:0 8px 22px rgba(37,99,235,.08)}
+.sqlwhale-notifications-eyebrow,.sqlwhale-notifications-kicker{display:block;color:#64748b;font-size:10px;font-weight:850;letter-spacing:.13em}
+.sqlwhale-notifications-hero h1{margin:5px 0 4px;color:#0f172a;font-size:clamp(28px,4vw,38px);line-height:1.12;letter-spacing:-.045em}
+.sqlwhale-notifications-hero p{margin:0;color:#64748b;font-size:14px;line-height:1.6}
+.sqlwhale-notifications-secure{display:inline-flex;align-items:center;gap:6px;margin-left:auto;padding:8px 11px;border:1px solid #dbeafe;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:750;white-space:nowrap}
+.sqlwhale-notifications-grid{display:grid;grid-template-columns:minmax(270px,.78fr) minmax(0,1.22fr);align-items:start;gap:18px}
+.sqlwhale-notifications-card{min-width:0;padding:25px;border:1px solid #e2e8f0;border-radius:18px;background:#fff;box-shadow:0 12px 36px rgba(15,23,42,.045)}
+.sqlwhale-notifications-card-heading{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.sqlwhale-notifications-card-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:13px;background:#eff6ff;color:#2563eb}
+.sqlwhale-notifications-card-icon.is-violet{background:#f3f0ff;color:#7354d8}
+.sqlwhale-notifications-card h2{margin:4px 0 0;color:#111827;font-size:19px;font-weight:780;letter-spacing:-.025em}
+.sqlwhale-notifications-card>p{margin:0 0 22px;color:#64748b;font-size:13px;line-height:1.75}
+.sqlwhale-notifications-primary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:0 17px;border:1px solid #1d4ed8;border-radius:10px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;font-size:13px;font-weight:750;box-shadow:0 5px 13px rgba(37,99,235,.17);cursor:pointer;transition:transform .18s,box-shadow .18s,opacity .18s}
+.sqlwhale-notifications-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 9px 20px rgba(37,99,235,.22)}
+.sqlwhale-notifications-primary:disabled{opacity:.55;cursor:not-allowed}
+.sqlwhale-notifications-primary.is-wide{width:100%;margin-top:3px}
+.sqlwhale-notifications-note{display:flex;align-items:center;gap:7px;margin-top:18px;color:#64748b;font-size:11px}
+.sqlwhale-notifications-form{display:grid;gap:17px}
+.sqlwhale-notifications-form label{display:grid;gap:7px;color:#334155;font-size:12px;font-weight:750}
+.sqlwhale-notifications-form label>span{display:inline;color:#94a3b8;font-size:10px;font-weight:600}
+.sqlwhale-notifications-form input,.sqlwhale-notifications-form textarea{width:100%;min-width:0;border:1px solid #dbe3ee;border-radius:10px;background:#fbfcfe;padding:12px 13px;color:#0f172a;font:inherit;font-size:13px;font-weight:450;outline:none;transition:border-color .18s,box-shadow .18s,background .18s}
+.sqlwhale-notifications-form input{height:44px}
+.sqlwhale-notifications-form textarea{min-height:104px;resize:vertical;line-height:1.55}
+.sqlwhale-notifications-form input::placeholder,.sqlwhale-notifications-form textarea::placeholder{color:#a0aaba}
+.sqlwhale-notifications-form input:focus,.sqlwhale-notifications-form textarea:focus{border-color:#60a5fa;background:#fff;box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.sqlwhale-notifications-form small{color:#94a3b8;font-size:10px;font-weight:500}
+.sqlwhale-notifications-warning{margin-top:16px;padding:11px 12px;border:1px solid #fef3c7;border-radius:9px;background:#fffbeb;color:#92400e;font-size:11px;line-height:1.55}
+.sqlwhale-notifications-feedback{display:flex;align-items:flex-start;gap:10px;margin:0 0 18px;padding:13px 15px;border:1px solid;border-radius:11px;font-size:13px;line-height:1.55}
+.sqlwhale-notifications-feedback.is-success{border-color:#bbf7d0;background:#f0fdf4;color:#166534}
+.sqlwhale-notifications-feedback.is-error{border-color:#fecaca;background:#fef2f2;color:#b91c1c}
+.sqlwhale-notifications-feedback svg{flex:0 0 auto;margin-top:1px}
+.sqlwhale-notifications-footer{margin-top:25px;color:#94a3b8;text-align:center;font-size:11px}
+.sqlwhale-notifications-footer span{padding:0 5px;color:#cbd5e1}
+.sqlwhale-notifications-form-intro{margin-bottom:18px!important}
+.is-spinning{animation:sqlwhale-notification-spin .9s linear infinite}
+@keyframes sqlwhale-notification-spin{to{transform:rotate(360deg)}}
+@media(max-width:760px){.sqlwhale-notifications-page{padding:30px 16px 52px}.sqlwhale-notifications-grid{grid-template-columns:1fr}.sqlwhale-notifications-hero{align-items:flex-start;flex-wrap:wrap}.sqlwhale-notifications-secure{margin-left:76px;margin-top:-12px}.sqlwhale-notifications-card{padding:20px}}
+@media(max-width:420px){.sqlwhale-notifications-hero-icon{width:48px;height:48px;flex-basis:48px}.sqlwhale-notifications-secure{margin-left:0}.sqlwhale-notifications-card{padding:17px}}
+@media(prefers-reduced-motion:reduce){.sqlwhale-notifications-primary,.sqlwhale-notifications-back{transition:none}.is-spinning{animation:none}}
