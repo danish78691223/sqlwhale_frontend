@@ -364,3 +364,11 @@ body:has(.learn-v2) {
 body:has(.learn-v2) .sqlwhale-notch-spacer {
   background: #f5f8fb;
 }
+
+/* SQLWhale homepage conversion navigation CTA */
+.sqlwhale-notch-start{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:0 13px;border:1px solid rgba(172,145,255,.42);border-radius:999px;background:linear-gradient(110deg,#8057ed,#a16cf5);color:#fff;text-decoration:none;font:700 11px/1 Inter,ui-sans-serif,system-ui,sans-serif;white-space:nowrap;box-shadow:0 7px 20px rgba(126,81,227,.22);transition:transform .18s ease,filter .18s ease}
+.sqlwhale-notch-start:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.sqlwhale-notch-mobile-start{display:flex!important;align-items:center;gap:12px;min-height:46px;margin-top:5px;padding:0 12px;border-radius:11px;background:linear-gradient(110deg,#8057ed,#a16cf5);color:#fff!important;font:750 13px/1 Inter,ui-sans-serif,system-ui,sans-serif;text-decoration:none}
+.sqlwhale-notch-mobile-start span{flex:1}
+@media(max-width:980px){.sqlwhale-notch-start{padding:0 10px;font-size:10px}}
+@media(max-width:760px){.sqlwhale-notch-start{display:none}}
