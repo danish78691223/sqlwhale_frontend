@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
 import { LeaderboardSection } from "@/components/Leaderboard";
@@ -158,7 +158,7 @@ export default function Home() {
           <div className="sw-demo-heading"><h2>Don't just read SQL.<br /><em>Run it and see.</em></h2><p>A tiny interactive preview with sample employee data. No account or backend connection needed.</p></div>
           <div className="sw-demo-shell">
             <div className="sw-demo-editor"><div className="sw-demo-toolbar"><span>query.sql</span><span>MySQL · sample data</span></div><pre><b>SELECT</b> name, role, salary{"\n"}<b>FROM</b> employees{"\n"}<b>WHERE</b> salary &gt; <i>50000</i>;</pre><div className="sw-demo-editor-footer"><span><i /> Ready to execute</span><button type="button" onClick={() => setDemoRan(true)}>Run query <ArrowRight size={14}/></button></div></div>
-            <div className="sw-demo-result"><div className="sw-demo-result-head"><span>QUERY RESULT</span><strong>{demoRan ? "3 rows returned" : "Preview · 4 sample rows"}</strong></div><div className="sw-demo-table-head"><span>NAME</span><span>ROLE</span><span>SALARY</span></div>{(demoRan ? [{name:"Aarav",role:"Developer",salary:"₹72,000"},{name:"Kabir",role:"Analyst",salary:"₹85,000"},{name:"Sara",role:"Engineer",salary:"₹64,000"}] : [{name:"Aarav",role:"Developer",salary:"₹72,000"},{name:"Maya",role:"Designer",salary:"₹48,000"},{name:"Kabir",role:"Analyst",salary:"₹85,000"},{name:"Sara",role:"Engineer",salary:"₹64,000"}]).map((row,index)=><motion.div key={row.name} initial={false} animate={{opacity:1,x:0}} transition={{delay:index*.06}} className="sw-demo-table-row"><span>{row.name}</span><span>{row.role}</span><b>{row.salary}</b></motion.div>)}{demoRan&&<p className="sw-demo-filter-note">✓ Rows with salary greater than ₹50,000 are kept. Maya's row is filtered out.</p>}</div>
+            <div className="sw-demo-result"><div className="sw-demo-result-head"><span>QUERY RESULT</span><strong>{demoRan ? "3 rows returned" : "Preview · 4 sample rows"}</strong></div><div className="sw-demo-table-head"><span>NAME</span><span>ROLE</span><span>SALARY</span></div><AnimatePresence initial={false}>{demoRan ? [{name:"Aarav",role:"Developer",salary:"₹72,000"},{name:"Kabir",role:"Analyst",salary:"₹85,000"},{name:"Sara",role:"Engineer",salary:"₹64,000"}] : [{name:"Aarav",role:"Developer",salary:"₹72,000"},{name:"Maya",role:"Designer",salary:"₹48,000"},{name:"Kabir",role:"Analyst",salary:"₹85,000"},{name:"Sara",role:"Engineer",salary:"₹64,000"}].map((row,index)=><motion.div key={row.name} initial={{opacity:0,x:-12,height:0}} animate={{opacity:1,x:0,height:"auto"}} exit={{opacity:0,x:-12,height:0}} transition={{duration:.24,delay:index*.025}} style={{overflow:"hidden"}} className="sw-demo-table-row"><span>{row.name}</span><span>{row.role}</span><b>{row.salary}</b></motion.div>)}</AnimatePresence>{demoRan&&<p className="sw-demo-filter-note">✓ Rows with salary greater than ₹50,000 are kept. Maya's row is filtered out.</p>}</div>
           </div>
           <div className="sw-demo-note"><span>ILLUSTRATIVE DATASET</span><button type="button" onClick={()=>setDemoRan(false)}>Reset preview</button></div>
         </div>
