@@ -106,3 +106,127 @@
 @media(prefers-reduced-motion:reduce){.sw-step-tabs button,.sw-faq-list summary>b,.sw-demo-editor-footer button{transition:none}}
 
 .sw-faq-list details p a{color:#c4afff;text-decoration:underline;text-underline-offset:3px;font-weight:650}
+
+
+/* Light theme: smoke-white homepage canvas and readable light surfaces.
+   Theme is controlled globally by SiteChrome via html[data-theme="light"]. */
+html[data-theme="light"] .sqlwhale-home{
+  background:#f5f5f4!important;
+  color:#20212a;
+}
+html[data-theme="light"] .sqlwhale-home .sw-demo-section,
+html[data-theme="light"] .sqlwhale-home .sw-problem-section,
+html[data-theme="light"] .sqlwhale-home .sw-steps-section,
+html[data-theme="light"] .sqlwhale-home .sw-benefits-section,
+html[data-theme="light"] .sqlwhale-home .sw-audience-section,
+html[data-theme="light"] .sqlwhale-home .sw-leaderboard-wrap,
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section,
+html[data-theme="light"] .sqlwhale-home .sw-pricing-section,
+html[data-theme="light"] .sqlwhale-home .sw-faq-section,
+html[data-theme="light"] .sqlwhale-home .sw-trust-section,
+html[data-theme="light"] .sqlwhale-home .sw-final-cta{
+  background:#f5f5f4!important;
+}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading h2,
+html[data-theme="light"] .sqlwhale-home .sw-demo-heading h2,
+html[data-theme="light"] .sqlwhale-home .sw-final-cta h2,
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid h3,
+html[data-theme="light"] .sqlwhale-home .sw-step-preview h3,
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid h3,
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel h3,
+html[data-theme="light"] .sqlwhale-home .sw-beta-card h3,
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid h3,
+html[data-theme="light"] .sqlwhale-home .sw-faq-list summary{
+  color:#20212a;
+}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading>p,
+html[data-theme="light"] .sqlwhale-home .sw-demo-heading>p,
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid p,
+html[data-theme="light"] .sqlwhale-home .sw-step-preview p,
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid p,
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel p,
+html[data-theme="light"] .sqlwhale-home .sw-beta-card p,
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid ul,
+html[data-theme="light"] .sqlwhale-home .sw-faq-list details p,
+html[data-theme="light"] .sqlwhale-home .sw-trust-strip>div small,
+html[data-theme="light"] .sqlwhale-home .sw-bargain p,
+html[data-theme="light"] .sqlwhale-home .sw-leaderboard-cta{
+  color:#626575;
+}
+html[data-theme="light"] .sqlwhale-home .sw-demo-shell,
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid article,
+html[data-theme="light"] .sqlwhale-home .sw-step-preview,
+html[data-theme="light"] .sqlwhale-home .sw-step-art,
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid article,
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel,
+html[data-theme="light"] .sqlwhale-home .sw-beta-card,
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article,
+html[data-theme="light"] .sqlwhale-home .sw-bargain,
+html[data-theme="light"] .sqlwhale-home .sw-trust-strip{
+  border-color:rgba(35,39,55,.12);
+  background:#fff;
+  box-shadow:0 8px 28px rgba(28,34,48,.045);
+}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor{
+  border-color:rgba(35,39,55,.1);
+  background:#f0f0f2;
+}
+html[data-theme="light"] .sqlwhale-home .sw-demo-result{background:#fff}
+html[data-theme="light"] .sqlwhale-home .sw-demo-toolbar,
+html[data-theme="light"] .sqlwhale-home .sw-demo-result-head,
+html[data-theme="light"] .sqlwhale-home .sw-demo-table-head,
+html[data-theme="light"] .sqlwhale-home .sw-demo-table-row,
+html[data-theme="light"] .sqlwhale-home .sw-demo-note,
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor-footer>span{
+  color:#5e6272;
+}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor pre,
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel pre,
+html[data-theme="light"] .sqlwhale-home .sw-code-card pre{
+  color:#34364a;
+}
+html[data-theme="light"] .sqlwhale-home .sw-code-card,
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel pre{
+  border-color:rgba(35,39,55,.1);
+  background:#f1f1f4;
+}
+html[data-theme="light"] .sqlwhale-home .sw-schema-table{
+  border-color:rgba(115,84,196,.2);
+  background:#fff;
+  color:#55596a;
+}
+html[data-theme="light"] .sqlwhale-home .sw-schema-table b{color:#7053bd}
+html[data-theme="light"] .sqlwhale-home .sw-step-tabs button,
+html[data-theme="light"] .sqlwhale-home .sw-audience-tabs button{
+  border-color:rgba(35,39,55,.13);
+  background:#fff;
+  color:#55596a;
+}
+html[data-theme="light"] .sqlwhale-home .sw-step-tabs button.active,
+html[data-theme="light"] .sqlwhale-home .sw-audience-tabs button.active{
+  border-color:rgba(126,87,220,.5);
+  background:#eee8ff;
+  color:#5735a8;
+}
+html[data-theme="light"] .sqlwhale-home .sw-faq-list{border-color:rgba(35,39,55,.15)}
+html[data-theme="light"] .sqlwhale-home .sw-faq-list details{border-color:rgba(35,39,55,.12)}
+html[data-theme="light"] .sqlwhale-home .sw-final-cta{border-color:rgba(35,39,55,.08)}
+html[data-theme="light"] .sqlwhale-home .sw-mobile-sticky-cta{
+  border-color:rgba(35,39,55,.13);
+  background:rgba(255,255,255,.94);
+  box-shadow:0 12px 36px rgba(28,34,48,.14);
+}
+html[data-theme="light"] .sqlwhale-home .sw-trust-icon{
+  border-color:rgba(126,87,220,.2);
+  background:#f1edff;
+}
+html[data-theme="light"] .sqlwhale-home .sw-kicker,
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid article>span,
+html[data-theme="light"] .sqlwhale-home .sw-step-tag,
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid article>span,
+html[data-theme="light"] .sqlwhale-home .sw-beta-card>span,
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article>span{
+  color:#7552c5;
+}
+/* Keep the Product Hunt badge legible on the smoke-white strip. */
+html[data-theme="light"] .sqlwhale-home .sw-ph-badge img{filter:none}
