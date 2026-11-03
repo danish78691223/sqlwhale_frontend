@@ -55,6 +55,7 @@ function LeaderboardSkeleton() {
 export function LeaderboardSection() {
   const [data, setData] = useState<LeaderboardResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -65,7 +66,10 @@ export function LeaderboardSection() {
         if (mounted) setData(response.data || null);
       })
       .catch(() => {
-        if (mounted) setData(null);
+        if (mounted) {
+          setData(null);
+          setError(true);
+        }
       })
       .finally(() => {
         if (mounted) setLoading(false);
@@ -93,7 +97,15 @@ export function LeaderboardSection() {
 
       {loading ? (
         <LeaderboardSkeleton />
-      ) : !data || data.top10.length === 0 ? (
+      ) : error ? (
+        <div className="sqlwhale-leaderboard-empty">
+          <Trophy size={20} />
+          <div>
+            <strong>Rankings are temporarily unavailable</strong>
+            <span>You can still start a SQL task and check back soon.</span>
+          </div>
+        </div>
+      ) : !data || !Array.isArray(data.top10) || data.top10.length === 0 ? (
         <div className="sqlwhale-leaderboard-empty">
           <Trophy size={20} />
           <div>
