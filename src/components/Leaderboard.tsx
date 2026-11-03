@@ -80,7 +80,7 @@ export function LeaderboardSection() {
     <section className="home-section sqlwhale-leaderboard-section">
       <div className="sqlwhale-leaderboard-head">
         <div>
-          <div className="agency-section-index">06 / SQLWHALE RANKINGS</div>
+          <div className="agency-section-index">SQLWHALE / LIVE COMMUNITY RANKINGS</div>
           <h2>Top 10 <em>SQL learners.</em></h2>
           <p>Earn Chai Points by completing SQL tasks and climb the leaderboard.</p>
         </div>
