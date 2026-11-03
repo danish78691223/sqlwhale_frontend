@@ -1,19 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { Database, KeyRound, Activity, Building2, Users, FolderKanban, WalletCards } from "lucide-react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import AppleEmoji from "@/components/AppleEmoji";
 import { Floating3DParticles } from "@/components/ui/floating-3d-particles";
-import Shuffle from "@/components/Shuffle";
 import { LeaderboardSection } from "@/components/Leaderboard";
 import { SQLWhaleHero } from "@/components/ui/sqlwhale-hero";
-import SubscribeBargainButton from "@/components/SubscribeBargainButton";
-import CardSwap, { Card } from "@/components/CardSwap";
-import FolderFloat from "@/components/FolderFloat";
-import { AnimatedBeam } from "@/components/ui/animated-beam";
-import systemSplit from "./system-split.module.css";
+import "./home-redesign.css";
 
 function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const [step, setStep] = useState(0);
@@ -107,76 +100,11 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   );
 }
 
-function RotatingHeroWord() {
-  const words = ["clear", "easy", "simple", "visual", "real"];
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setIndex((current) => (current + 1) % words.length);
-    }, 2200);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  return (
-    <Shuffle
-      key={words[index]}
-      text={words[index]}
-      tag="em"
-      className="agency-hero-shuffle"
-      shuffleDirection="right"
-      duration={0.7}
-      animationMode="evenodd"
-      shuffleTimes={1}
-      ease="power3.out"
-      stagger={0.05}
-      threshold={0.1}
-      triggerOnce={true}
-      triggerOnHover={true}
-      respectReducedMotion={true}
-      loop={false}
-      loopDelay={0}
-    />
-  );
-}
-
-function DatabaseBeamCanvas() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const departmentsRef = useRef<HTMLDivElement>(null);
-  const employeesRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
-  const salaryRef = useRef<HTMLDivElement>(null);
-
-  return (
-    <div className="agency-database-art sqlwhale-beam-canvas" ref={containerRef} aria-label="Animated database relationships">
-      <div className="db-art-label"><span className="db-art-label-title"><Database size={13} strokeWidth={1.8} /> SCHEMA MAP</span><span className="db-art-live"><i /> LIVE TRACE</span></div>
-      <div className="db-art-table db-art-a sqlwhale-beam-table" ref={departmentsRef}>
-        <b aria-label="Departments"><i><Building2 size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> name</span>
-      </div>
-      <div className="db-art-table db-art-b sqlwhale-beam-table sqlwhale-beam-primary" ref={employeesRef}>
-        <b aria-label="Employees"><i><Users size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> dept_id</span><span>salary</span>
-      </div>
-      <div className="db-art-table db-art-c sqlwhale-beam-table" ref={projectsRef}>
-        <b aria-label="Projects"><i><FolderKanban size={16} strokeWidth={1.8} /></i></b><span><strong>PK</strong> id <em>·</em> <strong>FK</strong> employee_id</span>
-      </div>
-      <div className="db-art-table db-art-d sqlwhale-beam-table" ref={salaryRef}>
-        <b aria-label="Salary"><i><WalletCards size={16} strokeWidth={1.8} /></i></b><span><strong>FK</strong> employee_id <em>·</em> amount</span>
-      </div>
-      <AnimatedBeam containerRef={containerRef} fromRef={departmentsRef} toRef={employeesRef} curvature={-28} gradientStartColor="#a78bfa" gradientStopColor="#6d28d9" duration={3.1} />
-      <AnimatedBeam containerRef={containerRef} fromRef={projectsRef} toRef={employeesRef} curvature={24} gradientStartColor="#c4b5fd" gradientStopColor="#7c3aed" duration={3.7} delay={0.5} reverse />
-      <AnimatedBeam containerRef={containerRef} fromRef={employeesRef} toRef={salaryRef} curvature={-18} gradientStartColor="#a78bfa" gradientStopColor="#6d28d9" duration={3.4} delay={0.9} />
-      <div className="sqlwhale-beam-canvas-footer"><span><KeyRound size={12} strokeWidth={1.8} /> PRIMARY / FOREIGN KEYS</span><span><Activity size={12} strokeWidth={1.8} /> RELATIONSHIPS CONNECTED</span></div>
-    </div>
-  );
-}
-
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`scroll-reveal ${className}`}>{children}</div>;
-}
-
 export default function Home() {
   const [loading, setLoading] = useState(false);
+  const [demoRan, setDemoRan] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [audience, setAudience] = useState(0);
 
   useEffect(() => {
     // The intro loader is only for the first homepage visit in this browser tab.
@@ -281,6 +209,7 @@ export default function Home() {
 
       <section className="home-section sw-final-cta"><div><span>READY WHEN YOU ARE</span><h2>Apni pehli query<br /><em>abhi chalao.</em></h2><Link href="/run-query">Start free <ArrowRight size={17}/></Link></div></section>
 
+      <div className="sw-mobile-sticky-cta"><Link href="/run-query">Start Free <span>↗</span></Link></div>
 
 
     </main>
