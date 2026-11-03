@@ -48,6 +48,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-right" aria-label="Product navigation">
             {homeNavRight.map(navLink)}
             <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+            <Link href="/run-query" className="sqlwhale-notch-start">Start Free <ArrowUpRight size={14} aria-hidden="true" /></Link>
             <Link href={accountHref} className="sqlwhale-notch-account">
               {accountLabel}<ArrowUpRight size={14} aria-hidden="true" />
             </Link>
@@ -86,6 +87,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
               <span>{accountLabel}</span>
               <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
             </Link>
+            <Link href="/run-query" className="sqlwhale-notch-mobile-start" onClick={() => setMobileOpen(false)}><Play size={17} aria-hidden="true" /><span>Start Free</span><ArrowUpRight size={14} aria-hidden="true" /></Link>
             <div className="sqlwhale-notch-mobile-theme"><span>Appearance</span><ThemeToggle theme={theme} onToggle={onToggleTheme} /></div>
           </motion.nav>
         )}
