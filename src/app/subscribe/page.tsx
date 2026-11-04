@@ -114,9 +114,9 @@ export default function SubscribePage() {
 
         <p className="subscription-plan-note">The ₹49 plan is billed monthly through Razorpay recurring subscription. The ₹149 and ₹249 plans are one-time payments for fixed-duration access and do not auto-renew. Charges are subject to the Refund &amp; Cancellation Policy and applicable law.</p>
 
-        <section className="subscription-alternative" aria-label="Alternative subscription option">
-          <h3>Want to bargain with the Whale?</h3>
-          <p>The existing bargain flow is still available. You must accept the Terms &amp; Conditions and Refund &amp; Cancellation Policy before any payment can proceed.</p>
+        <section className="subscription-alternative" aria-label="Whale bargain option">
+          <h3>Get the 10-month plan for less.</h3>
+          <p>The regular 10-month plan is ₹249. Challenge the Whale and try to unlock the same 10 months for ₹199–₹249. One-time payment, no auto-renewal.</p>
           <SubscribeBargainButton inline />
         </section>
       </section>
