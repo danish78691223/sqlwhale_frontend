@@ -47,3 +47,48 @@
 @media(max-width:1023px){.hero{min-height:0;padding:70px 0 65px}.inner{grid-template-columns:minmax(0,1fr);width:min(100% - 40px,760px);min-height:0;gap:38px}.copy{max-width:720px}.title{font-size:clamp(3.4rem,9vw,5.6rem)}.heroVisual{width:100%}.scrollCue{display:none}}
 @media(max-width:640px){.hero{padding:54px 0 42px}.inner{width:calc(100% - 32px);gap:28px}.eyebrow{font-size:8px;letter-spacing:.14em;margin-bottom:21px}.title{font-size:clamp(2.85rem,12vw,4.2rem)}.lede{margin-top:20px;font-size:15px}.actions{margin-top:24px;gap:9px}.primary,.secondary{min-height:45px;padding:0 15px;font-size:11px}.trustLine{gap:8px;margin-top:18px;font-size:9px}.heroVisual{padding:11px;border-radius:17px}.visualTop{gap:8px;font-size:7px}.visualTop>b{font-size:7px}.heroCode pre{font-size:10px;padding:12px}.visualFlow{gap:5px;padding:10px 0}.flowNode{padding:7px 6px;font-size:7px;gap:4px}.flowNode svg{width:11px}.tableHeader,.tableRow{padding:9px 9px;font-size:8px}.visualFoot{font-size:6px}.visualActions{font-size:8px}.visualActions button{font-size:9px;padding:0 10px}}
 @media(prefers-reduced-motion:reduce){.primary,.secondary,.visualActions button{transition:none}}
+
+
+/* Light mode hero restyled to match the Didasko-inspired neobrutalist system */
+:global(html[data-theme="light"]) .hero{
+  min-height:0;padding:clamp(88px,10vw,132px) 0 76px;
+  background-color:#fbf8f6;color:#111114;
+  background-image:radial-gradient(rgba(25,22,20,.055) .7px,transparent .7px);
+  background-size:5px 5px;
+}
+:global(html[data-theme="light"]) .inner{width:min(1240px,calc(100% - 56px));min-height:0;grid-template-columns:minmax(0,.9fr) minmax(420px,1.1fr);gap:54px}
+:global(html[data-theme="light"]) .glowOne,:global(html[data-theme="light"]) .glowTwo{opacity:0}
+:global(html[data-theme="light"]) .eyebrow{color:#242126;letter-spacing:.14em}
+:global(html[data-theme="light"]) .eyebrow>span:first-child{background:#8c68d9;box-shadow:none}
+:global(html[data-theme="light"]) .eyebrowLine{background:#111}
+:global(html[data-theme="light"]) .title{color:#111114;font-weight:900;letter-spacing:-.065em}
+:global(html[data-theme="light"]) .titleAccent{color:#7754c4}
+:global(html[data-theme="light"]) .lede{color:#66636b}
+:global(html[data-theme="light"]) .primary{border:2px solid #111;border-radius:0;background:#ffe45e;color:#111;box-shadow:4px 4px 0 #111}
+:global(html[data-theme="light"]) .secondary{border:2px solid #111;border-radius:0;background:#fff;color:#111;box-shadow:4px 4px 0 #111}
+:global(html[data-theme="light"]) .trustLine{color:#5f5b60}
+:global(html[data-theme="light"]) .trustLine span svg{color:#7654c7}
+:global(html[data-theme="light"]) .heroVisual{padding:18px;border:2px solid #111;border-radius:0;background:#fff;box-shadow:9px 9px 0 #111;backdrop-filter:none}
+:global(html[data-theme="light"]) .visualTop{color:#4e4a53}
+:global(html[data-theme="light"]) .visualTop>b{color:#6745b5}
+:global(html[data-theme="light"]) .heroCode{border:1.5px solid #111;border-radius:0;background:#f4f3f1}
+:global(html[data-theme="light"]) .codeMeta{border-color:#dedbd7;color:#6b6870}
+:global(html[data-theme="light"]) .heroCode pre{color:#262331}
+:global(html[data-theme="light"]) .heroCode pre b{color:#704dbb}
+:global(html[data-theme="light"]) .heroCode pre em{color:#087b68}
+:global(html[data-theme="light"]) .flowNode{border:1px solid #111;border-radius:0;background:#fff;color:#25212a}
+:global(html[data-theme="light"]) .flowNode svg{color:#7654c7}
+:global(html[data-theme="light"]) .previewTable{border:1.5px solid #111;border-radius:0;background:#fff}
+:global(html[data-theme="light"]) .tableHead{border-color:#e4e1de;color:#55515a}
+:global(html[data-theme="light"]) .tableHead small{color:#6d4cbb}
+:global(html[data-theme="light"]) .tableHeader{border-color:#e4e1de;color:#706c75}
+:global(html[data-theme="light"]) .tableRow{border-color:#ece9e6;color:#292630}
+:global(html[data-theme="light"]) .tableRow b{color:#087b68}
+:global(html[data-theme="light"]) .filterNote{border-color:#bde6d9;background:#eaf8f3;color:#087b68}
+:global(html[data-theme="light"]) .visualActions{color:#66636b}
+:global(html[data-theme="light"]) .visualActions button{border:2px solid #111;border-radius:0;background:#ffe45e;color:#111;box-shadow:3px 3px 0 #111}
+:global(html[data-theme="light"]) .visualFoot{color:#77727b}
+:global(html[data-theme="light"]) .scrollCue{color:#5e5962}
+:global(html[data-theme="light"]) .scrollCue span{color:#7754c4}
+@media(max-width:1023px){:global(html[data-theme="light"]) .inner{grid-template-columns:1fr;width:min(100% - 40px,760px);gap:38px}}
+@media(max-width:640px){:global(html[data-theme="light"]) .hero{padding:70px 0 48px}:global(html[data-theme="light"]) .inner{width:calc(100% - 32px);gap:28px}}
