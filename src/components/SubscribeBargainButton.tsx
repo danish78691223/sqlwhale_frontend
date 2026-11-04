@@ -215,7 +215,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   return (
     <>
       <button type="button" className="support-button sqlwhale-subscribe-trigger" onClick={() => { if (inline) void beginBargain(); else window.location.href = "/subscribe"; }}>
-        Subscribe <span aria-hidden="true">↗</span>
+        {inline ? "Bargain with the Whale" : "Subscribe"} <span aria-hidden="true">↗</span>
       </button>
 
       {open ? (
