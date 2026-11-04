@@ -83,15 +83,21 @@ export function LeaderboardSection() {
   return (
     <section className="home-section sqlwhale-leaderboard-section">
       <div className="sqlwhale-leaderboard-head">
-        <div>
+        <div className="sqlwhale-leaderboard-title">
           <div className="agency-section-index">SQLWHALE / LIVE COMMUNITY RANKINGS</div>
           <h2>Top 10 <em>SQL learners.</em></h2>
           <p>Earn Chai Points by completing SQL tasks and climb the leaderboard.</p>
         </div>
-        <div className="sqlwhale-leaderboard-scale">
-          <span>EASY <b>10</b></span>
-          <span>MEDIUM <b>15</b></span>
-          <span>HARD <b>20</b></span>
+        <div className="sqlwhale-leaderboard-meta">
+          <div className="sqlwhale-leaderboard-total">
+            <strong>{data?.totalRankedUsers ?? "—"}</strong>
+            <span>LEARNERS RANKED</span>
+          </div>
+          <div className="sqlwhale-leaderboard-scale" aria-label="Chai Points by task difficulty">
+            <span>EASY <b>10</b></span>
+            <span>MEDIUM <b>15</b></span>
+            <span>HARD <b>20</b></span>
+          </div>
         </div>
       </div>
 
