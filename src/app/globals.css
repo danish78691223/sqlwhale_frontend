@@ -22490,3 +22490,129 @@ html[data-theme="light"] .sqlwhale-bargain-close{
   font-size:22px;
   font-weight:700;
 }
+
+
+/* Footer theme matching the Didasko-inspired light homepage. */
+html[data-theme="light"] .sqlwhale-footer{
+  background:linear-gradient(135deg,#dff5ef 0%,#e9f7f2 48%,#f7f2e9 100%);
+  color:#151515;
+  border-top:2px solid #111;
+}
+html[data-theme="light"] .sqlwhale-footer::before{
+  background-image:
+    linear-gradient(rgba(17,17,17,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(17,17,17,.045) 1px,transparent 1px);
+  background-size:34px 34px;
+  opacity:.55;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-logo{
+  color:#111;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-logo .sqlwhale-logo-image{
+  border:2px solid #111;
+  border-radius:10px;
+  background:#ffe45e;
+  box-shadow:3px 3px 0 #111;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-tagline{
+  color:#5e6060;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-status{
+  border:1.5px solid #111;
+  border-radius:0;
+  background:rgba(255,255,255,.72);
+  color:#3f4643;
+  box-shadow:3px 3px 0 rgba(17,17,17,.14);
+}
+html[data-theme="light"] .sqlwhale-footer .status-dot{
+  background:#0c9b78;
+  box-shadow:0 0 0 3px rgba(12,155,120,.13);
+}
+html[data-theme="light"] .sqlwhale-footer .footer-column-title{
+  color:#7652c5;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.17em;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-column a,
+html[data-theme="light"] .sqlwhale-footer .footer-column>span:not(.footer-column-title){
+  color:#505651;
+  font-size:12px;
+  line-height:1.6;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-column a:hover{
+  color:#7652c5;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-company{
+  color:#111!important;
+  font-size:18px!important;
+  font-weight:950;
+  letter-spacing:.045em;
+  line-height:1.35;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-company-description{
+  color:#666d68!important;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-industrial-line>span:first-child,
+html[data-theme="light"] .sqlwhale-footer .footer-industrial-line>span:last-child{
+  height:2px;
+  background:rgba(17,17,17,.2);
+}
+html[data-theme="light"] .sqlwhale-footer .footer-line-label{
+  color:#6a6570;
+  font-weight:800;
+  letter-spacing:.14em;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-bottom{
+  border-top:1px solid rgba(17,17,17,.2);
+  color:#5f665f;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-learning-service{
+  color:#5f665f;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-learning-service strong{
+  color:#111;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-social-link{
+  color:#505651;
+}
+html[data-theme="light"] .sqlwhale-footer .footer-social-link:hover{
+  color:#7652c5;
+}
+html[data-theme="light"] .sqlwhale-footer .product-hunt-footer-badge img{
+  border-radius:8px;
+  box-shadow:3px 3px 0 rgba(17,17,17,.18);
+}
+html[data-theme="light"] .sqlwhale-footer .footer-admin-column a{
+  color:#b42318!important;
+}
+@media(max-width:600px){
+  html[data-theme="light"] .sqlwhale-footer{
+    padding:0 22px 24px;
+  }
+  html[data-theme="light"] .sqlwhale-footer .footer-industrial-grid{
+    padding-top:46px;
+    padding-bottom:34px;
+  }
+  html[data-theme="light"] .sqlwhale-footer .footer-column{
+    padding-top:2px;
+  }
+  html[data-theme="light"] .sqlwhale-footer .footer-line-label{
+    font-size:8px;
+    white-space:normal;
+    line-height:1.5;
+  }
+}
+
+/* Explicitly preserve the original SQLWhale dark footer palette. */
+html[data-theme="dark"] .sqlwhale-footer{
+  background:#0b0d0f;
+  color:#e8ecef;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+html[data-theme="dark"] .sqlwhale-footer::before{
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:42px 42px;
+}
