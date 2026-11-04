@@ -5,8 +5,10 @@ import api from "@/services/api";
 
 type BargainState = {
   sessionId: string;
-  originalPrice: number;
-    attempts: number;
+  planPrice: number;
+  minimumPrice: number;
+  durationMonths: number;
+  attempts: number;
   remainingAttempts: number;
   locked: boolean;
   acceptedPrice: number | null;
@@ -48,7 +50,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paying, setPaying] = useState(false);
-  const [offer, setOffer] = useState("500");
+  const [offer, setOffer] = useState("179");
   const [bargain, setBargain] = useState<BargainState | null>(null);
   const [counterOffer, setCounterOffer] = useState<number | null>(null);
   const [message, setMessage] = useState("");
@@ -105,8 +107,8 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   async function submitOffer() {
     if (!bargain) return;
     const amount = Number(offer);
-    if (!Number.isSafeInteger(amount) || amount < 1 || amount > 1000) {
-      setError("₹1 se ₹1,000 ke beech whole-number offer enter karein.");
+    if (!Number.isSafeInteger(amount) || amount < 149 || amount > 249) {
+      setError("₹149 se ₹249 ke beech whole-number offer enter karein.");
       return;
     }
     setLoading(true);
@@ -145,19 +147,19 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
     }
   }
 
-  async function checkout(direct = false) {
+  async function checkout() {
     if (!policyAccepted) {
       setError("Please accept the Terms & Conditions and Refund/Cancellation Policy before paying.");
       return;
     }
-    if (!direct && (!bargain || !bargain.locked || !bargain.acceptedPrice)) {
-      setError("Accept a valid deal before checkout.");
+    if (!bargain || !bargain.locked || !bargain.acceptedPrice) {
+      setError("Accept a valid 10-month deal before checkout.");
       return;
     }
     setPaying(true);
     setError("");
     try {
-      const response = await api.post("/subscription/order", { ...(direct ? { direct: true } : { sessionId: bargain?.sessionId }), termsAccepted: true, refundPolicyAccepted: true });
+      const response = await api.post("/subscription/order", { sessionId: bargain.sessionId, termsAccepted: true, refundPolicyAccepted: true });
       const { order, keyId, plan } = response.data;
       if (!keyId || !order?.id) throw new Error("Payment settings abhi ready nahi hain. Please baad mein retry karein.");
 
@@ -167,7 +169,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
         amount: order.amount,
         currency: order.currency,
         name: "SQLWhale",
-        description: plan || "SQLWhale Premium Subscription",
+        description: plan || "SQLWhale Premium · 10 months",
         order_id: order.id,
         image: "/sqlwhale-logo-main.png",
         theme: { color: "#1862FD" },
@@ -196,7 +198,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
           confirm_close: true,
         },
         prefill: {},
-        notes: { plan: "SQLWhale Premium" },
+        notes: { plan: "SQLWhale Premium · 10 months", purchaseType: "bargain" },
       });
       checkoutInstance.on("payment.failed", (failure: any) => {
         const reason = failure?.error?.description || "Payment failed.";
@@ -232,9 +234,10 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
             </p>
 
             {!subscribed ? (
-              <div className="sqlwhale-bargain-prices">
-                <div><span>Original price</span><strong>₹1,000</strong></div>
-                <div><span>Personal bargain</span><strong>Your offer</strong></div>
+              <div className="sqlwhale-bargain-prices sqlwhale-bargain-plan">
+                <div><span>10-Month Plan</span><strong>₹249</strong></div>
+                <div><span>Your bargain range</span><strong>₹199–₹249</strong></div>
+                <p className="sqlwhale-bargain-plan-note">One-time payment · 10 months Premium · No auto-renewal</p>
               </div>
             ) : null}
 
@@ -256,27 +259,29 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
             ) : null}
 
             {!subscribed && view === "choice" && !loading ? (
-              <div className="sqlwhale-subscribe-choices">
-                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout(true)} disabled={paying || !policyAccepted}>
-                  Proceed to Pay ₹1,000
+              <div className="sqlwhale-subscribe-choices sqlwhale-bargain-start">
+                <div className="sqlwhale-bargain-value">
+                  <span>BEST VALUE</span>
+                  <strong>₹24.90 <small>/ month</small></strong>
+                  <p>10 months for ₹249. Bargain and unlock the same access for less.</p>
+                </div>
+                <button type="button" className="sqlwhale-bargain-primary" onClick={() => void startBargain()} disabled={paying}>
+                  🤝 Challenge the Whale · Start Bargaining
                 </button>
-                <button type="button" className="sqlwhale-bargain-secondary" onClick={() => void startBargain()} disabled={paying}>
-                  🤝 Bargain for a better price
-                </button>
-                <p className="sqlwhale-bargain-choice-note">Pay the listed price instantly, or bargain with the Whale first.</p>
+                <p className="sqlwhale-bargain-choice-note">Make an offer between ₹149 and ₹249. The Whale has 3 rounds to respond.</p>
               </div>
             ) : null}
 
             {!subscribed && view === "bargain" && bargain && !bargain.locked ? (
               <form className="sqlwhale-bargain-form" onSubmit={(event) => { event.preventDefault(); void submitOffer(); }}>
-                <label htmlFor="sqlwhale-bargain-offer">Your offer (₹)</label>
+                <label htmlFor="sqlwhale-bargain-offer">Your offer for 10 months (₹)</label>
                 <div className="sqlwhale-bargain-input-row">
                   <span>₹</span>
                   <input
                     id="sqlwhale-bargain-offer"
                     type="number"
-                    min="1"
-                    max="1000"
+                    min="149"
+                    max="249"
                     step="1"
                     inputMode="numeric"
                     value={offer}
@@ -285,24 +290,25 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
                     required
                   />
                 </div>
-                <p className="sqlwhale-bargain-attempts">{bargain.remainingAttempts} offer attempt{bargain.remainingAttempts === 1 ? "" : "s"} remaining</p>
+                <div className="sqlwhale-bargain-rounds" aria-label={bargain.remainingAttempts + " offer rounds remaining"}>{[0,1,2].map((round) => <span key={round} className={round < bargain.attempts ? "used" : ""} />)}</div>
+                <p className="sqlwhale-bargain-attempts">{bargain.remainingAttempts} round{bargain.remainingAttempts === 1 ? "" : "s"} left · Minimum deal ₹199</p>
                 <button type="submit" className="sqlwhale-bargain-primary" disabled={loading || paying}>
-                  {loading ? "Checking offer…" : "Submit offer"}
+                  {loading ? "Checking offer…" : "Make my offer"}
                 </button>
               </form>
             ) : null}
 
             {!subscribed && view === "bargain" && counterOffer !== null && !bargain?.locked ? (
               <button type="button" className="sqlwhale-bargain-secondary" onClick={() => void acceptCounterOffer()} disabled={loading || paying}>
-                {loading ? "Accepting…" : "Accept Whale's offer · ₹" + counterOffer}
+                {loading ? "Accepting…" : "🐳 Accept Whale's counter · ₹" + counterOffer + " for 10 months"}
               </button>
             ) : null}
 
             {!subscribed && view === "bargain" && bargain?.locked ? (
               <div className="sqlwhale-bargain-checkout">
-                <p>Deal price locked: <strong>₹{bargain.acceptedPrice?.toLocaleString("en-IN")}</strong></p>
+                <p>10-month Whale Deal locked: <strong>₹{bargain.acceptedPrice?.toLocaleString("en-IN")}</strong> <span>· You save ₹{249 - (bargain.acceptedPrice || 249)}</span></p>
                 <button type="button" className="sqlwhale-bargain-primary" onClick={() => void checkout()} disabled={paying || loading || !policyAccepted}>
-                  {paying ? "Processing…" : "Deal Done & Pay ₹" + bargain.acceptedPrice?.toLocaleString("en-IN")}
+                  {paying ? "Processing…" : "Lock this deal · Pay ₹" + bargain.acceptedPrice?.toLocaleString("en-IN")}
                 </button>
               </div>
             ) : null}
