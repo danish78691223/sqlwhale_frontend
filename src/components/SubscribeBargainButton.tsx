@@ -225,14 +225,29 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
         }}>
           <section className="sqlwhale-bargain-modal" role="dialog" aria-modal="true" aria-labelledby="sqlwhale-bargain-title">
             <button type="button" className="sqlwhale-bargain-close" aria-label="Close subscription popup" onClick={() => setOpen(false)} disabled={loading || paying}>×</button>
-            <div className="sqlwhale-bargain-whale" aria-hidden="true">{subscribed ? "🐳✨" : "🐳"}</div>
-            <p className="sqlwhale-bargain-eyebrow">SQLWHALE PREMIUM / SUBSCRIPTION</p>
-            <h2 id="sqlwhale-bargain-title">{subscribed ? "Welcome aboard!" : "Let's make a deal."}</h2>
-            <p className="sqlwhale-bargain-intro">
-              {subscribed
-                ? "Premium access is active. Happy querying!"
-                : "Tutorials se aage badho. Apna offer do aur Whale ke saath bargain karo."}
-            </p>
+            {subscribed ? (
+              <div className="sqlwhale-bargain-success" role="status">
+                <div className="sqlwhale-bargain-success-icon" aria-hidden="true">🐳</div>
+                <span className="sqlwhale-bargain-success-badge"><i /> PREMIUM ACTIVE</span>
+                <h2 id="sqlwhale-bargain-title">Your Premium is already active!</h2>
+                <p className="sqlwhale-bargain-success-copy">
+                  You're all set. SQLWhale Premium is enabled on your account, so you don't need to subscribe or make another payment.
+                </p>
+                <div className="sqlwhale-bargain-success-details">
+                  <div><span>Account status</span><strong>✓ Active</strong></div>
+                  <div><span>Payment needed</span><strong>No — you're all set</strong></div>
+                </div>
+                <p className="sqlwhale-bargain-success-note">Keep learning, practise SQL and unlock your Premium features.</p>
+                <a className="sqlwhale-bargain-success-cta" href="/run-query">Continue learning <span aria-hidden="true">↗</span></a>
+              </div>
+            ) : (
+              <>
+                <div className="sqlwhale-bargain-whale" aria-hidden="true">🐳</div>
+                <p className="sqlwhale-bargain-eyebrow">SQLWHALE PREMIUM / SUBSCRIPTION</p>
+                <h2 id="sqlwhale-bargain-title">Let's make a deal.</h2>
+                <p className="sqlwhale-bargain-intro">Tutorials se aage badho. Apna offer do aur Whale ke saath bargain karo.</p>
+              </>
+            )}
 
             {!subscribed ? (
               <div className="sqlwhale-bargain-prices sqlwhale-bargain-plan">
@@ -242,7 +257,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
               </div>
             ) : null}
 
-            {message ? <div className={subscribed ? "sqlwhale-bargain-message is-success" : "sqlwhale-bargain-message"} aria-live="polite">{message}</div> : null}
+            {!subscribed && message ? <div className="sqlwhale-bargain-message" aria-live="polite">{message}</div> : null}
             {error ? <div className="sqlwhale-bargain-error" role="alert">{error}</div> : null}
 
             {!subscribed && (view === "choice" || Boolean(bargain?.locked)) ? (
@@ -319,7 +334,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
             ) : null}
 
             {loading || paying ? <p className="sqlwhale-bargain-loading" role="status">One moment, Whale is checking the database…</p> : null}
-            <p className="sqlwhale-bargain-footnote">Secure checkout powered by Razorpay · INR payments</p>
+            {!subscribed ? <p className="sqlwhale-bargain-footnote">Secure checkout powered by Razorpay · INR payments</p> : null}
           </section>
         </div>
       ) : null}
