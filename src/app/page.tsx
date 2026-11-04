@@ -106,6 +106,8 @@ export default function Home() {
   const [demoRan, setDemoRan] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [audience, setAudience] = useState(0);
+  const [publicFeedback, setPublicFeedback] = useState<any[]>([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(true);
 
   useEffect(() => {
     // The intro loader is only for the first homepage visit in this browser tab.
@@ -134,6 +136,28 @@ export default function Home() {
     elements.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, [loading]);
+
+  useEffect(() => {
+    let active = true;
+    setFeedbackLoading(true);
+    fetch("/api/feedback?product=SQLWhale", { cache: "no-store" })
+      .then(async (response) => {
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.message || "Unable to load feedback.");
+        return result;
+      })
+      .then((result) => {
+        if (active) setPublicFeedback(Array.isArray(result.feedback) ? result.feedback : []);
+      })
+      .catch((error) => {
+        console.error("Homepage feedback load failed:", error);
+        if (active) setPublicFeedback([]);
+      })
+      .finally(() => {
+        if (active) setFeedbackLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
 
   if (loading) return <SqlWhaleLoader onDone={() => setLoading(false)} />;
 
@@ -202,7 +226,49 @@ export default function Home() {
 
       <section id="leaderboard" className="home-section sw-section sw-leaderboard-wrap"><div className="sw-section-inner"><div className="sw-kicker">06 / COMMUNITY PROGRESS</div><LeaderboardSection/><p className="sw-leaderboard-cta">Want to see your name here? <Link href="/run-query">Complete your first SQL task <ArrowRight size={14}/></Link></p></div></section>
 
-      <section className="home-section sw-section sw-testimonial-section"><div className="sw-section-inner"><div className="sw-kicker">07 / EARLY FEEDBACK</div><div className="sw-section-heading"><h2>Built around a simple idea:<br /><em>SQL should make sense.</em></h2><p>We're growing with learners. Real learner stories will appear here as beta feedback is collected.</p></div><div className="sw-beta-card"><span>BUILDING IN PUBLIC</span><h3>Your learning story could be next.</h3><p>Have tried SQLWhale? Share honest feedback about what clicked, what felt confusing and what should improve.</p><a href="mailto:hello@webxwhale.com?subject=SQLWhale%20beta%20feedback">Share beta feedback <ArrowRight size={14}/></a></div></div></section>
+      <section className="home-section sw-section sw-testimonial-section">
+        <div className="sw-section-inner">
+          <div className="sw-kicker">07 / LEARNER FEEDBACK</div>
+          <div className="sw-section-heading">
+            <h2>Feedback from real learners.<br /><em>Shared with permission.</em></h2>
+            <p>These are genuine SQLWhale submissions reviewed by the WEBXWHALE team. Only feedback approved for public display appears here.</p>
+          </div>
+
+          {feedbackLoading ? (
+            <div className="sw-feedback-state" role="status">Loading learner feedback…</div>
+          ) : publicFeedback.length > 0 ? (
+            <div className="sw-public-feedback-grid">
+              {publicFeedback.map((item) => (
+                <article className="sw-public-feedback-card" key={item.id}>
+                  <div className="sw-public-feedback-top">
+                    <span className="sw-public-feedback-stars" aria-label={item.rating + " out of 5 stars"}>{"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}</span>
+                    <span className="sw-public-feedback-category">{({ learning: "Learning", bug: "Bug report", ui: "User experience", feature: "Feature idea", other: "General" } as Record<string, string>)[item.category] || "SQLWhale"}</span>
+                  </div>
+                  <p className="sw-public-feedback-message">“{item.message}”</p>
+                  <div className="sw-public-feedback-author">
+                    <span className="sw-public-feedback-avatar">{(item.name || "S").trim().charAt(0).toUpperCase()}</span>
+                    <div><strong>{item.name || "SQLWhale learner"}</strong><small>{item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-IN", { month: "short", year: "numeric" }) : "SQLWhale learner"}</small></div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="sw-feedback-state">
+              <span>THE COMMUNITY IS JUST GETTING STARTED</span>
+              <h3>No public reviews yet.</h3>
+              <p>Share your experience. With your permission, your feedback can appear here after the WEBXWHALE team reviews it.</p>
+            </div>
+          )}
+
+          <button
+            className="sw-feedback-invite"
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("sqlwhale:open-feedback"))}
+          >
+            Share your feedback <ArrowRight size={15} />
+          </button>
+        </div>
+      </section>
 
       <section id="pricing" className="home-section sw-section sw-pricing-section"><div className="sw-section-inner"><div className="sw-kicker">08 / SIMPLE PRICING</div><div className="sw-section-heading"><h2>Start free.<br /><em>Upgrade when ready.</em></h2><p>Try the learning workspace first, then choose a Premium plan when you need more.</p></div><div className="sw-pricing-grid"><article><span>FREE TO START</span><h3>Explore SQLWhale</h3><ul><li>Try the SQL workspace</li><li>Explore beginner lessons</li><li>Practice and learn the basics</li></ul><Link href="/run-query">Start free <ArrowRight size={14}/></Link></article><article className="featured"><span>PREMIUM ACCESS</span><h3>From ₹49 / month</h3><ul><li>Unlock Premium learning content</li><li>Reveal Premium answers</li><li>Choose a plan that fits your pace</li></ul><Link href="/subscribe">View Premium plans <ArrowRight size={14}/></Link></article></div><div className="sw-bargain"><span>🐳 BARGAIN WITH THE WHALE</span><p>Feeling lucky? Make a deal with the Whale on the subscription page.</p><Link href="/subscribe">Try your bargain <ArrowRight size={14}/></Link></div></div></section>
 
