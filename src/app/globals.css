@@ -22140,3 +22140,23 @@ button.sqlwhale-run-diamond-badge.run-nav-subscription-badge.is-subscribed i {
 .account-page .account-shell>aside.account-sidebar-column.is-open{transform:translateX(0)!important}
 .account-page .account-shell>aside.account-sidebar-column>nav.account-section-nav{position:relative!important;inset:auto!important;width:100%!important;height:100%!important;max-height:100%!important;margin:0!important;padding:0!important;transform:none!important;overflow-x:hidden!important;overflow-y:auto!important;background:transparent!important}
 }
+
+
+/* Optional consent for publishing SQLWhale feedback after moderation. */
+.sqlwhale-feedback-consent{
+  display:grid;
+  grid-template-columns:18px minmax(0,1fr);
+  align-items:start;
+  gap:10px;
+  margin:8px 0 4px!important;
+  color:#5f6270;
+  font-size:12px!important;
+  font-weight:450!important;
+  line-height:1.55;
+}
+.sqlwhale-feedback-consent input{
+  width:16px;
+  height:16px;
+  margin:2px 0 0;
+  accent-color:#7652c5;
+}
