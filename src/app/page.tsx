@@ -253,10 +253,30 @@ export default function Home() {
               ))}
             </div>
           ) : (
-            <div className="sw-feedback-state">
-              <span>THE COMMUNITY IS JUST GETTING STARTED</span>
-              <h3>No public reviews yet.</h3>
-              <p>Share your experience. With your permission, your feedback can appear here after the WEBXWHALE team reviews it.</p>
+            <div className="sw-feedback-empty">
+              <div className="sw-feedback-empty-copy">
+                <span className="sw-feedback-empty-tag">HELP SHAPE WHAT COMES NEXT</span>
+                <h3>Your experience can make SQLWhale better.</h3>
+                <p>Tell us what is working, what needs attention and what you would love to see next. Reviews appear here only when you choose to share them publicly and the WEBXWHALE team approves them.</p>
+                <div className="sw-feedback-empty-note"><span>✳</span> Honest feedback. Real learners. No made-up reviews.</div>
+              </div>
+              <div className="sw-feedback-steps" aria-label="How public feedback works">
+                <div className="sw-feedback-step">
+                  <b>01</b>
+                  <span><strong>You share</strong><small>Rate your SQLWhale experience.</small></span>
+                  <i>↗</i>
+                </div>
+                <div className="sw-feedback-step">
+                  <b>02</b>
+                  <span><strong>We review</strong><small>The WEBXWHALE team checks the submission.</small></span>
+                  <i>✓</i>
+                </div>
+                <div className="sw-feedback-step">
+                  <b>03</b>
+                  <span><strong>You stay in control</strong><small>Only consented feedback can appear here.</small></span>
+                  <i>✦</i>
+                </div>
+              </div>
             </div>
           )}
 
