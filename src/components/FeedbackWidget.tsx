@@ -16,6 +16,7 @@ export default function FeedbackWidget() {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(5);
   const [category, setCategory] = useState("learning");
+  const [publicConsent, setPublicConsent] = useState(false);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState("");
@@ -56,6 +57,7 @@ export default function FeedbackWidget() {
           rating,
           category,
           message: message.trim(),
+          isPublic: publicConsent,
           page: window.location.pathname,
         }),
       });
@@ -66,7 +68,8 @@ export default function FeedbackWidget() {
       setMessage("");
       setRating(5);
       setCategory("learning");
-      setResult("Thanks — your feedback has been sent.");
+      setPublicConsent(false);
+      setResult(publicConsent ? "Thanks — feedback received. It may appear on the homepage after review." : "Thanks — your private feedback has been sent.");
     } catch (error: any) {
       setResult(error.message || "Unable to submit feedback.");
     } finally {
@@ -116,6 +119,15 @@ export default function FeedbackWidget() {
                 rows={5}
                 required
               />
+
+              <label className="sqlwhale-feedback-consent">
+                <input
+                  type="checkbox"
+                  checked={publicConsent}
+                  onChange={(event) => setPublicConsent(event.target.checked)}
+                />
+                <span>I'm happy for SQLWhale to display my rating and feedback on its homepage after review. My email and account details will never be shown.</span>
+              </label>
 
               {result && <p className="sqlwhale-feedback-result">{result}</p>}
 
