@@ -92,3 +92,74 @@
 :global(html[data-theme="light"]) .scrollCue span{color:#7754c4}
 @media(max-width:1023px){:global(html[data-theme="light"]) .inner{grid-template-columns:1fr;width:min(100% - 40px,760px);gap:38px}}
 @media(max-width:640px){:global(html[data-theme="light"]) .hero{padding:70px 0 48px}:global(html[data-theme="light"]) .inner{width:calc(100% - 32px);gap:28px}}
+
+
+/* Centered editorial hero layout for the Didasko-inspired light homepage. */
+:global(html[data-theme="light"]) .hero{
+  min-height:0;
+  padding:clamp(76px,8vw,112px) 0 58px;
+  text-align:center;
+}
+:global(html[data-theme="light"]) .inner{
+  width:min(1100px,calc(100% - 56px));
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(34px,4vw,52px);
+}
+:global(html[data-theme="light"]) .copy{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  max-width:790px;
+  text-align:center;
+}
+:global(html[data-theme="light"]) .eyebrow{
+  justify-content:center;
+  margin-bottom:24px;
+  padding:7px 12px;
+  border:2px solid #111;
+  background:#ffd7b0;
+  box-shadow:4px 4px 0 #111;
+  color:#111;
+  font-size:9px;
+  letter-spacing:.12em;
+}
+:global(html[data-theme="light"]) .eyebrow>span:first-child{display:none}
+:global(html[data-theme="light"]) .eyebrowLine{display:none}
+:global(html[data-theme="light"]) .title{
+  max-width:900px;
+  font-size:clamp(3.1rem,6.3vw,5.8rem);
+  line-height:.98;
+  letter-spacing:-.065em;
+  text-transform:uppercase;
+}
+:global(html[data-theme="light"]) .titleAccent{color:#111}
+:global(html[data-theme="light"]) .lede{
+  max-width:610px;
+  margin:19px auto 0;
+  font-size:clamp(14px,1.25vw,17px);
+  line-height:1.65;
+}
+:global(html[data-theme="light"]) .actions{justify-content:center;margin-top:25px}
+:global(html[data-theme="light"]) .trustLine{justify-content:center;margin-top:18px}
+:global(html[data-theme="light"]) .heroVisual{
+  width:min(100%,970px);
+  padding:18px;
+  text-align:left;
+}
+:global(html[data-theme="light"]) .visualTop{height:32px}
+:global(html[data-theme="light"]) .heroCode pre{font-size:13px}
+:global(html[data-theme="light"]) .tableHeader,
+:global(html[data-theme="light"]) .tableRow{padding:12px 15px;font-size:10px}
+:global(html[data-theme="light"]) .visualFoot{font-size:8px}
+:global(html[data-theme="light"]) .scrollCue{display:none}
+@media(max-width:640px){
+  :global(html[data-theme="light"]) .hero{padding:66px 0 40px}
+  :global(html[data-theme="light"]) .inner{width:calc(100% - 32px);gap:28px}
+  :global(html[data-theme="light"]) .eyebrow{margin-bottom:20px}
+  :global(html[data-theme="light"]) .title{font-size:clamp(2.55rem,11vw,3.8rem)}
+  :global(html[data-theme="light"]) .lede{font-size:14px}
+  :global(html[data-theme="light"]) .heroVisual{padding:10px}
+  :global(html[data-theme="light"]) .heroCode pre{font-size:10px}
+}
