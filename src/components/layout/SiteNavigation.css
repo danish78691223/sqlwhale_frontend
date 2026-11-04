@@ -372,3 +372,20 @@ body:has(.learn-v2) .sqlwhale-notch-spacer {
 .sqlwhale-notch-mobile-start span{flex:1}
 @media(max-width:980px){.sqlwhale-notch-start{padding:0 10px;font-size:10px}}
 @media(max-width:760px){.sqlwhale-notch-start{display:none}}
+
+
+/* Neobrutalist cream navigation for the homepage light theme */
+html[data-theme="light"] .sqlwhale-notch-center{
+ background:rgba(251,248,246,.96)!important;color:#111!important;
+ border:2px solid #111!important;border-top:0!important;border-radius:0 0 0 0!important;
+ box-shadow:5px 5px 0 #111!important;backdrop-filter:blur(14px);
+}
+html[data-theme="light"] .sqlwhale-notch-header{color:#111!important}
+html[data-theme="light"] .sqlwhale-notch-link{color:#28242b!important}
+html[data-theme="light"] .sqlwhale-notch-link:hover{color:#6945b5!important}
+html[data-theme="light"] .sqlwhale-notch-brand{color:#111!important}
+html[data-theme="light"] .sqlwhale-notch-account{border:2px solid #111!important;border-radius:0!important;background:#ffe45e!important;color:#111!important;box-shadow:3px 3px 0 #111}
+html[data-theme="light"] .sqlwhale-notch-start{border:2px solid #111!important;border-radius:0!important;background:#ffe45e!important;color:#111!important;box-shadow:3px 3px 0 #111!important}
+html[data-theme="light"] .sqlwhale-notch-menu-button{border:2px solid #111!important;border-radius:0!important;background:#fff!important;color:#111!important}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu{border:2px solid #111!important;border-radius:0!important;background:#fbf8f6!important;box-shadow:5px 5px 0 #111!important}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a{color:#111!important}
