@@ -664,3 +664,258 @@ html[data-theme="light"] .sqlwhale-home .sw-feedback-invite{
   .sw-public-feedback-grid{grid-template-columns:1fr}
   .sw-public-feedback-card{min-height:0;padding:20px}
 }
+
+
+/* Feedback section: tighter transition from leaderboard and a complete empty state. */
+html[data-theme="light"] .sqlwhale-home .sw-leaderboard-wrap{
+  padding-bottom:clamp(28px,3.2vw,48px);
+}
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section{
+  padding-top:clamp(42px,5vw,68px);
+  padding-bottom:clamp(76px,8vw,104px);
+  border-top:1px solid rgba(17,17,17,.12);
+}
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section .sw-section-heading{
+  max-width:790px;
+  margin-bottom:34px;
+}
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section .sw-section-heading h2{
+  max-width:760px;
+  margin:0 auto;
+  font-size:clamp(2rem,3.7vw,3.2rem);
+  line-height:1.02;
+  letter-spacing:-.06em;
+}
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section .sw-section-heading>p{
+  max-width:590px;
+  margin:13px auto 0;
+  font-size:13px;
+  line-height:1.65;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:stretch;
+  gap:clamp(22px,4vw,48px);
+  max-width:950px;
+  margin:0 auto;
+  padding:clamp(24px,3.5vw,38px);
+  border:2px solid #111;
+  border-radius:0;
+  background:var(--sw-yellow);
+  box-shadow:8px 8px 0 #111;
+  text-align:left;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-tag{
+  display:inline-flex;
+  align-items:center;
+  min-height:27px;
+  padding:0 9px;
+  border:1.5px solid #111;
+  background:#fff;
+  color:#111;
+  font:850 8px/1 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-copy h3{
+  max-width:420px;
+  margin:18px 0 10px;
+  color:#111;
+  font:900 clamp(1.65rem,2.9vw,2.45rem)/1.02 system-ui,sans-serif;
+  letter-spacing:-.055em;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-copy>p{
+  max-width:480px;
+  margin:0;
+  color:#4f4a43;
+  font:450 12px/1.75 system-ui,sans-serif;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:22px;
+  color:#3c3931;
+  font:750 9px/1.5 system-ui,sans-serif;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-note span{
+  display:grid;
+  place-items:center;
+  width:23px;
+  height:23px;
+  border:1.5px solid #111;
+  border-radius:50%;
+  background:var(--sw-mint);
+  font-size:13px;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-steps{
+  display:grid;
+  align-content:center;
+  gap:10px;
+  padding:15px;
+  border:2px solid #111;
+  background:#fff;
+  box-shadow:4px 4px 0 rgba(17,17,17,.22);
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step{
+  display:grid;
+  grid-template-columns:31px minmax(0,1fr) 24px;
+  align-items:center;
+  gap:10px;
+  min-height:66px;
+  padding:9px 10px;
+  border:1px solid rgba(17,17,17,.14);
+  background:#fbf8f6;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step>b{
+  display:grid;
+  place-items:center;
+  width:29px;
+  height:29px;
+  border:1.5px solid #111;
+  background:var(--sw-peach);
+  color:#111;
+  font:850 9px/1 system-ui,sans-serif;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step>span{
+  display:grid;
+  gap:4px;
+  min-width:0;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step strong{
+  color:#111;
+  font:850 10px/1.2 system-ui,sans-serif;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step small{
+  color:#69636b;
+  font:450 9px/1.45 system-ui,sans-serif;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-step>i{
+  color:#7652c5;
+  font:900 16px/1 system-ui,sans-serif;
+  font-style:normal;
+  text-align:center;
+}
+html[data-theme="light"] .sqlwhale-home .sw-feedback-invite{
+  min-width:190px;
+  min-height:46px;
+  margin:27px auto 0;
+  padding:0 22px;
+  font-size:11px;
+}
+html[data-theme="light"] .sqlwhale-home .sw-public-feedback-grid{
+  gap:20px;
+  max-width:1040px;
+  margin:0 auto;
+}
+html[data-theme="light"] .sqlwhale-home .sw-public-feedback-card{
+  min-height:228px;
+  padding:23px;
+}
+@media(max-width:760px){
+  html[data-theme="light"] .sqlwhale-home .sw-leaderboard-wrap{padding-bottom:26px}
+  html[data-theme="light"] .sqlwhale-home .sw-testimonial-section{padding-top:38px}
+  html[data-theme="light"] .sqlwhale-home .sw-testimonial-section .sw-section-heading{margin-bottom:28px}
+  html[data-theme="light"] .sqlwhale-home .sw-testimonial-section .sw-section-heading h2{font-size:clamp(1.9rem,7vw,2.75rem)}
+  html[data-theme="light"] .sqlwhale-home .sw-feedback-empty{grid-template-columns:1fr;gap:20px;padding:20px}
+  html[data-theme="light"] .sqlwhale-home .sw-feedback-steps{padding:10px}
+}
+@media(max-width:420px){
+  html[data-theme="light"] .sqlwhale-home .sw-feedback-empty-copy h3{font-size:1.65rem}
+  html[data-theme="light"] .sqlwhale-home .sw-feedback-step{grid-template-columns:28px minmax(0,1fr) 18px;gap:8px;padding:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-theme="light"] .sqlwhale-home .sw-feedback-invite{transition:none}
+}
+
+/* Dark mode equivalent, retaining SQLWhale's original dark palette. */
+html[data-theme="dark"] .sqlwhale-home .sw-leaderboard-wrap{padding-bottom:42px}
+html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section{padding-top:52px}
+html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section .sw-section-heading{
+  display:block;
+  max-width:790px;
+  margin:0 auto 34px;
+  text-align:center;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section .sw-section-heading h2{
+  max-width:760px;
+  margin:0 auto;
+  font-size:clamp(2rem,3.7vw,3.2rem);
+  line-height:1.02;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section .sw-section-heading>p{
+  max-width:590px;
+  margin:13px auto 0;
+  text-align:center;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:stretch;
+  gap:clamp(22px,4vw,48px);
+  max-width:950px;
+  margin:0 auto;
+  padding:clamp(24px,3.5vw,38px);
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:16px;
+  background:linear-gradient(140deg,#171522,#101018);
+  box-shadow:0 20px 55px rgba(0,0,0,.22);
+  text-align:left;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-copy{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-tag{
+  display:inline-flex;align-items:center;min-height:27px;padding:0 9px;
+  border:1px solid rgba(167,139,250,.3);border-radius:6px;
+  background:rgba(139,92,246,.12);color:#c9b9ff;
+  font:850 8px/1 system-ui,sans-serif;letter-spacing:.12em;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-copy h3{
+  max-width:420px;margin:18px 0 10px;color:#f4f2fa;
+  font:850 clamp(1.65rem,2.9vw,2.45rem)/1.02 system-ui,sans-serif;letter-spacing:-.055em;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-copy>p{
+  max-width:480px;margin:0;color:#aaa6b7;font:450 12px/1.75 system-ui,sans-serif;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-note{
+  display:flex;align-items:center;gap:8px;margin-top:22px;color:#c5bed5;
+  font:700 9px/1.5 system-ui,sans-serif;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty-note span{
+  display:grid;place-items:center;width:23px;height:23px;border:1px solid #62528f;
+  border-radius:50%;background:rgba(139,92,246,.15);font-size:13px;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-steps{
+  display:grid;align-content:center;gap:10px;padding:15px;
+  border:1px solid rgba(255,255,255,.1);border-radius:12px;
+  background:rgba(255,255,255,.025);
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step{
+  display:grid;grid-template-columns:31px minmax(0,1fr) 24px;align-items:center;gap:10px;
+  min-height:66px;padding:9px 10px;border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;background:rgba(255,255,255,.035);
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step>b{
+  display:grid;place-items:center;width:29px;height:29px;border:1px solid rgba(167,139,250,.35);
+  border-radius:7px;background:rgba(139,92,246,.16);color:#d4c8ff;
+  font:850 9px/1 system-ui,sans-serif;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step>span{display:grid;gap:4px;min-width:0}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step strong{color:#f0edf8;font:800 10px/1.2 system-ui,sans-serif}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step small{color:#9f9bac;font:450 9px/1.45 system-ui,sans-serif}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-step>i{color:#b9a2ff;font:900 16px/1 system-ui,sans-serif;font-style:normal;text-align:center}
+html[data-theme="dark"] .sqlwhale-home .sw-feedback-invite{min-width:190px;min-height:46px;margin:27px auto 0;padding:0 22px;font-size:11px}
+@media(max-width:760px){
+  html[data-theme="dark"] .sqlwhale-home .sw-leaderboard-wrap{padding-bottom:26px}
+  html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section{padding-top:38px}
+  html[data-theme="dark"] .sqlwhale-home .sw-feedback-empty{grid-template-columns:1fr;gap:20px;padding:20px}
+  html[data-theme="dark"] .sqlwhale-home .sw-testimonial-section .sw-section-heading h2{font-size:clamp(1.9rem,7vw,2.75rem)}
+  html[data-theme="dark"] .sqlwhale-home .sw-feedback-steps{padding:10px}
+}
