@@ -230,3 +230,93 @@ html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article>span{
 }
 /* Keep the Product Hunt badge legible on the smoke-white strip. */
 html[data-theme="light"] .sqlwhale-home .sw-ph-badge img{filter:none}
+
+
+/* DIDASKO-inspired light neobrutalist visual system — content and behavior remain unchanged */
+html[data-theme="light"] .sqlwhale-home{
+  --sw-ink:#111114;--sw-muted:#66636b;--sw-paper:#fbf8f6;--sw-yellow:#fff77d;--sw-peach:#ffd7b0;--sw-mint:#d7f4ee;
+  background-color:var(--sw-paper)!important;color:var(--sw-ink)!important;
+  background-image:radial-gradient(rgba(25,22,20,.055) .7px,transparent .7px)!important;
+  background-size:5px 5px!important;
+}
+html[data-theme="light"] .sqlwhale-home .sw-section{padding-top:clamp(76px,9vw,124px);padding-bottom:clamp(76px,9vw,124px)}
+html[data-theme="light"] .sqlwhale-home .sw-section-inner{width:min(1160px,calc(100% - 56px))}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading{display:block;text-align:center;max-width:740px;margin:0 auto 54px}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading .sw-kicker{justify-content:center}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading h2,
+html[data-theme="light"] .sqlwhale-home .sw-demo-heading h2{color:var(--sw-ink)!important;font-weight:900;letter-spacing:-.055em;text-transform:uppercase}
+html[data-theme="light"] .sqlwhale-home .sw-section-heading>p,
+html[data-theme="light"] .sqlwhale-home .sw-demo-heading>p{margin:16px auto 0;color:var(--sw-muted)!important;max-width:560px;text-align:center}
+html[data-theme="light"] .sqlwhale-home .sw-kicker{display:table;margin:0 auto 18px;padding:7px 12px;border:2px solid #111;background:var(--sw-peach);box-shadow:4px 4px 0 #111;color:#111!important;font-size:9px;letter-spacing:.12em}
+html[data-theme="light"] .sqlwhale-home .sw-kicker:before{display:none}
+html[data-theme="light"] .sqlwhale-home .sw-demo-section{background:transparent!important;padding-top:86px}
+html[data-theme="light"] .sqlwhale-home .sw-demo-heading{display:block;text-align:center;margin:0 auto 34px}
+html[data-theme="light"] .sqlwhale-home .sw-demo-shell{border:2px solid #111;border-radius:0;background:#fff;box-shadow:8px 8px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor{background:#f1f2f5;border-right:2px solid #111}
+html[data-theme="light"] .sqlwhale-home .sw-demo-result{background:#fff}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor pre{color:#252338}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor pre b{color:#6841bc}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor pre i{color:#087b68}
+html[data-theme="light"] .sqlwhale-home .sw-demo-editor-footer button{border:2px solid #111;border-radius:0;background:#ffe45e;color:#111;box-shadow:3px 3px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-demo-table-row{color:#252338}
+html[data-theme="light"] .sqlwhale-home .sw-demo-table-row b{color:#087b68}
+html[data-theme="light"] .sqlwhale-home .sw-demo-result-head strong{color:#6542b6}
+html[data-theme="light"] .sqlwhale-home .sw-trust-section{background:transparent!important;padding:28px 0 60px}
+html[data-theme="light"] .sqlwhale-home .sw-trust-strip{border:2px solid #111;border-radius:0;background:#fff;box-shadow:5px 5px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-trust-strip>div strong{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-trust-icon{border:1.5px solid #111;border-radius:0;background:#fff27a;color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-trust-strip>a.sw-ph-badge{filter:drop-shadow(3px 3px 0 #111)}
+html[data-theme="light"] .sqlwhale-home .sw-problem-section{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid{gap:20px}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid article{border:2px solid #111;border-radius:0;background:#fff;box-shadow:7px 7px 0 #111;padding:30px 25px}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid article:nth-child(2){background:var(--sw-peach)}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid article:nth-child(3){background:var(--sw-mint)}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid h3{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-problem-grid p{color:#5f5b60}
+html[data-theme="light"] .sqlwhale-home .sw-steps-section{background:var(--sw-peach)!important;border-top:2px solid #111;border-bottom:2px solid #111}
+html[data-theme="light"] .sqlwhale-home .sw-step-tabs button{border:2px solid #111;border-radius:0;background:#fff;color:#111;box-shadow:3px 3px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-step-tabs button.active{background:#fff27a;color:#111;box-shadow:4px 4px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-step-preview{border:2px solid #111;border-radius:0;background:#fff;box-shadow:7px 7px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-step-art{border:2px solid #111;border-radius:0;background:#f5f4f1}
+html[data-theme="light"] .sqlwhale-home .sw-schema-table{border:1.5px solid #111;border-radius:0;background:#fff}
+html[data-theme="light"] .sqlwhale-home .sw-code-card,
+html[data-theme="light"] .sqlwhale-home .sw-flow-card{border:2px solid #111;border-radius:0;background:#f5f4f1;box-shadow:4px 4px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-benefits-section{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid{gap:18px}
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid article{border:2px solid #111;border-radius:0;background:#fff;box-shadow:5px 5px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid article:nth-child(3n+2){background:var(--sw-yellow)}
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid article:nth-child(3n){background:var(--sw-mint)}
+html[data-theme="light"] .sqlwhale-home .sw-benefit-grid h3{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-audience-section{background:var(--sw-mint)!important;border-top:2px solid #111;border-bottom:2px solid #111}
+html[data-theme="light"] .sqlwhale-home .sw-audience-tabs button{border:2px solid #111;border-radius:0;background:#fff;color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-audience-tabs button.active{background:#ffe45e;color:#111;box-shadow:3px 3px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-audience-panel{border:2px solid #111;border-radius:0;background:#fff;box-shadow:7px 7px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-leaderboard-wrap{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-leaderboard-wrap>div{border-color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-testimonial-section{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-beta-card{border:2px solid #111;border-radius:0;background:var(--sw-yellow);box-shadow:5px 5px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-beta-card h3{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-section{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid{gap:20px}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article{border:2px solid #111;border-radius:0;background:#fff;box-shadow:7px 7px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article:nth-child(2){background:var(--sw-peach)}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article:nth-child(3){background:var(--sw-mint)}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid h3{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-pricing-grid article a,
+html[data-theme="light"] .sqlwhale-home .sw-bargain a{border:2px solid #111;border-radius:0;background:#ffe45e;color:#111;box-shadow:4px 4px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-bargain{border:2px solid #111;border-radius:0;background:#fff27a;box-shadow:6px 6px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-faq-section{background:var(--sw-paper)!important}
+html[data-theme="light"] .sqlwhale-home .sw-faq-list{border:0}
+html[data-theme="light"] .sqlwhale-home .sw-faq-list details{margin:0 0 13px;border:2px solid #111;border-radius:0;background:#fff;box-shadow:4px 4px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-faq-list summary{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-final-cta{margin:45px auto 70px;width:min(1160px,calc(100% - 56px));border:2px solid #111;background:var(--sw-yellow)!important;box-shadow:9px 9px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-final-cta h2{color:#111}
+html[data-theme="light"] .sqlwhale-home .sw-mobile-sticky-cta{border:2px solid #111;border-radius:0;background:rgba(255,255,255,.96);box-shadow:4px 4px 0 #111}
+html[data-theme="light"] .sqlwhale-home .sw-mobile-sticky-cta a{border-radius:0;background:#ffe45e;color:#111}
+@media(max-width:760px){
+ html[data-theme="light"] .sqlwhale-home .sw-section-inner{width:calc(100% - 34px)}
+ html[data-theme="light"] .sqlwhale-home .sw-section-heading{margin-bottom:34px}
+ html[data-theme="light"] .sqlwhale-home .sw-problem-grid article{padding:22px}
+ html[data-theme="light"] .sqlwhale-home .sw-final-cta{width:calc(100% - 34px)}
+ html[data-theme="light"] .sqlwhale-home .sw-trust-strip{gap:12px;padding:14px}
+}
