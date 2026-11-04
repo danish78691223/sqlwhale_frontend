@@ -22324,3 +22324,169 @@ html[data-theme="light"] .sqlwhale-bargain-checkout p span{color:#087f75}
 html[data-theme="light"] .sqlwhale-bargain-consent{color:#625d65}
 html[data-theme="light"] .sqlwhale-bargain-consent a{color:#6741b5}
 html[data-theme="light"] .sqlwhale-bargain-footnote{color:#77717a}
+
+
+/* Clear confirmation state when a user already has Premium access. */
+.sqlwhale-bargain-success{
+  display:grid;
+  justify-items:center;
+  gap:0;
+  padding:12px 2px 2px;
+  text-align:center;
+}
+.sqlwhale-bargain-success-icon{
+  display:grid;
+  place-items:center;
+  width:74px;
+  height:74px;
+  margin:0 auto 17px;
+  border:1px solid rgba(45,212,191,.35);
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(45,212,191,.2),rgba(24,98,253,.12));
+  font-size:39px;
+}
+.sqlwhale-bargain-success-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 10px;
+  border:1px solid rgba(16,185,129,.3);
+  border-radius:999px;
+  background:rgba(16,185,129,.1);
+  color:#087f63;
+  font:850 9px/1 system-ui,sans-serif;
+  letter-spacing:.12em;
+}
+.sqlwhale-bargain-success-badge i{
+  width:7px;height:7px;border-radius:50%;background:#10b981;
+  box-shadow:0 0 0 3px rgba(16,185,129,.13);
+}
+.sqlwhale-bargain-success h2{
+  max-width:370px;
+  margin:17px 0 9px;
+  font-size:clamp(25px,5vw,31px);
+  line-height:1.1;
+  letter-spacing:-.045em;
+}
+.sqlwhale-bargain-success-copy{
+  max-width:355px;
+  margin:0 auto 18px;
+  color:#626b78;
+  font-size:13px;
+  line-height:1.7;
+}
+.sqlwhale-bargain-success-details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  width:100%;
+  gap:9px;
+  margin:0 0 14px;
+  text-align:left;
+}
+.sqlwhale-bargain-success-details>div{
+  display:grid;
+  align-content:center;
+  gap:7px;
+  min-height:76px;
+  padding:12px;
+  border:1px solid rgba(16,185,129,.24);
+  border-radius:12px;
+  background:rgba(16,185,129,.07);
+}
+.sqlwhale-bargain-success-details span{
+  color:#687383;
+  font-size:9px;
+  font-weight:750;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.sqlwhale-bargain-success-details strong{
+  color:#087f63;
+  font-size:12px;
+  line-height:1.35;
+  font-weight:850;
+}
+.sqlwhale-bargain-success-note{
+  margin:0 0 17px;
+  color:#626b78;
+  font-size:11px;
+  line-height:1.55;
+}
+.sqlwhale-bargain-success-cta{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  min-height:47px;
+  padding:12px 18px;
+  border:1px solid #0f766e;
+  border-radius:11px;
+  background:linear-gradient(135deg,#0f766e,#0d9488);
+  color:#fff!important;
+  font-size:13px;
+  font-weight:800;
+  text-decoration:none!important;
+  box-shadow:0 8px 18px rgba(13,148,136,.18);
+}
+.sqlwhale-bargain-success-cta:hover{filter:brightness(1.06)}
+.sqlwhale-bargain-success-cta span{font-size:16px}
+@media(max-width:520px){
+  .sqlwhale-bargain-success{padding-top:8px}
+  .sqlwhale-bargain-success-icon{width:62px;height:62px;font-size:33px;margin-bottom:13px}
+  .sqlwhale-bargain-success h2{font-size:25px}
+  .sqlwhale-bargain-success-copy{font-size:12px}
+  .sqlwhale-bargain-success-details{gap:7px}
+  .sqlwhale-bargain-success-details>div{padding:10px;min-height:72px}
+  .sqlwhale-bargain-success-details strong{font-size:11px}
+}
+
+/* Light theme: high contrast, simple neobrutalist confirmation card. */
+html[data-theme="light"] .sqlwhale-bargain-modal:has(.sqlwhale-bargain-success){
+  width:min(100%,490px);
+  padding:30px;
+  background:#fbf8f6;
+}
+html[data-theme="light"] .sqlwhale-bargain-success-icon{
+  border:2px solid #111;
+  border-radius:16px;
+  background:#d7f4ee;
+  box-shadow:4px 4px 0 #111;
+}
+html[data-theme="light"] .sqlwhale-bargain-success-badge{
+  border:1.5px solid #111;
+  border-radius:0;
+  background:#d7f4ee;
+  color:#075e50;
+}
+html[data-theme="light"] .sqlwhale-bargain-success h2{color:#111}
+html[data-theme="light"] .sqlwhale-bargain-success-copy{color:#4f4a52}
+html[data-theme="light"] .sqlwhale-bargain-success-details>div{
+  border:1.5px solid #111;
+  border-radius:0;
+  background:#fff;
+  box-shadow:3px 3px 0 rgba(17,17,17,.12);
+}
+html[data-theme="light"] .sqlwhale-bargain-success-details span{color:#625d65}
+html[data-theme="light"] .sqlwhale-bargain-success-details strong{color:#087f63}
+html[data-theme="light"] .sqlwhale-bargain-success-note{color:#5c5660}
+html[data-theme="light"] .sqlwhale-bargain-success-cta{
+  border:2px solid #111;
+  border-radius:0;
+  background:#ffe45e;
+  box-shadow:4px 4px 0 #111;
+  color:#111!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-close{
+  z-index:3;
+  top:12px;
+  right:12px;
+  width:36px;
+  height:36px;
+  border:2px solid #111;
+  border-radius:0;
+  background:#fff;
+  color:#111;
+  font-size:22px;
+  font-weight:700;
+}
