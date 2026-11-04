@@ -87,6 +87,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   }
 
   async function startBargain() {
+    setOffer("179");
     setView("bargain");
     setLoading(true);
     setError("");
