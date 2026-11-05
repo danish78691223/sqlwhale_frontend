@@ -613,3 +613,37 @@ html[data-theme="light"] main.account-page button:focus-visible{
     padding:12px!important;
   }
 }
+
+
+/* FINAL FIX: the nested navigation element had its own dark !important
+   background, covering the mint sidebar shell in light mode. */
+html[data-theme="light"] body main.account-page > section.account-shell > aside.account-sidebar-column,
+html[data-theme="light"] body main.account-page > section.account-shell > aside.account-sidebar-column > nav.account-section-nav{
+  background:#dff5ef!important;
+  background-color:#dff5ef!important;
+}
+html[data-theme="light"] body main.account-page > section.account-shell > aside.account-sidebar-column > nav.account-section-nav{
+  background-image:
+    linear-gradient(rgba(17,17,17,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(17,17,17,.035) 1px,transparent 1px)!important;
+  background-size:24px 24px!important;
+}
+html[data-theme="light"] body main.account-page .account-nav-brand,
+html[data-theme="light"] body main.account-page .account-nav-user{
+  background:transparent!important;
+}
+html[data-theme="light"] body main.account-page .account-nav-group,
+html[data-theme="light"] body main.account-page .account-nav-group-label,
+html[data-theme="light"] body main.account-page .account-nav-group a{
+  background-color:transparent!important;
+}
+html[data-theme="light"] body main.account-page .account-nav-group a:hover,
+html[data-theme="light"] body main.account-page .account-nav-group a:focus-visible{
+  background:#ffe45e!important;
+}
+@media(max-width:800px){
+  html[data-theme="light"] body main.account-page > section.account-shell > aside.account-sidebar-column,
+  html[data-theme="light"] body main.account-page > section.account-shell > aside.account-sidebar-column > nav.account-section-nav{
+    background-color:#dff5ef!important;
+  }
+}
