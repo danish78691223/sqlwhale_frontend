@@ -22616,3 +22616,165 @@ html[data-theme="dark"] .sqlwhale-footer::before{
     linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
   background-size:42px 42px;
 }
+
+
+/* Bargain modal: explicit high-contrast light theme for every negotiation state. */
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-modal{
+  background:#fbf8f6!important;
+  color:#171717!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-modal h2{
+  color:#111!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-intro{
+  color:#514b55!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-eyebrow{
+  color:#6741b5!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-prices>div{
+  border:1.5px solid #111!important;
+  background:#fff!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-prices>div:last-of-type{
+  background:#d7f4ee!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-prices span{
+  color:#514b55!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-prices strong{
+  color:#111!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-plan-note{
+  color:#514b55!important;
+}
+
+/* Whale's response / counter messages. */
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-message{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#fff0d8!important;
+  color:#332715!important;
+  font-size:12px!important;
+  font-weight:650!important;
+  line-height:1.65!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-message.is-success{
+  border-color:#087f63!important;
+  background:#d7f4ee!important;
+  color:#075e50!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-error{
+  border:1.5px solid #a33224!important;
+  border-radius:0!important;
+  background:#ffe4df!important;
+  color:#842519!important;
+  font-weight:650!important;
+  line-height:1.6!important;
+}
+
+/* Offer label, number field, round indicator and helper copy. */
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-form label{
+  color:#29242c!important;
+  font-size:12px!important;
+  font-weight:850!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-input-row{
+  min-height:56px!important;
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#6741b5!important;
+  box-shadow:3px 3px 0 rgba(17,17,17,.12)!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-input-row input{
+  color:#111!important;
+  -webkit-text-fill-color:#111!important;
+  caret-color:#6741b5!important;
+  font-weight:850!important;
+  opacity:1!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-input-row input:disabled{
+  color:#5b5560!important;
+  -webkit-text-fill-color:#5b5560!important;
+  opacity:1!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-input-row:focus-within{
+  border-color:#6741b5!important;
+  box-shadow:4px 4px 0 rgba(103,65,181,.18)!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-attempts{
+  color:#514b55!important;
+  font-size:10px!important;
+  font-weight:750!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-rounds span{
+  height:6px!important;
+  border:1px solid #8a858c!important;
+  border-radius:0!important;
+  background:#e7e2dc!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-rounds span.used{
+  border-color:#087f75!important;
+  background:#0f9888!important;
+}
+
+/* Keep the counter-offer button readable even when the modal is busy. */
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-secondary{
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#d7f4ee!important;
+  color:#075e50!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  opacity:1!important;
+  box-shadow:3px 3px 0 #111!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-secondary:hover:not(:disabled){
+  background:#c2eee4!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-secondary:disabled{
+  border-color:#777!important;
+  background:#e7e2dc!important;
+  color:#514b55!important;
+  opacity:1!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-primary:disabled{
+  border-color:#777!important;
+  background:#e7e2dc!important;
+  color:#514b55!important;
+  opacity:1!important;
+}
+
+/* Terms, login, loading and payment notes. */
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-consent{
+  color:#514b55!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-consent a,
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-login{
+  color:#6741b5!important;
+  font-weight:850!important;
+  text-decoration:underline!important;
+  text-underline-offset:2px!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-loading{
+  color:#514b55!important;
+  font-weight:700!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-footnote{
+  color:#625d65!important;
+  font-weight:600!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout p{
+  color:#514b55!important;
+}
+html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout strong{
+  color:#111!important;
+}
+@media(max-width:520px){
+  html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-message,
+  html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-error{
+    font-size:11px!important;
+  }
+}
