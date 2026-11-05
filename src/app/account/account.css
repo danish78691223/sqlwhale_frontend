@@ -173,3 +173,443 @@ main.account-page>section.account-shell>aside.account-sidebar-column>nav.account
     width:100%!important; min-width:0!important; margin:0!important; padding:0!important; transform:none!important;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE ACCOUNT — LIGHT THEME VISUAL SYSTEM
+   Mirrors the homepage's cream / mint / yellow / purple palette.
+   Layout, account data and interaction states remain unchanged.
+========================================================= */
+html[data-theme="light"] body:has(main.account-page){
+  background:#fbf8f6!important;
+}
+html[data-theme="light"] body:has(main.account-page) main.account-page{
+  background:#fbf8f6!important;
+  color:#171717!important;
+  background-image:
+    radial-gradient(rgba(17,17,17,.045) .65px,transparent .65px)!important;
+  background-size:8px 8px!important;
+}
+html[data-theme="light"] main.account-page .account-shell{
+  width:min(1540px,calc(100% - 48px))!important;
+  max-width:1540px!important;
+  gap:0 30px!important;
+  padding:26px 0 58px!important;
+}
+html[data-theme="light"] main.account-page .account-sidebar-column{
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#dff5ef!important;
+  box-shadow:7px 7px 0 #111!important;
+}
+html[data-theme="light"] main.account-page .account-section-nav{
+  gap:18px!important;
+}
+html[data-theme="light"] main.account-page .account-nav-brand{
+  border-bottom:2px solid rgba(17,17,17,.2)!important;
+  color:#111!important;
+}
+html[data-theme="light"] main.account-page .account-nav-brand-mark{
+  width:40px!important;
+  height:40px!important;
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:3px 3px 0 #111!important;
+}
+html[data-theme="light"] main.account-page .account-nav-brand strong,
+html[data-theme="light"] main.account-page .account-nav-user strong{
+  color:#111!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-nav-brand small,
+html[data-theme="light"] main.account-page .account-nav-user small{
+  color:#5c625e!important;
+}
+html[data-theme="light"] main.account-page .account-nav-group-label{
+  color:#7652c5!important;
+  font-weight:950!important;
+  letter-spacing:.16em!important;
+}
+html[data-theme="light"] main.account-page .account-nav-group a{
+  min-height:42px!important;
+  border:1.5px solid transparent!important;
+  border-radius:0!important;
+  color:#3f4944!important;
+  font-weight:800!important;
+}
+html[data-theme="light"] main.account-page .account-nav-group a:hover,
+html[data-theme="light"] main.account-page .account-nav-group a:focus-visible{
+  border-color:#111!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:3px 3px 0 rgba(17,17,17,.18)!important;
+}
+html[data-theme="light"] main.account-page .account-nav-icon{
+  width:27px!important;
+  height:27px!important;
+  border:1px solid rgba(17,17,17,.18)!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#7652c5!important;
+}
+html[data-theme="light"] main.account-page .account-nav-group a:hover .account-nav-icon{
+  border-color:#111!important;
+  background:#fff!important;
+  color:#111!important;
+}
+html[data-theme="light"] main.account-page .account-nav-user{
+  border-top:2px solid rgba(17,17,17,.2)!important;
+}
+html[data-theme="light"] main.account-page .account-nav-user-avatar{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+}
+html[data-theme="light"] main.account-page .account-main-content{
+  padding-top:12px!important;
+}
+html[data-theme="light"] main.account-page .account-eyebrow{
+  color:#7652c5!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-eyebrow span{
+  background:#7652c5!important;
+  box-shadow:0 0 0 4px rgba(118,82,197,.14)!important;
+}
+html[data-theme="light"] main.account-page .account-heading h1{
+  color:#111!important;
+  font-family:inherit!important;
+  font-size:clamp(34px,3.8vw,48px)!important;
+  font-weight:950!important;
+  letter-spacing:-.065em!important;
+  line-height:1.02!important;
+}
+html[data-theme="light"] main.account-page .account-heading h1 em{
+  color:#7652c5!important;
+  font-style:normal!important;
+}
+html[data-theme="light"] main.account-page .account-heading p{
+  color:#66616a!important;
+  font-size:13px!important;
+}
+html[data-theme="light"] main.account-page .account-section-intro{
+  padding-top:22px!important;
+  border-top:1px solid rgba(17,17,17,.18)!important;
+}
+html[data-theme="light"] main.account-page .account-card-label{
+  color:#7652c5!important;
+  font-size:9px!important;
+  font-weight:950!important;
+  letter-spacing:.15em!important;
+}
+html[data-theme="light"] main.account-page .account-section-intro h2,
+html[data-theme="light"] main.account-page .account-history-header h2{
+  color:#111!important;
+  font-size:22px!important;
+  font-weight:900!important;
+  letter-spacing:-.045em!important;
+}
+html[data-theme="light"] main.account-page .account-section-intro p{
+  color:#68636b!important;
+}
+html[data-theme="light"] main.account-page .account-card,
+html[data-theme="light"] main.account-page .account-history-card,
+html[data-theme="light"] main.account-page .account-dashboard-section,
+html[data-theme="light"] main.account-page .account-notifications-section,
+html[data-theme="light"] main.account-page .account-rank-anchor{
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#171717!important;
+  box-shadow:6px 6px 0 rgba(17,17,17,.16)!important;
+}
+html[data-theme="light"] main.account-page .account-card{
+  min-height:300px!important;
+  padding:24px!important;
+}
+html[data-theme="light"] main.account-page .account-card-header{
+  border-color:rgba(17,17,17,.12)!important;
+}
+html[data-theme="light"] main.account-page .account-connected{
+  color:#087f63!important;
+  font-weight:850!important;
+}
+html[data-theme="light"] main.account-page .account-profile-card h2,
+html[data-theme="light"] main.account-page .account-central-card h2{
+  color:#111!important;
+  font-size:24px!important;
+  font-weight:900!important;
+  letter-spacing:-.045em!important;
+}
+html[data-theme="light"] main.account-page .account-email,
+html[data-theme="light"] main.account-page .account-central-card p{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-avatar{
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:4px 4px 0 #111!important;
+  font-size:26px!important;
+  font-weight:950!important;
+}
+html[data-theme="light"] main.account-page .account-details div,
+html[data-theme="light"] main.account-page .account-stat-card,
+html[data-theme="light"] main.account-page .account-learning-highlights>div,
+html[data-theme="light"] main.account-page .account-progress-panel{
+  border:1.5px solid rgba(17,17,17,.2)!important;
+  border-radius:0!important;
+  background:#fbf8f6!important;
+}
+html[data-theme="light"] main.account-page .account-details span,
+html[data-theme="light"] main.account-page .account-stat-card span,
+html[data-theme="light"] main.account-page .account-learning-highlights span,
+html[data-theme="light"] main.account-page .account-progress-copy span{
+  color:#7652c5!important;
+  font-weight:850!important;
+  letter-spacing:.08em!important;
+}
+html[data-theme="light"] main.account-page .account-details strong,
+html[data-theme="light"] main.account-page .account-stat-card strong,
+html[data-theme="light"] main.account-page .account-learning-highlights strong,
+html[data-theme="light"] main.account-page .account-progress-copy strong{
+  color:#171717!important;
+}
+html[data-theme="light"] main.account-page .account-details>div:nth-child(2){
+  background:#fff6a1!important;
+}
+html[data-theme="light"] main.account-page .account-plan-pill{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+}
+html[data-theme="light"] main.account-page .account-plan-pill.is-premium{
+  background:#d7f4ee!important;
+  color:#087f63!important;
+}
+html[data-theme="light"] main.account-page .account-plan-pill.is-starter{
+  background:#f2eee9!important;
+  color:#514b52!important;
+}
+html[data-theme="light"] main.account-page .account-subscription-note{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-subscription-note.is-pending{
+  color:#9a5700!important;
+}
+html[data-theme="light"] main.account-page .account-plan-refresh{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#171717!important;
+  box-shadow:2px 2px 0 rgba(17,17,17,.15)!important;
+}
+html[data-theme="light"] main.account-page .account-plan-refresh:hover{
+  background:#ffe45e!important;
+  color:#111!important;
+}
+html[data-theme="light"] main.account-page .account-plan-message{
+  color:#087f63!important;
+}
+html[data-theme="light"] main.account-page .account-upgrade-link{
+  color:#7652c5!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .central-identity-mark{
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#d7f4ee!important;
+  color:#111!important;
+  box-shadow:4px 4px 0 #111!important;
+}
+html[data-theme="light"] main.account-page .identity-status{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#d7f4ee!important;
+}
+html[data-theme="light"] main.account-page .identity-status strong{
+  color:#087f63!important;
+}
+html[data-theme="light"] main.account-page .identity-status span:last-child{
+  color:#565f5a!important;
+}
+html[data-theme="light"] main.account-page .account-history-count{
+  border:1px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-stat-grid{
+  gap:12px!important;
+}
+html[data-theme="light"] main.account-page .account-stat-card{
+  min-height:104px!important;
+  padding:17px!important;
+  box-shadow:3px 3px 0 rgba(17,17,17,.1)!important;
+}
+html[data-theme="light"] main.account-page .account-stat-card:nth-child(3n+1){
+  background:#fff6a1!important;
+}
+html[data-theme="light"] main.account-page .account-stat-card:nth-child(3n+2){
+  background:#dff5ef!important;
+}
+html[data-theme="light"] main.account-page .account-stat-card:nth-child(3n){
+  background:#ffe0c7!important;
+}
+html[data-theme="light"] main.account-page .account-progress-track{
+  border:1px solid #111!important;
+  border-radius:0!important;
+  background:#fff!important;
+}
+html[data-theme="light"] main.account-page .account-progress-track>span{
+  background:#7652c5!important;
+}
+html[data-theme="light"] main.account-page .account-progress-note{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-history-empty{
+  border:1.5px dashed rgba(17,17,17,.35)!important;
+  border-radius:0!important;
+  background:#fbf8f6!important;
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-history-item{
+  border-bottom:1px solid rgba(17,17,17,.14)!important;
+}
+html[data-theme="light"] main.account-page .account-history-main strong,
+html[data-theme="light"] main.account-page .account-history-main code{
+  color:#171717!important;
+}
+html[data-theme="light"] main.account-page .account-history-main code{
+  background:#f3efe9!important;
+}
+html[data-theme="light"] main.account-page .account-history-main span,
+html[data-theme="light"] main.account-page .account-history-meta{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .history-success{
+  border:1px solid #111!important;
+  border-radius:0!important;
+  background:#d7f4ee!important;
+  color:#087f63!important;
+}
+html[data-theme="light"] main.account-page .history-error{
+  border:1px solid #111!important;
+  border-radius:0!important;
+  background:#ffe0c7!important;
+  color:#a33224!important;
+}
+html[data-theme="light"] main.account-page .account-notification-settings,
+html[data-theme="light"] main.account-page .account-notification-option{
+  border:1.5px solid rgba(17,17,17,.2)!important;
+  border-radius:0!important;
+  background:#fbf8f6!important;
+  color:#3f3a42!important;
+}
+html[data-theme="light"] main.account-page .account-notification-settings h3{
+  color:#111!important;
+}
+html[data-theme="light"] main.account-page .account-notification-settings>p,
+html[data-theme="light"] main.account-page .account-notification-status{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-notification-button{
+  min-height:40px!important;
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:3px 3px 0 #111!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-activity-notice{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#fff6a1!important;
+  color:#4f4213!important;
+}
+html[data-theme="light"] main.account-page .account-actions{
+  gap:12px!important;
+}
+html[data-theme="light"] main.account-page .account-primary-action{
+  min-height:46px!important;
+  padding:0 18px!important;
+  border:2px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:4px 4px 0 #111!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-primary-action:hover{
+  transform:translate(-1px,-1px)!important;
+  box-shadow:6px 6px 0 #111!important;
+}
+html[data-theme="light"] main.account-page .account-logout-action{
+  min-height:46px!important;
+  padding:0 16px!important;
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#fff!important;
+  color:#a33224!important;
+  box-shadow:3px 3px 0 rgba(17,17,17,.12)!important;
+}
+html[data-theme="light"] main.account-page .account-footer-note{
+  border-top:1px solid rgba(17,17,17,.18)!important;
+}
+html[data-theme="light"] main.account-page .account-footer-note span{
+  color:#7652c5!important;
+  font-weight:900!important;
+}
+html[data-theme="light"] main.account-page .account-footer-note p{
+  color:#625d65!important;
+}
+html[data-theme="light"] main.account-page .account-mobile-menu-button,
+html[data-theme="light"] main.account-page .account-sidebar-close{
+  border:1.5px solid #111!important;
+  border-radius:0!important;
+  background:#ffe45e!important;
+  color:#111!important;
+  box-shadow:3px 3px 0 #111!important;
+}
+html[data-theme="light"] main.account-page .account-sidebar-overlay{
+  background:rgba(17,17,17,.3)!important;
+}
+html[data-theme="light"] main.account-page a:focus-visible,
+html[data-theme="light"] main.account-page button:focus-visible{
+  outline:3px solid rgba(118,82,197,.4)!important;
+}
+@media(max-width:800px){
+  html[data-theme="light"] main.account-page .account-shell{
+    width:100%!important;
+    padding:18px 16px 42px!important;
+  }
+  html[data-theme="light"] main.account-page .account-sidebar-column{
+    border:2px solid #111!important;
+    border-left:0!important;
+    border-radius:0!important;
+    background:#dff5ef!important;
+    box-shadow:7px 7px 0 rgba(17,17,17,.28)!important;
+  }
+}
+@media(max-width:540px){
+  html[data-theme="light"] main.account-page .account-heading h1{
+    font-size:clamp(29px,8vw,36px)!important;
+    line-height:1.05!important;
+  }
+  html[data-theme="light"] main.account-page .account-card,
+  html[data-theme="light"] main.account-page .account-dashboard-section,
+  html[data-theme="light"] main.account-page .account-history-card,
+  html[data-theme="light"] main.account-page .account-notifications-section,
+  html[data-theme="light"] main.account-page .account-rank-anchor{
+    box-shadow:4px 4px 0 rgba(17,17,17,.14)!important;
+  }
+  html[data-theme="light"] main.account-page .account-stat-card{
+    min-height:90px!important;
+    padding:12px!important;
+  }
+}
