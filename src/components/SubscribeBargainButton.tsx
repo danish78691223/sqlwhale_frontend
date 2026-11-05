@@ -6,7 +6,6 @@ import api from "@/services/api";
 type BargainState = {
   sessionId: string;
   planPrice: number;
-  minimumPrice: number;
   durationMonths: number;
   attempts: number;
   remainingAttempts: number;
