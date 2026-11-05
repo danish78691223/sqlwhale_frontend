@@ -97,7 +97,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
     try {
       const response = await api.post("/subscription/bargain/start");
       setBargain(response.data.bargain);
-      setMessage("Enter an offer and let's see if we can make a deal. 🐳");
+      setMessage("Make your opening offer. The Whale is ready to negotiate. 🐳");
     } catch (err: any) {
       setError(err?.response?.data?.error || "Could not start bargaining. Please try again.");
     } finally {
@@ -108,8 +108,8 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
   async function submitOffer() {
     if (!bargain) return;
     const amount = Number(offer);
-    if (!Number.isSafeInteger(amount) || amount < 149 || amount > 249) {
-      setError("₹149 se ₹249 ke beech whole-number offer enter karein.");
+    if (!Number.isSafeInteger(amount) || amount < 1 || amount > 249) {
+      setError("Please enter a whole-number opening offer up to ₹249.");
       return;
     }
     setLoading(true);
@@ -251,8 +251,8 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
 
             {!subscribed ? (
               <div className="sqlwhale-bargain-prices sqlwhale-bargain-plan">
-                <div><span>10-Month Plan</span><strong>₹249</strong></div>
-                <div><span>Your bargain range</span><strong>₹199–₹249</strong></div>
+                <div><span>Regular 10-Month Plan</span><strong>₹249</strong></div>
+                <div><span>Your opening bid</span><strong>Your call</strong></div>
                 <p className="sqlwhale-bargain-plan-note">One-time payment · 10 months Premium · No auto-renewal</p>
               </div>
             ) : null}
@@ -284,19 +284,19 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
                 <button type="button" className="sqlwhale-bargain-primary" onClick={() => void startBargain()} disabled={paying}>
                   🤝 Challenge the Whale · Start Bargaining
                 </button>
-                <p className="sqlwhale-bargain-choice-note">Make an offer between ₹149 and ₹249. The Whale has 3 rounds to respond.</p>
+                <p className="sqlwhale-bargain-choice-note">Start with any opening bid. The Whale will respond with a counter-offer — you get up to three rounds to make a deal.</p>
               </div>
             ) : null}
 
             {!subscribed && view === "bargain" && bargain && !bargain.locked ? (
               <form className="sqlwhale-bargain-form" onSubmit={(event) => { event.preventDefault(); void submitOffer(); }}>
-                <label htmlFor="sqlwhale-bargain-offer">Your offer for 10 months (₹)</label>
+                <label htmlFor="sqlwhale-bargain-offer">Your opening offer for 10 months (₹)</label>
                 <div className="sqlwhale-bargain-input-row">
                   <span>₹</span>
                   <input
                     id="sqlwhale-bargain-offer"
                     type="number"
-                    min="149"
+                    min="1"
                     max="249"
                     step="1"
                     inputMode="numeric"
@@ -307,7 +307,7 @@ export default function SubscribeBargainButton({ inline = false }: { inline?: bo
                   />
                 </div>
                 <div className="sqlwhale-bargain-rounds" aria-label={bargain.remainingAttempts + " offer rounds remaining"}>{[0,1,2].map((round) => <span key={round} className={round < bargain.attempts ? "used" : ""} />)}</div>
-                <p className="sqlwhale-bargain-attempts">{bargain.remainingAttempts} round{bargain.remainingAttempts === 1 ? "" : "s"} left · Minimum deal ₹199</p>
+                <p className="sqlwhale-bargain-attempts">{bargain.remainingAttempts} round{bargain.remainingAttempts === 1 ? "" : "s"} left · Make your next move.</p>
                 <button type="submit" className="sqlwhale-bargain-primary" disabled={loading || paying}>
                   {loading ? "Checking offer…" : "Make my offer"}
                 </button>
