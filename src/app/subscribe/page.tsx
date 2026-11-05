@@ -25,7 +25,21 @@ export default function SubscribePage() {
         .subscription-title span{color:#00aab5}
         .subscription-description{max-width:660px;margin:20px auto 0;color:#596170!important;font-size:16px;line-height:1.8}
         .subscription-plan-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:18px;margin:0 auto}
-        .subscription-plan-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:29px 25px 25px;border:1px solid rgba(17,24,39,.13);border-radius:22px;background:rgba(255,255,255,.78);box-shadow:0 16px 48px rgba(17,24,39,.045)}
+        .subscription-plan-grid-four{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+        .subscription-plan-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:25px 20px 21px;border:1px solid rgba(17,24,39,.13);border-radius:22px;background:rgba(255,255,255,.78);box-shadow:0 16px 48px rgba(17,24,39,.045)}
+        .subscription-plan-grid-four .subscription-plan-price{font-size:clamp(36px,3.2vw,48px)}
+        .subscription-plan-grid-four .subscription-plan-features{gap:11px}
+        .subscription-plan-grid-four .subscription-plan-features li{font-size:12px}
+        .subscription-plan-grid-four .subscription-plan-card.featured{transform:translateY(-7px)}
+        .subscription-bargain-plan-card{border:2px solid #111827;background:linear-gradient(155deg,#fff6a1 0%,#fff0b9 56%,#dff5ef 100%);box-shadow:6px 6px 0 #111827}
+        .subscription-bargain-ribbon{position:absolute;top:-1px;right:-1px;padding:9px 12px;background:#111827;color:#fff;font-size:9px;font-weight:900;letter-spacing:.12em}
+        .subscription-bargain-price{display:grid;gap:5px;margin-top:24px}
+        .subscription-bargain-price strong{color:#111827;font-size:clamp(25px,2.5vw,34px);line-height:1.05;font-weight:900;letter-spacing:-.05em}
+        .subscription-bargain-price span{color:#62636a;font-size:12px}
+        .subscription-bargain-cta{display:grid;gap:10px}
+        .subscription-bargain-cta .sqlwhale-subscribe-trigger{width:100%;min-height:46px!important;border:2px solid #111!important;border-radius:0!important;background:#ffe45e!important;color:#111!important;box-shadow:4px 4px 0 #111!important;font-weight:900!important}
+        .subscription-bargain-cta .sqlwhale-subscribe-trigger:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 #111!important;background:#ffdf38!important}
+        .subscription-bargain-footnote{margin:0;color:#5c5a54;font-size:10px;line-height:1.5}
         .subscription-plan-card.featured{z-index:2;transform:translateY(-9px);border:2px solid #111827;background:linear-gradient(155deg,#fff 0%,#f1ffff 100%);box-shadow:0 24px 65px rgba(0,145,156,.14)}
         .subscription-popular{position:absolute;top:-1px;right:-1px;display:inline-flex;align-items:center;gap:7px;padding:10px 15px;border-radius:0 19px 0 15px;background:#111827;color:#fff;font-size:12px;font-weight:800}
         .subscription-plan-top{min-height:58px}
@@ -70,8 +84,9 @@ export default function SubscribePage() {
         .subscription-alternative p{margin:7px 0 15px;color:#687180;font-size:12px;line-height:1.65}
         .subscription-alternative .sqlwhale-subscribe-trigger{display:inline-flex!important;min-height:42px!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:0 17px!important;border:1px solid rgba(17,24,39,.18)!important;border-radius:11px!important;background:transparent!important;color:#202a36!important;font-size:13px!important;font-weight:700!important;cursor:pointer}
         .subscription-alternative .sqlwhale-subscribe-trigger:hover{background:rgba(17,24,39,.05)!important}
-        @media(max-width:900px){.subscription-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subscription-plan-card.featured{transform:none;grid-row:1;grid-column:span 2;max-width:560px;width:100%;justify-self:center}.subscription-plan-card{padding:25px 22px}}
-        @media(max-width:600px){.subscription-page{margin-top:-80px;padding-top:80px}.subscription-content{width:min(100% - 28px,1160px);padding:48px 0 38px}.subscription-heading{margin-bottom:26px}.subscription-description{font-size:14px}.subscription-plan-grid{grid-template-columns:1fr;gap:15px}.subscription-plan-card.featured{grid-column:auto;grid-row:auto;max-width:none}.subscription-plan-card{padding:24px 21px;border-radius:19px}.subscription-plan-top{min-height:50px}.subscription-plan-name{font-size:20px}.subscription-plan-price{font-size:48px}.subscription-alternative{padding:19px;margin-top:24px}}
+        @media(max-width:1120px){.subscription-plan-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}.subscription-plan-grid-four .subscription-plan-card.featured{transform:none}}
+        @media(max-width:900px){.subscription-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.subscription-plan-card.featured{transform:none;grid-row:auto;grid-column:auto;max-width:none;width:100%;justify-self:stretch}.subscription-plan-card{padding:25px 22px}}
+        @media(max-width:600px){.subscription-page{margin-top:-80px;padding-top:80px}.subscription-content{width:min(100% - 28px,1160px);padding:48px 0 38px}.subscription-heading{margin-bottom:26px}.subscription-description{font-size:14px}.subscription-plan-grid,.subscription-plan-grid-four{grid-template-columns:1fr;gap:15px}.subscription-plan-card.featured{grid-column:auto;grid-row:auto;max-width:none}.subscription-plan-card{padding:24px 21px;border-radius:19px}.subscription-plan-top{min-height:50px}.subscription-plan-name{font-size:20px}.subscription-plan-price{font-size:48px}.subscription-bargain-price strong{font-size:31px}}
       `}</style>
 
       <section className="subscription-content">
@@ -84,7 +99,7 @@ export default function SubscribePage() {
           </p>
         </div>
 
-        <div className="subscription-plan-grid">
+        <div className="subscription-plan-grid subscription-plan-grid-four">
           {plans.map((plan) => (
             <section key={plan.id} className={"subscription-plan-card" + (plan.featured ? " featured" : "")} aria-label={plan.label}>
               {plan.featured ? <div className="subscription-popular">★ Best value</div> : null}
@@ -110,15 +125,34 @@ export default function SubscribePage() {
               </div>
             </section>
           ))}
+
+          <section className="subscription-plan-card subscription-bargain-plan-card" aria-label="Whale bargain plan">
+            <div className="subscription-bargain-ribbon">MAKE IT A DEAL</div>
+            <div className="subscription-plan-top">
+              <p className="subscription-plan-label">SQLWhale Premium</p>
+              <span className="subscription-plan-whale" aria-hidden="true">🐳</span>
+              <h2 className="subscription-plan-name">Whale Deal</h2>
+            </div>
+            <div className="subscription-bargain-price">
+              <strong>Make an offer</strong>
+              <span>10-month Premium access</span>
+            </div>
+            <p className="subscription-plan-detail">You name your price. The Whale has a counter-offer ready.</p>
+            <div className="subscription-plan-divider" />
+            <ul className="subscription-plan-features">
+              <li><span className="subscription-plan-check">✓</span><span>Same Premium access as the 10-month plan</span></li>
+              <li><span className="subscription-plan-check">✓</span><span>Negotiate your own deal</span></li>
+              <li><span className="subscription-plan-check">✓</span><span>Three rounds of back-and-forth</span></li>
+              <li><span className="subscription-plan-check">✓</span><span>One-time payment, no automatic renewal</span></li>
+            </ul>
+            <div className="subscription-plan-cta subscription-bargain-cta">
+              <SubscribeBargainButton inline />
+              <p className="subscription-bargain-footnote">Start with an opening bid. Your final deal is confirmed before payment.</p>
+            </div>
+          </section>
         </div>
 
-        <p className="subscription-plan-note">The ₹49 plan is billed monthly through Razorpay recurring subscription. The ₹149 and ₹249 plans are one-time payments for fixed-duration access and do not auto-renew. Charges are subject to the Refund &amp; Cancellation Policy and applicable law.</p>
-
-        <section className="subscription-alternative" aria-label="Whale bargain option">
-          <h3>Get the 10-month plan for less.</h3>
-          <p>The regular 10-month plan is ₹249. Challenge the Whale and try to unlock the same 10 months for ₹199–₹249. One-time payment, no auto-renewal.</p>
-          <SubscribeBargainButton inline />
-        </section>
+        <p className="subscription-plan-note">The ₹49 plan is billed monthly through Razorpay recurring subscription. The ₹149 and ₹249 plans are one-time payments for fixed-duration access and do not auto-renew. The Whale Deal is a negotiated one-time payment for 10 months of Premium access. Charges are subject to the Refund &amp; Cancellation Policy and applicable law.</p>
       </section>
     </main>
   );
