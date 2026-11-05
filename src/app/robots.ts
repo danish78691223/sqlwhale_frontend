@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/", "/run-query"],
       disallow: [
         "/account",
         "/admin",
@@ -17,7 +17,6 @@ export default function robots(): MetadataRoute.Robots {
         "/payment",
         "/push-key-setup",
         "/reset-password",
-        "/run-query",
         "/signup",
         "/subscribe",
         "/learn/course",
