@@ -11,7 +11,7 @@ interface UseSQLQueryResult {
   data: SQLResponse | null;
   loading: boolean;
   error: string | null;
-  runQuery: (query: string) => Promise<void>;
+  runQuery: (query: string) => Promise<SQLResponse | null>;
   applyResult: (result: SQLResponse) => void;
   clearResult: () => void;
 }
@@ -30,7 +30,7 @@ export function useSQLQuery(): UseSQLQueryResult {
     async (query: string) => {
       if (!query.trim()) {
         setError("Please enter a SQL query.");
-        return;
+        return null;
       }
 
       try {
@@ -50,6 +50,8 @@ export function useSQLQuery(): UseSQLQueryResult {
               "SQL query could not be executed."
           );
         }
+
+        return result;
       } catch (err: unknown) {
         console.error(
           "SQL execution failed:",
@@ -73,6 +75,7 @@ export function useSQLQuery(): UseSQLQueryResult {
 
         setError(message);
         setData(null);
+        return null;
       } finally {
         setLoading(false);
       }
