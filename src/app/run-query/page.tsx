@@ -227,12 +227,13 @@ export default function RunQueryPage() {
   const [editTable, setEditTable] = useState<DatabaseTable | null>(null);
 
   const refreshDatabaseTables = useCallback(async () => {
+    // Keep the current canvas mounted while refreshing. A transient schema
+    // fetch failure must never make existing user tables disappear from view.
     setSchemaRetrying(true);
-    setTablesLoading(true);
     try {
-      setTablesError(null);
       const databaseTables = await getAllTableDetails();
       setTables(databaseTables);
+      setTablesError(null);
       return true;
     } catch (tableError) {
       setTablesError(
@@ -242,7 +243,6 @@ export default function RunQueryPage() {
       );
       return false;
     } finally {
-      setTablesLoading(false);
       setSchemaRetrying(false);
     }
   }, []);
@@ -470,13 +470,14 @@ export default function RunQueryPage() {
       return;
     }
 
-    await runQuery(cleanSQL);
+    const executionResult = await runQuery(cleanSQL);
 
-    // Keep a DROP TABLE visible during "Show what happened" so the canvas
-    // can animate its destruction before React Flow removes the node.
-    if (/^\s*CREATE\s+TABLE\b/i.test(cleanSQL)) {
-      await refreshDatabaseTables();
-    } else if (/^\s*DROP\s+TABLE\b/i.test(cleanSQL) && !showWhatHappened) {
+    // Refresh the complete schema after successful DDL, not only CREATE/DROP
+    // TABLE. This keeps new tables and ALTERed columns in sync with the canvas.
+    // Keep a dropped table on screen during the optional destruction replay.
+    const changesSchema = /\b(?:CREATE|ALTER|DROP)\s+(?:(?:TEMP|TEMPORARY)\s+)?(?:TABLE|INDEX|VIEW)\b/i.test(cleanSQL);
+    const includesDropTable = /\bDROP\s+TABLE\b/i.test(cleanSQL);
+    if (executionResult?.success && changesSchema && !(showWhatHappened && includesDropTable)) {
       await refreshDatabaseTables();
     }
   };
@@ -554,7 +555,7 @@ export default function RunQueryPage() {
   };
 
   const result = data?.result;
-  const isDropReplay = slowExecution && /^\s*DROP\s+TABLE\b/i.test(query);
+  const isDropReplay = slowExecution && /\bDROP\s+TABLE\b/i.test(query);
   const dropReplayStep = isDropReplay
     ? data?.execution?.steps.find((step) => step.operation === "drop_table")
     : undefined;
@@ -819,7 +820,7 @@ export default function RunQueryPage() {
               <p className="sqlwhale-schema-shimmer">{schemaRetrying ? "Retrying…" : "holy crap fetching schema please wait.."}</p>
 
             </div>
-          ) : tablesError ? (
+          ) : tablesError && tables.length === 0 ? (
             <div className="output-error-state">
               <div className="output-error-icon"><X size={19} strokeWidth={2.2} /></div>
               <h3>Schema unavailable</h3>
