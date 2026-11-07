@@ -309,7 +309,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck, dark
                   <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", margin: "10px 0 0", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, lineHeight: 1.65 }}>{revealedAnswers[selectedTask.id]}</pre>
                 </div>
               )}
-            </div>
+            </div>}
             {startErrors[selectedTask.id] && <div role="alert" className="sqlwhale-task-check is-incorrect" style={{ marginTop: 12 }}>{startErrors[selectedTask.id]}</div>}
           </section>
         </div>
