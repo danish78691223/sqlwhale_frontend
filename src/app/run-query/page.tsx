@@ -423,7 +423,51 @@ export default function RunQueryPage() {
     setSlowExecution(showWhatHappened);
 
     if (activeTaskId && taskMode === "competition") {
-      setTaskCheck({ taskId: activeTaskId, correct: false, status: "invalid", message: "Competition submissions are not enabled yet. No points were awarded." });
+      if (!competitionId) {
+        setTaskCheck({ taskId: activeTaskId, correct: false, status: "invalid", message: "Select a competition before submitting." });
+        return;
+      }
+      setTaskSubmitting(true);
+      try {
+        const response = await api.post(
+          `/competitions/${encodeURIComponent(competitionId)}/tasks/${encodeURIComponent(activeTaskId)}/submit`,
+          { query: cleanSQL }
+        );
+        const result = response.data;
+        const correct = Boolean(result?.correct);
+        setTaskCheck({
+          taskId: activeTaskId,
+          correct,
+          status: result?.status || (correct ? "correct" : "incorrect"),
+          message: result?.message || "Competition submission evaluated."
+        });
+        if (result?.sqlResponse) {
+          applyResult(result.sqlResponse);
+        } else {
+          applyResult({
+            success: false,
+            error: result?.executionError || result?.message || "The competition query could not be evaluated."
+          });
+        }
+        if (correct) {
+          const pointsValue = result?.pointsAwarded ?? result?.totalTaskPoints ?? 0;
+          setTaskCompletion({
+            taskId: activeTaskId,
+            taskNumber: activeTaskNumber ?? 1,
+            points: Number.isFinite(Number(pointsValue)) ? Number(pointsValue) : 0,
+            title: result?.taskTitle || "Competition Task"
+          });
+          setActiveTaskId(null);
+          if (typeof window !== "undefined") localStorage.removeItem("sqlwhale-mobile-task-draft");
+        }
+      } catch (competitionError: any) {
+        console.error("Competition submission failed:", competitionError);
+        const message = competitionError?.response?.data?.error || "Unable to submit this competition task. Please try again.";
+        setTaskCheck({ taskId: activeTaskId, correct: false, status: "invalid", message });
+        applyResult({ success: false, error: message });
+      } finally {
+        setTaskSubmitting(false);
+      }
       return;
     }
     if (activeTaskId) {
