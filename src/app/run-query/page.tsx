@@ -91,7 +91,7 @@ export default function RunQueryPage() {
     }
   }, []);
 
-  const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string } | null>(null);
+  const [taskCheck, setTaskCheck] = useState<{ taskId: string; correct: boolean; status: "correct" | "incorrect" | "invalid"; message: string; preview?: boolean; pointsAwarded?: number } | null>(null);
   const [taskSubmitting, setTaskSubmitting] = useState(false);
 
   // Never leave a correctly completed task without its celebration if a visual
