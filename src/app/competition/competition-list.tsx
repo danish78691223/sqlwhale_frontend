@@ -14,7 +14,16 @@ export default function CompetitionList() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [isLight, setIsLight] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const syncTheme = () => setIsLight(document.documentElement.getAttribute("data-theme") === "light");
+    syncTheme();
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -35,6 +44,7 @@ export default function CompetitionList() {
 
   async function join(item: Item) {
     if (!authenticated) { router.push("/login?next=" + encodeURIComponent("/competition")); return; }
+    if (registered[item.id]) { router.push("/run-query?competition=" + encodeURIComponent(item.id)); return; }
     setBusy(item.id); setError("");
     try {
       await api.post("/competitions/" + item.id + "/register");
@@ -45,22 +55,34 @@ export default function CompetitionList() {
   }
 
   const date = (value?: string | null) => value ? new Date(value).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }) : "To be announced";
-  return <section style={{ background: "#07111f", color: "#e5edf7", padding: "44px 20px" }}>
-    <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", gap: 16, flexWrap: "wrap" }}>
-        <div><div style={{ color: "#55cbe8", letterSpacing: 2, fontSize: 12, fontWeight: 700 }}>OFFICIAL SQLWHALE EVENTS</div><h2 style={{ fontSize: 30, margin: "8px 0" }}>Competitions</h2><p style={{ color: "#a8b7c9", margin: 0 }}>Choose an event, register with your SQLWhale account and solve its assigned tasks.</p></div>
-        {!authenticated && <Link href="/signup" style={{ color: "#63d5ee" }}>Create SQLWhale account →</Link>}
+  const palette = isLight
+    ? { section: "#f5f7fb", text: "#172033", muted: "#64748b", surface: "#ffffff", surfaceAlt: "#f8fafc", border: "#e2e8f0", accent: "#087ea4", accentSoft: "#e8f7fc" }
+    : { section: "#080d18", text: "#edf4ff", muted: "#a5b5ca", surface: "#111d30", surfaceAlt: "#0c1728", border: "#263b56", accent: "#55d4ed", accentSoft: "#123047" };
+
+  function descriptionBlocks(value: string) {
+    return value.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
+      const clean = line.replace(/^[-*•]\s*/, "").replace(/\*\*/g, "");
+      return <p key={index}>{clean}</p>;
+    });
+  }
+
+  return <section className="swc-events" style={{ background: palette.section, color: palette.text }}>
+    <div className="swc-wrap">
+      <div className="swc-events-heading">
+        <div><div className="swc-kicker">OFFICIAL SQLWHALE EVENTS</div><h2>Competitions</h2><p>Choose an event, register with your SQLWhale account and solve its assigned tasks.</p></div>
+        {!authenticated && <Link className="swc-account-link" href="/signup">Create your SQLWhale account <span>↗</span></Link>}
       </div>
-      {error && <p role="alert" style={{ color: "#ff9aa9", marginTop: 18 }}>{error}</p>}
-      {loading ? <p style={{ color: "#a8b7c9", marginTop: 24 }}>Loading competitions…</p> : items.length === 0 ? <p style={{ color: "#a8b7c9", marginTop: 24 }}>No published competitions right now. Please check back soon.</p> :
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16, marginTop: 24 }}>
-          {items.map(item => <article key={item.id} style={{ background: "#101d30", border: "1px solid #263c56", borderRadius: 16, padding: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}><span style={{ color: "#5ed4ed", fontSize: 12, fontWeight: 700 }}>{item.status.toUpperCase()}</span><span style={{ color: "#a8b7c9", fontSize: 12 }}>{item.taskCount} tasks</span></div>
-            <h3 style={{ fontSize: 21, margin: "14px 0 8px" }}>{item.title}</h3>
-            <p style={{ color: "#a8b7c9", minHeight: 48 }}>{item.description || "A hands-on SQL challenge hosted on SQLWhale."}</p>
-            <div style={{ color: "#c4d1df", fontSize: 13, lineHeight: 1.8 }}><div>Starts: {date(item.startsAt)}</div><div>Ends: {date(item.endsAt)}</div></div>
-            <button disabled={busy === item.id || item.status === "completed" || item.status === "archived"} onClick={() => void join(item)} style={{ width: "100%", marginTop: 18, padding: "12px 14px", border: 0, borderRadius: 10, background: registered[item.id] ? "#1c806f" : "#12b5d8", color: "#061522", fontWeight: 800, cursor: "pointer", opacity: busy === item.id ? .65 : 1 }}>
-              {busy === item.id ? "Registering…" : registered[item.id] ? "Registered · Open Run Query" : authenticated ? "Register for Competition" : "Login to Register"}
+      {error && <p className="swc-event-error" role="alert">{error}</p>}
+      {loading ? <div className="swc-event-state">Loading competitions…</div> : items.length === 0 ? <div className="swc-event-state">No published competitions right now. Please check back soon.</div> :
+        <div className="swc-event-grid">
+          {items.map((item, index) => <article className="swc-event-card" key={item.id} style={{ animationDelay: (index * 70) + "ms" }}>
+            <div className="swc-event-card-top"><span className={"swc-event-status " + item.status}>{item.status}</span><span className="swc-event-count">{item.taskCount} SQL tasks</span></div>
+            <div className="swc-event-card-mark">SQL<span>WHALE</span><i>· 2026 CHALLENGE</i></div>
+            <h3>{item.title}</h3>
+            <div className="swc-event-description">{descriptionBlocks(item.description || "A hands-on SQL challenge hosted on SQLWhale.")}</div>
+            <div className="swc-event-dates"><div><span>STARTS</span><b>{date(item.startsAt)}</b></div><div><span>ENDS</span><b>{date(item.endsAt)}</b></div></div>
+            <button className={"swc-event-join " + (registered[item.id] ? "registered" : "")} disabled={busy === item.id || item.status === "completed" || item.status === "archived"} onClick={() => void join(item)}>
+              {busy === item.id ? "Registering…" : registered[item.id] ? "Open Competition Workspace  →" : authenticated ? "Register for Competition  →" : "Login to Register  →"}
             </button>
           </article>)}
         </div>}
