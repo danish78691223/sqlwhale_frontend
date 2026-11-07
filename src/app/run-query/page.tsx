@@ -58,6 +58,17 @@ export default function RunQueryPage() {
   const [dropDestructionStage, setDropDestructionStage] = useState(0);
   const [builderOpen, setBuilderOpen] = useState(false);
   const [taskOpen, setTaskOpen] = useState(false);
+  const [taskMode, setTaskMode] = useState<"practice" | "competition" | null>(null);
+  const [competitionId, setCompetitionId] = useState<string | null>(null);
+  const [competitions, setCompetitions] = useState<Array<{ id: string; title: string }>>([]);
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("competition");
+    if (id) { setCompetitionId(id); setTaskMode("competition"); setTaskOpen(true); }
+  }, []);
+  useEffect(() => {
+    if (!taskOpen) return;
+    api.get("/competitions").then(response => setCompetitions(response.data.competitions || [])).catch(() => setCompetitions([]));
+  }, [taskOpen]);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const [activeTaskNumber, setActiveTaskNumber] = useState<number | null>(null);
   const [taskCompletion, setTaskCompletion] = useState<{ taskId: string; taskNumber: number; points: number | null; title: string } | null>(null);
@@ -411,6 +422,10 @@ export default function RunQueryPage() {
     setAnimationRunId((current) => current + 1);
     setSlowExecution(showWhatHappened);
 
+    if (activeTaskId && taskMode === "competition") {
+      setTaskCheck({ taskId: activeTaskId, correct: false, status: "invalid", message: "Competition submissions are not enabled yet. No points were awarded." });
+      return;
+    }
     if (activeTaskId) {
       setTaskSubmitting(true);
       try {
@@ -1054,9 +1069,12 @@ export default function RunQueryPage() {
           />
         )}
 
-        {taskOpen && (
+        {taskOpen && (<div style={{ display: "flex", gap: 8, padding: 12 }}><button type="button" onClick={() => { setTaskMode("practice"); setActiveTaskId(null); setTaskCheck(null); }} style={{ flex: 1, padding: 10, borderRadius: 10, background: taskMode === "practice" ? "#126f9d" : "#334155", color: "#fff" }}>Practice Mode</button><button type="button" onClick={() => { setTaskMode("competition"); setActiveTaskId(null); setTaskCheck(null); }} style={{ flex: 1, padding: 10, borderRadius: 10, background: taskMode === "competition" ? "#126f9d" : "#334155", color: "#fff" }}>Competition</button></div>)}
+        {taskOpen && taskMode === "competition" && (<div style={{ padding: 12 }}><label htmlFor="competition-select">Select competition</label><select id="competition-select" value={competitionId || ""} onChange={e => { setCompetitionId(e.target.value || null); setActiveTaskId(null); }} style={{ width: "100%", padding: 10 }}><option value="">Choose competition</option>{competitions.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</select>{!competitionId && <p>Register on the <Link href="/competition">Competitions page</Link> to unlock tasks.</p>}{competitionId && <p>Competition submissions are disabled until secure grading is ready.</p>}</div>)}
+        {taskOpen && taskMode === "practice" && (
           <TaskSection
             darkMode={darkMode}
+            mode="practice"
             activeTaskId={activeTaskId}
             taskCheck={taskCheck}
             onStartTask={(task) => {
@@ -1078,6 +1096,7 @@ export default function RunQueryPage() {
             }}
           />
         )}
+        {taskOpen && taskMode === "competition" && competitionId && (<TaskSection key={"competition-" + competitionId} darkMode={darkMode} mode="competition" competitionId={competitionId} activeTaskId={activeTaskId} taskCheck={taskCheck} onStartTask={task => { setActiveTaskId(task.id); setActiveTaskNumber(task.order ?? 1); setTaskCheck(null); setTaskCompletion(null); setQuery("-- Competition task: " + task.title + "\n-- Write SQL below.\n"); setExecutedQuery(null); setAnimationComplete(false); if (window.innerWidth <= 800) setActiveMobileView("editor"); }} />)}
       </aside>
 
       </section>
