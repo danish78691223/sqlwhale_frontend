@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Award, CalendarDays, CheckCircle2, Code2, Medal, ShieldCheck, Trophy, Users } from "lucide-react";
 import "./competition.css";
+import CompetitionList from "./competition-list";
 
 export const metadata = {
   title: "SQLWhale SQL Challenge 2026 | WEBXWHALE",
@@ -24,7 +25,7 @@ const schedule = [
 
 export default function CompetitionPage() {
   return (
-    <main className="sw-competition">
+    <main className="sw-competition">\n      <CompetitionList />
       <section className="swc-hero">
         <div className="swc-orb swc-orb-one" /><div className="swc-orb swc-orb-two" />
         <div className="swc-wrap">
