@@ -1263,3 +1263,24 @@ html[data-theme="dark"] .sqlwhale-home .sqlwhale-leaderboard-points strong{color
   html[data-theme="dark"] .sqlwhale-home .sqlwhale-leaderboard-row{grid-template-columns:38px minmax(0,1fr) 70px;gap:9px;padding:9px 8px}
   html[data-theme="dark"] .sqlwhale-home .sqlwhale-leaderboard-points strong{font-size:18px}
 }
+
+
+/* SQLWhale SQL Challenge homepage promotion */
+.swc-home-promo{padding:58px 24px;background:radial-gradient(ellipse at 78% 50%,rgba(36,153,198,.17),transparent 42%),linear-gradient(115deg,#09111d,#0d1b2b 58%,#08121e);border-block:1px solid rgba(105,199,224,.14)}
+.swc-home-promo-inner{width:min(1120px,100%);margin:0 auto;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;border:1px solid rgba(105,199,224,.2);border-radius:22px;padding:clamp(24px,4vw,48px);background:linear-gradient(140deg,rgba(14,28,44,.9),rgba(8,16,28,.94));box-shadow:0 24px 80px rgba(0,0,0,.18)}
+.swc-home-promo-kicker{display:inline-flex;align-items:center;gap:9px;color:#79dff1;font-size:10px;font-weight:800;letter-spacing:.15em}
+.swc-home-promo-kicker i{width:7px;height:7px;border-radius:50%;background:#59e1b3;box-shadow:0 0 12px #59e1b3}
+.swc-home-promo-copy h2{color:#f6f8fc;font-size:clamp(35px,4.5vw,54px);line-height:1.04;letter-spacing:-.05em;margin:18px 0 13px}
+.swc-home-promo-copy h2 em{font-style:normal;color:#61d8eb}
+.swc-home-promo-copy p{max-width:620px;color:#9eafc3;font-size:13px;line-height:1.8;margin:0}
+.swc-home-promo-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.swc-home-promo-meta span{font-size:10px;color:#b8c9db;border:1px solid rgba(133,164,196,.2);padding:7px 10px;border-radius:99px;background:rgba(255,255,255,.025)}
+.swc-home-promo-link{display:inline-flex;align-items:center;gap:9px;margin-top:24px;color:#07121c;background:linear-gradient(100deg,#66e0eb,#75bdf5);padding:13px 17px;border-radius:9px;text-decoration:none;font-size:12px;font-weight:800;transition:transform .2s}
+.swc-home-promo-link:hover{transform:translateY(-2px)}
+.swc-home-promo-stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(117,192,220,.17);border-radius:15px;overflow:hidden;background:rgba(3,10,19,.3)}
+.swc-home-promo-stats>div{padding:20px;border-bottom:1px solid rgba(117,192,220,.15);border-right:1px solid rgba(117,192,220,.15);display:flex;flex-direction:column;gap:5px}
+.swc-home-promo-stats>div:nth-child(2n){border-right:0}
+.swc-home-promo-stats strong{font-size:30px;line-height:1;color:#f4f8ff;letter-spacing:-.04em}
+.swc-home-promo-stats span{font-size:10px;color:#91a7bd}
+.swc-home-promo-stats small{grid-column:1/-1;padding:13px 18px;color:#7f94aa;font-size:10px;line-height:1.6}
+@media(max-width:760px){.swc-home-promo{padding:36px 16px}.swc-home-promo-inner{grid-template-columns:1fr;gap:26px;padding:24px}.swc-home-promo-stats>div{padding:16px}.swc-home-promo-copy h2{font-size:38px}}
