@@ -25,7 +25,8 @@ const schedule = [
 
 export default function CompetitionPage() {
   return (
-    <main className="sw-competition">\n      <CompetitionList />
+    <main className="sw-competition">
+      <CompetitionList />
       <section className="swc-hero">
         <div className="swc-orb swc-orb-one" /><div className="swc-orb swc-orb-two" />
         <div className="swc-wrap">
