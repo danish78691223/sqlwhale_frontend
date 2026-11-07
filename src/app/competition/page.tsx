@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Award, CalendarDays, CheckCircle2, Clock3, Code2, Medal, ShieldCheck, Trophy, Users } from "lucide-react";
+import { ArrowRight, Award, CalendarDays, CheckCircle2, Code2, Medal, ShieldCheck, Trophy, Users } from "lucide-react";
 import "./competition.css";
 
 export const metadata = {
