@@ -176,6 +176,26 @@ export default function Home() {
 
       <SQLWhaleHero />
 
+      <section className="home-section swc-home-promo">
+        <div className="swc-home-promo-inner">
+          <div className="swc-home-promo-copy">
+            <span className="swc-home-promo-kicker"><i /> WEBXWHALE PRESENTS · SQLWHALE CHALLENGE</span>
+            <h2>Think in SQL.<br /><em>Compete with skill.</em></h2>
+            <p>Take on 30 practical SQL tasks across Easy, Medium and Hard levels. Build query confidence, track your progress and compete for a place in the Top 3.</p>
+            <div className="swc-home-promo-meta"><span>7-day individual format</span><span>300 total points</span><span>Top 3 certificates</span></div>
+            <Link href="/competition" className="swc-home-promo-link">Explore the SQL Challenge <ArrowRight size={16} /></Link>
+          </div>
+          <div className="swc-home-promo-stats" aria-label="Challenge overview">
+            <div><strong>30</strong><span>SQL tasks</span></div>
+            <div><strong>300</strong><span>Max points</span></div>
+            <div><strong>07</strong><span>Days</span></div>
+            <div><strong>03</strong><span>Winner certificates</span></div>
+            <small>Registration dates will be announced on the official challenge listing.</small>
+          </div>
+        </div>
+      </section>
+
+
       <section id="mini-demo" className="home-section sw-section sw-demo-section">
         <div className="sw-section-inner">
           <div className="sw-kicker">01 / TRY IT YOURSELF</div>
