@@ -449,7 +449,7 @@ export default function RunQueryPage() {
             error: result?.executionError || result?.message || "The competition query could not be evaluated."
           });
         }
-        if (correct) {
+        if (correct && !result?.preview) {
           const pointsValue = result?.pointsAwarded ?? result?.totalTaskPoints ?? 0;
           setTaskCompletion({
             taskId: activeTaskId,
@@ -1114,7 +1114,7 @@ export default function RunQueryPage() {
         )}
 
         {taskOpen && (<div style={{ display: "flex", gap: 8, padding: 12 }}><button type="button" onClick={() => { setTaskMode("practice"); setActiveTaskId(null); setTaskCheck(null); }} style={{ flex: 1, padding: 10, borderRadius: 10, background: taskMode === "practice" ? "#126f9d" : "#334155", color: "#fff" }}>Practice Mode</button><button type="button" onClick={() => { setTaskMode("competition"); setActiveTaskId(null); setTaskCheck(null); }} style={{ flex: 1, padding: 10, borderRadius: 10, background: taskMode === "competition" ? "#126f9d" : "#334155", color: "#fff" }}>Competition</button></div>)}
-        {taskOpen && taskMode === "competition" && (<div style={{ padding: 12 }}><label htmlFor="competition-select">Select competition</label><select id="competition-select" value={competitionId || ""} onChange={e => { setCompetitionId(e.target.value || null); setActiveTaskId(null); }} style={{ width: "100%", padding: 10 }}><option value="">Choose competition</option>{competitions.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</select>{!competitionId && <p>Register on the <Link href="/competition">Competitions page</Link> to unlock tasks.</p>}{competitionId && <p>Competition submissions are disabled until secure grading is ready.</p>}</div>)}
+        {taskOpen && taskMode === "competition" && (<div style={{ padding: 12 }}><label htmlFor="competition-select">Select competition</label><select id="competition-select" value={competitionId || ""} onChange={e => { setCompetitionId(e.target.value || null); setActiveTaskId(null); }} style={{ width: "100%", padding: 10 }}><option value="">Choose competition</option>{competitions.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</select>{!competitionId && <p>Register on the <Link href="/competition">Competitions page</Link> to unlock tasks.</p>}{competitionId && <p>Choose a task and run your SQL. Competition scoring is recorded only during the official live period.</p>}</div>)}
         {taskOpen && taskMode === "practice" && (
           <TaskSection
             darkMode={darkMode}
