@@ -439,7 +439,13 @@ export default function RunQueryPage() {
           taskId: activeTaskId,
           correct,
           status: result?.status || (correct ? "correct" : "incorrect"),
-          message: result?.message || "Competition submission evaluated."
+          message: result?.preview
+            ? (correct
+              ? "Preview passed. SQL grading is working, but this competition is not live yet, so the task is not marked completed and no points are awarded."
+              : (result?.message || "Preview evaluated. No competition points were awarded."))
+            : (result?.message || "Competition submission evaluated."),
+          preview: Boolean(result?.preview),
+          pointsAwarded: Number(result?.pointsAwarded || 0)
         });
         if (result?.sqlResponse) {
           applyResult(result.sqlResponse);
