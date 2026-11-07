@@ -60,9 +60,16 @@ export default function CompetitionList() {
     : { section: "#080d18", text: "#edf4ff", muted: "#a5b5ca", surface: "#111d30", surfaceAlt: "#0c1728", border: "#263b56", accent: "#55d4ed", accentSoft: "#123047" };
 
   function descriptionBlocks(value: string) {
-    return value.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
-      const clean = line.replace(/^[-*•]\s*/, "").replace(/\*\*/g, "");
-      return <p key={index}>{clean}</p>;
+    const normalized = value.replace(/\\n/g, "\n").replace(/\r\n/g, "\n");
+    const lines = normalized.split("\n").map(line => line.trim()).filter(Boolean);
+    return lines.map((line, index) => {
+      const clean = line.replace(/\*\*/g, "").trim();
+      const isBullet = /^[-*•]\s+/.test(clean);
+      const content = clean.replace(/^[-*•]\s+/, "");
+      const isHeading = /:$/.test(content) || /^(Competition Highlights|How to Participate|Important|SQL Challenge|Challenge Highlights)$/i.test(content);
+      if (isHeading) return <h4 key={index}>{content.replace(/:$/, "")}</h4>;
+      if (isBullet) return <p className="swc-event-bullet" key={index}><span>✓</span>{content}</p>;
+      return <p key={index}>{content}</p>;
     });
   }
 
