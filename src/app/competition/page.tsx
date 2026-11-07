@@ -2,6 +2,12 @@ import Link from "next/link";
 import { ArrowRight, Award, CalendarDays, CheckCircle2, Clock3, Code2, Medal, ShieldCheck, Trophy, Users } from "lucide-react";
 import "./competition.css";
 
+export const metadata = {
+  title: "SQLWhale SQL Challenge 2026 | WEBXWHALE",
+  description: "Take on 30 practical SQL tasks across seven days. Learn by solving, compete individually and earn a Top 3 certificate on SQLWhale.",
+  alternates: { canonical: "https://sqlwhale.webxwhale.com/competition" },
+};
+
 const levels = [
   { name: "Easy", count: 10, points: 5, total: 50, detail: "SELECT, WHERE, ORDER BY and LIMIT" },
   { name: "Medium", count: 10, points: 10, total: 100, detail: "JOIN, GROUP BY, HAVING and aggregates" },
