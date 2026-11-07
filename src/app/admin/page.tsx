@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight, Bell } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight, Bell, Trophy } from "lucide-react";
 
 type User = {
   id: string;
@@ -387,6 +387,11 @@ export default function AdminPage() {
               <span>Manage Tasks</span>
               <b>{tasks.length}</b>
             </button>
+            <Link href="/admin/competitions" className="sqlwhale-admin-sidebar-link" onClick={() => setSidebarOpen(false)}>
+              <Trophy size={17} />
+              <span>Competitions</span>
+              <ChevronRight size={14} />
+            </Link>
             <button type="button" className={dashboardCardClass("users")} onClick={() => selectSection("users")}>
               <Users size={17} />
               <span>Users</span>
