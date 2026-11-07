@@ -25,9 +25,11 @@ interface TaskSectionProps {
   activeTaskId?: string | null;
   taskCheck?: TaskCheck | null;
   darkMode: boolean;
+  mode?: "practice" | "competition";
+  competitionId?: string | null;
 }
 
-export default function TaskSection({ onStartTask, activeTaskId, taskCheck, darkMode }: TaskSectionProps) {
+export default function TaskSection({ onStartTask, activeTaskId, taskCheck, darkMode, mode = "practice", competitionId }: TaskSectionProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -42,8 +44,8 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck, dark
     setLoading(true);
     setError("");
     try {
-      const response = await api.get("/tasks");
-      const incomingTasks: Task[] = response.data.tasks || [];
+      const response = mode === "competition" ? await api.get("/competitions/" + encodeURIComponent(competitionId || "") + "/me") : await api.get("/tasks");
+      const incomingTasks: Task[] = mode === "competition" ? (response.data.tasks || []).map((task: Task) => ({ ...task, unlocked: true, locked: false })) : response.data.tasks || [];
       // The backend is the source of truth; retain a fallback for older API deployments.
       let nextUnlocked = true;
       const normalizedTasks = incomingTasks.map((task, index) => {
@@ -68,7 +70,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck, dark
     setStartingTaskId(task.id);
     setStartErrors((current) => ({ ...current, [task.id]: "" }));
     try {
-      await api.post(`/tasks/${task.id}/start`);
+      if (mode === "practice") await api.post("/tasks/" + task.id + "/start");
       setSelectedTask(null);
       onStartTask(task);
     } catch (err: any) {
@@ -145,9 +147,9 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck, dark
     <section className="sqlwhale-task-section" aria-label="SQL tasks">
       <div className="sqlwhale-task-header">
         <div>
-          <div className="sqlwhale-builder-kicker">PRACTICE MODE</div>
-          <h2>SQL Tasks</h2>
-          <p>Solve admin-created SQL challenges using the editor below.</p>
+          <div className="sqlwhale-builder-kicker">{mode === "competition" ? "COMPETITION MODE" : "PRACTICE MODE"}</div>
+          <h2>{mode === "competition" ? "Competition Tasks" : "SQL Tasks"}</h2>
+          <p>{mode === "competition" ? "Solve assigned competition tasks. Competition points are tracked separately." : "Solve admin-created SQL challenges using the editor below."}</p>
         </div>
         <button
           type="button"
@@ -277,7 +279,7 @@ export default function TaskSection({ onStartTask, activeTaskId, taskCheck, dark
                 {startingTaskId === selectedTask.id ? "Preparing task..." : activeTaskId === selectedTask.id ? "Task already started" : "Start Task"}
               </button>
             )}
-            <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 14 }}>
+            {mode === "practice" && <div className="sqlwhale-task-reveal-wrap" style={{ marginTop: 14 }}>
               <button
                 type="button"
                 className="sqlwhale-task-start"
