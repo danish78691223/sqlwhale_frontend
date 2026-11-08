@@ -6,7 +6,7 @@ import { api } from "../../../services/api";
 import AdminCompetitionResults from "./AdminCompetitionResults";
 
 type TaskOption = { id: string; title: string; difficulty: "Easy" | "Medium" | "Hard"; isActive: boolean };
-type Competition = { id: string; title: string; slug: string; description?: string; status: string; taskIds: string[]; startsAt?: string | null; endsAt?: string | null; registrationStartsAt?: string | null; registrationEndsAt?: string | null; points?: { Easy: number; Medium: number; Hard: number } };
+type Competition = { id: string; title: string; slug: string; description?: string; status: string; taskIds: string[]; startsAt?: string | null; endsAt?: string | null; registrationStartsAt?: string | null; registrationEndsAt?: string | null; points?: { Easy: number; Medium: number; Hard: number }; certificateTopN?: number };
 
 const initial = { title: "", slug: "", description: "", status: "draft", taskIds: [] as string[], registrationStartsAt: "", registrationEndsAt: "", startsAt: "", endsAt: "", points: { Easy: 5, Medium: 10, Hard: 15 }, certificateTopN: 3 };
 const statusStyles: Record<string, { color: string; bg: string }> = {
@@ -76,7 +76,7 @@ export default function AdminCompetitionsPage() {
       endsAt: item.endsAt ? new Date(item.endsAt).toISOString().slice(0,16) : "",
       registrationStartsAt: item.registrationStartsAt ? new Date(item.registrationStartsAt).toISOString().slice(0,16) : "",
       registrationEndsAt: item.registrationEndsAt ? new Date(item.registrationEndsAt).toISOString().slice(0,16) : "",
-      points: item.points || initial.points,
+      points: item.points || initial.points, certificateTopN: item.certificateTopN ?? initial.certificateTopN,
     });
     setFormOpen(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -172,13 +172,13 @@ export default function AdminCompetitionsPage() {
               <div><h2 style={{ ...sectionTitle, marginBottom: 4 }}>SQL task selection</h2><p style={{ color: palette.muted, fontSize: 12, margin: 0 }}>Choose existing active tasks. Tasks are reused; no duplicate records are created.</p></div>
               <span style={{ color: palette.accent, background: palette.selected, padding: "7px 11px", borderRadius: 9, fontSize: 12, fontWeight: 800 }}>{selectedTasks.length} selected</span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: 10, marginTop: 14 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 10, marginTop: 14 }}>
               {(["Easy","Medium","Hard"] as const).map(level => <label key={level}><span style={label}>{level} points</span><input style={field} type="number" min="0" value={form.points[level]} onChange={e => setForm(old => ({ ...old, points: { ...old.points, [level]: Number(e.target.value) } }))} /></label>)}
             </div>
             <div style={{ display: "flex", gap: 9, flexWrap: "wrap", alignItems: "center", margin: "17px 0 10px" }}>
               <input style={{ ...field, flex: "1 1 230px" }} value={taskSearch} onChange={e => setTaskSearch(e.target.value)} placeholder="Search SQL tasks…" aria-label="Search SQL tasks" />
               <select style={{ ...field, width: "auto", minWidth: 130 }} value={taskDifficulty} onChange={e => setTaskDifficulty(e.target.value)} aria-label="Filter by difficulty"><option>All</option><option>Easy</option><option>Medium</option><option>Hard</option></select>
-              <button type="button" onClick={() => update("taskIds", activeTasks.map(t => t.id).filter(id => filteredTasks.some(t => t.id === id)))} style={secondary}>Select filtered</button>
+              <button type="button" onClick={() => update("taskIds", Array.from(new Set([...form.taskIds, ...filteredTasks.map(t => t.id)])))} style={secondary}>Select filtered</button>
               <button type="button" onClick={() => update("taskIds", [])} style={secondary}>Clear selection</button>
             </div>
             <div style={{ border: "1px solid " + palette.border, borderRadius: 12, overflow: "hidden" }}>
