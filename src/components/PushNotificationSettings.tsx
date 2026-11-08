@@ -131,7 +131,7 @@ export default function PushNotificationSettings() {
 
       {!supported ? (
         <p className="account-notification-status" role="status">
-          Push notifications are not supported in this browser. Install SQLWhale as a PWA or use a supported browser.
+          Push notifications are not supported in this browser. Use a supported browser. iPhone/iPad requires adding SQLWhale to the Home Screen.
         </p>
       ) : (
         <>
