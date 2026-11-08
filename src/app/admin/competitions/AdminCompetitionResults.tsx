@@ -5,7 +5,7 @@ import { api } from "@/services/api";
 
 type Row = { rank: number; name: string; email?: string; completedTasks: number; points: number };
 
-export default function AdminCompetitionResults({ competitionId, status }: { competitionId: string; status: string }) {
+export default function AdminCompetitionResults({ competitionId, status, isDark = false }: { competitionId: string; status: string; isDark?: boolean }) {
   const [rows, setRows] = useState<Row[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [finalized, setFinalized] = useState(false);
@@ -55,11 +55,11 @@ export default function AdminCompetitionResults({ competitionId, status }: { com
     } finally { setBusy(false); }
   }
 
-  return <div style={{ color: "#243247" }}>
+  return <div style={{ color: ink }}>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
       <div>
-        <div style={{ fontSize: 12, fontWeight: 850, color: "#334155" }}>Participants & results</div>
-        <div style={{ fontSize: 11, color: "#64748b", marginTop: 3 }}>{loaded ? rows.length + " participant(s) in the current ranking" : "View submissions, freeze the final ranking and approve certificates."}</div>
+        <div style={{ fontSize: 12, fontWeight: 850, color: ink }}>Participants & results</div>
+        <div style={{ fontSize: 11, color: muted, marginTop: 3 }}>{loaded ? rows.length + " participant(s) in the current ranking" : "View submissions, freeze the final ranking and approve certificates."}</div>
       </div>
       <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
         <button type="button" disabled={busy} onClick={() => void load()} style={{ ...button, ...(busy ? disabledButton : {}) }}>{busy ? "Working…" : loaded ? "↻ Refresh results" : "View results"}</button>
@@ -69,20 +69,20 @@ export default function AdminCompetitionResults({ competitionId, status }: { com
         </>}
       </div>
     </div>
-    {status !== "completed" && loaded && <p style={{ margin: "12px 0 0", color: "#64748b", fontSize: 11 }}>Final ranking can be frozen after the competition status is set to completed.</p>}
-    {notice && <div role="status" style={{ marginTop: 12, padding: "9px 11px", borderRadius: 8, background: "#fff", border: "1px solid #dbe4ed", color: "#334155", fontSize: 12 }}>{notice}</div>}
+    {status !== "completed" && loaded && <p style={{ margin: "12px 0 0", color: muted, fontSize: 11 }}>Final ranking can be frozen after the competition status is set to completed.</p>}
+    {notice && <div role="status" style={{ marginTop: 12, padding: "9px 11px", borderRadius: 8, background: panel, border: "1px solid " + line, color: ink, fontSize: 12 }}>{notice}</div>}
     {loaded && <div style={{ overflowX: "auto", marginTop: 13, border: "1px solid #e2e8f0", borderRadius: 10, background: "#fff" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, minWidth: 520 }}>
         <thead><tr><th align="left" style={th}>Rank</th><th align="left" style={th}>Participant</th><th align="left" style={th}>Email</th><th align="right" style={th}>Tasks</th><th align="right" style={th}>Points</th></tr></thead>
         <tbody>{rows.map(row => <tr key={row.rank}>
-          <td style={{ ...td, fontWeight: 800, color: row.rank <= 3 ? "#087ea4" : "#334155" }}>#{row.rank}</td>
+          <td style={{ ...td, fontWeight: 800, color: row.rank <= 3 ? "#22a6c7" : ink }}>#{row.rank}</td>
           <td style={{ ...td, fontWeight: 700 }}>{row.name}</td>
-          <td style={{ ...td, color: "#64748b" }}>{row.email || "—"}</td>
+          <td style={{ ...td, color: muted }}>{row.email || "—"}</td>
           <td align="right" style={td}>{row.completedTasks}</td>
           <td align="right" style={{ ...td, fontWeight: 850 }}>{row.points}</td>
         </tr>)}</tbody>
       </table>
-      {!rows.length && <div style={{ padding: 22, textAlign: "center", color: "#64748b", fontSize: 12 }}>No participant submissions are available yet.</div>}
+      {!rows.length && <div style={{ padding: 22, textAlign: "center", color: muted, fontSize: 12 }}>No participant submissions are available yet.</div>}
     </div>}
   </div>;
 }
