@@ -21,12 +21,27 @@ export default function CompetitionCertificatePage() {
       <p style={{ fontSize: 17, color: "#596579" }}>This certificate is proudly presented to</p>
       <h2 style={{ fontFamily: "Georgia,serif", fontSize: "clamp(30px,4vw,46px)", color: "#8b6a20", margin: "16px 0" }}>{certificate.learnerName}</h2>
       <p style={{ maxWidth: 680, lineHeight: 1.8, fontSize: 16 }}>For securing <strong>Rank #{certificate.rank}</strong> in <strong>{certificate.competitionName}</strong>, demonstrating SQL knowledge, problem-solving ability and dedication.</p>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 30, flexWrap: "wrap", width: "100%", marginTop: 60, borderTop: "1px solid #d9dee8", paddingTop: 22, textAlign: "left" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 48, width: "100%", marginTop: 54, marginBottom: 38 }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ minHeight: 42, display: "flex", alignItems: "end", justifyContent: "center", borderBottom: "1px solid #9aa3b2", paddingBottom: 5 }}>
+            <span style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive", fontSize: 34, fontStyle: "italic", color: "#172554" }}>Danish Khan</span>
+          </div>
+          <strong style={{ display: "block", marginTop: 10, fontSize: 14 }}>Danish Khan</strong>
+          <div style={{ fontSize: 12, color: "#667085", marginTop: 4 }}>Co-Founder, WEBXWHALE</div>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ minHeight: 42, display: "flex", alignItems: "end", justifyContent: "center", borderBottom: "1px solid #9aa3b2", paddingBottom: 5 }}>
+            <span style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive", fontSize: 34, fontStyle: "italic", color: "#172554" }}>Ismail Shaikh</span>
+          </div>
+          <strong style={{ display: "block", marginTop: 10, fontSize: 14 }}>Ismail Shaikh</strong>
+          <div style={{ fontSize: 12, color: "#667085", marginTop: 4 }}>Co-Founder, WEBXWHALE</div>
+        </div>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: 24, flexWrap: "wrap", width: "100%", borderTop: "1px solid #d9dee8", paddingTop: 18, textAlign: "left" }}>
         <div><strong>{new Date(certificate.issuedAt).toLocaleDateString("en-IN",{day:"2-digit",month:"long",year:"numeric"})}</strong><div style={{ fontSize: 12, color: "#667085", marginTop: 5 }}>DATE OF ISSUE</div></div>
         <div><strong>{certificate.issuer}</strong><div style={{ fontSize: 12, color: "#667085", marginTop: 5 }}>ISSUED BY</div></div>
         <div><strong>SQLW-{certificate.certificateId}</strong><div style={{ fontSize: 12, color: "#667085", marginTop: 5 }}>CERTIFICATE ID</div></div>
       </div>
-      <p style={{ fontSize: 11, color: "#667085", marginTop: 30 }}>Verify authenticity at sqlwhale.webxwhale.com/verify-certificate?type=competition&id={certificate.certificateId}</p>
     </article> : null}
     <style jsx global>{`@media print { @page { size: A4 landscape; margin: 8mm; } body { background: white !important; } .no-print { display: none !important; } main { padding: 0 !important; background: white !important; } article { max-width: none !important; min-height: 180mm !important; box-shadow: none !important; break-inside: avoid; } }`}</style>
   </main>;
