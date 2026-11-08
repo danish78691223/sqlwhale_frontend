@@ -14,7 +14,7 @@ export default function CompetitionCertificatePage() {
   useEffect(() => { if (!id) return; api.get("/certificate/competition/verify/" + encodeURIComponent(id)).then(r => { if (r.data?.valid) setCertificate(r.data.certificate); else setError(r.data?.message || "Certificate not found."); }).catch(e => setError(e?.response?.data?.message || "This certificate could not be loaded.")).finally(() => setLoading(false)); }, [id]);
   return <main style={{ minHeight: "100vh", background: "#eef2f7", padding: "32px 16px", color: "#172033" }}>
     <div className="no-print" style={{ maxWidth: 1000, margin: "0 auto 18px", display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}><a href="/account">← Back to profile</a><button onClick={() => window.print()} disabled={!certificate} style={{ padding: "12px 18px", border: 0, borderRadius: 8, background: "#facc15", fontWeight: 800, cursor: "pointer" }}>Download / Save as PDF</button></div>
-    {loading ? <p style={{ textAlign: "center" }}>Loading certificate…</p> : error ? <p role="alert" style={{ textAlign: "center" }}>{error}</p> : certificate ? <article style={{ boxSizing: "border-box", maxWidth: 1000, minHeight: 650, margin: "auto", padding: "64px 56px", background: "#fff", border: "12px double #c69b32", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", boxShadow: "0 20px 60px rgba(15,23,42,.12)" }}>
+    {loading ? <p style={{ textAlign: "center" }}>Loading certificate…</p> : error ? <p role="alert" style={{ textAlign: "center" }}>{error}</p> : certificate ? <article className="certificate-print" style={{ boxSizing: "border-box", maxWidth: 1000, minHeight: 650, margin: "auto", padding: "64px 56px", background: "#fff", border: "12px double #c69b32", textAlign: "center", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", boxShadow: "0 20px 60px rgba(15,23,42,.12)" }}>
       <div style={{ fontSize: 13, letterSpacing: ".28em", fontWeight: 800, color: "#8b6a20" }}>SQLWHALE · WEBXWHALE</div>
       <div style={{ width: 90, height: 4, background: "#c69b32", margin: "28px auto" }} />
       <h1 style={{ fontFamily: "Georgia,serif", fontSize: "clamp(34px,5vw,58px)", margin: "0 0 16px", color: "#14213d" }}>Certificate of Achievement</h1>
@@ -41,6 +41,22 @@ export default function CompetitionCertificatePage() {
         <div><strong>SQLW-{certificate.certificateId}</strong><div style={{ fontSize: 12, color: "#667085", marginTop: 5 }}>CERTIFICATE ID</div></div>
       </div>
     </article> : null}
-    <style jsx global>{`@media print { @page { size: A4 landscape; margin: 8mm; } body { background: white !important; } .no-print { display: none !important; } main { padding: 0 !important; background: white !important; } article { max-width: none !important; min-height: 180mm !important; box-shadow: none !important; break-inside: avoid; } }`}</style>
+    <style jsx global>{`
+      @media print {
+        @page { size: A4 landscape; margin: 0; }
+        html, body { width: 297mm !important; height: 210mm !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; background: #fff !important; }
+        body * { visibility: hidden !important; }
+        .certificate-print, .certificate-print * { visibility: visible !important; }
+        .no-print { display: none !important; }
+        .certificate-print {
+          position: absolute !important; top: 8mm !important; left: 8mm !important;
+          width: 281mm !important; height: 194mm !important; min-height: 0 !important; max-width: none !important;
+          margin: 0 !important; padding: 12mm 16mm !important; box-sizing: border-box !important;
+          overflow: hidden !important; box-shadow: none !important;
+          break-inside: avoid !important; page-break-inside: avoid !important;
+          print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important;
+        }
+      }
+    `}</style>
   </main>;
 }
