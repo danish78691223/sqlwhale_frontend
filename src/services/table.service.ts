@@ -46,3 +46,18 @@ export async function getTableWithData(
   );
   return response.data;
 }
+
+
+/** Load schema from the participant's isolated competition workspace. */
+export async function getCompetitionTableDetails(competitionId: string): Promise<DatabaseTable[]> {
+  const response = await api.get<{ success: boolean; tables: string[] }>(
+    `/competitions/${encodeURIComponent(competitionId)}/workspace/tables`
+  );
+  const names = response.data.tables || [];
+  return Promise.all(names.map(async (name) => {
+    const detail = await api.get<{ success: boolean; table: DatabaseTable }>(
+      `/competitions/${encodeURIComponent(competitionId)}/workspace/tables/${encodeURIComponent(name)}`
+    );
+    return detail.data.table;
+  }));
+}
