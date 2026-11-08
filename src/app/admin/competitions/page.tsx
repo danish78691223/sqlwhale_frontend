@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { api } from "../../../services/api";
+import AdminCompetitionResults from "./AdminCompetitionResults";
 
 type TaskOption = { id: string; title: string; difficulty: "Easy" | "Medium" | "Hard"; isActive: boolean };
 type Competition = { id: string; title: string; slug: string; description?: string; status: string; taskIds: string[]; startsAt?: string | null; endsAt?: string | null; registrationStartsAt?: string | null; registrationEndsAt?: string | null; points?: { Easy: number; Medium: number; Hard: number } };
@@ -106,7 +107,7 @@ export default function AdminCompetitionsPage() {
         </div>
         <div style={{ display: "flex", gap: 10, marginTop: 20, flexWrap: "wrap" }}><button disabled={busy || !form.title.trim()} onClick={() => void save()} style={{ ...field, width: "auto", border: 0, background: palette.accent, color: palette.accentText, fontWeight: 700, cursor: "pointer" }}>{busy ? "Saving..." : editing ? "Save changes" : "Create competition"}</button><button onClick={() => { setForm(initial); setEditing(null); }} style={{ ...field, width: "auto", cursor: "pointer" }}>Clear</button></div>
       </section>
-      <section style={card}><h2 style={{ marginTop: 0 }}>Existing competitions</h2>{busy && !items.length ? <p>Loading...</p> : !items.length ? <p style={{ color: "#9fb0c5" }}>No competitions created yet.</p> : items.map(item => <article key={item.id} style={{ borderTop: "1px solid #304159", padding: "16px 0", display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}><div><b>{item.title}</b><div style={{ color: "#9fb0c5", fontSize: 13 }}>{item.slug} · {item.status} · {item.taskIds?.length || 0} tasks</div></div><div style={{ display: "flex", gap: 8 }}><button onClick={() => edit(item)} style={{ ...field, width: "auto", cursor: "pointer" }}>Edit</button><button onClick={() => void remove(item)} style={{ ...field, width: "auto", cursor: "pointer", borderColor: "#9f4054" }}>Delete</button></div></article>)}</section>
+      <section style={card}><h2 style={{ marginTop: 0 }}>Existing competitions</h2>{busy && !items.length ? <p>Loading...</p> : !items.length ? <p style={{ color: "#9fb0c5" }}>No competitions created yet.</p> : items.map(item => <div key={item.id}><article key={item.id} style={{ borderTop: "1px solid #304159", padding: "16px 0", display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}><div><b>{item.title}</b><div style={{ color: "#9fb0c5", fontSize: 13 }}>{item.slug} · {item.status} · {item.taskIds?.length || 0} tasks</div></div><div style={{ display: "flex", gap: 8 }}><button onClick={() => edit(item)} style={{ ...field, width: "auto", cursor: "pointer" }}>Edit</button><button onClick={() => void remove(item)} style={{ ...field, width: "auto", cursor: "pointer", borderColor: "#9f4054" }}>Delete</button></div></article><AdminCompetitionResults competitionId={item.id} status={item.status} /></div>)}</section>
     </div>
   </main>;
 }
