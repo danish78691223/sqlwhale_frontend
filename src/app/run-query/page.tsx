@@ -16,7 +16,7 @@ import QueryVisualization from "@/components/visualization/QueryVisualization";
 import EditTableCanvas from "@/components/database/EditTableCanvas";
 import { Skeleton, SkeletonCard } from "@/components/ui/skeleton";
 
-import { getAllTableDetails } from "@/services/table.service";
+import { getAllTableDetails, getCompetitionTableDetails } from "@/services/table.service";
 import type { DatabaseTable } from "@/types/table";
 import { useSQLQuery } from "@/hooks/useSQLQuery";
 import { executeSQL } from "@/services/sql.service";
@@ -242,7 +242,7 @@ export default function RunQueryPage() {
     // fetch failure must never make existing user tables disappear from view.
     setSchemaRetrying(true);
     try {
-      const databaseTables = await getAllTableDetails();
+      const databaseTables = competitionId ? await getCompetitionTableDetails(competitionId) : await getAllTableDetails();
       setTables(databaseTables);
       setTablesError(null);
       return true;
@@ -266,7 +266,7 @@ export default function RunQueryPage() {
         setTablesLoading(true);
         setTablesError(null);
 
-        const databaseTables = await getAllTableDetails();
+        const databaseTables = competitionId ? await getCompetitionTableDetails(competitionId) : await getAllTableDetails();
 
         if (mounted) {
           setTables(databaseTables);
@@ -449,6 +449,7 @@ export default function RunQueryPage() {
         });
         if (result?.sqlResponse) {
           applyResult(result.sqlResponse);
+          await refreshDatabaseTables();
         } else {
           applyResult({
             success: false,
