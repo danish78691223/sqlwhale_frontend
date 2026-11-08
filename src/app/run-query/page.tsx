@@ -256,7 +256,7 @@ export default function RunQueryPage() {
     } finally {
       setSchemaRetrying(false);
     }
-  }, []);
+  }, [competitionId]);
 
   useEffect(() => {
     let mounted = true;
@@ -291,7 +291,7 @@ export default function RunQueryPage() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [competitionId]);
 
   /* =========================
      MOBILE NAVIGATION
@@ -434,6 +434,7 @@ export default function RunQueryPage() {
           { query: cleanSQL }
         );
         const result = response.data;
+        await refreshDatabaseTables();
         const correct = Boolean(result?.correct);
         setTaskCheck({
           taskId: activeTaskId,
