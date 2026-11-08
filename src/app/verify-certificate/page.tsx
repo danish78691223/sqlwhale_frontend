@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { api } from "@/services/api";
 import { ArrowLeft, BadgeCheck, CalendarDays, FileBadge, Search, ShieldCheck, XCircle } from "lucide-react";
