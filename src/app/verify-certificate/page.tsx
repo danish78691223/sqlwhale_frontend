@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { api } from "@/services/api";
 import { ArrowLeft, BadgeCheck, CalendarDays, FileBadge, Search, ShieldCheck, XCircle } from "lucide-react";
@@ -8,7 +8,9 @@ import { ArrowLeft, BadgeCheck, CalendarDays, FileBadge, Search, ShieldCheck, XC
 type CertificateDetails = {
   certificateId: string;
   learnerName: string;
-  courseName: string;
+  courseName?: string;
+  competitionName?: string;
+  rank?: number;
   issuedAt?: string | null;
   issuer: string;
 };
@@ -20,6 +22,7 @@ export default function VerifyCertificatePage() {
   const [state, setState] = useState<VerificationState>("idle");
   const [certificate, setCertificate] = useState<CertificateDetails | null>(null);
   const [message, setMessage] = useState("");
+  const [certificateType, setCertificateType] = useState<"course" | "competition">("course");
 
   async function verifyCertificate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -58,7 +61,7 @@ export default function VerifyCertificatePage() {
     }
   }
 
-  const issuedDate = certificate?.issuedAt
+  useEffect(() => {\n    const params = new URLSearchParams(window.location.search);\n    const type = params.get("type") === "competition" ? "competition" : "course";\n    const id = params.get("id") || "";\n    if (id) { setCertificateType(type); setCertificateId(id.startsWith("SQLW-") ? id : `SQLW-${id}`); void (async () => {\n      const endpoint = type === "competition" ? `/certificate/competition/verify/${encodeURIComponent(id.replace(/^SQLW-/i, ""))}` : `/certificate/verify/${encodeURIComponent(id)}`;\n      setState("checking");\n      try { const response = await api.get(endpoint, { headers: { "Cache-Control": "no-cache" } }); if (response.data?.valid && response.data?.certificate) { setCertificate(response.data.certificate); setState("valid"); } else { setState("invalid"); setMessage(response.data?.message || "We could not verify this certificate ID."); } }\n      catch (e: any) { setState([400,404].includes(e?.response?.status) ? "invalid" : "error"); setMessage(e?.response?.data?.message || e?.response?.data?.error || "Verification service unavailable."); }\n    })(); }\n  }, []);\n\n  const issuedDate = certificate?.issuedAt
     ? new Date(certificate.issuedAt).toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" })
     : "Not available";
 
@@ -115,7 +118,7 @@ export default function VerifyCertificatePage() {
             <p className="verify-result-message">This certificate ID matches an officially issued SQLWhale certificate.</p>
             <div className="verify-details">
               <div><span>Learner name</span><strong>{certificate.learnerName}</strong></div>
-              <div><span>Course completed</span><strong>{certificate.courseName}</strong></div>
+              <div><span>{certificate.competitionName ? "Competition" : "Course completed"}</span><strong>{certificate.competitionName || certificate.courseName}</strong></div>\n              {certificate.rank ? <div><span>Final rank</span><strong>#{certificate.rank}</strong></div> : null}
               <div><span>Certificate ID</span><strong className="verify-id">SQLW-{certificate.certificateId}</strong></div>
               <div><span><CalendarDays size={14} /> Issue date</span><strong>{issuedDate}</strong></div>
               <div className="verify-issuer"><span>Issued by</span><strong>{certificate.issuer}</strong></div>
