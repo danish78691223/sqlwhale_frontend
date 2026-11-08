@@ -25,7 +25,7 @@ export default function PushNotificationSettings() {
       try {
         const auth = await authApi.get("/auth/me");
         if (!auth.data?.authenticated) {
-          if (!cancelled) setMessage("Sign in to your SQLWhale account to enable push notifications.");
+          if (!cancelled) setMessage("Sign in to your SQLWhale account to manage account-linked notification preferences. Browser-level subscriptions can be enabled from the website prompt.");
           return;
         }
         const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" });
@@ -57,7 +57,7 @@ export default function PushNotificationSettings() {
     setBusy(true); setMessage("");
     try {
       const auth = await authApi.get("/auth/me");
-      if (!auth.data?.authenticated) throw new Error("Sign in to your SQLWhale account before enabling notifications.");
+      if (!auth.data?.authenticated) throw new Error("Sign in to your SQLWhale account before managing account notification preferences. Use the website prompt to subscribe without an account.");
       const { data } = await api.get("/push/config");
       if (!data.enabled || !data.publicKey) throw new Error("Push is not configured on the server yet.");
       const permission = await Notification.requestPermission();
