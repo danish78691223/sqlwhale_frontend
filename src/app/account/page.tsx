@@ -8,6 +8,7 @@ import "./account.css";
 import { authApi, api } from "@/services/api";
 import { ProfileRankCard } from "@/components/Leaderboard";
 import PushNotificationSettings from "@/components/PushNotificationSettings";
+import MyCompetitionCertificates from "./MyCompetitionCertificates";
 
 type User = {
   id: number;
@@ -315,6 +316,7 @@ export default function AccountPage() {
         </div>
 
         <section className="account-rank-anchor" id="account-ranking" aria-label="Leaderboard ranking"><ProfileRankCard /></section>
+        <MyCompetitionCertificates />
 
         <section className="account-dashboard-section" id="account-learning">
           <div className="account-history-header">
