@@ -26,14 +26,12 @@ export default function CompetitionCertificatePage() {
           <div style={{ minHeight: 42, display: "flex", alignItems: "end", justifyContent: "center", borderBottom: "1px solid #9aa3b2", paddingBottom: 5 }}>
             <span style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive", fontSize: 34, fontStyle: "italic", color: "#172554" }}>Danish Khan</span>
           </div>
-          <strong style={{ display: "block", marginTop: 10, fontSize: 14 }}>Danish Khan</strong>
           <div style={{ fontSize: 12, color: "#667085", marginTop: 4 }}>Co-Founder, WEBXWHALE</div>
         </div>
         <div style={{ textAlign: "center" }}>
           <div style={{ minHeight: 42, display: "flex", alignItems: "end", justifyContent: "center", borderBottom: "1px solid #9aa3b2", paddingBottom: 5 }}>
             <span style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive", fontSize: 34, fontStyle: "italic", color: "#172554" }}>Ismail Shaikh</span>
           </div>
-          <strong style={{ display: "block", marginTop: 10, fontSize: 14 }}>Ismail Shaikh</strong>
           <div style={{ fontSize: 12, color: "#667085", marginTop: 4 }}>Co-Founder, WEBXWHALE</div>
         </div>
       </div>
