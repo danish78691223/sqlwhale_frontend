@@ -38,10 +38,10 @@ export default function VerifyCertificatePage() {
     setCertificate(null);
     setMessage("");
     try {
-      const response = await api.get(
-        `/certificate/verify/${encodeURIComponent(enteredId)}`,
-        { headers: { "Cache-Control": "no-cache" } },
-      );
+      const endpoint = certificateType === "competition"
+        ? "/certificate/competition/verify/" + encodeURIComponent(enteredId.replace(/^SQLW-/i, ""))
+        : "/certificate/verify/" + encodeURIComponent(enteredId);
+      const response = await api.get(endpoint, { headers: { "Cache-Control": "no-cache" } });
       if (response.data?.valid && response.data?.certificate) {
         setCertificate(response.data.certificate);
         setState("valid");
@@ -61,7 +61,28 @@ export default function VerifyCertificatePage() {
     }
   }
 
-  useEffect(() => {\n    const params = new URLSearchParams(window.location.search);\n    const type = params.get("type") === "competition" ? "competition" : "course";\n    const id = params.get("id") || "";\n    if (id) { setCertificateType(type); setCertificateId(id.startsWith("SQLW-") ? id : `SQLW-${id}`); void (async () => {\n      const endpoint = type === "competition" ? `/certificate/competition/verify/${encodeURIComponent(id.replace(/^SQLW-/i, ""))}` : `/certificate/verify/${encodeURIComponent(id)}`;\n      setState("checking");\n      try { const response = await api.get(endpoint, { headers: { "Cache-Control": "no-cache" } }); if (response.data?.valid && response.data?.certificate) { setCertificate(response.data.certificate); setState("valid"); } else { setState("invalid"); setMessage(response.data?.message || "We could not verify this certificate ID."); } }\n      catch (e: any) { setState([400,404].includes(e?.response?.status) ? "invalid" : "error"); setMessage(e?.response?.data?.message || e?.response?.data?.error || "Verification service unavailable."); }\n    })(); }\n  }, []);\n\n  const issuedDate = certificate?.issuedAt
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type") === "competition" ? "competition" : "course";
+    const id = params.get("id") || "";
+    if (!id) return;
+    setCertificateType(type);
+    setCertificateId(id.startsWith("SQLW-") ? id : "SQLW-" + id);
+    const endpoint = type === "competition"
+      ? "/certificate/competition/verify/" + encodeURIComponent(id.replace(/^SQLW-/i, ""))
+      : "/certificate/verify/" + encodeURIComponent(id);
+    setState("checking");
+    api.get(endpoint, { headers: { "Cache-Control": "no-cache" } })
+      .then(response => {
+        if (response.data?.valid && response.data?.certificate) { setCertificate(response.data.certificate); setState("valid"); }
+        else { setState("invalid"); setMessage(response.data?.message || "We could not verify this certificate ID."); }
+      })
+      .catch((error: any) => {
+        setState([400, 404].includes(error?.response?.status) ? "invalid" : "error");
+        setMessage(error?.response?.data?.message || error?.response?.data?.error || "Verification service unavailable.");
+      });
+  }, []);
+  const issuedDate = certificate?.issuedAt
     ? new Date(certificate.issuedAt).toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" })
     : "Not available";
 
