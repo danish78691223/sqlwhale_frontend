@@ -228,7 +228,7 @@ export default function AdminCompetitionsPage() {
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button type="button" onClick={() => edit(item)} style={secondary}>Edit</button><button type="button" onClick={() => void remove(item)} style={{ ...secondary, color: "#be123c", borderColor: "#e6a0ad" }}>Delete</button></div>
             </div>
-            <div style={{ marginTop: 13, padding: 12, borderRadius: 12, background: palette.surfaceAlt, border: "1px solid " + palette.border }}><AdminCompetitionResults competitionId={item.id} status={item.status} /></div>
+            <div style={{ marginTop: 13, padding: 12, borderRadius: 12, background: palette.surfaceAlt, border: "1px solid " + palette.border }}><AdminCompetitionResults competitionId={item.id} status={item.status} isDark={isDark} /></div>
           </article>;
         })}
       </section>
