@@ -27,8 +27,6 @@ const schedule = [
 export default function CompetitionPage() {
   return (
     <main className="sw-competition">
-      <CompetitionList />
-      <CompetitionLeaderboard />
       <section className="swc-hero">
         <div className="swc-orb swc-orb-one" /><div className="swc-orb swc-orb-two" />
         <div className="swc-wrap">
@@ -60,6 +58,11 @@ export default function CompetitionPage() {
 
       <section className="swc-trust"><div className="swc-wrap swc-trust-inner"><span><ShieldCheck size={17}/> Practical SQL, not multiple-choice guessing</span><span><Users size={17}/> Individual participation</span><span><Award size={17}/> Top 3 achievement certificates</span></div></section>
 
+      <section id="competitions" className="swc-events-section">
+        <CompetitionList />
+        <CompetitionLeaderboard />
+      </section>
+
       <section className="swc-section" id="challenge-details"><div className="swc-wrap">
         <div className="swc-section-head"><div><div className="swc-kicker">01 / THE CHALLENGE</div><h2>Learn by solving.<br/><em>Compete by doing.</em></h2></div><p>SQLWhale’s purpose stays the same: help people understand SQL through hands-on practice. The challenge simply gives that practice a shared goal.</p></div>
         <div className="swc-levels">{levels.map((level, index)=><article className="swc-level" key={level.name}><div className="swc-level-top"><span>0{index+1} / LEVEL</span><b>{level.points} PTS EACH</b></div><h3>{level.name}</h3><p>{level.detail}</p><div className="swc-level-bottom"><strong>{level.count} tasks</strong><span>{level.total} points</span></div><div className="swc-level-bar"><i style={{width: (level.total/300*100)+"%"}}/></div></article>)}</div>
@@ -68,13 +71,13 @@ export default function CompetitionPage() {
 
       <section className="swc-section swc-section-muted"><div className="swc-wrap">
         <div className="swc-section-head"><div><div className="swc-kicker">02 / SEVEN-DAY FORMAT</div><h2>A clear path<br/><em>from warm-up to winners.</em></h2></div><p>Each stage builds on the previous one. Participants use the same SQLWhale learning and query workspace throughout.</p></div>
-        <div className="swc-timeline">{schedule.map(([day,title,description],index)=><article key={day} className="swc-timeline-row"><div className="swc-timeline-day"><span>{day}</span><i>{String(index+1).padStart(2,"0")}</i></div><div className="swc-timeline-content"><h3>{title}</h3><p>{description}</p></div><CheckCircle2 size={18}/></article>)}</div>
+        <div className="swc-timeline">{schedule.map(([day,title,description],index)=><article key={day} className={"swc-timeline-row" + (index === schedule.length - 1 ? " is-final" : "")}><div className="swc-timeline-day"><span>{day}</span><i>{String(index+1).padStart(2,"0")}</i></div><div className="swc-timeline-content"><h3>{title}</h3><p>{description}</p></div><CheckCircle2 size={18}/></article>)}</div>
         <p className="swc-date-notice"><CalendarDays size={17}/> Exact start date, daily opening times and submission deadline will be published on the official Unstop listing before registration opens.</p>
       </div></section>
 
       <section className="swc-section"><div className="swc-wrap">
         <div className="swc-section-head"><div><div className="swc-kicker">03 / RECOGNITION</div><h2>Three ranks.<br/><em>One SQL podium.</em></h2></div><p>The final leaderboard determines the top three. Every winner is reviewed before their certificate is issued.</p></div>
-        <div className="swc-awards"><article className="gold"><Trophy/><span>01 / FIRST PLACE</span><h3>SQL Champion</h3><p>Certificate of Excellence · First Place</p></article><article className="silver"><Medal/><span>02 / SECOND PLACE</span><h3>SQL Expert</h3><p>Certificate of Excellence · Second Place</p></article><article className="bronze"><Award/><span>03 / THIRD PLACE</span><h3>SQL Achiever</h3><p>Certificate of Excellence · Third Place</p></article></div>
+        <div className="swc-awards"><article className="silver"><Medal/><span>02 / SECOND PLACE</span><h3>SQL Expert</h3><p>Certificate of Excellence · Second Place</p></article><article className="gold"><Trophy/><span>01 / FIRST PLACE</span><h3>SQL Champion</h3><p>Certificate of Excellence · First Place</p></article><article className="bronze"><Award/><span>03 / THIRD PLACE</span><h3>SQL Achiever</h3><p>Certificate of Excellence · Third Place</p></article></div>
         <p className="swc-certificate-note">Certificates will carry the participant’s verified name, rank, challenge title, issue date, unique certificate ID and a verification link. Participation certificates are not included in this edition.</p>
       </div></section>
 
