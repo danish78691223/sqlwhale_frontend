@@ -27,6 +27,15 @@ export default function CompetitionList() {
   }, []);
 
   useEffect(() => {
+    if (!registrationMessage) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setRegistrationMessage("");
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [registrationMessage]);
+
+  useEffect(() => {
     let active = true;
     Promise.all([api.get("/competitions"), api.get("/auth/me").catch(() => null)]).then(([list, session]) => {
       if (!active) return;
