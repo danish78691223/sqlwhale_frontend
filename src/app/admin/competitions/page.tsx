@@ -29,6 +29,7 @@ export default function AdminCompetitionsPage() {
   const [taskSearch, setTaskSearch] = useState("");
   const [taskDifficulty, setTaskDifficulty] = useState("All");
   const [activeTab, setActiveTab] = useState("all");
+  const [activeView, setActiveView] = useState<"create" | "workspace">("create");
   const [formOpen, setFormOpen] = useState(true);
 
   useEffect(() => {
@@ -79,6 +80,7 @@ export default function AdminCompetitionsPage() {
       points: item.points || initial.points, certificateTopN: item.certificateTopN ?? initial.certificateTopN,
     });
     setFormOpen(true);
+    setActiveView("create");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
   async function save() {
@@ -89,7 +91,7 @@ export default function AdminCompetitionsPage() {
       if (editing) await api.patch("/admin/competitions/" + editing, payload);
       else await api.post("/admin/competitions", payload);
       setMessage(editing ? "Competition updated successfully." : "Competition created successfully.");
-      resetForm(); await load(); setFormOpen(false);
+      resetForm(); await load(); setFormOpen(false); setActiveView("workspace");
     } catch (e: any) { setError(e?.response?.data?.error || "Unable to save competition."); }
     finally { setBusy(false); }
   }
@@ -128,7 +130,17 @@ export default function AdminCompetitionsPage() {
     <style jsx>{`
       .cm-page{--cm-bg:#f4f7fb;--cm-surface:#fff;--cm-subtle:#f8fafc;--cm-text:#172033;--cm-muted:#68778d;--cm-border:#e4eaf2;--cm-border-strong:#cbd5e1;--cm-accent:#087ea4;--cm-accent-soft:#e8f7fc;--cm-shadow:0 12px 32px rgba(15,23,42,.045);min-height:100vh;padding:34px 22px 76px;background:var(--cm-bg);color:var(--cm-text);font-family:Inter,ui-sans-serif,system-ui,sans-serif;transition:background .2s,color .2s}
       .cm-page[data-theme=dark]{--cm-bg:#07111f;--cm-surface:#111c2e;--cm-subtle:#0b1525;--cm-text:#e2e8f0;--cm-muted:#9fb0c5;--cm-border:#26364d;--cm-border-strong:#334155;--cm-accent:#22c4e8;--cm-accent-soft:#123047;--cm-shadow:0 18px 45px rgba(0,0,0,.16)}
-      .cm-shell{max-width:1240px;margin:0 auto}
+      .cm-shell{max-width:1360px;margin:0 auto}
+      .cm-layout{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:start;gap:20px}
+      .cm-content{min-width:0}
+      .cm-sidebar{position:sticky;top:18px;padding:13px;border:1px solid var(--cm-border);border-radius:15px;background:var(--cm-surface);box-shadow:var(--cm-shadow)}
+      .cm-sidebar-label{padding:8px 9px 11px;color:var(--cm-muted);font-size:9px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+      .cm-nav-item{display:flex;width:100%;align-items:center;gap:10px;padding:12px 11px;margin:3px 0;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--cm-muted);text-align:left;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:background .15s,border .15s,color .15s}
+      .cm-nav-item:hover{background:var(--cm-subtle);color:var(--cm-text)}
+      .cm-nav-item.active{border-color:var(--cm-accent);background:var(--cm-accent-soft);color:var(--cm-accent)}
+      .cm-nav-icon{display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:var(--cm-subtle);font-size:14px}
+      .cm-nav-item.active .cm-nav-icon{background:var(--cm-surface)}
+      .cm-nav-help{margin:12px 5px 3px;padding:11px 9px;border-top:1px solid var(--cm-border);color:var(--cm-muted);font-size:9px;line-height:1.55}
       .cm-topline{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
       .cm-back{color:var(--cm-accent);font-size:13px;font-weight:750;text-decoration:none}
       .cm-refresh{display:inline-flex;align-items:center;gap:9px;padding:10px 14px;border:1px solid var(--cm-border-strong);border-radius:10px;background:var(--cm-surface);color:var(--cm-text);font-size:12px;font-weight:750;cursor:pointer}
@@ -220,8 +232,8 @@ export default function AdminCompetitionsPage() {
       .cm-status{display:inline-flex;padding:5px 8px;border-radius:99px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
       .cm-empty{padding:42px 15px;text-align:center}.cm-empty-icon{display:grid;place-items:center;width:48px;height:48px;margin:0 auto 12px;border-radius:14px;background:var(--cm-accent-soft);font-size:21px}
       .cm-empty strong{font-size:12px}.cm-empty p{margin:6px 0 0;color:var(--cm-muted);font-size:10px}
-      @media(max-width:1040px){.cm-main-grid{grid-template-columns:minmax(0,1fr) 245px}.cm-field-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
-      @media(max-width:800px){.cm-main-grid{grid-template-columns:1fr}.cm-side{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-hero{align-items:flex-start}.cm-hero-mark{display:none}}
+      @media(max-width:1040px){.cm-layout{grid-template-columns:190px minmax(0,1fr)}.cm-main-grid{grid-template-columns:minmax(0,1fr) 245px}.cm-field-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+      @media(max-width:800px){.cm-layout{grid-template-columns:1fr;gap:13px}.cm-sidebar{position:static;display:flex;align-items:center;gap:6px;padding:8px;overflow-x:auto}.cm-sidebar-label,.cm-nav-help{display:none}.cm-nav-item{width:auto;flex:none;margin:0;padding:8px 10px}.cm-nav-icon{width:24px;height:24px}.cm-main-grid{grid-template-columns:1fr}.cm-side{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-hero{align-items:flex-start}.cm-hero-mark{display:none}}
       @media(max-width:560px){.cm-page{padding:22px 13px 55px}.cm-topline{margin-bottom:19px}.cm-hero h1{font-size:28px}.cm-stats{gap:8px}.cm-stat{padding:13px 11px;gap:9px}.cm-stat-icon{width:34px;height:34px}.cm-stat strong{font-size:21px}.cm-form-body{padding:17px 14px}.cm-card-head{padding:17px 14px}.cm-stepper{grid-template-columns:1fr;gap:7px}.cm-step{padding:9px 10px}.cm-field-grid,.cm-field-grid.four{grid-template-columns:1fr}.cm-task-list{grid-template-columns:1fr;max-height:360px}.cm-points{gap:7px}.cm-point{padding:9px}.cm-sticky-actions{align-items:stretch;flex-direction:column;bottom:7px}.cm-action-group{width:100%}.cm-action-group .cm-btn{flex:1}.cm-side{grid-template-columns:1fr}.cm-workspace{padding:17px 14px}}
     `}</style>
     <div className="cm-shell">
@@ -241,10 +253,24 @@ export default function AdminCompetitionsPage() {
 
       {(error || message) && <div role="status" className={`cm-alert ${error ? "error" : "success"}`}><span>{error ? "!" : "✓"}</span>{error || message}</div>}
 
+      <div className="cm-layout">
+        <aside className="cm-sidebar" aria-label="Competition navigation">
+          <div className="cm-sidebar-label">Manage competitions</div>
+          <button type="button" onClick={() => { setActiveView("create"); setEditing(null); }} className={`cm-nav-item ${activeView === "create" ? "active" : ""}`}>
+            <span className="cm-nav-icon">＋</span><span>Create competition</span>
+          </button>
+          <button type="button" onClick={() => setActiveView("workspace")} className={`cm-nav-item ${activeView === "workspace" ? "active" : ""}`}>
+            <span className="cm-nav-icon">▦</span><span>Competitions workspace</span>
+          </button>
+          <div className="cm-nav-help">Create and configure SQL challenges, or switch to the workspace to manage existing events.</div>
+        </aside>
+        <div className="cm-content">
+          {activeView === "workspace" && <>
       <section className="cm-stats" aria-label="Competition overview">
         {statItems.map(stat => <div key={stat.label} className="cm-stat"><span className="cm-stat-icon">{stat.icon}</span><div><small>{stat.label}</small><strong>{stat.value}</strong></div></div>)}
       </section>
-
+          </>}
+          {activeView === "create" && <>
       <div className="cm-main-grid">
         <section className="cm-card cm-builder">
           <div className="cm-card-head">
@@ -320,33 +346,10 @@ export default function AdminCompetitionsPage() {
           </div>
         </section>
 
-        <aside className="cm-side">
-          <section className="cm-card cm-side-card">
-            <h3 className="cm-side-title">Live participant preview</h3>
-            <span className="cm-head-label">{form.status.toUpperCase()}</span>
-            <h4 className="cm-preview-title">{form.title || "Your competition title"}</h4>
-            <p className="cm-preview-copy">{form.description || "Your competition overview will appear here once you add a description."}</p>
-            <div className="cm-preview-meta"><span>{selectedTasks.length} tasks</span><span>Top {form.certificateTopN || 0} certificates</span></div>
-          </section>
-
-          <section className="cm-card cm-side-card">
-            <h3 className="cm-side-title">Scoring configuration</h3>
-            {(["Easy","Medium","Hard"] as const).map(level => <div className="cm-score-row" key={level}><span>{level} challenge</span><strong>{form.points[level]} pts</strong></div>)}
-            <p className="cm-field-hint" style={{marginTop:10}}>Points are applied by task difficulty when competition results are calculated.</p>
-          </section>
-
-          <section className="cm-card cm-side-card">
-            <h3 className="cm-side-title">Setup checklist</h3>
-            <div className="cm-checkline"><span>{form.title.trim() ? "✓" : "○"}</span><span>Add a competition title</span></div>
-            <div className="cm-checkline"><span>{form.slug.trim() ? "✓" : "○"}</span><span>Confirm the public URL slug</span></div>
-            <div className="cm-checkline"><span>{form.taskIds.length ? "✓" : "○"}</span><span>Select at least one SQL task</span></div>
-            <div className="cm-checkline"><span>{form.startsAt && form.endsAt ? "✓" : "○"}</span><span>Set competition start and end dates</span></div>
-            <div className="cm-checkline"><span>{form.registrationStartsAt && form.registrationEndsAt ? "✓" : "○"}</span><span>Set registration opening and closing</span></div>
-          </section>
-        </aside>
       </div>
+          </>}
 
-      <section className="cm-card cm-workspace">
+          {activeView === "workspace" && <section className="cm-card cm-workspace">
         <div className="cm-workspace-head">
           <div><h2 className="cm-section-title" style={{fontSize:18}}>Competition workspace</h2><p className="cm-section-copy">Review event status, update configurations and manage participant results and winner approvals.</p></div>
           <span className="cm-head-label">{items.length} EVENT{items.length === 1 ? "" : "S"}</span>
@@ -368,7 +371,9 @@ export default function AdminCompetitionsPage() {
             <div style={{marginTop:13,padding:13,borderRadius:11,background:"var(--cm-subtle)",border:"1px solid var(--cm-border)"}}><AdminCompetitionResults competitionId={item.id} status={item.status} isDark={isDark} /></div>
           </article>;
         })}
-      </section>
+          </section>}
+        </div>
+      </div>
     </div>
   </main>;
 }
