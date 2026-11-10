@@ -256,7 +256,7 @@ export default function AdminCompetitionsPage() {
       <div className="cm-layout">
         <aside className="cm-sidebar" aria-label="Competition navigation">
           <div className="cm-sidebar-label">Manage competitions</div>
-          <button type="button" onClick={() => { setActiveView("create"); setEditing(null); }} className={`cm-nav-item ${activeView === "create" ? "active" : ""}`}>
+          <button type="button" onClick={() => { resetForm(); setActiveView("create"); }} className={`cm-nav-item ${activeView === "create" ? "active" : ""}`}>
             <span className="cm-nav-icon">＋</span><span>Create competition</span>
           </button>
           <button type="button" onClick={() => setActiveView("workspace")} className={`cm-nav-item ${activeView === "workspace" ? "active" : ""}`}>
