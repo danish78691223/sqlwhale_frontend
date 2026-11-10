@@ -73,14 +73,14 @@ export default function CompetitionList() {
     });
   }
 
-  return <section className="swc-events" style={{ background: palette.section, color: palette.text }}>
+  return <section className="swc-events" style={{ background: palette.section, color: palette.text }} aria-busy={loading}>
     <div className="swc-wrap">
       <div className="swc-events-heading">
         <div><div className="swc-kicker">OFFICIAL SQLWHALE EVENTS</div><h2>Competitions</h2><p>Choose an event, register with your SQLWhale account and solve its assigned tasks.</p></div>
         {!authenticated && <Link className="swc-account-link" href="/signup">Create your SQLWhale account <span>↗</span></Link>}
       </div>
       {error && <p className="swc-event-error" role="alert">{error}</p>}
-      {loading ? <div className="swc-event-state">Loading competitions…</div> : items.length === 0 ? <div className="swc-event-state">No published competitions right now. Please check back soon.</div> :
+      {loading ? <div className="swc-event-state is-loading"><span>Loading competitions…</span><div className="swc-event-skeleton" aria-hidden="true"><i/><i/><i/></div></div> : items.length === 0 ? <div className="swc-event-state">No published competitions right now. Please check back soon.</div> :
         <div className="swc-event-grid">
           {items.map((item, index) => <article className="swc-event-card" key={item.id} style={{ animationDelay: (index * 70) + "ms" }}>
             <div className="swc-event-card-top"><span className={"swc-event-status " + item.status}>{item.status}</span><span className="swc-event-count">{item.taskCount} SQL tasks</span></div>
