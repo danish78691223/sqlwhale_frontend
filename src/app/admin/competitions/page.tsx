@@ -125,7 +125,7 @@ export default function AdminCompetitionsPage() {
   );
 
   return <main className="cm-page" data-theme={isDark ? "dark" : "light"}>
-    <style jsx>{\`
+    <style jsx>{`
       .cm-page{--cm-bg:#f4f7fb;--cm-surface:#fff;--cm-subtle:#f8fafc;--cm-text:#172033;--cm-muted:#68778d;--cm-border:#e4eaf2;--cm-border-strong:#cbd5e1;--cm-accent:#087ea4;--cm-accent-soft:#e8f7fc;--cm-shadow:0 12px 32px rgba(15,23,42,.045);min-height:100vh;padding:34px 22px 76px;background:var(--cm-bg);color:var(--cm-text);font-family:Inter,ui-sans-serif,system-ui,sans-serif;transition:background .2s,color .2s}
       .cm-page[data-theme=dark]{--cm-bg:#07111f;--cm-surface:#111c2e;--cm-subtle:#0b1525;--cm-text:#e2e8f0;--cm-muted:#9fb0c5;--cm-border:#26364d;--cm-border-strong:#334155;--cm-accent:#22c4e8;--cm-accent-soft:#123047;--cm-shadow:0 18px 45px rgba(0,0,0,.16)}
       .cm-shell{max-width:1240px;margin:0 auto}
@@ -223,7 +223,7 @@ export default function AdminCompetitionsPage() {
       @media(max-width:1040px){.cm-main-grid{grid-template-columns:minmax(0,1fr) 245px}.cm-field-grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(max-width:800px){.cm-main-grid{grid-template-columns:1fr}.cm-side{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cm-hero{align-items:flex-start}.cm-hero-mark{display:none}}
       @media(max-width:560px){.cm-page{padding:22px 13px 55px}.cm-topline{margin-bottom:19px}.cm-hero h1{font-size:28px}.cm-stats{gap:8px}.cm-stat{padding:13px 11px;gap:9px}.cm-stat-icon{width:34px;height:34px}.cm-stat strong{font-size:21px}.cm-form-body{padding:17px 14px}.cm-card-head{padding:17px 14px}.cm-stepper{grid-template-columns:1fr;gap:7px}.cm-step{padding:9px 10px}.cm-field-grid,.cm-field-grid.four{grid-template-columns:1fr}.cm-task-list{grid-template-columns:1fr;max-height:360px}.cm-points{gap:7px}.cm-point{padding:9px}.cm-sticky-actions{align-items:stretch;flex-direction:column;bottom:7px}.cm-action-group{width:100%}.cm-action-group .cm-btn{flex:1}.cm-side{grid-template-columns:1fr}.cm-workspace{padding:17px 14px}}
-    \`}</style>
+    `}</style>
     <div className="cm-shell">
       <div className="cm-topline">
         <Link href="/admin" className="cm-back">← Admin control panel</Link>
@@ -239,7 +239,7 @@ export default function AdminCompetitionsPage() {
         <div className="cm-hero-mark"><span>🏆</span><div><strong>Competition studio</strong><small>Plan · Publish · Manage</small></div></div>
       </header>
 
-      {(error || message) && <div role="status" className={\`cm-alert \${error ? "error" : "success"}\`}><span>{error ? "!" : "✓"}</span>{error || message}</div>}
+      {(error || message) && <div role="status" className={`cm-alert ${error ? "error" : "success"}`}><span>{error ? "!" : "✓"}</span>{error || message}</div>}
 
       <section className="cm-stats" aria-label="Competition overview">
         {statItems.map(stat => <div key={stat.label} className="cm-stat"><span className="cm-stat-icon">{stat.icon}</span><div><small>{stat.label}</small><strong>{stat.value}</strong></div></div>)}
@@ -299,9 +299,9 @@ export default function AdminCompetitionsPage() {
                   {filteredTasks.map(task => {
                     const checked = form.taskIds.includes(task.id);
                     const tone = task.difficulty.toLowerCase();
-                    return <label key={task.id} className={\`cm-task-option \${checked ? "selected" : ""}\`}>
+                    return <label key={task.id} className={`cm-task-option ${checked ? "selected" : ""}`}>
                       <input type="checkbox" checked={checked} onChange={() => toggleTask(task.id)} />
-                      <span className="cm-task-option-copy"><strong>{task.title}</strong><span className={\`cm-level \${tone}\`}>{task.difficulty}</span></span>
+                      <span className="cm-task-option-copy"><strong>{task.title}</strong><span className={`cm-level ${tone}`}>{task.difficulty}</span></span>
                       {checked && <span className="cm-task-check">✓</span>}
                     </label>;
                   })}
@@ -352,7 +352,7 @@ export default function AdminCompetitionsPage() {
           <span className="cm-head-label">{items.length} EVENT{items.length === 1 ? "" : "S"}</span>
         </div>
         <div className="cm-tabs">
-          {[[ "all","All",counts.total ],[ "draft","Draft",items.filter(x=>x.status==="draft").length ],[ "scheduled","Scheduled",counts.scheduled ],[ "live","Live",counts.live ],[ "completed","Completed",counts.completed ],[ "archived","Archived",items.filter(x=>x.status==="archived").length ]].map(([key,title,count]) => <button key={String(key)} type="button" onClick={() => setActiveTab(String(key))} className={\`cm-tab \${activeTab === key ? "active" : ""}\`}>{title} <span>({count})</span></button>)}
+          {[[ "all","All",counts.total ],[ "draft","Draft",items.filter(x=>x.status==="draft").length ],[ "scheduled","Scheduled",counts.scheduled ],[ "live","Live",counts.live ],[ "completed","Completed",counts.completed ],[ "archived","Archived",items.filter(x=>x.status==="archived").length ]].map(([key,title,count]) => <button key={String(key)} type="button" onClick={() => setActiveTab(String(key))} className={`cm-tab ${activeTab === key ? "active" : ""}`}>{title} <span>({count})</span></button>)}
         </div>
         {busy && !items.length ? <div className="cm-empty"><div className="cm-empty-icon">↻</div><strong>Loading competitions…</strong></div> : !visibleItems.length ? <div className="cm-empty"><div className="cm-empty-icon">▦</div><strong>No competitions in this view</strong><p>Create a competition or select another status filter.</p></div> : visibleItems.map(item => {
           const tone = statusStyles[item.status] || statusStyles.draft;
