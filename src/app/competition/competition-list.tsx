@@ -14,6 +14,7 @@ export default function CompetitionList() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [registrationMessage, setRegistrationMessage] = useState("");
   const [isLight, setIsLight] = useState(false);
   const router = useRouter();
 
@@ -45,12 +46,12 @@ export default function CompetitionList() {
   async function join(item: Item) {
     if (!authenticated) { router.push("/login?next=" + encodeURIComponent("/competition")); return; }
     if (registered[item.id]) { router.push("/run-query?competition=" + encodeURIComponent(item.id)); return; }
-    setBusy(item.id); setError("");
+    setBusy(item.id); setError(""); setRegistrationMessage("");
     try {
       await api.post("/competitions/" + item.id + "/register");
       setRegistered(old => ({ ...old, [item.id]: true }));
       router.push("/run-query?competition=" + encodeURIComponent(item.id));
-    } catch (e: any) { setError(e?.response?.data?.error || "Unable to register."); }
+    } catch (e: any) { setRegistrationMessage(e?.response?.data?.error || "Unable to register."); }
     finally { setBusy(null); }
   }
 
@@ -74,6 +75,13 @@ export default function CompetitionList() {
   }
 
   return <section className="swc-events" style={{ background: palette.section, color: palette.text }} aria-busy={loading}>
+    {registrationMessage && <div className="swc-registration-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setRegistrationMessage(""); }}>
+      <div className="swc-registration-modal" role="alertdialog" aria-modal="true" aria-describedby="swc-registration-message">
+        <button className="swc-registration-modal-close" type="button" aria-label="Close message" onClick={() => setRegistrationMessage("")}>×</button>
+        <p id="swc-registration-message">{registrationMessage}</p>
+        <button className="swc-registration-modal-action" type="button" onClick={() => setRegistrationMessage("")}>OK</button>
+      </div>
+    </div>}
     <div className="swc-wrap">
       <div className="swc-events-heading">
         <div><div className="swc-kicker">OFFICIAL SQLWHALE EVENTS</div><h2>Competitions</h2><p>Choose an event, register with your SQLWhale account and solve its assigned tasks.</p></div>
