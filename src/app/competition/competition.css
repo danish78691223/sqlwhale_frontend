@@ -29,7 +29,8 @@
   outline-offset: 3px;
 }
 .swc-wrap { width: min(1152px, calc(100% - 48px)); margin-inline: auto; }
-.swc-hero, .swc-section, .swc-final, .swc-events { scroll-margin-top: 112px; }
+html:has(.sw-competition) { scroll-behavior: smooth; }
+.swc-hero, .swc-section, .swc-final, .swc-events, .swc-events-section { scroll-margin-top: 112px; }
 
 /* The shared fixed navigation is given a quieter surface on this page only. */
 body:has(.sw-competition) .sqlwhale-notch-center {
@@ -517,6 +518,7 @@ html[data-theme="light"] .swc-footer { background: #f5f7fa; }
   .swc-footer > div { align-items: flex-start; flex-direction: column; gap: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html:has(.sw-competition) { scroll-behavior: auto; }
   .sw-competition *, .sw-competition *::before, .sw-competition *::after {
     scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
