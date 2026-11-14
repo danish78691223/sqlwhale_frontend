@@ -2,6 +2,25 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 @import "tailwindcss";
+
+/* Tailwind v4 theme bridge — keep the design tokens reusable in CSS and utilities. */
+
+@theme inline {
+  --color-page: var(--sw-page);
+  --color-surface: var(--sw-surface);
+  --color-surface-soft: var(--sw-surface-soft);
+  --color-border-soft: var(--sw-border);
+  --color-ink: var(--sw-text);
+  --color-heading: var(--sw-heading);
+  --color-muted: var(--sw-muted);
+  --color-ocean: var(--sw-primary);
+  --color-ocean-hover: var(--sw-primary-hover);
+  --color-amber: var(--sw-accent);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
 /* Global page canvas: prevent browser-default white gutters around the dark homepage. */
 html,
 body {
@@ -22781,23 +22800,6 @@ html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout st
 }
 
 
-/* Tailwind v4 theme bridge — keep the design tokens reusable in CSS and utilities. */
-
-@theme inline {
-  --color-page: var(--sw-page);
-  --color-surface: var(--sw-surface);
-  --color-surface-soft: var(--sw-surface-soft);
-  --color-border-soft: var(--sw-border);
-  --color-ink: var(--sw-text);
-  --color-heading: var(--sw-heading);
-  --color-muted: var(--sw-muted);
-  --color-ocean: var(--sw-primary);
-  --color-ocean-hover: var(--sw-primary-hover);
-  --color-amber: var(--sw-accent);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 /* SQLWhale shared design tokens — ocean light/dark system. */
 :root {
   --sw-page: #f7f9fb;
@@ -22808,10 +22810,10 @@ html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout st
   --sw-text: #1f2937;
   --sw-heading: #0f172a;
   --sw-muted: #475569;
-  --sw-primary: #0f7ea6;
-  --sw-primary-hover: #0b6688;
+  --sw-primary: #0b7096;
+  --sw-primary-hover: #095e7b;
   --sw-primary-contrast: #ffffff;
-  --sw-accent: #a76508;
+  --sw-accent: #935500;
   --sw-accent-soft: #fff3d8;
   --sw-success: #176b4b;
   --sw-danger: #b42332;
