@@ -647,3 +647,557 @@ html[data-theme="light"] body main.account-page .account-nav-group a:focus-visib
     background-color:#dff5ef!important;
   }
 }
+
+
+/* =========================================================
+   SQLWHALE ACCOUNT — OCEAN LEARNING WORKSPACE
+   Final visual layer. Keeps account data, routes and behavior intact.
+========================================================= */
+main.account-page {
+  min-height: 100vh !important;
+  padding: 0 !important;
+  overflow: clip !important;
+  background: var(--sw-page) !important;
+  color: var(--sw-text) !important;
+  background-image: none !important;
+}
+main.account-page .account-page-grid,
+main.account-page .account-orb { display: none !important; }
+
+main.account-page .account-shell {
+  display: grid !important;
+  grid-template-columns: 248px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 28px !important;
+  width: min(1440px, calc(100% - 56px)) !important;
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  padding: 28px 0 64px !important;
+}
+main.account-page .account-sidebar-column {
+  position: sticky !important;
+  top: 92px !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 248px !important;
+  min-width: 248px !important;
+  max-width: 248px !important;
+  height: calc(100dvh - 116px) !important;
+  min-height: 460px !important;
+  max-height: calc(100dvh - 116px) !important;
+  margin: 0 !important;
+  padding: 14px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 16px !important;
+  background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+  transform: none !important;
+  z-index: 10 !important;
+}
+main.account-page .account-section-nav {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 22px !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 4px !important;
+  overflow: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+main.account-page .account-nav-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  padding: 5px 7px 18px !important;
+  border-bottom: 1px solid var(--sw-border) !important;
+  color: var(--sw-heading) !important;
+}
+main.account-page .account-nav-brand-mark {
+  display: grid !important;
+  width: 40px !important;
+  height: 40px !important;
+  place-items: center !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+}
+main.account-page .account-nav-brand strong,
+main.account-page .account-nav-user strong {
+  color: var(--sw-heading) !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+}
+main.account-page .account-nav-brand small,
+main.account-page .account-nav-user small {
+  display: block !important;
+  max-width: 165px !important;
+  margin-top: 4px !important;
+  overflow: hidden !important;
+  color: var(--sw-muted) !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+main.account-page .account-nav-group {
+  display: grid !important;
+  gap: 5px !important;
+}
+main.account-page .account-nav-group-label {
+  padding: 0 10px 6px !important;
+  color: var(--sw-muted) !important;
+  font-size: 9px !important;
+  font-weight: 750 !important;
+  letter-spacing: .14em !important;
+}
+main.account-page .account-nav-group a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  min-height: 43px !important;
+  padding: 0 10px !important;
+  border: 1px solid transparent !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: var(--sw-muted) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color .16s ease, background .16s ease, border-color .16s ease !important;
+}
+main.account-page .account-nav-group a:hover,
+main.account-page .account-nav-group a:focus-visible {
+  border-color: var(--sw-border) !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-primary) !important;
+  outline-offset: 2px !important;
+}
+main.account-page .account-nav-icon {
+  display: grid !important;
+  width: 25px !important;
+  height: 25px !important;
+  place-items: center !important;
+  border-radius: 7px !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-muted) !important;
+}
+main.account-page .account-nav-group a:hover .account-nav-icon {
+  background: color-mix(in srgb, var(--sw-primary) 12%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+}
+main.account-page .account-nav-user {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: auto !important;
+  padding: 15px 6px 3px !important;
+  border-top: 1px solid var(--sw-border) !important;
+}
+main.account-page .account-nav-user-avatar {
+  display: grid !important;
+  width: 36px !important;
+  height: 36px !important;
+  flex: 0 0 auto !important;
+  place-items: center !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: color-mix(in srgb, var(--sw-primary) 14%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+  font-weight: 800 !important;
+}
+main.account-page .account-main-content {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 8px 0 0 !important;
+}
+main.account-page .account-heading { margin: 0 0 28px !important; }
+main.account-page .account-eyebrow,
+main.account-page .account-card-label {
+  color: var(--sw-primary) !important;
+  font-size: 9px !important;
+  font-weight: 750 !important;
+  letter-spacing: .14em !important;
+}
+main.account-page .account-eyebrow span {
+  background: var(--sw-primary) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--sw-primary) 14%, transparent) !important;
+}
+main.account-page .account-heading h1 {
+  margin: 12px 0 8px !important;
+  color: var(--sw-heading) !important;
+  font-size: clamp(32px, 3.4vw, 44px) !important;
+  font-weight: 760 !important;
+  letter-spacing: -.05em !important;
+  line-height: 1.15 !important;
+}
+main.account-page .account-heading h1 em {
+  color: var(--sw-primary) !important;
+  font-style: normal !important;
+}
+main.account-page .account-heading p,
+main.account-page .account-section-intro p {
+  color: var(--sw-muted) !important;
+  font-size: 13px !important;
+  line-height: 1.65 !important;
+}
+main.account-page .account-section-intro {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: 18px !important;
+  margin: 0 0 16px !important;
+  padding-top: 22px !important;
+  border-top: 1px solid var(--sw-border) !important;
+}
+main.account-page .account-section-intro h2,
+main.account-page .account-history-header h2 {
+  margin: 6px 0 0 !important;
+  color: var(--sw-heading) !important;
+  font-family: inherit !important;
+  font-size: 20px !important;
+  font-weight: 740 !important;
+  letter-spacing: -.035em !important;
+}
+main.account-page .account-layout {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+}
+main.account-page .account-card,
+main.account-page .account-history-card,
+main.account-page .account-dashboard-section,
+main.account-page .account-notifications-section,
+main.account-page .account-rank-anchor {
+  min-width: 0 !important;
+  margin: 0 0 18px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 13px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+  box-shadow: var(--sw-shadow) !important;
+  backdrop-filter: none !important;
+}
+main.account-page .account-card {
+  min-height: 275px !important;
+  margin: 0 !important;
+  padding: 22px !important;
+}
+main.account-page .account-card::after { display: none !important; }
+main.account-page .account-card-header {
+  border-color: var(--sw-border) !important;
+}
+main.account-page .account-connected { color: var(--sw-success) !important; font-weight: 700 !important; }
+main.account-page .account-profile-card h2,
+main.account-page .account-central-card h2 {
+  color: var(--sw-heading) !important;
+  font-family: inherit !important;
+  font-size: 22px !important;
+  font-weight: 740 !important;
+  letter-spacing: -.035em !important;
+}
+main.account-page .account-email,
+main.account-page .account-central-card p { color: var(--sw-muted) !important; }
+main.account-page .account-avatar {
+  width: 62px !important;
+  height: 62px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 15px !important;
+  background: color-mix(in srgb, var(--sw-primary) 13%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+  box-shadow: none !important;
+  font-size: 25px !important;
+  font-weight: 800 !important;
+}
+main.account-page .account-details div,
+main.account-page .account-stat-card,
+main.account-page .account-learning-highlights > div,
+main.account-page .account-progress-panel,
+main.account-page .account-notification-settings,
+main.account-page .account-notification-option {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 10px !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+}
+main.account-page .account-details span,
+main.account-page .account-stat-card span,
+main.account-page .account-learning-highlights span,
+main.account-page .account-progress-copy span {
+  color: var(--sw-muted) !important;
+  font-size: 9px !important;
+  font-weight: 750 !important;
+  letter-spacing: .08em !important;
+}
+main.account-page .account-details strong,
+main.account-page .account-stat-card strong,
+main.account-page .account-learning-highlights strong,
+main.account-page .account-progress-copy strong { color: var(--sw-heading) !important; }
+main.account-page .account-details > div:nth-child(2) { background: var(--sw-surface-soft) !important; }
+main.account-page .account-plan-pill {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 999px !important;
+}
+main.account-page .account-plan-pill.is-premium {
+  background: color-mix(in srgb, var(--sw-success) 13%, var(--sw-surface)) !important;
+  color: var(--sw-success) !important;
+}
+main.account-page .account-plan-pill.is-starter {
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-muted) !important;
+}
+main.account-page .account-subscription-note { color: var(--sw-muted) !important; }
+main.account-page .account-subscription-note.is-pending { color: var(--sw-accent) !important; }
+main.account-page .account-plan-refresh,
+main.account-page .account-notification-button {
+  min-height: 40px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 9px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+}
+main.account-page .account-plan-refresh:hover,
+main.account-page .account-notification-button:hover {
+  border-color: var(--sw-primary) !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-primary) !important;
+}
+main.account-page .account-plan-message { color: var(--sw-success) !important; }
+main.account-page .account-upgrade-link { color: var(--sw-primary) !important; font-weight: 700 !important; }
+main.account-page .central-identity-mark {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 13px !important;
+  background: color-mix(in srgb, var(--sw-primary) 12%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+  box-shadow: none !important;
+}
+main.account-page .identity-status {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 10px !important;
+  background: var(--sw-surface-soft) !important;
+}
+main.account-page .identity-status strong { color: var(--sw-success) !important; }
+main.account-page .identity-status span:last-child { color: var(--sw-muted) !important; }
+main.account-page .account-history-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  margin-bottom: 17px !important;
+}
+main.account-page .account-history-count {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 999px !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-muted) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+main.account-page .account-stat-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 11px !important;
+}
+main.account-page .account-stat-card {
+  min-height: 94px !important;
+  padding: 15px !important;
+}
+main.account-page .account-stat-card strong { font-size: 23px !important; font-weight: 760 !important; }
+main.account-page .account-learning-highlights { gap: 12px !important; }
+main.account-page .account-progress-track {
+  overflow: hidden !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 999px !important;
+  background: var(--sw-surface) !important;
+}
+main.account-page .account-progress-track > span { background: var(--sw-primary) !important; }
+main.account-page .account-progress-note { color: var(--sw-muted) !important; }
+main.account-page .account-history-empty {
+  border: 1px dashed var(--sw-border-strong) !important;
+  border-radius: 10px !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-muted) !important;
+}
+main.account-page .account-history-item {
+  border-bottom: 1px solid var(--sw-border) !important;
+}
+main.account-page .account-history-main strong,
+main.account-page .account-history-main code { color: var(--sw-heading) !important; }
+main.account-page .account-history-main code {
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+  border-radius: 7px !important;
+  background: var(--sw-code-bg) !important;
+  color: var(--sw-code-text) !important;
+}
+main.account-page .account-history-main span,
+main.account-page .account-history-meta { color: var(--sw-muted) !important; }
+main.account-page .history-success,
+main.account-page .history-error {
+  border: 1px solid transparent !important;
+  border-radius: 999px !important;
+}
+main.account-page .history-success {
+  background: color-mix(in srgb, var(--sw-success) 13%, var(--sw-surface)) !important;
+  color: var(--sw-success) !important;
+}
+main.account-page .history-error {
+  background: color-mix(in srgb, var(--sw-danger) 12%, var(--sw-surface)) !important;
+  color: var(--sw-danger) !important;
+}
+main.account-page .account-notification-settings h3 { color: var(--sw-heading) !important; }
+main.account-page .account-notification-settings > p,
+main.account-page .account-notification-status { color: var(--sw-muted) !important; }
+main.account-page .account-notification-option { color: var(--sw-text) !important; }
+main.account-page .account-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+main.account-page .account-primary-action,
+main.account-page .account-logout-action {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 44px !important;
+  padding: 0 17px !important;
+  border-radius: 9px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+main.account-page .account-primary-action {
+  border: 1px solid var(--sw-primary) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+}
+main.account-page .account-logout-action {
+  border: 1px solid var(--sw-border) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+}
+main.account-page .account-primary-action:hover { background: var(--sw-primary-hover) !important; }
+main.account-page .account-logout-action:hover {
+  border-color: var(--sw-danger) !important;
+  color: var(--sw-danger) !important;
+}
+main.account-page .account-footer-note {
+  margin-top: 25px !important;
+  border-top: 1px solid var(--sw-border) !important;
+  color: var(--sw-muted) !important;
+}
+main.account-page .account-footer-note span { color: var(--sw-primary) !important; }
+main.account-page .account-activity-notice {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 10px !important;
+  background: var(--sw-surface-soft) !important;
+  color: var(--sw-text) !important;
+}
+main.account-page .account-loading {
+  min-height: 60vh !important;
+  color: var(--sw-muted) !important;
+}
+main.account-page .account-mobile-menu-button,
+main.account-page .account-sidebar-close { display: none !important; }
+
+@media (max-width: 1100px) {
+  main.account-page .account-shell {
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+    gap: 20px !important;
+    width: calc(100% - 36px) !important;
+  }
+  main.account-page .account-sidebar-column {
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+  }
+  main.account-page .account-layout { grid-template-columns: 1fr !important; }
+  main.account-page .account-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 800px) {
+  main.account-page { overflow: clip !important; }
+  main.account-page .account-shell {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px 18px 44px !important;
+  }
+  main.account-page .account-sidebar-column {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    display: block !important;
+    width: min(320px, 88vw) !important;
+    min-width: 0 !important;
+    max-width: 320px !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-height: 100dvh !important;
+    padding: 18px 14px !important;
+    border-radius: 0 14px 14px 0 !important;
+    background: var(--sw-surface) !important;
+    box-shadow: 0 18px 48px rgb(15 23 42 / 18%) !important;
+    transform: translateX(-105%) !important;
+    transition: transform .2s ease !important;
+    z-index: 13002 !important;
+  }
+  main.account-page .account-sidebar-column.is-open { transform: translateX(0) !important; }
+  main.account-page .account-sidebar-close {
+    position: absolute !important;
+    top: 13px !important;
+    right: 13px !important;
+    display: grid !important;
+    width: 40px !important;
+    height: 40px !important;
+    place-items: center !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 8px !important;
+    background: var(--sw-surface-soft) !important;
+    color: var(--sw-text) !important;
+    z-index: 2 !important;
+  }
+  main.account-page .account-section-nav { padding-top: 48px !important; }
+  main.account-page .account-mobile-menu-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    min-height: 40px !important;
+    padding: 0 12px !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 8px !important;
+    background: var(--sw-surface) !important;
+    color: var(--sw-text) !important;
+  }
+  main.account-page .account-sidebar-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    border: 0 !important;
+    background: rgb(5 12 22 / 48%) !important;
+    z-index: 13001 !important;
+  }
+  main.account-page .account-main-content { padding-top: 0 !important; }
+}
+@media (max-width: 560px) {
+  main.account-page .account-shell { padding-inline: 14px !important; }
+  main.account-page .account-section-intro { align-items: flex-start !important; flex-direction: column !important; }
+  main.account-page .account-layout { grid-template-columns: 1fr !important; }
+  main.account-page .account-stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  main.account-page .account-card { min-height: 0 !important; padding: 18px !important; }
+  main.account-page .account-history-header { align-items: flex-start !important; flex-direction: column !important; }
+  main.account-page .account-history-item { align-items: flex-start !important; flex-direction: column !important; gap: 10px !important; }
+  main.account-page .account-history-meta { flex-wrap: wrap !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  main.account-page .account-nav-group a,
+  main.account-page .account-sidebar-column { transition: none !important; }
+}
