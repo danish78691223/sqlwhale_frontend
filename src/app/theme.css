@@ -514,7 +514,7 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
 .sqlwhale-notch-start:hover { background: var(--sw-primary-hover); filter: none; transform: none; }
 .sqlwhale-theme-toggle {
   min-width: 42px; min-height: 42px; padding: 0 11px;
-  border: 1px solid var(--sw-border); border-radius: var(--sw-radius-control);
+  border: 1px solid var(--sw-border-strong); border-radius: var(--sw-radius-control);
   background: var(--sw-surface); color: var(--sw-text);
   font: 600 11px/1 var(--font-geist-sans), sans-serif;
   transition: background .18s ease, border-color .18s ease;
@@ -703,4 +703,13 @@ html[data-theme="light"] .sqlwhale-notch-mobile-theme { color: var(--sw-muted) !
 @media (max-width: 420px) {
   .footer-industrial-grid { grid-template-columns: 1fr; }
   .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+}
+
+
+.sqlwhale-notch-mobile-menu a.is-active {
+  background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface));
+  color: var(--sw-primary);
+}
+.sqlwhale-notch-mobile-theme .sqlwhale-theme-toggle {
+  border-color: var(--sw-border-strong);
 }
