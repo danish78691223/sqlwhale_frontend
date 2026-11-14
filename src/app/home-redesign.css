@@ -1583,3 +1583,64 @@ html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty svg { color: var(--s
   html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-section { padding: 18px 12px; }
   html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row { min-height: 66px; }
 }
+
+
+/* Final type scale and touch sizing for the complete homepage. */
+html[data-theme] .sqlwhale-home .sw-section-heading h2,
+html[data-theme] .sqlwhale-home .sw-demo-heading h2,
+html[data-theme] .sqlwhale-home .sw-final-cta h2,
+html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.18;
+  letter-spacing: -.045em;
+}
+html[data-theme] .sqlwhale-home .sw-problem-grid h3,
+html[data-theme] .sqlwhale-home .sw-step-preview h3,
+html[data-theme] .sqlwhale-home .sw-benefit-grid h3,
+html[data-theme] .sqlwhale-home .sw-audience-panel h3,
+html[data-theme] .sqlwhale-home .sw-feedback-empty-copy h3,
+html[data-theme] .sqlwhale-home .sw-pricing-grid h3 {
+  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+}
+html[data-theme] .sqlwhale-home .sw-section-heading > p,
+html[data-theme] .sqlwhale-home .sw-demo-heading > p,
+html[data-theme] .sqlwhale-home .sw-problem-grid p,
+html[data-theme] .sqlwhale-home .sw-step-preview p,
+html[data-theme] .sqlwhale-home .sw-benefit-grid p,
+html[data-theme] .sqlwhale-home .sw-audience-panel p,
+html[data-theme] .sqlwhale-home .sw-public-feedback-message,
+html[data-theme] .sqlwhale-home .sw-feedback-empty-copy > p,
+html[data-theme] .sqlwhale-home .sw-pricing-grid ul,
+html[data-theme] .sqlwhale-home .sw-faq-list details p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+html[data-theme] .sqlwhale-home .sw-demo-editor-footer button,
+html[data-theme] .sqlwhale-home .sw-step-tabs button,
+html[data-theme] .sqlwhale-home .sw-audience-tabs button {
+  min-height: 44px;
+  border-color: var(--sw-border-strong);
+}
+html[data-theme] .sqlwhale-home .sw-faq-list summary {
+  min-height: 68px;
+}
+html[data-theme] .sqlwhale-home .sw-public-feedback-card {
+  min-height: 270px;
+}
+html[data-theme] .sqlwhale-home .sw-pricing-grid article {
+  min-height: 270px;
+}
+@media (max-width: 640px) {
+  html[data-theme] .sqlwhale-home .sw-section-heading h2,
+  html[data-theme] .sqlwhale-home .sw-demo-heading h2,
+  html[data-theme] .sqlwhale-home .sw-final-cta h2,
+  html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 {
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+  }
+  html[data-theme] .sqlwhale-home .sw-public-feedback-card,
+  html[data-theme] .sqlwhale-home .sw-pricing-grid article {
+    min-height: 0;
+  }
+}
