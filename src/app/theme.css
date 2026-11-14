@@ -601,3 +601,55 @@ html[data-theme="dark"] .sqlwhale-footer { background: var(--sw-footer); }
 html[data-theme="light"] .sqlwhale-footer { background: var(--sw-footer); }
 :where(.sqlwhale-notch-header, .sqlwhale-footer) :is(a,button):focus-visible { outline: 2px solid var(--sw-primary); outline-offset: 3px; }
 
+
+
+/* Align legacy light-mode !important rules with the shared ocean chrome. */
+html[data-theme="light"] .sqlwhale-notch-center {
+  background: color-mix(in srgb, var(--sw-surface) 94%, transparent) !important;
+  color: var(--sw-text) !important;
+  border: 1px solid var(--sw-border) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 14px 14px !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-header { color: var(--sw-text) !important; }
+html[data-theme="light"] .sqlwhale-notch-link { color: var(--sw-muted) !important; }
+html[data-theme="light"] .sqlwhale-notch-link:hover { color: var(--sw-primary) !important; }
+html[data-theme="light"] .sqlwhale-notch-brand { color: var(--sw-heading) !important; }
+html[data-theme="light"] .sqlwhale-notch-brand span span { color: var(--sw-primary) !important; }
+html[data-theme="light"] .sqlwhale-notch-account {
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-heading) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-start {
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-menu-button {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 14px !important;
+  background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a { color: var(--sw-text) !important; }
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a:hover {
+  background: var(--sw-surface-soft) !important; color: var(--sw-primary) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-start {
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-theme { color: var(--sw-muted) !important; }
