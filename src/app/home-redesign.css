@@ -1284,3 +1284,199 @@ html[data-theme="dark"] .sqlwhale-home .sqlwhale-leaderboard-points strong{color
 .swc-home-promo-stats span{font-size:10px;color:#91a7bd}
 .swc-home-promo-stats small{grid-column:1/-1;padding:13px 18px;color:#7f94aa;font-size:10px;line-height:1.6}
 @media(max-width:760px){.swc-home-promo{padding:36px 16px}.swc-home-promo-inner{grid-template-columns:1fr;gap:26px;padding:24px}.swc-home-promo-stats>div{padding:16px}.swc-home-promo-copy h2{font-size:38px}}
+
+
+/* Ocean design system — homepage visual layer. Content and interaction markup
+   above remains intentionally unchanged. */
+.sqlwhale-home {
+  background: var(--sw-page) !important;
+  color: var(--sw-text) !important;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+.sqlwhale-home .sw-section { padding-block: clamp(64px, 7.5vw, 104px); }
+.sqlwhale-home .sw-section-inner { width: min(1200px, calc(100% - 48px)); }
+.sqlwhale-home .sw-kicker,
+.sqlwhale-home .sw-step-tag,
+.sqlwhale-home .sw-trust-icon,
+.sqlwhale-home .sw-problem-grid article > span,
+.sqlwhale-home .sw-benefit-grid article > span,
+.sqlwhale-home .sw-pricing-grid article > span { color: var(--sw-primary) !important; }
+.sqlwhale-home .sw-kicker:before { background: var(--sw-primary); }
+.sqlwhale-home h2, .sqlwhale-home h3,
+.sqlwhale-home .sw-section-heading h2,
+.sqlwhale-home .sw-demo-heading h2,
+.sqlwhale-home .sw-final-cta h2 { color: var(--sw-heading) !important; }
+.sqlwhale-home .sw-section-heading h2 em,
+.sqlwhale-home .sw-demo-heading h2 em,
+.sqlwhale-home .sw-final-cta h2 em { color: var(--sw-primary) !important; font-style: italic; }
+.sqlwhale-home p, .sqlwhale-home .sw-section-heading > p,
+.sqlwhale-home .sw-demo-heading > p,
+.sqlwhale-home .sw-problem-grid p,
+.sqlwhale-home .sw-step-preview p,
+.sqlwhale-home .sw-benefit-grid p,
+.sqlwhale-home .sw-audience-panel p,
+.sqlwhale-home .sw-pricing-grid ul,
+.sqlwhale-home .sw-faq-list details p { color: var(--sw-muted) !important; line-height: 1.7; }
+.sqlwhale-home .sw-demo-section,
+.sqlwhale-home .sw-problem-section,
+.sqlwhale-home .sw-steps-section,
+.sqlwhale-home .sw-benefits-section,
+.sqlwhale-home .sw-audience-section,
+.sqlwhale-home .sw-leaderboard-wrap,
+.sqlwhale-home .sw-testimonial-section,
+.sqlwhale-home .sw-pricing-section,
+.sqlwhale-home .sw-faq-section,
+.sqlwhale-home .sw-trust-section,
+.sqlwhale-home .sw-final-cta { background: var(--sw-page) !important; }
+.sqlwhale-home .sw-demo-shell,
+.sqlwhale-home .sw-problem-grid article,
+.sqlwhale-home .sw-step-preview,
+.sqlwhale-home .sw-benefit-grid article,
+.sqlwhale-home .sw-audience-panel,
+.sqlwhale-home .sw-public-feedback-card,
+.sqlwhale-home .sw-feedback-empty,
+.sqlwhale-home .sw-pricing-grid article,
+.sqlwhale-home .sw-bargain,
+.sqlwhale-home .sw-trust-strip {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-card) !important;
+  background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+.sqlwhale-home .sw-problem-grid,
+.sqlwhale-home .sw-benefit-grid { gap: 16px; }
+.sqlwhale-home .sw-problem-grid article,
+.sqlwhale-home .sw-benefit-grid article { padding: 26px; }
+.sqlwhale-home .sw-problem-grid h3,
+.sqlwhale-home .sw-benefit-grid h3 { margin-top: 20px; color: var(--sw-heading) !important; font-size: 1.15rem; }
+.sqlwhale-home .sw-demo-shell { overflow: hidden; }
+.sqlwhale-home .sw-demo-editor { background: var(--sw-code-bg) !important; border-color: var(--sw-border) !important; }
+.sqlwhale-home .sw-demo-toolbar { color: var(--sw-muted) !important; border-color: var(--sw-border) !important; }
+.sqlwhale-home .sw-demo-editor pre { color: var(--sw-code-text) !important; font-family: var(--font-geist-mono), ui-monospace, monospace; }
+.sqlwhale-home .sw-demo-editor pre b { color: var(--sw-code-keyword) !important; }
+.sqlwhale-home .sw-demo-editor pre i { color: var(--sw-code-value) !important; }
+.sqlwhale-home .sw-demo-editor-footer > span { color: var(--sw-muted) !important; }
+.sqlwhale-home .sw-demo-editor-footer button,
+.sqlwhale-home .sw-pricing-grid article > a,
+.sqlwhale-home .sw-step-preview > div:first-child > a,
+.sqlwhale-home .sw-audience-panel a,
+.sqlwhale-home .sw-benefit-grid article > a,
+.sqlwhale-home .sw-bargain a,
+.sqlwhale-home .sw-leaderboard-cta a,
+.sqlwhale-home .sw-faq-list details p a { color: var(--sw-primary) !important; }
+.sqlwhale-home .sw-demo-editor-footer button {
+  min-height: 44px; padding-inline: 16px; border: 1px solid var(--sw-primary);
+  border-radius: var(--sw-radius-control); background: var(--sw-primary);
+  color: var(--sw-primary-contrast) !important;
+}
+.sqlwhale-home .sw-demo-result { background: var(--sw-surface); }
+.sqlwhale-home .sw-demo-result-head,
+.sqlwhale-home .sw-demo-table-head,
+.sqlwhale-home .sw-demo-table-row { border-color: var(--sw-border) !important; }
+.sqlwhale-home .sw-demo-result-head,
+.sqlwhale-home .sw-demo-table-head { color: var(--sw-muted) !important; }
+.sqlwhale-home .sw-demo-table-row { color: var(--sw-text) !important; }
+.sqlwhale-home .sw-demo-table-row b { color: var(--sw-success) !important; }
+.sqlwhale-home .sw-step-tabs button,
+.sqlwhale-home .sw-audience-tabs button {
+  min-height: 44px; border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-pill); background: var(--sw-surface);
+  color: var(--sw-muted); transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.sqlwhale-home .sw-step-tabs button.active,
+.sqlwhale-home .sw-audience-tabs button.active {
+  border-color: var(--sw-primary); background: color-mix(in srgb, var(--sw-primary) 12%, var(--sw-surface));
+  color: var(--sw-heading);
+}
+.sqlwhale-home .sw-step-tabs button span { color: var(--sw-primary); }
+.sqlwhale-home .sw-step-art { border-color: var(--sw-border); border-radius: var(--sw-radius-card); background: var(--sw-surface-soft); }
+.sqlwhale-home .sw-schema-table {
+  border-color: var(--sw-border); border-radius: 10px;
+  background: var(--sw-surface); color: var(--sw-text);
+}
+.sqlwhale-home .sw-schema-table b { color: var(--sw-heading); border-color: var(--sw-border); }
+.sqlwhale-home .sw-schema-table.secondary { border-color: color-mix(in srgb, var(--sw-success) 38%, var(--sw-border)); }
+.sqlwhale-home .sw-schema-table.secondary b { color: var(--sw-success); }
+.sqlwhale-home .sw-audience-panel pre {
+  border-color: var(--sw-border); border-radius: 10px;
+  background: var(--sw-code-bg); color: var(--sw-code-keyword);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+.sqlwhale-home .sw-public-feedback-message { color: var(--sw-text) !important; }
+.sqlwhale-home .sw-public-feedback-author { border-color: var(--sw-border); }
+.sqlwhale-home .sw-public-feedback-category { border-color: var(--sw-border); color: var(--sw-primary); }
+.sqlwhale-home .sw-public-feedback-stars { color: var(--sw-accent); }
+.sqlwhale-home .sw-pricing-grid article.featured {
+  border: 2px solid var(--sw-primary) !important;
+  background: color-mix(in srgb, var(--sw-primary) 6%, var(--sw-surface)) !important;
+}
+.sqlwhale-home .sw-bargain { background: var(--sw-accent-soft) !important; border-color: color-mix(in srgb, var(--sw-accent) 32%, var(--sw-border)) !important; }
+.sqlwhale-home .sw-bargain > span { color: var(--sw-accent) !important; }
+.sqlwhale-home .sw-faq-list,
+.sqlwhale-home .sw-faq-list details { border-color: var(--sw-border); }
+.sqlwhale-home .sw-faq-list summary { min-height: 68px; color: var(--sw-heading) !important; }
+.sqlwhale-home .sw-faq-list summary > span,
+.sqlwhale-home .sw-faq-list summary > b { color: var(--sw-primary) !important; }
+.sqlwhale-home .sw-final-cta { border-color: var(--sw-border); }
+.sqlwhale-home .sw-final-cta a {
+  min-height: 50px; padding-inline: 24px; border-radius: var(--sw-radius-control);
+  background: var(--sw-primary); color: var(--sw-primary-contrast);
+  box-shadow: none; transition: background .18s ease, transform .18s ease;
+}
+.sqlwhale-home .sw-final-cta a:hover { background: var(--sw-primary-hover); transform: translateY(-1px); }
+.sqlwhale-home .swc-home-promo {
+  background: var(--sw-surface-soft) !important; border-block: 1px solid var(--sw-border);
+}
+.sqlwhale-home .swc-home-promo-inner {
+  border: 1px solid var(--sw-border); border-radius: 16px;
+  background: var(--sw-surface); box-shadow: var(--sw-shadow);
+}
+.sqlwhale-home .swc-home-promo-kicker,
+.sqlwhale-home .swc-home-promo-copy h2,
+.sqlwhale-home .swc-home-promo-copy h2 em,
+.sqlwhale-home .swc-home-promo-stats strong { color: var(--sw-heading) !important; }
+.sqlwhale-home .swc-home-promo-copy h2 em { color: var(--sw-primary) !important; }
+.sqlwhale-home .swc-home-promo-copy p,
+.sqlwhale-home .swc-home-promo-stats span,
+.sqlwhale-home .swc-home-promo-stats small { color: var(--sw-muted) !important; }
+.sqlwhale-home .swc-home-promo-meta span { border-color: var(--sw-border); background: var(--sw-surface-soft); color: var(--sw-muted); }
+.sqlwhale-home .swc-home-promo-link { border-radius: var(--sw-radius-control); background: var(--sw-primary); color: var(--sw-primary-contrast); }
+.sqlwhale-home .swc-home-promo-stats { border-color: var(--sw-border); background: var(--sw-surface-soft); }
+.sqlwhale-home .swc-home-promo-stats > div { border-color: var(--sw-border); }
+.sqlwhale-home .sw-trust-strip { border-radius: var(--sw-radius-card); }
+.sqlwhale-home .sw-trust-strip > div strong { color: var(--sw-heading) !important; }
+.sqlwhale-home .sw-trust-strip > div small { color: var(--sw-muted) !important; }
+.sqlwhale-home .sw-trust-strip .sw-trust-icon { border-color: var(--sw-border); background: var(--sw-surface-soft); }
+.sqlwhale-home .sw-trust-strip .sw-ph-badge { padding: 8px; border: 1px solid var(--sw-border); border-radius: 9px; background: var(--sw-surface-soft); }
+.sqlwhale-home :is(button, a, summary) { -webkit-tap-highlight-color: transparent; }
+.sqlwhale-home :is(button, a):focus-visible,
+.sqlwhale-home summary:focus-visible { outline: 2px solid var(--sw-primary); outline-offset: 3px; }
+.sqlwhale-home .scroll-reveal { transition: opacity .18s ease, transform .18s ease; }
+html[data-theme="dark"] .sqlwhale-home .sw-trust-strip,
+html[data-theme="dark"] .sqlwhale-home .sw-demo-shell,
+html[data-theme="dark"] .sqlwhale-home .sw-problem-grid article,
+html[data-theme="dark"] .sqlwhale-home .sw-step-preview,
+html[data-theme="dark"] .sqlwhale-home .sw-benefit-grid article,
+html[data-theme="dark"] .sqlwhale-home .sw-audience-panel,
+html[data-theme="dark"] .sqlwhale-home .sw-public-feedback-card,
+html[data-theme="dark"] .sqlwhale-home .sw-pricing-grid article {
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-demo-shell { background: var(--sw-surface); }
+html[data-theme="dark"] .sqlwhale-home .sw-demo-editor { background: var(--sw-code-bg) !important; }
+html[data-theme="dark"] .sqlwhale-home .sw-demo-result { background: var(--sw-surface); }
+html[data-theme="dark"] .sqlwhale-home .sw-audience-panel pre { background: var(--sw-code-bg); }
+html[data-theme="dark"] .sqlwhale-home .sw-final-cta a { background: var(--sw-primary); color: var(--sw-primary-contrast); }
+@media (max-width: 640px) {
+  .sqlwhale-home .sw-section { padding-block: 60px; }
+  .sqlwhale-home .sw-section-inner { width: calc(100% - 32px); }
+  .sqlwhale-home .sw-problem-grid,
+  .sqlwhale-home .sw-benefit-grid { grid-template-columns: 1fr; }
+  .sqlwhale-home .sw-pricing-grid { grid-template-columns: 1fr; }
+  .sqlwhale-home .swc-home-promo-inner { grid-template-columns: 1fr; gap: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-home .sw-step-tabs button,
+  .sqlwhale-home .sw-audience-tabs button,
+  .sqlwhale-home .sw-final-cta a { transition: none; }
+}
