@@ -212,3 +212,65 @@
 @media (max-width: 640px) { .hero { padding: 54px 0 48px; } .inner { width: calc(100% - 32px); } }
 html[data-theme="dark"] .heroVisual { box-shadow: none; }
 html[data-theme="dark"] .heroCode { background: var(--sw-code-bg); }
+
+
+/* Explicit light-mode overrides outrank the older editorial light hero rules. */
+:global(html[data-theme="light"]) .hero {
+  background: var(--sw-page) !important;
+  color: var(--sw-text) !important;
+  background-image: none !important;
+}
+:global(html[data-theme="light"]) .copy { text-align: left; align-items: flex-start; }
+:global(html[data-theme="light"]) .eyebrow {
+  padding: 0; border: 0; background: transparent; box-shadow: none;
+  color: var(--sw-muted); text-transform: uppercase;
+}
+:global(html[data-theme="light"]) .title {
+  color: var(--sw-heading) !important;
+  font-size: clamp(2.5rem, 5vw, 4.25rem) !important;
+  line-height: 1.15 !important; text-transform: none !important;
+}
+:global(html[data-theme="light"]) .titleAccent { color: var(--sw-primary) !important; }
+:global(html[data-theme="light"]) .lede { color: var(--sw-muted) !important; }
+:global(html[data-theme="light"]) .primary {
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+}
+:global(html[data-theme="light"]) .secondary {
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+}
+:global(html[data-theme="light"]) .trustLine { color: var(--sw-muted) !important; }
+:global(html[data-theme="light"]) .heroVisual {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 16px !important; background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+:global(html[data-theme="light"]) .heroCode,
+:global(html[data-theme="light"]) .previewTable {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 10px !important; background: var(--sw-code-bg) !important;
+}
+:global(html[data-theme="light"]) .heroCode pre { color: var(--sw-code-text) !important; }
+:global(html[data-theme="light"]) .heroCode pre b { color: var(--sw-code-keyword) !important; }
+:global(html[data-theme="light"]) .heroCode pre em { color: var(--sw-code-value) !important; }
+:global(html[data-theme="light"]) .flowNode {
+  border: 1px solid var(--sw-border) !important; border-radius: 8px !important;
+  background: var(--sw-surface-soft) !important; color: var(--sw-text) !important;
+}
+:global(html[data-theme="light"]) .tableRow { color: var(--sw-text) !important; }
+:global(html[data-theme="light"]) .tableRow b { color: var(--sw-success) !important; }
+:global(html[data-theme="light"]) .visualActions button {
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: 8px !important; background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important; box-shadow: none !important;
+}
+@media (max-width: 1023px) {
+  :global(html[data-theme="light"]) .copy { align-items: center; text-align: center; }
+}
