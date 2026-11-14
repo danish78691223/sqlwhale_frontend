@@ -1284,3 +1284,385 @@ html[data-theme="dark"] .sqlwhale-home .sqlwhale-leaderboard-points strong{color
 .swc-home-promo-stats span{font-size:10px;color:#91a7bd}
 .swc-home-promo-stats small{grid-column:1/-1;padding:13px 18px;color:#7f94aa;font-size:10px;line-height:1.6}
 @media(max-width:760px){.swc-home-promo{padding:36px 16px}.swc-home-promo-inner{grid-template-columns:1fr;gap:26px;padding:24px}.swc-home-promo-stats>div{padding:16px}.swc-home-promo-copy h2{font-size:38px}}
+
+
+/* Ocean design system — homepage visual layer. Content and interaction markup
+   above remains intentionally unchanged. */
+html[data-theme] .sqlwhale-home {
+  background: var(--sw-page) !important;
+  color: var(--sw-text) !important;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+html[data-theme] .sqlwhale-home .sw-section { padding-block: clamp(64px, 7.5vw, 104px); }
+html[data-theme] .sqlwhale-home .sw-section-inner { width: min(1200px, calc(100% - 48px)); }
+html[data-theme] .sqlwhale-home .sw-kicker,
+html[data-theme] .sqlwhale-home .sw-step-tag,
+html[data-theme] .sqlwhale-home .sw-trust-icon,
+html[data-theme] .sqlwhale-home .sw-problem-grid article > span,
+html[data-theme] .sqlwhale-home .sw-benefit-grid article > span,
+html[data-theme] .sqlwhale-home .sw-pricing-grid article > span { color: var(--sw-primary) !important; }
+html[data-theme] .sqlwhale-home .sw-kicker:before { background: var(--sw-primary); }
+html[data-theme] .sqlwhale-home h2, html[data-theme] .sqlwhale-home h3,
+html[data-theme] .sqlwhale-home .sw-section-heading h2,
+html[data-theme] .sqlwhale-home .sw-demo-heading h2,
+html[data-theme] .sqlwhale-home .sw-final-cta h2 { color: var(--sw-heading) !important; }
+html[data-theme] .sqlwhale-home .sw-section-heading h2 em,
+html[data-theme] .sqlwhale-home .sw-demo-heading h2 em,
+html[data-theme] .sqlwhale-home .sw-final-cta h2 em { color: var(--sw-primary) !important; font-style: italic; }
+html[data-theme] .sqlwhale-home p, html[data-theme] .sqlwhale-home .sw-section-heading > p,
+html[data-theme] .sqlwhale-home .sw-demo-heading > p,
+html[data-theme] .sqlwhale-home .sw-problem-grid p,
+html[data-theme] .sqlwhale-home .sw-step-preview p,
+html[data-theme] .sqlwhale-home .sw-benefit-grid p,
+html[data-theme] .sqlwhale-home .sw-audience-panel p,
+html[data-theme] .sqlwhale-home .sw-pricing-grid ul,
+html[data-theme] .sqlwhale-home .sw-faq-list details p { color: var(--sw-muted) !important; line-height: 1.7; }
+html[data-theme] .sqlwhale-home .sw-demo-section,
+html[data-theme] .sqlwhale-home .sw-problem-section,
+html[data-theme] .sqlwhale-home .sw-steps-section,
+html[data-theme] .sqlwhale-home .sw-benefits-section,
+html[data-theme] .sqlwhale-home .sw-audience-section,
+html[data-theme] .sqlwhale-home .sw-leaderboard-wrap,
+html[data-theme] .sqlwhale-home .sw-testimonial-section,
+html[data-theme] .sqlwhale-home .sw-pricing-section,
+html[data-theme] .sqlwhale-home .sw-faq-section,
+html[data-theme] .sqlwhale-home .sw-trust-section,
+html[data-theme] .sqlwhale-home .sw-final-cta { background: var(--sw-page) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-shell,
+html[data-theme] .sqlwhale-home .sw-problem-grid article,
+html[data-theme] .sqlwhale-home .sw-step-preview,
+html[data-theme] .sqlwhale-home .sw-benefit-grid article,
+html[data-theme] .sqlwhale-home .sw-audience-panel,
+html[data-theme] .sqlwhale-home .sw-public-feedback-card,
+html[data-theme] .sqlwhale-home .sw-feedback-empty,
+html[data-theme] .sqlwhale-home .sw-pricing-grid article,
+html[data-theme] .sqlwhale-home .sw-bargain,
+html[data-theme] .sqlwhale-home .sw-trust-strip {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-card) !important;
+  background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+html[data-theme] .sqlwhale-home .sw-problem-grid,
+html[data-theme] .sqlwhale-home .sw-benefit-grid { gap: 16px; }
+html[data-theme] .sqlwhale-home .sw-problem-grid article,
+html[data-theme] .sqlwhale-home .sw-benefit-grid article { padding: 26px; }
+html[data-theme] .sqlwhale-home .sw-problem-grid h3,
+html[data-theme] .sqlwhale-home .sw-benefit-grid h3 { margin-top: 20px; color: var(--sw-heading) !important; font-size: 1.15rem; }
+html[data-theme] .sqlwhale-home .sw-demo-shell { overflow: hidden; }
+html[data-theme] .sqlwhale-home .sw-demo-editor { background: var(--sw-code-bg) !important; border-color: var(--sw-border) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-toolbar { color: var(--sw-muted) !important; border-color: var(--sw-border) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-editor pre { color: var(--sw-code-text) !important; font-family: var(--font-geist-mono), ui-monospace, monospace; }
+html[data-theme] .sqlwhale-home .sw-demo-editor pre b { color: var(--sw-code-keyword) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-editor pre i { color: var(--sw-code-value) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-editor-footer > span { color: var(--sw-muted) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-editor-footer button,
+html[data-theme] .sqlwhale-home .sw-pricing-grid article > a,
+html[data-theme] .sqlwhale-home .sw-step-preview > div:first-child > a,
+html[data-theme] .sqlwhale-home .sw-audience-panel a,
+html[data-theme] .sqlwhale-home .sw-benefit-grid article > a,
+html[data-theme] .sqlwhale-home .sw-bargain a,
+html[data-theme] .sqlwhale-home .sw-leaderboard-cta a,
+html[data-theme] .sqlwhale-home .sw-faq-list details p a { color: var(--sw-primary) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-editor-footer button {
+  min-height: 44px; padding-inline: 16px; border: 1px solid var(--sw-primary);
+  border-radius: var(--sw-radius-control); background: var(--sw-primary);
+  color: var(--sw-primary-contrast) !important;
+}
+html[data-theme] .sqlwhale-home .sw-demo-result { background: var(--sw-surface); }
+html[data-theme] .sqlwhale-home .sw-demo-result-head,
+html[data-theme] .sqlwhale-home .sw-demo-table-head,
+html[data-theme] .sqlwhale-home .sw-demo-table-row { border-color: var(--sw-border) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-result-head,
+html[data-theme] .sqlwhale-home .sw-demo-table-head { color: var(--sw-muted) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-table-row { color: var(--sw-text) !important; }
+html[data-theme] .sqlwhale-home .sw-demo-table-row b { color: var(--sw-success) !important; }
+html[data-theme] .sqlwhale-home .sw-step-tabs button,
+html[data-theme] .sqlwhale-home .sw-audience-tabs button {
+  min-height: 44px; border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-pill); background: var(--sw-surface);
+  color: var(--sw-muted); transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+html[data-theme] .sqlwhale-home .sw-step-tabs button.active,
+html[data-theme] .sqlwhale-home .sw-audience-tabs button.active {
+  border-color: var(--sw-primary); background: color-mix(in srgb, var(--sw-primary) 12%, var(--sw-surface));
+  color: var(--sw-heading);
+}
+html[data-theme] .sqlwhale-home .sw-step-tabs button span { color: var(--sw-primary); }
+html[data-theme] .sqlwhale-home .sw-step-art { border-color: var(--sw-border); border-radius: var(--sw-radius-card); background: var(--sw-surface-soft); }
+html[data-theme] .sqlwhale-home .sw-schema-table {
+  border-color: var(--sw-border); border-radius: 10px;
+  background: var(--sw-surface); color: var(--sw-text);
+}
+html[data-theme] .sqlwhale-home .sw-schema-table b { color: var(--sw-heading); border-color: var(--sw-border); }
+html[data-theme] .sqlwhale-home .sw-schema-table.secondary { border-color: color-mix(in srgb, var(--sw-success) 38%, var(--sw-border)); }
+html[data-theme] .sqlwhale-home .sw-schema-table.secondary b { color: var(--sw-success); }
+html[data-theme] .sqlwhale-home .sw-audience-panel pre {
+  border-color: var(--sw-border); border-radius: 10px;
+  background: var(--sw-code-bg); color: var(--sw-code-keyword);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+html[data-theme] .sqlwhale-home .sw-public-feedback-message { color: var(--sw-text) !important; }
+html[data-theme] .sqlwhale-home .sw-public-feedback-author { border-color: var(--sw-border); }
+html[data-theme] .sqlwhale-home .sw-public-feedback-category { border-color: var(--sw-border); color: var(--sw-primary); }
+html[data-theme] .sqlwhale-home .sw-public-feedback-stars { color: var(--sw-accent); }
+html[data-theme] .sqlwhale-home .sw-pricing-grid article.featured {
+  border: 2px solid var(--sw-primary) !important;
+  background: color-mix(in srgb, var(--sw-primary) 6%, var(--sw-surface)) !important;
+}
+html[data-theme] .sqlwhale-home .sw-bargain { background: var(--sw-accent-soft) !important; border-color: color-mix(in srgb, var(--sw-accent) 32%, var(--sw-border)) !important; }
+html[data-theme] .sqlwhale-home .sw-bargain > span { color: var(--sw-accent) !important; }
+html[data-theme] .sqlwhale-home .sw-faq-list,
+html[data-theme] .sqlwhale-home .sw-faq-list details { border-color: var(--sw-border); }
+html[data-theme] .sqlwhale-home .sw-faq-list summary { min-height: 68px; color: var(--sw-heading) !important; }
+html[data-theme] .sqlwhale-home .sw-faq-list summary > span,
+html[data-theme] .sqlwhale-home .sw-faq-list summary > b { color: var(--sw-primary) !important; }
+html[data-theme] .sqlwhale-home .sw-final-cta { border-color: var(--sw-border); }
+html[data-theme] .sqlwhale-home .sw-final-cta a {
+  min-height: 50px; padding-inline: 24px; border-radius: var(--sw-radius-control);
+  background: var(--sw-primary); color: var(--sw-primary-contrast);
+  box-shadow: none; transition: background .18s ease, transform .18s ease;
+}
+html[data-theme] .sqlwhale-home .sw-final-cta a:hover { background: var(--sw-primary-hover); transform: translateY(-1px); }
+html[data-theme] .sqlwhale-home .swc-home-promo {
+  background: var(--sw-surface-soft) !important; border-block: 1px solid var(--sw-border);
+}
+html[data-theme] .sqlwhale-home .swc-home-promo-inner {
+  border: 1px solid var(--sw-border); border-radius: 16px;
+  background: var(--sw-surface); box-shadow: var(--sw-shadow);
+}
+html[data-theme] .sqlwhale-home .swc-home-promo-kicker,
+html[data-theme] .sqlwhale-home .swc-home-promo-copy h2,
+html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 em,
+html[data-theme] .sqlwhale-home .swc-home-promo-stats strong { color: var(--sw-heading) !important; }
+html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 em { color: var(--sw-primary) !important; }
+html[data-theme] .sqlwhale-home .swc-home-promo-copy p,
+html[data-theme] .sqlwhale-home .swc-home-promo-stats span,
+html[data-theme] .sqlwhale-home .swc-home-promo-stats small { color: var(--sw-muted) !important; }
+html[data-theme] .sqlwhale-home .swc-home-promo-meta span { border-color: var(--sw-border); background: var(--sw-surface-soft); color: var(--sw-muted); }
+html[data-theme] .sqlwhale-home .swc-home-promo-link { border-radius: var(--sw-radius-control); background: var(--sw-primary); color: var(--sw-primary-contrast); }
+html[data-theme] .sqlwhale-home .swc-home-promo-stats { border-color: var(--sw-border); background: var(--sw-surface-soft); }
+html[data-theme] .sqlwhale-home .swc-home-promo-stats > div { border-color: var(--sw-border); }
+html[data-theme] .sqlwhale-home .sw-trust-strip { border-radius: var(--sw-radius-card); }
+html[data-theme] .sqlwhale-home .sw-trust-strip > div strong { color: var(--sw-heading) !important; }
+html[data-theme] .sqlwhale-home .sw-trust-strip > div small { color: var(--sw-muted) !important; }
+html[data-theme] .sqlwhale-home .sw-trust-strip .sw-trust-icon { border-color: var(--sw-border); background: var(--sw-surface-soft); }
+html[data-theme] .sqlwhale-home .sw-trust-strip .sw-ph-badge { padding: 8px; border: 1px solid var(--sw-border); border-radius: 9px; background: var(--sw-surface-soft); }
+html[data-theme] .sqlwhale-home :is(button, a, summary) { -webkit-tap-highlight-color: transparent; }
+html[data-theme] .sqlwhale-home :is(button, a):focus-visible,
+html[data-theme] .sqlwhale-home summary:focus-visible { outline: 2px solid var(--sw-primary); outline-offset: 3px; }
+html[data-theme] .sqlwhale-home .scroll-reveal { transition: opacity .18s ease, transform .18s ease; }
+html[data-theme="dark"] .sqlwhale-home .sw-trust-strip,
+html[data-theme="dark"] .sqlwhale-home .sw-demo-shell,
+html[data-theme="dark"] .sqlwhale-home .sw-problem-grid article,
+html[data-theme="dark"] .sqlwhale-home .sw-step-preview,
+html[data-theme="dark"] .sqlwhale-home .sw-benefit-grid article,
+html[data-theme="dark"] .sqlwhale-home .sw-audience-panel,
+html[data-theme="dark"] .sqlwhale-home .sw-public-feedback-card,
+html[data-theme="dark"] .sqlwhale-home .sw-pricing-grid article {
+  box-shadow: none !important;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-demo-shell { background: var(--sw-surface); }
+html[data-theme="dark"] .sqlwhale-home .sw-demo-editor { background: var(--sw-code-bg) !important; }
+html[data-theme="dark"] .sqlwhale-home .sw-demo-result { background: var(--sw-surface); }
+html[data-theme="dark"] .sqlwhale-home .sw-audience-panel pre { background: var(--sw-code-bg); }
+html[data-theme="dark"] .sqlwhale-home .sw-final-cta a { background: var(--sw-primary); color: var(--sw-primary-contrast); }
+@media (max-width: 640px) {
+  .sqlwhale-home .sw-section { padding-block: 60px; }
+  .sqlwhale-home .sw-section-inner { width: calc(100% - 32px); }
+  .sqlwhale-home .sw-problem-grid,
+  .sqlwhale-home .sw-benefit-grid { grid-template-columns: 1fr; }
+  .sqlwhale-home .sw-pricing-grid { grid-template-columns: 1fr; }
+  .sqlwhale-home .swc-home-promo-inner { grid-template-columns: 1fr; gap: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-home .sw-step-tabs button,
+  .sqlwhale-home .sw-audience-tabs button,
+  .sqlwhale-home .sw-final-cta a { transition: none; }
+}
+
+
+/* Leaderboard — consistent with the ocean UI, including restrained podium tones. */
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-section {
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--sw-border);
+  border-radius: 16px;
+  background: var(--sw-surface);
+  box-shadow: var(--sw-shadow);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head {
+  border-color: var(--sw-border);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head h2 {
+  color: var(--sw-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -.04em;
+  text-transform: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head h2 em {
+  color: var(--sw-primary);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head p {
+  color: var(--sw-muted);
+  font-size: 14px;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head .agency-section-index {
+  color: var(--sw-primary);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total {
+  border: 1px solid var(--sw-border);
+  border-radius: 10px;
+  background: var(--sw-surface-soft);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total span { color: var(--sw-muted); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span {
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-pill);
+  background: var(--sw-surface-soft);
+  color: var(--sw-muted);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(1) { background: color-mix(in srgb, var(--sw-success) 10%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(2) { background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(3) { background: color-mix(in srgb, var(--sw-accent) 12%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span b { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row {
+  min-height: 72px;
+  border: 1px solid var(--sw-border);
+  border-radius: 10px;
+  background: var(--sw-surface);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(1) {
+  border-color: color-mix(in srgb, var(--sw-accent) 55%, var(--sw-border));
+  background: color-mix(in srgb, var(--sw-accent) 10%, var(--sw-surface));
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(2) {
+  background: color-mix(in srgb, var(--sw-rank-silver) 10%, var(--sw-surface));
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(3) {
+  background: color-mix(in srgb, var(--sw-rank-bronze) 10%, var(--sw-surface));
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-user strong,
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-user span,
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points span { color: var(--sw-muted); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points strong { color: var(--sw-primary); }
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge {
+  border: 1px solid var(--sw-border-strong);
+  background: var(--sw-surface-soft);
+  color: var(--sw-text);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-1 {
+  border-color: color-mix(in srgb, var(--sw-accent) 50%, var(--sw-border));
+  background: color-mix(in srgb, var(--sw-accent) 18%, var(--sw-surface));
+  color: var(--sw-accent);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-2 {
+  background: color-mix(in srgb, var(--sw-rank-silver) 18%, var(--sw-surface));
+  color: var(--sw-text);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-3 {
+  background: color-mix(in srgb, var(--sw-rank-bronze) 16%, var(--sw-surface));
+  color: var(--sw-rank-bronze);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty {
+  border: 1px dashed var(--sw-border-strong);
+  border-radius: 10px;
+  background: var(--sw-surface-soft);
+  color: var(--sw-muted);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty svg { color: var(--sw-primary); }
+@media (max-width: 600px) {
+  html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-section { padding: 18px 12px; }
+  html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row { min-height: 66px; }
+}
+
+
+/* Final type scale and touch sizing for the complete homepage. */
+html[data-theme] .sqlwhale-home .sw-section-heading h2,
+html[data-theme] .sqlwhale-home .sw-demo-heading h2,
+html[data-theme] .sqlwhale-home .sw-final-cta h2,
+html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.18;
+  letter-spacing: -.045em;
+}
+html[data-theme] .sqlwhale-home .sw-problem-grid h3,
+html[data-theme] .sqlwhale-home .sw-step-preview h3,
+html[data-theme] .sqlwhale-home .sw-benefit-grid h3,
+html[data-theme] .sqlwhale-home .sw-audience-panel h3,
+html[data-theme] .sqlwhale-home .sw-feedback-empty-copy h3,
+html[data-theme] .sqlwhale-home .sw-pricing-grid h3 {
+  font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -.025em;
+}
+html[data-theme] .sqlwhale-home .sw-section-heading > p,
+html[data-theme] .sqlwhale-home .sw-demo-heading > p,
+html[data-theme] .sqlwhale-home .sw-problem-grid p,
+html[data-theme] .sqlwhale-home .sw-step-preview p,
+html[data-theme] .sqlwhale-home .sw-benefit-grid p,
+html[data-theme] .sqlwhale-home .sw-audience-panel p,
+html[data-theme] .sqlwhale-home .sw-public-feedback-message,
+html[data-theme] .sqlwhale-home .sw-feedback-empty-copy > p,
+html[data-theme] .sqlwhale-home .sw-pricing-grid ul,
+html[data-theme] .sqlwhale-home .sw-faq-list details p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+html[data-theme] .sqlwhale-home .sw-demo-editor-footer button,
+html[data-theme] .sqlwhale-home .sw-step-tabs button,
+html[data-theme] .sqlwhale-home .sw-audience-tabs button {
+  min-height: 44px;
+  border-color: var(--sw-border-strong);
+}
+html[data-theme] .sqlwhale-home .sw-faq-list summary {
+  min-height: 68px;
+}
+html[data-theme] .sqlwhale-home .sw-public-feedback-card {
+  min-height: 270px;
+}
+html[data-theme] .sqlwhale-home .sw-pricing-grid article {
+  min-height: 270px;
+}
+@media (max-width: 640px) {
+  html[data-theme] .sqlwhale-home .sw-section-heading h2,
+  html[data-theme] .sqlwhale-home .sw-demo-heading h2,
+  html[data-theme] .sqlwhale-home .sw-final-cta h2,
+  html[data-theme] .sqlwhale-home .swc-home-promo-copy h2 {
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+  }
+  html[data-theme] .sqlwhale-home .sw-public-feedback-card,
+  html[data-theme] .sqlwhale-home .sw-pricing-grid article {
+    min-height: 0;
+  }
+}
+
+
+/* Bring the mobile sticky action and challenge indicator into the same palette. */
+html[data-theme] .sqlwhale-home .sw-mobile-sticky-cta {
+  border: 1px solid var(--sw-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--sw-surface) 94%, transparent);
+  box-shadow: var(--sw-shadow);
+}
+html[data-theme] .sqlwhale-home .sw-mobile-sticky-cta a {
+  min-height: 44px;
+  border-radius: var(--sw-radius-control);
+  background: var(--sw-primary);
+  color: var(--sw-primary-contrast);
+}
+html[data-theme] .sqlwhale-home .swc-home-promo-kicker i {
+  background: var(--sw-primary);
+  box-shadow: none;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-mobile-sticky-cta {
+  box-shadow: none;
+}

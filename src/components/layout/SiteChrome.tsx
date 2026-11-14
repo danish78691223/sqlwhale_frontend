@@ -20,15 +20,26 @@ const homeNavRight = [
   { label: "Learn", href: "/learn", icon: BookOpen },
   { label: "Run Query", href: "/run-query", icon: Play },
   { label: "Pricing", href: "/subscribe", icon: CreditCard },
+  { label: "Contact", href: "/contact", icon: ExternalLink },
 ];
 
 function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { accountHref: string; accountLabel: string; theme: "dark" | "light"; onToggleTheme: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => { setMobileOpen(false); }, [accountHref, accountLabel]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
   const navLink = (item: typeof homeNavLeft[number]) => (
-    <Link key={item.label} href={item.href} className="sqlwhale-notch-link" onClick={() => setMobileOpen(false)}>
+    <Link key={item.label} href={item.href} className={`sqlwhale-notch-link${pathname === item.href ? " is-active" : ""}`} onClick={() => setMobileOpen(false)}>
       <item.icon aria-hidden="true" size={15} strokeWidth={1.8} />
       <span>{item.label}</span>
     </Link>
@@ -76,7 +87,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
             transition={{ duration: 0.18 }}
           >
             {[...homeNavLeft, ...homeNavRight].map((item) => (
-              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}>
+              <Link key={item.label} href={item.href} className={pathname === item.href ? "is-active" : ""} onClick={() => setMobileOpen(false)}>
                 <item.icon size={17} aria-hidden="true" />
                 <span>{item.label}</span>
                 <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />

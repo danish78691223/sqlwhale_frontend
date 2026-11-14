@@ -485,3 +485,529 @@ html[data-theme="dark"] .account-nav-user-avatar{background:#1d3554!important;co
     overflow:visible!important;
   }
 }
+
+
+/* SQLWhale ocean chrome + footer tokens. */
+.sqlwhale-notch-header { height: auto; padding: 0 20px; }
+.sqlwhale-notch-center {
+  flex: 0 1 1240px; height: 72px; align-items: center; padding: 0 22px;
+  gap: 20px; border: 1px solid var(--sw-border); border-top: 0;
+  border-radius: 0 0 14px 14px; background: color-mix(in srgb, var(--sw-surface) 92%, transparent);
+  box-shadow: var(--sw-shadow); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+}
+.sqlwhale-notch-links { gap: clamp(10px, 1.3vw, 20px); }
+.sqlwhale-notch-link { min-height: 44px; color: var(--sw-muted); font: 600 12px/1.2 var(--font-geist-sans), sans-serif; }
+.sqlwhale-notch-link:hover, .sqlwhale-notch-link:focus-visible { color: var(--sw-primary); transform: none; }
+.sqlwhale-notch-link::after { display: none; }
+.sqlwhale-notch-brand { color: var(--sw-heading); }
+.sqlwhale-notch-brand span span { color: var(--sw-primary); }
+.sqlwhale-notch-account {
+  min-height: 42px; padding-inline: 16px; border: 1px solid var(--sw-border-strong);
+  background: transparent; color: var(--sw-heading); box-shadow: none;
+}
+.sqlwhale-notch-account:hover { background: var(--sw-surface-soft); transform: none; }
+.sqlwhale-notch-start {
+  min-height: 42px; padding-inline: 16px; border: 1px solid var(--sw-primary);
+  border-radius: var(--sw-radius-control); background: var(--sw-primary);
+  color: var(--sw-primary-contrast); box-shadow: none;
+}
+.sqlwhale-notch-start:hover { background: var(--sw-primary-hover); filter: none; transform: none; }
+.sqlwhale-theme-toggle {
+  min-width: 42px; min-height: 42px; padding: 0 11px;
+  border: 1px solid var(--sw-border-strong); border-radius: var(--sw-radius-control);
+  background: var(--sw-surface); color: var(--sw-text);
+  font: 600 11px/1 var(--font-geist-sans), sans-serif;
+  transition: background .18s ease, border-color .18s ease;
+}
+.sqlwhale-theme-toggle:hover { background: var(--sw-surface-soft); transform: none; }
+.sqlwhale-notch-mobile-menu {
+  top: 78px; left: 16px; right: 16px; gap: 5px; padding: 14px;
+  border: 1px solid var(--sw-border); border-radius: 14px;
+  background: var(--sw-surface); box-shadow: var(--sw-shadow); backdrop-filter: blur(16px);
+}
+.sqlwhale-notch-mobile-menu a {
+  min-height: 48px; border-radius: 9px; color: var(--sw-text); font-size: 14px;
+}
+.sqlwhale-notch-mobile-menu a:hover { background: var(--sw-surface-soft); color: var(--sw-primary); }
+.sqlwhale-notch-menu-button {
+  width: 44px; height: 44px; border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-control); background: var(--sw-surface); color: var(--sw-text);
+}
+.sqlwhale-notch-mobile-start { min-height: 48px; border-radius: var(--sw-radius-control); background: var(--sw-primary); color: var(--sw-primary-contrast) !important; }
+.sqlwhale-notch-mobile-theme { color: var(--sw-muted); }
+.sqlwhale-notch-spacer { height: 88px; flex-basis: 88px; }
+
+.sqlwhale-footer {
+  padding: 54px max(24px, calc((100% - 1200px) / 2)) 22px;
+  border-top: 1px solid var(--sw-border);
+  background: var(--sw-footer); color: var(--sw-text);
+}
+.footer-industrial-grid {
+  display: grid; grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+  gap: 30px 26px; max-width: 1200px; margin: 0 auto;
+}
+.footer-brand-block { min-width: 0; }
+.sqlwhale-footer .sqlwhale-logo { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; }
+.sqlwhale-footer .logo-wordmark { color: var(--sw-heading); font-size: 19px; font-weight: 750; letter-spacing: -.04em; }
+.sqlwhale-footer .logo-whale { color: var(--sw-primary); }
+.sqlwhale-footer .logo-text { color: var(--sw-heading); }
+.sqlwhale-footer .footer-tagline { max-width: 240px; margin: 14px 0; color: var(--sw-muted); font-size: 13px; line-height: 1.65; }
+.sqlwhale-footer .footer-status { display: inline-flex; align-items: center; gap: 8px; color: var(--sw-muted); font-size: 9px; letter-spacing: .12em; }
+.sqlwhale-footer .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sw-success); }
+.sqlwhale-footer .footer-column { display: flex; flex-direction: column; align-items: flex-start; gap: 11px; min-width: 0; }
+.sqlwhale-footer .footer-column-title { margin-bottom: 5px; color: var(--sw-muted); font-size: 9px; font-weight: 800; letter-spacing: .14em; }
+.sqlwhale-footer .footer-column > a,
+.sqlwhale-footer .footer-column > span:not(.footer-column-title) {
+  color: var(--sw-text); font-size: 12px; line-height: 1.55; text-decoration: none;
+}
+.sqlwhale-footer .footer-column > a { transition: color .18s ease; }
+.sqlwhale-footer .footer-column > a:hover { color: var(--sw-primary); }
+.sqlwhale-footer .footer-company { color: var(--sw-heading) !important; font-weight: 750; }
+.sqlwhale-footer .footer-company-description { color: var(--sw-muted) !important; }
+.sqlwhale-footer .footer-social-link { display: inline-flex; align-items: center; gap: 8px; }
+.sqlwhale-footer .product-hunt-footer-badge { padding: 8px; border: 1px solid var(--sw-border); border-radius: 9px; background: var(--sw-surface); }
+.sqlwhale-footer .footer-industrial-line { display: flex; align-items: center; gap: 14px; max-width: 1200px; margin: 36px auto 18px; color: var(--sw-muted); }
+.sqlwhale-footer .footer-industrial-line > span:first-child,
+.sqlwhale-footer .footer-industrial-line > span:last-child { height: 1px; flex: 1; background: var(--sw-border-strong); }
+.sqlwhale-footer .footer-line-label { font-size: 8px; font-weight: 750; letter-spacing: .14em; text-align: center; }
+.sqlwhale-footer .footer-bottom { display: flex; justify-content: space-between; gap: 12px; max-width: 1200px; margin: 0 auto; padding-top: 18px; border-top: 1px solid var(--sw-border); color: var(--sw-muted); font-size: 10px; }
+.sqlwhale-footer .footer-learning-service a { color: var(--sw-primary); text-decoration: none; }
+@media (max-width: 1100px) {
+  .sqlwhale-notch-center { gap: 12px; padding-inline: 16px; }
+  .sqlwhale-notch-links { gap: 9px; }
+  .sqlwhale-notch-link { font-size: 10px; }
+  .sqlwhale-notch-brand { font-size: 15px; }
+  .footer-industrial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .footer-brand-block { grid-column: span 3; }
+}
+@media (max-width: 760px) {
+  .sqlwhale-notch-header { padding: 0 10px; }
+  .sqlwhale-notch-center { height: 64px; padding: 0 12px; border-radius: 0 0 13px 13px; }
+  .sqlwhale-notch-brand { position: static; left: auto; top: auto; transform: none; }
+  .sqlwhale-notch-menu-button { display: grid; }
+  .sqlwhale-notch-start { display: none; }
+  .sqlwhale-notch-mobile-menu { position: fixed; display: flex; }
+  .sqlwhale-notch-spacer { height: 76px; flex-basis: 76px; }
+  .sqlwhale-footer { padding: 42px 20px 18px; }
+  .footer-industrial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 18px; }
+  .footer-brand-block { grid-column: 1 / -1; }
+  .sqlwhale-footer .footer-bottom { flex-direction: column; }
+}
+@media (max-width: 420px) {
+  .footer-industrial-grid { grid-template-columns: 1fr; }
+  .footer-brand-block { grid-column: auto; }
+}
+html[data-theme="dark"] .sqlwhale-footer { background: var(--sw-footer); }
+html[data-theme="light"] .sqlwhale-footer { background: var(--sw-footer); }
+:where(.sqlwhale-notch-header, .sqlwhale-footer) :is(a,button):focus-visible { outline: 2px solid var(--sw-primary); outline-offset: 3px; }
+
+
+
+/* Align legacy light-mode !important rules with the shared ocean chrome. */
+html[data-theme="light"] .sqlwhale-notch-center {
+  background: color-mix(in srgb, var(--sw-surface) 94%, transparent) !important;
+  color: var(--sw-text) !important;
+  border: 1px solid var(--sw-border) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 14px 14px !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-header { color: var(--sw-text) !important; }
+html[data-theme="light"] .sqlwhale-notch-link { color: var(--sw-muted) !important; }
+html[data-theme="light"] .sqlwhale-notch-link:hover { color: var(--sw-primary) !important; }
+html[data-theme="light"] .sqlwhale-notch-brand { color: var(--sw-heading) !important; }
+html[data-theme="light"] .sqlwhale-notch-brand span span { color: var(--sw-primary) !important; }
+html[data-theme="light"] .sqlwhale-notch-account {
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-heading) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-start {
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-menu-button {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 14px !important;
+  background: var(--sw-surface) !important;
+  box-shadow: var(--sw-shadow) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a { color: var(--sw-text) !important; }
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a:hover {
+  background: var(--sw-surface-soft) !important; color: var(--sw-primary) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-start {
+  border-radius: var(--sw-radius-control) !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-theme { color: var(--sw-muted) !important; }
+
+
+/* Final responsive footer and active-navigation refinements. */
+.sqlwhale-notch-link.is-active {
+  padding-inline: 9px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface));
+  color: var(--sw-primary);
+}
+.sqlwhale-notch-link.is-active::after { display: none; }
+.sqlwhale-theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+}
+.sqlwhale-theme-toggle span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.sqlwhale-footer .footer-brand-block {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding-bottom: 8px;
+}
+.sqlwhale-footer .footer-tagline { margin: 0; }
+.sqlwhale-footer .footer-status { margin-left: auto; }
+.footer-industrial-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .footer-industrial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+  .sqlwhale-footer .footer-status { margin-left: 0; }
+}
+@media (max-width: 760px) {
+  .footer-industrial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+  .sqlwhale-footer .footer-status { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .footer-industrial-grid { grid-template-columns: 1fr; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+}
+
+
+.sqlwhale-notch-mobile-menu a.is-active {
+  background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface));
+  color: var(--sw-primary);
+}
+.sqlwhale-notch-mobile-theme .sqlwhale-theme-toggle {
+  border-color: var(--sw-border-strong);
+}
+
+
+/* =========================================================
+   Formal education-platform chrome refinement
+   Replaces the floating "notch" treatment with a full-width,
+   restrained institutional navigation bar.
+   ========================================================= */
+.sqlwhale-notch-header {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;
+  z-index: 1000 !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 76px !important;
+  padding: 0 !important;
+  background: var(--sw-surface) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--sw-border) !important;
+  box-shadow: 0 2px 12px rgb(15 23 42 / 4%) !important;
+}
+.sqlwhale-notch-center {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: clamp(16px, 2vw, 32px) !important;
+  width: min(100% - 64px, 1360px) !important;
+  max-width: 1360px !important;
+  height: 76px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.sqlwhale-notch-brand {
+  position: static !important;
+  order: 0 !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  gap: 9px !important;
+  transform: none !important;
+  color: var(--sw-heading) !important;
+  font-size: 19px !important;
+  font-weight: 750 !important;
+  letter-spacing: -.045em !important;
+  white-space: nowrap !important;
+}
+.sqlwhale-notch-brand img { width: 34px !important; height: 34px !important; object-fit: contain; }
+.sqlwhale-notch-brand span span { color: var(--sw-primary) !important; }
+.sqlwhale-notch-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(4px, .65vw, 12px) !important;
+}
+.sqlwhale-notch-links-left {
+  order: 1 !important;
+  flex: 0 1 auto !important;
+  margin-left: auto !important;
+}
+.sqlwhale-notch-links-right {
+  order: 2 !important;
+  flex: 0 1 auto !important;
+  margin-left: 0 !important;
+}
+.sqlwhale-notch-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-radius: 7px !important;
+  background: transparent !important;
+  color: var(--sw-muted) !important;
+  font: 550 13px/1.2 var(--font-geist-sans), ui-sans-serif, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+  transition: color .16s ease, background .16s ease !important;
+}
+.sqlwhale-notch-link:hover,
+.sqlwhale-notch-link.is-active {
+  color: var(--sw-primary) !important;
+  background: color-mix(in srgb, var(--sw-primary) 8%, var(--sw-surface)) !important;
+  transform: none !important;
+}
+.sqlwhale-notch-link.is-active { font-weight: 650 !important; }
+.sqlwhale-notch-link::after { display: none !important; }
+.sqlwhale-notch-start {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 16px !important;
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: 8px !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+  font: 650 13px/1 var(--font-geist-sans), sans-serif !important;
+  white-space: nowrap !important;
+}
+.sqlwhale-notch-start:hover { background: var(--sw-primary-hover) !important; transform: translateY(-1px) !important; }
+.sqlwhale-notch-account {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 15px !important;
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--sw-heading) !important;
+  box-shadow: none !important;
+  font: 600 13px/1 var(--font-geist-sans), sans-serif !important;
+  white-space: nowrap !important;
+}
+.sqlwhale-notch-account:hover { border-color: var(--sw-primary) !important; background: var(--sw-surface-soft) !important; }
+.sqlwhale-theme-toggle {
+  width: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 8px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+}
+.sqlwhale-notch-spacer { height: 76px !important; flex-basis: 76px !important; }
+.sqlwhale-notch-menu-button { display: none !important; }
+.sqlwhale-notch-mobile-menu { top: 76px !important; }
+
+@media (max-width: 1180px) {
+  .sqlwhale-notch-center { width: calc(100% - 36px) !important; gap: 12px !important; }
+  .sqlwhale-notch-link { gap: 5px !important; padding-inline: 7px !important; font-size: 12px !important; }
+  .sqlwhale-notch-brand { font-size: 17px !important; }
+  .sqlwhale-notch-brand img { width: 30px !important; height: 30px !important; }
+  .sqlwhale-notch-start, .sqlwhale-notch-account { padding-inline: 11px !important; font-size: 12px !important; }
+}
+@media (max-width: 920px) {
+  .sqlwhale-notch-links-left { display: none !important; }
+  .sqlwhale-notch-center { justify-content: space-between !important; }
+  .sqlwhale-notch-links-right { margin-left: auto !important; }
+}
+@media (max-width: 760px) {
+  .sqlwhale-notch-header { height: 66px !important; padding: 0 16px !important; }
+  .sqlwhale-notch-center {
+    width: 100% !important;
+    height: 66px !important;
+    gap: 12px !important;
+  }
+  .sqlwhale-notch-brand { margin-right: auto !important; }
+  .sqlwhale-notch-links { display: none !important; }
+  .sqlwhale-notch-menu-button {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 8px !important;
+    background: var(--sw-surface) !important;
+    color: var(--sw-heading) !important;
+  }
+  .sqlwhale-notch-spacer { height: 66px !important; flex-basis: 66px !important; }
+  .sqlwhale-notch-mobile-menu {
+    top: 66px !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-height: calc(100dvh - 82px) !important;
+    overflow-y: auto !important;
+    padding: 12px !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 12px !important;
+    background: var(--sw-surface) !important;
+    box-shadow: 0 16px 40px rgb(15 23 42 / 12%) !important;
+  }
+  .sqlwhale-notch-mobile-menu a {
+    min-height: 48px !important;
+    padding: 0 12px !important;
+    border-radius: 7px !important;
+    color: var(--sw-text) !important;
+    font-size: 14px !important;
+  }
+}
+
+/* Footer: quiet, formal learning-platform surface with no decorative grid. */
+.sqlwhale-footer {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  padding: 48px max(24px, calc((100% - 1240px) / 2)) 22px !important;
+  border-top: 1px solid var(--sw-border) !important;
+  background: var(--sw-footer) !important;
+  background-image: none !important;
+  color: var(--sw-text) !important;
+}
+.sqlwhale-footer-wave-grid { display: none !important; }
+.sqlwhale-footer-wave-grid canvas { display: none !important; }
+.sqlwhale-footer .footer-industrial-grid {
+  display: grid !important;
+  grid-template-columns: 1.35fr repeat(4, minmax(0, 1fr)) !important;
+  align-items: start !important;
+  gap: 32px !important;
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-brand-block {
+  grid-column: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  max-width: 260px !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-logo { margin: 0 !important; }
+.sqlwhale-footer .footer-tagline { margin: 0 !important; max-width: 240px !important; }
+.sqlwhale-footer .footer-status { margin: 2px 0 0 !important; }
+.sqlwhale-footer .footer-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-column-title {
+  margin: 0 0 4px !important;
+  color: var(--sw-muted) !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+}
+.sqlwhale-footer .footer-column > a,
+.sqlwhale-footer .footer-column > span:not(.footer-column-title) {
+  color: var(--sw-text) !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+.sqlwhale-footer .footer-column > a:hover { color: var(--sw-primary) !important; }
+.sqlwhale-footer .footer-company { color: var(--sw-heading) !important; font-weight: 700 !important; }
+.sqlwhale-footer .footer-company-description { color: var(--sw-muted) !important; }
+.sqlwhale-footer .product-hunt-footer-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 8px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 9px !important;
+  background: var(--sw-surface) !important;
+}
+.sqlwhale-footer .footer-industrial-line {
+  max-width: 1240px !important;
+  margin: 34px auto 18px !important;
+  color: var(--sw-muted) !important;
+}
+.sqlwhale-footer .footer-industrial-line > span:first-child,
+.sqlwhale-footer .footer-industrial-line > span:last-child { background: var(--sw-border-strong) !important; }
+.sqlwhale-footer .footer-bottom {
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+  padding-top: 16px !important;
+  border-top: 1px solid var(--sw-border) !important;
+  color: var(--sw-muted) !important;
+  font-size: 11px !important;
+}
+.sqlwhale-footer .footer-learning-service a { color: var(--sw-primary) !important; }
+@media (max-width: 1050px) {
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1 !important; max-width: none !important; }
+}
+@media (max-width: 760px) {
+  .sqlwhale-footer { padding: 38px 22px 18px !important; }
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 28px 20px !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1 !important; }
+  .sqlwhale-footer .footer-bottom { flex-direction: column !important; gap: 10px !important; }
+}
+@media (max-width: 440px) {
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: 1fr !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: auto !important; }
+}
+
+/* Keep the mobile drawer and all controls consistent in both theme modes. */
+html[data-theme] .sqlwhale-notch-mobile-menu {
+  border-color: var(--sw-border) !important;
+  background: var(--sw-surface) !important;
+}
+html[data-theme] .sqlwhale-notch-mobile-menu a { color: var(--sw-text) !important; }
+html[data-theme] .sqlwhale-notch-mobile-menu a.is-active {
+  background: color-mix(in srgb, var(--sw-primary) 9%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+}
