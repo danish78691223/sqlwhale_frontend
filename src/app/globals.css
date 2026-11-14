@@ -22806,7 +22806,7 @@ html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout st
   --sw-surface: #ffffff;
   --sw-surface-soft: #eff3f7;
   --sw-border: #e3e8ef;
-  --sw-border-strong: #cbd5e1;
+  --sw-border-strong: #64748b;
   --sw-text: #1f2937;
   --sw-heading: #0f172a;
   --sw-muted: #475569;
@@ -22833,7 +22833,7 @@ html[data-theme="dark"] {
   --sw-surface: #152033;
   --sw-surface-soft: #111c2d;
   --sw-border: #243049;
-  --sw-border-strong: #40516b;
+  --sw-border-strong: #718096;
   --sw-text: #d6deea;
   --sw-heading: #f1f5f9;
   --sw-muted: #aebbd0;
