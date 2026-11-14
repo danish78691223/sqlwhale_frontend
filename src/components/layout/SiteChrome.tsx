@@ -39,7 +39,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
   }, [mobileOpen]);
 
   const navLink = (item: typeof homeNavLeft[number]) => (
-    <Link key={item.label} href={item.href} className={`sqlwhale-notch-link${pathname === item.href || (item.href === "/" && pathname === "/") ? " is-active" : ""}`} onClick={() => setMobileOpen(false)}>
+    <Link key={item.label} href={item.href} className={`sqlwhale-notch-link${pathname === item.href ? " is-active" : ""}`} onClick={() => setMobileOpen(false)}>
       <item.icon aria-hidden="true" size={15} strokeWidth={1.8} />
       <span>{item.label}</span>
     </Link>
@@ -87,7 +87,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
             transition={{ duration: 0.18 }}
           >
             {[...homeNavLeft, ...homeNavRight].map((item) => (
-              <Link key={item.label} href={item.href} onClick={() => setMobileOpen(false)}>
+              <Link key={item.label} href={item.href} className={pathname === item.href ? "is-active" : ""} onClick={() => setMobileOpen(false)}>
                 <item.icon size={17} aria-hidden="true" />
                 <span>{item.label}</span>
                 <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
