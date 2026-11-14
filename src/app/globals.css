@@ -22873,3 +22873,15 @@ html { scroll-behavior: smooth; }
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Final footer canvas override: remove the legacy decorative grid texture. */
+.sqlwhale-footer {
+  background-color: var(--sw-footer) !important;
+  background-image: none !important;
+}
+.sqlwhale-footer::before,
+.sqlwhale-footer::after {
+  display: none !important;
+  content: none !important;
+}
