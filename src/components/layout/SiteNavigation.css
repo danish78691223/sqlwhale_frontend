@@ -389,3 +389,345 @@ html[data-theme="light"] .sqlwhale-notch-start{border:2px solid #111!important;b
 html[data-theme="light"] .sqlwhale-notch-menu-button{border:2px solid #111!important;border-radius:0!important;background:#fff!important;color:#111!important}
 html[data-theme="light"] .sqlwhale-notch-mobile-menu{border:2px solid #111!important;border-radius:0!important;background:#fbf8f6!important;box-shadow:5px 5px 0 #111!important}
 html[data-theme="light"] .sqlwhale-notch-mobile-menu a{color:#111!important}
+
+
+/* Final chrome override: this stylesheet is imported after theme.css, so the
+   formal platform treatment is defined here to supersede legacy notch styles. */
+.sqlwhale-notch-header {
+  position: fixed !important;
+  inset: 0 0 auto !important;
+  z-index: 12000 !important;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 74px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--sw-border) !important;
+  background: color-mix(in srgb, var(--sw-surface) 96%, transparent) !important;
+  color: var(--sw-text) !important;
+  box-shadow: 0 2px 12px rgb(15 23 42 / 4%) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  backdrop-filter: blur(14px) !important;
+  pointer-events: auto !important;
+}
+.sqlwhale-notch-center {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: clamp(16px, 2vw, 30px) !important;
+  width: min(100% - 64px, 1320px) !important;
+  max-width: 1320px !important;
+  min-width: 0 !important;
+  height: 74px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  pointer-events: auto !important;
+}
+.sqlwhale-notch-brand {
+  position: static !important;
+  order: 0 !important;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+  margin: 0 !important;
+  transform: none !important;
+  color: var(--sw-heading) !important;
+  font: 750 19px/1 var(--font-geist-sans), ui-sans-serif, sans-serif !important;
+  letter-spacing: -.045em !important;
+}
+.sqlwhale-notch-brand img { width: 36px !important; height: 36px !important; }
+.sqlwhale-notch-brand span span { color: var(--sw-primary) !important; }
+.sqlwhale-notch-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(3px, .5vw, 9px) !important;
+  min-width: 0 !important;
+}
+.sqlwhale-notch-links-left {
+  order: 1 !important;
+  flex: 0 1 auto !important;
+  margin-left: auto !important;
+}
+.sqlwhale-notch-links-right {
+  order: 2 !important;
+  flex: 0 1 auto !important;
+  margin-left: 0 !important;
+}
+.sqlwhale-notch-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--sw-muted) !important;
+  font: 550 13px/1.2 var(--font-geist-sans), ui-sans-serif, sans-serif !important;
+  letter-spacing: 0 !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  transition: color .16s ease, background .16s ease !important;
+}
+.sqlwhale-notch-link svg { opacity: .8 !important; }
+.sqlwhale-notch-link:hover,
+.sqlwhale-notch-link.is-active {
+  color: var(--sw-primary) !important;
+  background: color-mix(in srgb, var(--sw-primary) 8%, var(--sw-surface)) !important;
+  transform: none !important;
+}
+.sqlwhale-notch-link.is-active { font-weight: 650 !important; }
+.sqlwhale-notch-link::after { display: none !important; }
+.sqlwhale-notch-start {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 16px !important;
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: 8px !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+  font: 650 13px/1 var(--font-geist-sans), sans-serif !important;
+  text-decoration: none !important;
+}
+.sqlwhale-notch-start:hover {
+  background: var(--sw-primary-hover) !important;
+  filter: none !important;
+  transform: translateY(-1px) !important;
+}
+.sqlwhale-notch-account {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 42px !important;
+  padding: 0 15px !important;
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--sw-heading) !important;
+  box-shadow: none !important;
+  font: 600 13px/1 var(--font-geist-sans), sans-serif !important;
+  text-decoration: none !important;
+}
+.sqlwhale-notch-account:hover {
+  border-color: var(--sw-primary) !important;
+  background: var(--sw-surface-soft) !important;
+  transform: none !important;
+}
+.sqlwhale-theme-toggle {
+  display: inline-grid !important;
+  place-items: center !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 8px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+}
+.sqlwhale-notch-spacer { height: 74px !important; flex-basis: 74px !important; }
+.sqlwhale-notch-menu-button { display: none !important; }
+.sqlwhale-notch-mobile-menu { top: 74px !important; }
+
+.sqlwhale-footer {
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  padding: 52px max(28px, calc((100% - 1240px) / 2)) 22px !important;
+  border-top: 1px solid var(--sw-border) !important;
+  background: var(--sw-footer) !important;
+  background-image: none !important;
+  color: var(--sw-text) !important;
+}
+.sqlwhale-footer::before,
+.sqlwhale-footer::after,
+.sqlwhale-footer .sqlwhale-footer-wave-grid,
+.sqlwhale-footer .sqlwhale-footer-wave-grid canvas { display: none !important; content: none !important; }
+.sqlwhale-footer .footer-industrial-grid {
+  display: grid !important;
+  grid-template-columns: minmax(210px, 1.4fr) repeat(4, minmax(0, 1fr)) !important;
+  align-items: start !important;
+  gap: 34px !important;
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-brand-block {
+  grid-column: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 14px !important;
+  max-width: 250px !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-logo { display: inline-flex !important; align-items: center !important; gap: 10px !important; margin: 0 !important; }
+.sqlwhale-footer .sqlwhale-logo-image { width: 42px !important; height: 42px !important; }
+.sqlwhale-footer .logo-wordmark { color: var(--sw-heading) !important; font-size: 19px !important; font-weight: 750 !important; letter-spacing: -.04em !important; }
+.sqlwhale-footer .logo-whale { color: var(--sw-primary) !important; }
+.sqlwhale-footer .logo-text { color: var(--sw-heading) !important; }
+.sqlwhale-footer .footer-tagline { max-width: 235px !important; margin: 0 !important; color: var(--sw-muted) !important; font-size: 13px !important; line-height: 1.7 !important; }
+.sqlwhale-footer .footer-status {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 7px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-muted) !important;
+  font-size: 9px !important;
+  letter-spacing: .1em !important;
+}
+.sqlwhale-footer .footer-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+.sqlwhale-footer .footer-column-title {
+  margin: 0 0 5px !important;
+  color: var(--sw-muted) !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  letter-spacing: .13em !important;
+}
+.sqlwhale-footer .footer-column > a,
+.sqlwhale-footer .footer-column > span:not(.footer-column-title) {
+  color: var(--sw-text) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  text-decoration: none !important;
+}
+.sqlwhale-footer .footer-column > a { transition: color .16s ease !important; }
+.sqlwhale-footer .footer-column > a:hover { color: var(--sw-primary) !important; }
+.sqlwhale-footer .footer-company { color: var(--sw-heading) !important; font-weight: 700 !important; }
+.sqlwhale-footer .footer-company-description { color: var(--sw-muted) !important; }
+.sqlwhale-footer .product-hunt-footer-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  max-width: 100% !important;
+  padding: 9px !important;
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 9px !important;
+  background: var(--sw-surface) !important;
+}
+.sqlwhale-footer .footer-industrial-line {
+  max-width: 1240px !important;
+  margin: 38px auto 18px !important;
+  color: var(--sw-muted) !important;
+}
+.sqlwhale-footer .footer-industrial-line > span:first-child,
+.sqlwhale-footer .footer-industrial-line > span:last-child { background: var(--sw-border-strong) !important; }
+.sqlwhale-footer .footer-line-label { color: var(--sw-muted) !important; }
+.sqlwhale-footer .footer-bottom {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  max-width: 1240px !important;
+  margin: 0 auto !important;
+  padding-top: 17px !important;
+  border-top: 1px solid var(--sw-border) !important;
+  color: var(--sw-muted) !important;
+  font-size: 11px !important;
+}
+.sqlwhale-footer .footer-learning-service a { color: var(--sw-primary) !important; }
+
+@media (max-width: 1180px) {
+  .sqlwhale-notch-center { width: calc(100% - 40px) !important; gap: 12px !important; }
+  .sqlwhale-notch-links { gap: 3px !important; }
+  .sqlwhale-notch-link { gap: 5px !important; padding-inline: 7px !important; font-size: 11px !important; }
+  .sqlwhale-notch-brand { font-size: 17px !important; }
+  .sqlwhale-notch-brand img { width: 32px !important; height: 32px !important; }
+  .sqlwhale-notch-start, .sqlwhale-notch-account { padding-inline: 11px !important; font-size: 12px !important; }
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1 !important; max-width: none !important; }
+}
+@media (max-width: 920px) {
+  .sqlwhale-notch-links-left { display: none !important; }
+  .sqlwhale-notch-center { justify-content: space-between !important; }
+  .sqlwhale-notch-links-right { margin-left: auto !important; }
+}
+@media (max-width: 760px) {
+  .sqlwhale-notch-header { height: 66px !important; padding: 0 16px !important; }
+  .sqlwhale-notch-center { width: 100% !important; height: 66px !important; gap: 12px !important; }
+  .sqlwhale-notch-brand { margin-right: auto !important; }
+  .sqlwhale-notch-links { display: none !important; }
+  .sqlwhale-notch-menu-button {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 8px !important;
+    background: var(--sw-surface) !important;
+    color: var(--sw-heading) !important;
+  }
+  .sqlwhale-notch-spacer { height: 66px !important; flex-basis: 66px !important; }
+  .sqlwhale-notch-mobile-menu {
+    position: fixed !important;
+    top: 66px !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-height: calc(100dvh - 82px) !important;
+    overflow-y: auto !important;
+    padding: 12px !important;
+    border: 1px solid var(--sw-border) !important;
+    border-radius: 12px !important;
+    background: var(--sw-surface) !important;
+    box-shadow: 0 16px 40px rgb(15 23 42 / 12%) !important;
+    backdrop-filter: blur(14px) !important;
+  }
+  .sqlwhale-notch-mobile-menu a {
+    min-height: 48px !important;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    color: var(--sw-text) !important;
+    font-size: 14px !important;
+  }
+  .sqlwhale-notch-mobile-menu a:hover,
+  .sqlwhale-notch-mobile-menu a.is-active {
+    background: color-mix(in srgb, var(--sw-primary) 9%, var(--sw-surface)) !important;
+    color: var(--sw-primary) !important;
+  }
+  .sqlwhale-notch-mobile-start {
+    min-height: 48px !important;
+    border-radius: 8px !important;
+    background: var(--sw-primary) !important;
+    color: var(--sw-primary-contrast) !important;
+  }
+  .sqlwhale-notch-mobile-theme { color: var(--sw-muted) !important; }
+  .sqlwhale-footer { padding: 38px 22px 18px !important; }
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 28px 20px !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1 !important; }
+  .sqlwhale-footer .footer-bottom { flex-direction: column !important; }
+}
+@media (max-width: 440px) {
+  .sqlwhale-footer .footer-industrial-grid { grid-template-columns: 1fr !important; }
+  .sqlwhale-footer .footer-brand-block { grid-column: auto !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sqlwhale-notch-link, .sqlwhale-notch-start, .sqlwhale-notch-account,
+  .sqlwhale-footer .footer-column > a { transition: none !important; }
+}
