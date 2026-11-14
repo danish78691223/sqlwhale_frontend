@@ -22815,6 +22815,8 @@ html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout st
   --sw-primary-contrast: #ffffff;
   --sw-accent: #935500;
   --sw-accent-soft: #fff3d8;
+  --sw-rank-silver: #64748b;
+  --sw-rank-bronze: #8b5e3c;
   --sw-success: #176b4b;
   --sw-danger: #b42332;
   --sw-shadow: 0 8px 28px rgb(15 23 42 / 5%);
@@ -22842,6 +22844,8 @@ html[data-theme="dark"] {
   --sw-primary-contrast: #092032;
   --sw-accent: #e8b04b;
   --sw-accent-soft: #352a18;
+  --sw-rank-silver: #aebbd0;
+  --sw-rank-bronze: #c8a181;
   --sw-success: #81c9a8;
   --sw-danger: #f09aa3;
   --sw-shadow: none;
