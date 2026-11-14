@@ -653,3 +653,54 @@ html[data-theme="light"] .sqlwhale-notch-mobile-start {
   color: var(--sw-primary-contrast) !important;
 }
 html[data-theme="light"] .sqlwhale-notch-mobile-theme { color: var(--sw-muted) !important; }
+
+
+/* Final responsive footer and active-navigation refinements. */
+.sqlwhale-notch-link.is-active {
+  padding-inline: 9px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface));
+  color: var(--sw-primary);
+}
+.sqlwhale-notch-link.is-active::after { display: none; }
+.sqlwhale-theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+}
+.sqlwhale-theme-toggle span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.sqlwhale-footer .footer-brand-block {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding-bottom: 8px;
+}
+.sqlwhale-footer .footer-tagline { margin: 0; }
+.sqlwhale-footer .footer-status { margin-left: auto; }
+.footer-industrial-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1100px) {
+  .footer-industrial-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+  .sqlwhale-footer .footer-status { margin-left: 0; }
+}
+@media (max-width: 760px) {
+  .footer-industrial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+  .sqlwhale-footer .footer-status { margin-left: 0; }
+}
+@media (max-width: 420px) {
+  .footer-industrial-grid { grid-template-columns: 1fr; }
+  .sqlwhale-footer .footer-brand-block { grid-column: 1 / -1; }
+}
