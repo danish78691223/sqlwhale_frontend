@@ -731,3 +731,63 @@ html[data-theme="light"] .sqlwhale-notch-mobile-menu a{color:#111!important}
   .sqlwhale-notch-link, .sqlwhale-notch-start, .sqlwhale-notch-account,
   .sqlwhale-footer .footer-column > a { transition: none !important; }
 }
+
+
+/* Explicit light-theme selectors outrank the legacy neobrutalist selectors above. */
+html[data-theme="light"] .sqlwhale-notch-header {
+  border-bottom: 1px solid var(--sw-border) !important;
+  background: color-mix(in srgb, var(--sw-surface) 96%, transparent) !important;
+  color: var(--sw-text) !important;
+  box-shadow: 0 2px 12px rgb(15 23 42 / 4%) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-center {
+  border: 0 !important;
+  border-top: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--sw-text) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-brand,
+html[data-theme="light"] .sqlwhale-notch-brand span {
+  color: var(--sw-heading) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-brand span span { color: var(--sw-primary) !important; }
+html[data-theme="light"] .sqlwhale-notch-link { color: var(--sw-muted) !important; }
+html[data-theme="light"] .sqlwhale-notch-link:hover,
+html[data-theme="light"] .sqlwhale-notch-link.is-active {
+  color: var(--sw-primary) !important;
+  background: color-mix(in srgb, var(--sw-primary) 8%, var(--sw-surface)) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-account {
+  border: 1px solid var(--sw-border-strong) !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: var(--sw-heading) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-start {
+  border: 1px solid var(--sw-primary) !important;
+  border-radius: 8px !important;
+  background: var(--sw-primary) !important;
+  color: var(--sw-primary-contrast) !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] .sqlwhale-notch-menu-button {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 8px !important;
+  background: var(--sw-surface) !important;
+  color: var(--sw-heading) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu {
+  border: 1px solid var(--sw-border) !important;
+  border-radius: 12px !important;
+  background: var(--sw-surface) !important;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 12%) !important;
+}
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a { color: var(--sw-text) !important; }
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a:hover,
+html[data-theme="light"] .sqlwhale-notch-mobile-menu a.is-active {
+  background: color-mix(in srgb, var(--sw-primary) 9%, var(--sw-surface)) !important;
+  color: var(--sw-primary) !important;
+}
