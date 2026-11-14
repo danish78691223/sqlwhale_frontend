@@ -1541,10 +1541,10 @@ html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(1) {
   box-shadow: none;
 }
 html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(2) {
-  background: color-mix(in srgb, #94a3b8 10%, var(--sw-surface));
+  background: color-mix(in srgb, var(--sw-rank-silver) 10%, var(--sw-surface));
 }
 html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(3) {
-  background: color-mix(in srgb, #b7794b 10%, var(--sw-surface));
+  background: color-mix(in srgb, var(--sw-rank-bronze) 10%, var(--sw-surface));
 }
 html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-user strong,
 html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points strong { color: var(--sw-heading); }
@@ -1564,12 +1564,12 @@ html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-1 {
   box-shadow: none;
 }
 html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-2 {
-  background: color-mix(in srgb, #94a3b8 18%, var(--sw-surface));
+  background: color-mix(in srgb, var(--sw-rank-silver) 18%, var(--sw-surface));
   color: var(--sw-text);
 }
 html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-3 {
-  background: color-mix(in srgb, #b7794b 16%, var(--sw-surface));
-  color: #8b4d22;
+  background: color-mix(in srgb, var(--sw-rank-bronze) 16%, var(--sw-surface));
+  color: var(--sw-rank-bronze);
 }
 html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty {
   border: 1px dashed var(--sw-border-strong);
