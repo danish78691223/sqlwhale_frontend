@@ -22830,7 +22830,7 @@ html[data-theme="light"] .sqlwhale-bargain-overlay .sqlwhale-bargain-checkout st
   --sw-radius-pill: 999px;
   color-scheme: light;
 }
-html[data-theme="dark"] {
+html[data-theme="dark"], html:not([data-theme]) {
   --sw-page: #0e1624;
   --sw-surface: #152033;
   --sw-surface-soft: #111c2d;
