@@ -1644,3 +1644,25 @@ html[data-theme] .sqlwhale-home .sw-pricing-grid article {
     min-height: 0;
   }
 }
+
+
+/* Bring the mobile sticky action and challenge indicator into the same palette. */
+html[data-theme] .sqlwhale-home .sw-mobile-sticky-cta {
+  border: 1px solid var(--sw-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--sw-surface) 94%, transparent);
+  box-shadow: var(--sw-shadow);
+}
+html[data-theme] .sqlwhale-home .sw-mobile-sticky-cta a {
+  min-height: 44px;
+  border-radius: var(--sw-radius-control);
+  background: var(--sw-primary);
+  color: var(--sw-primary-contrast);
+}
+html[data-theme] .sqlwhale-home .swc-home-promo-kicker i {
+  background: var(--sw-primary);
+  box-shadow: none;
+}
+html[data-theme="dark"] .sqlwhale-home .sw-mobile-sticky-cta {
+  box-shadow: none;
+}
