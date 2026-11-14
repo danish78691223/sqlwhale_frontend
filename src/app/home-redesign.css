@@ -1480,3 +1480,106 @@ html[data-theme="dark"] .sqlwhale-home .sw-final-cta a { background: var(--sw-pr
   .sqlwhale-home .sw-audience-tabs button,
   .sqlwhale-home .sw-final-cta a { transition: none; }
 }
+
+
+/* Leaderboard — consistent with the ocean UI, including restrained podium tones. */
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-section {
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--sw-border);
+  border-radius: 16px;
+  background: var(--sw-surface);
+  box-shadow: var(--sw-shadow);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head {
+  border-color: var(--sw-border);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head h2 {
+  color: var(--sw-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -.04em;
+  text-transform: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head h2 em {
+  color: var(--sw-primary);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head p {
+  color: var(--sw-muted);
+  font-size: 14px;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-head .agency-section-index {
+  color: var(--sw-primary);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total {
+  border: 1px solid var(--sw-border);
+  border-radius: 10px;
+  background: var(--sw-surface-soft);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-total span { color: var(--sw-muted); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span {
+  border: 1px solid var(--sw-border);
+  border-radius: var(--sw-radius-pill);
+  background: var(--sw-surface-soft);
+  color: var(--sw-muted);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(1) { background: color-mix(in srgb, var(--sw-success) 10%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(2) { background: color-mix(in srgb, var(--sw-primary) 10%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span:nth-child(3) { background: color-mix(in srgb, var(--sw-accent) 12%, var(--sw-surface)); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-scale span b { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row {
+  min-height: 72px;
+  border: 1px solid var(--sw-border);
+  border-radius: 10px;
+  background: var(--sw-surface);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(1) {
+  border-color: color-mix(in srgb, var(--sw-accent) 55%, var(--sw-border));
+  background: color-mix(in srgb, var(--sw-accent) 10%, var(--sw-surface));
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(2) {
+  background: color-mix(in srgb, #94a3b8 10%, var(--sw-surface));
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row:nth-child(3) {
+  background: color-mix(in srgb, #b7794b 10%, var(--sw-surface));
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-user strong,
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-user span,
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points span { color: var(--sw-muted); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-points strong { color: var(--sw-primary); }
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge {
+  border: 1px solid var(--sw-border-strong);
+  background: var(--sw-surface-soft);
+  color: var(--sw-text);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-1 {
+  border-color: color-mix(in srgb, var(--sw-accent) 50%, var(--sw-border));
+  background: color-mix(in srgb, var(--sw-accent) 18%, var(--sw-surface));
+  color: var(--sw-accent);
+  box-shadow: none;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-2 {
+  background: color-mix(in srgb, #94a3b8 18%, var(--sw-surface));
+  color: var(--sw-text);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-rank-badge.rank-3 {
+  background: color-mix(in srgb, #b7794b 16%, var(--sw-surface));
+  color: #8b4d22;
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty {
+  border: 1px dashed var(--sw-border-strong);
+  border-radius: 10px;
+  background: var(--sw-surface-soft);
+  color: var(--sw-muted);
+}
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty strong { color: var(--sw-heading); }
+html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-empty svg { color: var(--sw-primary); }
+@media (max-width: 600px) {
+  html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-section { padding: 18px 12px; }
+  html[data-theme] .sqlwhale-home .sqlwhale-leaderboard-row { min-height: 66px; }
+}
