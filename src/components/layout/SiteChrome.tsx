@@ -47,7 +47,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
 
   return (
     <>
-      <header className="sqlwhale-notch-header">
+      <header className="sqlwhale-notch-header" data-nosnippet>
         <div className="sqlwhale-notch-center">
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-left" aria-label="Primary navigation">
             {homeNavLeft.map(navLink)}
@@ -80,6 +80,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
         {mobileOpen && (
           <motion.nav
             className="sqlwhale-notch-mobile-menu"
+            data-nosnippet
             aria-label="Mobile navigation"
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
