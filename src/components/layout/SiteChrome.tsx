@@ -41,14 +41,14 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
   const navLink = (item: typeof homeNavLeft[number]) => (
     <Link key={item.label} href={item.href} className={`sqlwhale-notch-link${pathname === item.href ? " is-active" : ""}`} onClick={() => setMobileOpen(false)}>
       <item.icon aria-hidden="true" size={15} strokeWidth={1.8} />
-      <span>{item.label}</span>
+      <span data-nosnippet>{item.label}</span>
     </Link>
   );
 
   return (
     <>
-      <header className="sqlwhale-notch-header" data-nosnippet>
-        <div className="sqlwhale-notch-center">
+      <header className="sqlwhale-notch-header">
+        <div className="sqlwhale-notch-center" data-nosnippet>
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-left" aria-label="Primary navigation">
             {homeNavLeft.map(navLink)}
           </nav>
@@ -80,7 +80,6 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
         {mobileOpen && (
           <motion.nav
             className="sqlwhale-notch-mobile-menu"
-            data-nosnippet
             aria-label="Mobile navigation"
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -96,11 +95,11 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
             ))}
             <Link href={accountHref} onClick={() => setMobileOpen(false)}>
               <UserRound size={17} aria-hidden="true" />
-              <span>{accountLabel}</span>
+              <span data-nosnippet>{accountLabel}</span>
               <ArrowUpRight size={14} className="sqlwhale-notch-mobile-arrow" aria-hidden="true" />
             </Link>
-            <Link href="/run-query" className="sqlwhale-notch-mobile-start" onClick={() => setMobileOpen(false)}><Play size={17} aria-hidden="true" /><span>Start Free</span><ArrowUpRight size={14} aria-hidden="true" /></Link>
-            <div className="sqlwhale-notch-mobile-theme"><span>Appearance</span><ThemeToggle theme={theme} onToggle={onToggleTheme} /></div>
+            <Link href="/run-query" className="sqlwhale-notch-mobile-start" onClick={() => setMobileOpen(false)}><Play size={17} aria-hidden="true" /><span data-nosnippet>Start Free</span><ArrowUpRight size={14} aria-hidden="true" /></Link>
+            <div className="sqlwhale-notch-mobile-theme"><span data-nosnippet>Appearance</span><ThemeToggle theme={theme} onToggle={onToggleTheme} /></div>
           </motion.nav>
         )}
       </AnimatePresence>
