@@ -53,7 +53,7 @@ function HomeNotchNavbar({ accountHref, accountLabel, theme, onToggleTheme }: { 
             {homeNavLeft.map(navLink)}
           </nav>
           <Link href="/" className="sqlwhale-notch-brand" aria-label="SQLWhale home">
-            <Image src="/sqlwhale-logo-main.png" alt="" width={34} height={34} priority />
+            <Image src={theme === "light" ? "/black_logo.png" : "/sqlwhale-logo-main.png"} alt="" width={34} height={34} priority />
             <span>SQL<span>Whale</span></span>
           </Link>
           <nav className="sqlwhale-notch-links sqlwhale-notch-links-right" aria-label="Product navigation">
@@ -156,6 +156,17 @@ export function SiteFooter() {
   const pathname = usePathname();
   const [authLoading, setAuthLoading] = useState(true);
   const [user, setUser] = useState<SessionUser | null>(null);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const syncTheme = () => {
+      const saved = window.localStorage.getItem("sqlwhale-theme");
+      setTheme(saved === "light" ? "light" : "dark");
+    };
+    syncTheme();
+    window.addEventListener("storage", syncTheme);
+    return () => window.removeEventListener("storage", syncTheme);
+  }, []);
 
   useEffect(() => {
     let live = true;
@@ -178,7 +189,7 @@ export function SiteFooter() {
       <div className="footer-industrial-grid">
         <div className="footer-brand-block">
           <Link href="/" className="sqlwhale-logo footer-logo" aria-label="SQLWhale Home">
-            <Image src="/sqlwhale-logo-main.png" alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" />
+            <Image src={theme === "light" ? "/black_logo.png" : "/sqlwhale-logo-main.png"} alt="SQLWhale" width={52} height={52} className="sqlwhale-logo-image" />
             <span className="logo-wordmark"><span className="logo-whale">SQL</span><span className="logo-text">Whale</span></span>
           </Link>
           <p className="footer-tagline">Learn SQL. See the process. Understand the result.</p>
