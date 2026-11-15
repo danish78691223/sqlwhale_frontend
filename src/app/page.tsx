@@ -31,7 +31,7 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   const clearedKeywords = keywords.slice(0, Math.min(step, keywords.length));
 
   return (
-    <div className="sql-loader" role="status" aria-label="Loading SQLWhale">
+    <div className="sql-loader" data-nosnippet role="status" aria-label="Loading SQLWhale">
       <div className="sql-loader-grid" />
       <div className="sql-loader-topline"><span>SQLWHALE · INTERACTIVE SQL LEARNING</span><span>READY TO LEARN</span></div>
 
