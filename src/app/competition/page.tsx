@@ -5,7 +5,7 @@ import CompetitionList from "./competition-list";
 import CompetitionLeaderboard from "./CompetitionLeaderboard";
 
 export const metadata = {
-  title: "SQLWhale SQL Challenge 2026 | WEBXWHALE",
+  title: "SQL Challenge 2026 – Online SQL Competition",
   description: "Take on 30 practical SQL tasks across seven days. Learn by solving, compete individually and earn a Top 3 certificate on SQLWhale.",
   alternates: { canonical: "https://sqlwhale.webxwhale.com/competition" },
 };
