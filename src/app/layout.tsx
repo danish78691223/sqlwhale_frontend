@@ -25,7 +25,7 @@ const geistMono = Geist_Mono({
 const SITE_URL = "https://sqlwhale.webxwhale.com";
 const SITE_NAME = "SQLWhale";
 const SITE_DESCRIPTION =
-  "Learn SQL online with SQLWhale, a hands-on visual SQL learning platform. Practise SQL queries, understand JOINs, explore database tables, run an interactive SQL editor, and build skills for data analytics and technical interviews.";
+  "Learn SQL online with SQLWhale. Practise SQL queries in an interactive editor, explore database tables, understand JOINs and build practical skills for data analytics and interviews.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -66,8 +66,6 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/sqlwhale-logo-main.png",
-        width: 1200,
-        height: 630,
         alt: "SQLWhale – Visual SQL Learning Platform",
       },
     ],
@@ -126,12 +124,12 @@ const structuredData = {
       inLanguage: "en",
     },
     {
-      "@type": "WebApplication",
+      "@type": "SoftwareApplication",
       "@id": SITE_URL + "/#application",
       name: "SQLWhale",
       url: SITE_URL,
       applicationCategory: "EducationalApplication",
-      operatingSystem: "Any",
+      operatingSystem: "Web",
       description: SITE_DESCRIPTION,
       isAccessibleForFree: true,
       offers: {
