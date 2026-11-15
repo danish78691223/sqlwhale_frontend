@@ -160,12 +160,13 @@ export function SiteFooter() {
 
   useEffect(() => {
     const syncTheme = () => {
-      const saved = window.localStorage.getItem("sqlwhale-theme");
-      setTheme(saved === "light" ? "light" : "dark");
+      const current = document.documentElement.dataset.theme;
+      setTheme(current === "light" ? "light" : "dark");
     };
     syncTheme();
-    window.addEventListener("storage", syncTheme);
-    return () => window.removeEventListener("storage", syncTheme);
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
