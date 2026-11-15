@@ -33,17 +33,17 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
   return (
     <div className="sql-loader" role="status" aria-label="Loading SQLWhale">
       <div className="sql-loader-grid" />
-      <div className="sql-loader-topline"><span>SQLWHALE / SYSTEM BOOT</span><span>ONLINE</span></div>
+      <div className="sql-loader-topline"><span>SQLWHALE · INTERACTIVE SQL LEARNING</span><span>READY TO LEARN</span></div>
 
       <div className="sql-loader-stage">
         <div className="loader-shot-status">
           <span className="loader-shot-dot" />
-          {step >= 7 ? "QUERY SYNTAX CLEARED" : activeKeyword ? "TARGETING " + activeKeyword : "TARGETING SQL KEYWORDS"}
+          {step >= 7 ? "QUERY SYNTAX CLEARED" : activeKeyword ? "LOADING " + activeKeyword : "PREPARING YOUR SQL WORKSPACE"}
         </div>
 
         <div className="loader-keyword-console" aria-hidden="true">
           <div className="loader-console-head">
-            <span>SQL KEYWORD BUFFER</span>
+            <span>SQL PRACTICE PREVIEW</span>
             <i />
           </div>
           <div className="loader-console-body">
@@ -55,7 +55,7 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
               </div>
             ))}
             {step === 0 ? (
-              <div className="loader-console-empty">AWAITING TARGETS...</div>
+              <div className="loader-console-empty">GETTING YOUR PRACTICE SPACE READY...</div>
             ) : null}
           </div>
           <div className="loader-console-scan" />
@@ -95,7 +95,7 @@ function SqlWhaleLoader({ onDone }: { onDone: () => void }) {
 
       <div className="sql-loader-footer">
         <div className="loader-progress"><span style={{ width: Math.min(step * (100 / 7), 100) + "%" }} /></div>
-        <span>{step >= 7 ? "READY" : "BREAKING SQL KEYWORDS..."}</span>
+        <span>{step >= 7 ? "READY" : "PREPARING YOUR SQL PRACTICE..."}</span>
       </div>
     </div>
   );
