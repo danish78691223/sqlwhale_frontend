@@ -352,9 +352,11 @@ export default function RunQueryPage() {
     return () => { active = false; };
   }, []);
 
+  // Only the server's explicit entitlement decision enables Premium UI.
+  // A cached currentPlan string alone must never bypass subscription checks.
   const isSubscribed = Boolean(
-    subscriptionStatus?.subscribed ||
-    (subscriptionStatus?.currentPlan && subscriptionStatus.currentPlan !== "Starter" && subscriptionStatus.currentPlan !== "Free")
+    subscriptionStatus?.subscribed === true &&
+    subscriptionStatus?.currentPlan === "SQLWhale Premium"
   );
 
   useEffect(() => {
