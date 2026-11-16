@@ -306,7 +306,7 @@ export default function AccountPage() {
                 {planStatus?.subscriptionStatus ? <small className="account-subscription-note">Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
                 {planStatus?.subscribed && planStatus.currentPeriodEnd ? <small className="account-subscription-note">Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
                 {planStatus?.activationPending ? <small className="account-subscription-note is-pending">Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
-                {planStatus?.accessRevoked ? <small className="account-subscription-note is-pending">Premium access is inactive because this subscription was cancelled without a confirmed paid billing period.</small> : null}
+                {planStatus?.accessRevoked ? <small className="account-subscription-note is-pending">Premium access is inactive because this subscription has no confirmed paid billing period remaining.</small> : null}
                 <button type="button" className="account-plan-refresh" onClick={() => void refreshPlanStatus()} disabled={refreshingPlan}>
                   <><RefreshCw size={13} className={refreshingPlan ? "account-spin" : ""} /> {refreshingPlan ? "Checking Razorpay…" : "Refresh plan status"}</>
                 </button>
