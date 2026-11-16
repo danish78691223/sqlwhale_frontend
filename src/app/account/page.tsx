@@ -33,7 +33,8 @@ type QueryHistoryItem = {
 export default function AccountPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [planStatus, setPlanStatus] = useState<{ subscribed?: boolean; currentPlan?: string; recurring?: boolean; subscriptionStatus?: string | null; cancelAtCycleEnd?: boolean; currentPeriodEnd?: string | null; activationPending?: boolean } | null>(null);
+  const [planStatus, setPlanStatus] = useState<{ subscribed?: boolean; currentPlan?: string; recurring?: boolean; subscriptionStatus?: string | null; cancelAtCycleEnd?: boolean; currentPeriodEnd?: string | null; activationPending?: boolean; accessRevoked?: boolean } | null>(null);
+  const [planStatusLoading, setPlanStatusLoading] = useState(true);
   const [refreshingPlan, setRefreshingPlan] = useState(false);
   const [planRefreshMessage, setPlanRefreshMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -104,7 +105,14 @@ export default function AccountPage() {
             }
           })
           .catch((subscriptionError) => {
+            if (!mounted) return;
+            // Do not display a stale cached Premium plan as verified when the
+            // server could not confirm the current entitlement.
+            setPlanStatus(null);
             console.error("Unable to load subscription status:", subscriptionError);
+          })
+          .finally(() => {
+            if (mounted) setPlanStatusLoading(false);
           });
 
         try {
@@ -292,16 +300,18 @@ export default function AccountPage() {
               </div>
               <div>
                 <span>SQLWHALE PLAN</span>
-                <strong className={"account-plan-pill " + ((planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "is-premium" : "is-starter")}>                  {(planStatus?.currentPlan || user.currentPlan || "Starter") === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
+                <strong className={"account-plan-pill " + (planStatus?.subscribed === true && planStatus.currentPlan === "SQLWhale Premium" ? "is-premium" : "is-starter")}>
+                  {planStatusLoading ? "CHECKING…" : !planStatus ? "UNAVAILABLE" : planStatus.subscribed === true && planStatus.currentPlan === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
                 </strong>
                 {planStatus?.subscriptionStatus ? <small className="account-subscription-note">Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
-                {planStatus?.currentPeriodEnd ? <small className="account-subscription-note">Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
+                {planStatus?.subscribed && planStatus.currentPeriodEnd ? <small className="account-subscription-note">Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
                 {planStatus?.activationPending ? <small className="account-subscription-note is-pending">Payment/AutoPay is being confirmed. Refresh shortly; do not pay again.</small> : null}
+                {planStatus?.accessRevoked ? <small className="account-subscription-note is-pending">Premium access is inactive because this subscription has no confirmed paid billing period remaining.</small> : null}
                 <button type="button" className="account-plan-refresh" onClick={() => void refreshPlanStatus()} disabled={refreshingPlan}>
                   <><RefreshCw size={13} className={refreshingPlan ? "account-spin" : ""} /> {refreshingPlan ? "Checking Razorpay…" : "Refresh plan status"}</>
                 </button>
                 {planRefreshMessage ? <small role="status" className={"account-plan-message " + (planRefreshMessage.toLowerCase().includes("unable") ? "is-error" : "")}>{planRefreshMessage}</small> : null}
-                {(planStatus?.currentPlan || user.currentPlan || "Starter") === "Starter" ? <Link href="/subscribe" className="account-upgrade-link">Upgrade to Premium <Zap size={13} /></Link> : null}
+                {planStatus?.currentPlan === "Starter" ? <Link href="/subscribe" className="account-upgrade-link">Upgrade to Premium <Zap size={13} /></Link> : null}
               </div>
             </div>
           </section>
