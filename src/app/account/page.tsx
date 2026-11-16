@@ -300,8 +300,8 @@ export default function AccountPage() {
               </div>
               <div>
                 <span>SQLWHALE PLAN</span>
-                <strong className={"account-plan-pill " + (planStatus?.currentPlan === "SQLWhale Premium" ? "is-premium" : "is-starter")}>
-                  {planStatusLoading ? "CHECKING…" : !planStatus ? "UNAVAILABLE" : planStatus.currentPlan === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
+                <strong className={"account-plan-pill " + (planStatus?.subscribed === true && planStatus.currentPlan === "SQLWhale Premium" ? "is-premium" : "is-starter")}>
+                  {planStatusLoading ? "CHECKING…" : !planStatus ? "UNAVAILABLE" : planStatus.subscribed === true && planStatus.currentPlan === "SQLWhale Premium" ? "PREMIUM ✓" : "STARTER"}
                 </strong>
                 {planStatus?.subscriptionStatus ? <small className="account-subscription-note">Subscription: {planStatus.subscriptionStatus}{planStatus.cancelAtCycleEnd ? " · Cancels at period end" : ""}</small> : null}
                 {planStatus?.subscribed && planStatus.currentPeriodEnd ? <small className="account-subscription-note">Access until: {new Date(planStatus.currentPeriodEnd).toLocaleDateString("en-IN")}</small> : null}
