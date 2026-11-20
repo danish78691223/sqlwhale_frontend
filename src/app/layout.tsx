@@ -8,6 +8,7 @@ import FeedbackWidget from "../components/FeedbackWidget";
 import MaintenanceGate from "../components/MaintenanceGate";
 import CookieConsent from "../components/CookieConsent";
 import PushNotificationPrompt from "../components/PushNotificationPrompt";
+import WebsiteAnalyticsTracker from "../components/WebsiteAnalyticsTracker";
 import PwaUpdater from "../components/PwaUpdater";
 import "../components/PushNotificationPrompt.css";
 import SiteChrome, { SiteFooter } from "../components/layout/SiteChrome";
@@ -157,7 +158,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col"><MaintenanceGate><SiteChrome />{children}<SiteFooter /></MaintenanceGate><FeedbackWidget /><CookieConsent /><PwaUpdater /><PushNotificationPrompt /></body>
+      <body className="min-h-full flex flex-col"><MaintenanceGate><SiteChrome />{children}<SiteFooter /></MaintenanceGate><FeedbackWidget /><CookieConsent /><PwaUpdater /><PushNotificationPrompt /><WebsiteAnalyticsTracker /></body>
     </html>
   );
 }
