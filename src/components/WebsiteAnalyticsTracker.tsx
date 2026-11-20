@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 function getVisitorId() {
   const key = "sqlwhale_analytics_visitor";
@@ -41,7 +41,6 @@ function getOS() {
 
 export default function WebsiteAnalyticsTracker() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   useEffect(() => {
     if (!pathname || pathname.startsWith("/admin")) return;
     const controller = new AbortController();
@@ -55,6 +54,6 @@ export default function WebsiteAnalyticsTracker() {
       }),
     }).catch(() => {});
     return () => controller.abort();
-  }, [pathname, searchParams]);
+  }, [pathname]);
   return null;
 }
