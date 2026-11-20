@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "../../services/api";
-import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight, Bell, Trophy } from "lucide-react";
+import { Search, ShieldCheck, Users, Wrench, Trash2, Save, RefreshCw, ClipboardList, Pencil, X, LayoutDashboard, Menu, ChevronRight, Bell, Trophy, Activity } from "lucide-react";
 
 type User = {
   id: string;
@@ -387,6 +387,11 @@ export default function AdminPage() {
               <span>Manage Tasks</span>
               <b>{tasks.length}</b>
             </button>
+            <Link href="/admin/analytics" className="sqlwhale-admin-sidebar-link" onClick={() => setSidebarOpen(false)}>
+              <Activity size={17} />
+              <span>Website Analytics</span>
+              <ChevronRight size={14} />
+            </Link>
             <Link href="/admin/competitions" className="sqlwhale-admin-sidebar-link" onClick={() => setSidebarOpen(false)}>
               <Trophy size={17} />
               <span>Competitions</span>
@@ -450,6 +455,11 @@ export default function AdminPage() {
           {activeSection === "overview" && (
             <>
               <div className="sqlwhale-admin-overview-grid">
+                <Link href="/admin/analytics" className="sqlwhale-admin-overview-card">
+                  <span className="sqlwhale-admin-overview-icon"><Activity size={18} /></span>
+                  <div><span>WEBSITE ANALYTICS</span><strong>View</strong><small>Visitors, traffic, active users and devices</small></div>
+                  <ChevronRight size={17} />
+                </Link>
                 <Link href="/admin/notifications" className="sqlwhale-admin-overview-card">
                   <span className="sqlwhale-admin-overview-icon"><Bell size={18} /></span>
                   <div><span>PUSH NOTIFICATIONS</span><strong>Send</strong><small>Test your device and broadcast announcements</small></div>
